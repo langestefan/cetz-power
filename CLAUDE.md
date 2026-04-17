@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-`powergretz` is a Typst package that draws power-system single-line diagrams. It is a thin wrapper around [CeTZ](https://github.com/cetz-package/cetz) `0.3.2` (pinned in `src/deps.typ`). Package metadata lives in `typst.toml`; the entry point is `src/lib.typ`.
+`cetz-power` is a Typst package that draws power-system single-line diagrams. It is a thin wrapper around [CeTZ](https://github.com/cetz-package/cetz) `0.4.2` (pinned in `src/deps.typ`). Package metadata lives in `typst.toml`; the entry point is `src/lib.typ`.
 
 ## Common commands
 
@@ -22,7 +22,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Every symbol in `src/symbols/*.typ` is a thin closure around `symbol()` in `src/core.typ`. `symbol(family, name, ..positions, draw: <closure>, label:, angle:)` does the heavy lifting:
 
-1. **Style resolution** via `utils.typ::resolve-style`: merges flat top-level `powergretz.*` keys, then the `powergretz.<family>` sub-dict, then per-call named arguments. Defaults live in `src/styles.typ`.
+1. **Style resolution** via `utils.typ::resolve-style`: merges flat top-level `cetz-power.*` keys, then the `cetz-power.<family>` sub-dict, then per-call named arguments. Defaults live in `src/styles.typ`.
 2. **Coordinate resolution and placement**: one position → symbol drawn in its local frame at that point with optional `angle:`; two positions → symbol centered at the midpoint and rotated so its local +x axis points from `in` to `out`. Two-node placement forbids `angle:` (asserted).
 3. **Anchors**: `in` and `out` are always exposed (they alias the origin for one-node symbols, the two endpoints for two-node). Each symbol's `draw` closure adds further named anchors (`north`/`south`/etc., plus symbol-specific names like `primary`, `secondary`, `hv`, `lv`, `tv`).
 4. **Labels** are drawn *outside* the rotated CeTZ group (in world frame) so text stays upright regardless of symbol rotation. The `anchor:` in the label dict is a **world-space** compass direction; `core.typ` rotates it back through `-effective-angle` to find the matching local anchor on the symbol.
@@ -36,11 +36,11 @@ When adding a new symbol, follow the existing pattern: `#import "/src/core.typ":
 
 ### Wires are not symbols
 
-`wire()` and `elbow()` in `src/symbols/wire.typ` skip the `symbol()` machinery entirely (no label, no family-style cascade). They only read `powergretz.wire.stroke` from the active style and draw a `cetz.draw.line`. Don't try to give them labels — wrap a labelled box around them instead, or attach the label to the symbol on either end.
+`wire()` and `elbow()` in `src/symbols/wire.typ` skip the `symbol()` machinery entirely (no label, no family-style cascade). They only read `cetz-power.wire.stroke` from the active style and draw a `cetz.draw.line`. Don't try to give them labels — wrap a labelled box around them instead, or attach the label to the symbol on either end.
 
 ### Canvas wrapper
 
-`pg.diagram(body)` (in `src/canvas.typ`) is the user-facing entry point. It calls `cetz.canvas` and inserts the entire `default` style dict from `styles.typ` under `ctx.style.powergretz`. **Always start a diagram with `pg.diagram { ... }`** — calling raw `cetz.canvas` would leave `ctx.style.powergretz` unset and every symbol would fall back to hard-coded literal defaults from its `draw` closure.
+`pg.diagram(body)` (in `src/canvas.typ`) is the user-facing entry point. It calls `cetz.canvas` and inserts the entire `default` style dict from `styles.typ` under `ctx.style.cetz-power`. **Always start a diagram with `pg.diagram { ... }`** — calling raw `cetz.canvas` would leave `ctx.style.cetz-power` unset and every symbol would fall back to hard-coded literal defaults from its `draw` closure.
 
 ### Tests
 
@@ -52,10 +52,10 @@ Three layers, lowest precedence first:
 
 ```typst
 // 1. Global defaults (set once, persist for the canvas)
-cetz.draw.set-style(powergretz: (stroke: 1.2pt))
+cetz.draw.set-style(cetz-power: (stroke: 1.2pt))
 
 // 2. Family defaults
-cetz.draw.set-style(powergretz: (transformer: (radius: 0.4)))
+cetz.draw.set-style(cetz-power: (transformer: (radius: 0.4)))
 
 // 3. Per-call (named arg on the symbol call)
 transformer("t1", "b1.tap2", (3, 0), radius: 0.5, stroke: red)

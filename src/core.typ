@@ -15,7 +15,7 @@
 
 #let _angle-type = angle
 
-/// Low-level constructor used by every powergretz symbol.
+/// Low-level constructor used by every cetz-power symbol.
 ///
 /// Symbol authors pass a `draw` closure with signature
 /// `(ctx, positions, style) => { ... cetz draw calls ... }`. The closure is
@@ -29,7 +29,7 @@
 ///
 /// The `style` dict is the fully-merged style for this family.
 ///
-/// - family (str): name under `powergretz.*` in the style dict
+/// - family (str): name under `cetz-power.*` in the style dict
 /// - name (str): unique CeTZ group name
 /// - draw (function): closure that draws the symbol in local space
 /// - label (content | str | dict | none): label to render next to the symbol

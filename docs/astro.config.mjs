@@ -11,7 +11,7 @@ export default defineConfig({
 
   integrations: [
     starlight({
-      title: 'powergretz',
+      title: 'cetz-power',
       description: 'Power-system single-line diagrams in Typst, on top of CeTZ.',
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/langestefan/cetz-power' },
@@ -47,7 +47,6 @@ export default defineConfig({
           label: 'Recipes',
           items: [
             { label: 'Radial feeder', slug: 'recipes/radial-feeder' },
-            { label: 'Simple SLD', slug: 'recipes/simple-sld' },
           ],
         },
       ],

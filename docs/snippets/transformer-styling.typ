@@ -4,6 +4,6 @@
 
 #pg.diagram(length: 1.2cm, {
   import pg: *
-  cetz.draw.set-style(powergretz: (transformer: (fill: yellow.lighten(80%))))
+  cetz.draw.set-style(cetz-power: (transformer: (fill: yellow.lighten(80%))))
   transformer("t1", (0, 0), (2, 0))
 })

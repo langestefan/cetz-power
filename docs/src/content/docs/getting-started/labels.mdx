@@ -53,7 +53,7 @@ is the fallback. Here's the cascade for the `bus` family:
 | Base default       | `anchor: "north"`, `align: auto`, `distance: 0.15`, `size: 8pt`                    |
 | Bus family         | `distance: 0.22` (overrides only the gap)                                          |
 | Per-call           | Whatever you pass in `label: (...)`                                                |
-| Runtime override   | `cetz.draw.set-style(powergretz: (bus: (label: (...))))`                           |
+| Runtime override   | `cetz.draw.set-style(cetz-power: (bus: (label: (...))))`                           |
 
 ## Three increasingly local ways to set bus label position
 
@@ -65,7 +65,7 @@ bus("b1", (0, 0), length: 4, label: (
 ))
 
 // 2. Set a family default for every bus in this canvas.
-cetz.draw.set-style(powergretz: (bus: (
+cetz.draw.set-style(cetz-power: (bus: (
   label: (anchor: "south", distance: 0.3),
 )))
 bus("b1", (0, 0), label: [HV bus])

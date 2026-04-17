@@ -1,12 +1,12 @@
-// Default styles for all powergretz symbols.
+// Default styles for all cetz-power symbols.
 //
-// Everything is keyed under `ctx.style.powergretz`. To override globally:
+// Everything is keyed under `ctx.style.cetz-power`. To override globally:
 //
-//     cetz.draw.set-style(powergretz: (stroke: 1.2pt))
+//     cetz.draw.set-style(cetz-power: (stroke: 1.2pt))
 //
 // Or per-symbol family:
 //
-//     cetz.draw.set-style(powergretz: (transformer: (radius: 0.4)))
+//     cetz.draw.set-style(cetz-power: (transformer: (radius: 0.4)))
 //
 // Individual calls can override with named arguments, e.g. `stroke: red`.
 

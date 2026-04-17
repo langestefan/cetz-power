@@ -1,5 +1,5 @@
 ---
-title: powergretz
+title: cetz-power
 description: Power-system single-line diagrams in Typst, on top of CeTZ.
 template: splash
 hero:
@@ -21,7 +21,7 @@ A small Typst package that gives you the symbols you actually need for
 drawing one-line diagrams of electrical power systems — buses, wires, the
 external-grid symbol, two-winding transformers, loads, and PV panels.
 
-<Snippet name="getting-started-first-diagram" caption="A complete radial feeder in 7 lines of Typst." />
+<Snippet name="recipe-radial-feeder" caption="Radial feeder with a step-down transformer — three vertical bus 'nodes', wires by anchor name, load tapped off via an elbow." />
 
 <CardGrid>
   <Card title="Anchor-driven layout" icon="open-book">
@@ -35,8 +35,8 @@ external-grid symbol, two-winding transformers, loads, and PV panels.
     themselves along the line and draw their own leads.
   </Card>
   <Card title="Cascading styles" icon="setting">
-    A global `set-style(powergretz: (...))` changes defaults; per-family
-    overrides live under e.g. `powergretz.transformer`; per-call arguments
+    A global `set-style(cetz-power: (...))` changes defaults; per-family
+    overrides live under e.g. `cetz-power.transformer`; per-call arguments
     override both.
   </Card>
   <Card title="Labels everywhere" icon="document">

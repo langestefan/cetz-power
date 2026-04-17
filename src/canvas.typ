@@ -3,11 +3,11 @@
 
 /// User-facing canvas wrapper.
 ///
-/// Equivalent to `cetz.canvas(...)` but installs the `powergretz` default
+/// Equivalent to `cetz.canvas(...)` but installs the `cetz-power` default
 /// style dictionary first, so every symbol can resolve its defaults.
 ///
 /// ```typst
-/// #import "@preview/powergretz:0.1.0" as pg
+/// #import "@preview/cetz-power:0.1.0" as pg
 /// #pg.diagram({
 ///   import pg: *
 ///   bus("b1", (0, 0))
@@ -20,7 +20,7 @@
 #let diagram(body, ..params) = {
   let canvas = cetz.canvas(..params, {
     cetz.draw.set-ctx(ctx => {
-      ctx.style.insert("powergretz", default)
+      ctx.style.insert("cetz-power", default)
       ctx
     })
     body

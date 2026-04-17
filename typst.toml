@@ -1,12 +1,12 @@
 [package]
-name = "powergretz"
+name = "cetz-power"
 version = "0.1.0"
 compiler = "0.13.1"
 entrypoint = "src/lib.typ"
 authors = ["langestefan"]
 license = "MIT"
 description = "Draw power-system single-line diagrams (SLDs) in Typst, on top of CeTZ."
-repository = "https://github.com/langestefan/powergretz"
+repository = "https://github.com/langestefan/cetz-power"
 categories = ["visualization", "components"]
 disciplines = ["engineering"]
 keywords = [

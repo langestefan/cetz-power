@@ -5,11 +5,11 @@
 
 #import "/src/deps.typ": cetz
 
-// Look up the wire stroke from the active powergretz style, or fall back.
+// Look up the wire stroke from the active cetz-power style, or fall back.
 #let _wire-stroke(ctx, override) = {
   if override != auto { return override }
   ctx.style
-    .at("powergretz", default: (:))
+    .at("cetz-power", default: (:))
     .at("wire", default: (:))
     .at("stroke", default: 0.8pt + black)
 }
@@ -18,7 +18,7 @@
 ///
 /// - a (coordinate): start
 /// - b (coordinate): end
-/// - stroke: stroke override; defaults to `powergretz.wire.stroke`
+/// - stroke: stroke override; defaults to `cetz-power.wire.stroke`
 /// -> content
 #let wire(a, b, stroke: auto) = {
   cetz.draw.get-ctx(ctx => {

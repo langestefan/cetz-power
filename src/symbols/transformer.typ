@@ -37,7 +37,7 @@
       let half = span / 2
       if half > x-right {
         let wire-stroke = ctx.style
-          .at("powergretz", default: (:))
+          .at("cetz-power", default: (:))
           .at("wire", default: (:))
           .at("stroke", default: s)
         cetz.draw.line((-half, 0), (x-left, 0), stroke: wire-stroke)

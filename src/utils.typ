@@ -28,7 +28,7 @@
 /// Resolve a style dict by merging:
 ///   base defaults <- family defaults <- user overrides
 #let resolve-style(ctx, family, overrides) = {
-  let pg = ctx.style.at("powergretz", default: (:))
+  let pg = ctx.style.at("cetz-power", default: (:))
   let base = pg
   let fam-defaults = pg.at(family, default: (:))
   // Merge: start from flat top-level, then family, then per-call overrides.

@@ -1,4 +1,4 @@
-# powergretz
+# cetz-power
 
 **Power-system single-line diagrams in Typst, on top of [CeTZ](https://github.com/cetz-package/cetz).**
 
@@ -7,7 +7,7 @@ A small package that gives you the symbols you actually need for drawing one-lin
 ## Quick example
 
 ```typst
-#import "@preview/powergretz:0.1.0" as pg
+#import "@preview/cetz-power:0.1.0" as pg
 
 #pg.diagram({
   import pg: *
@@ -31,13 +31,13 @@ A small package that gives you the symbols you actually need for drawing one-lin
 Via Typst Universe (recommended once published):
 
 ```typst
-#import "@preview/powergretz:0.1.0" as pg
+#import "@preview/cetz-power:0.1.0" as pg
 ```
 
 Or vendor locally by cloning the repo and importing from path:
 
 ```typst
-#import "path/to/powergretz/src/lib.typ" as pg
+#import "path/to/cetz-power/src/lib.typ" as pg
 ```
 
 ## What's in the box
@@ -58,7 +58,7 @@ per-symbol reference pages with examples, anchors, and style options.
 
 - **Symbols have anchors.** Every symbol exposes named anchors (`north`, `south`, `center`, etc.); buses expose `tap1..tapN` plus `start`, `mid`, `end`.
 - **One- or two-node placement.** The `transformer` accepts either a single position + `angle:` or two positions; when given two positions it orients itself along the line and draws its own leads.
-- **Cascading styles.** A global `set-style(powergretz: (...))` changes defaults; per-family overrides live under e.g. `powergretz.transformer`; per-call arguments override both.
+- **Cascading styles.** A global `set-style(cetz-power: (...))` changes defaults; per-family overrides live under e.g. `cetz-power.transformer`; per-call arguments override both.
 - **Labels everywhere.** Every symbol accepts `label:` as a string, content, or `(content:, anchor:, distance:)` dict.
 
 ## Running the tests
