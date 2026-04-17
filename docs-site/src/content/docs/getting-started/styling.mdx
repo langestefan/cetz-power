@@ -1,0 +1,33 @@
+---
+title: Styling
+description: Three layers of style overrides — global, family, per-call.
+---
+
+Every style can be overridden at three levels. From lowest to highest
+precedence:
+
+**Global** — change every symbol at once:
+
+```typst
+cetz.draw.set-style(powergretz: (stroke: 1pt + blue))
+```
+
+**Family** — change every transformer:
+
+```typst
+cetz.draw.set-style(powergretz: (transformer: (radius: 0.5)))
+```
+
+**Per call** — pass as a named argument:
+
+```typst
+transformer("t1", (0, 0), (2, 0), radius: 0.5, stroke: red)
+```
+
+Per-call overrides win, family defaults next, global defaults last. The
+defaults themselves live in `src/styles.typ`.
+
+`resolve-style` only copies *scalar* top-level keys down into the merged
+dict — dictionaries like `label:` are not auto-flattened. Family dicts
+can themselves contain a `label:` sub-dict that overrides the base label
+dict; see the [Labels](/getting-started/labels/) page.

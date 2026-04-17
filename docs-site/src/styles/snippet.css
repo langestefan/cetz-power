@@ -1,0 +1,49 @@
+/* Two-column code+diagram layout for the <Snippet> component. */
+.snippet {
+  margin: 1.25rem 0;
+}
+
+.snippet__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+@media (min-width: 56rem) {
+  .snippet__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+.snippet__code > * {
+  margin: 0;
+}
+
+.snippet__diagram {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--sl-color-gray-6, #f6f6f8);
+  border: 1px solid var(--sl-color-gray-5, #e3e3e6);
+  border-radius: 0.4rem;
+  padding: 1rem;
+  min-height: 6rem;
+}
+
+[data-theme='dark'] .snippet__diagram {
+  background: var(--sl-color-gray-1, #181818);
+  border-color: var(--sl-color-gray-2, #2c2c30);
+}
+
+.snippet__diagram object {
+  max-width: 100%;
+  height: auto;
+}
+
+.snippet figcaption {
+  text-align: center;
+  font-size: 0.85em;
+  color: var(--sl-color-gray-3, #6b6b73);
+  margin-top: 0.5rem;
+}

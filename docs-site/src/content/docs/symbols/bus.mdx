@@ -1,0 +1,74 @@
+---
+title: Bus
+description: A busbar — a thick bar with evenly-spaced tap points for branch connections.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+A busbar — a thick bar representing a power bus at a substation, with
+evenly-spaced tap points for branch connections.
+
+<Snippet name="bus-example" />
+
+## Signature
+
+```
+bus(name, position, [angle:], [length:], [taps:], [label:], [stroke:])
+bus(name, position-a, position-b, [taps:], [label:], [stroke:])
+```
+
+## Parameters
+
+| Name     | Default    | Description                                                                  |
+| -------- | ---------- | ---------------------------------------------------------------------------- |
+| `name`   | required   | Unique CeTZ group name; anchors are addressed as `name.anchor`.              |
+| `length` | `3`        | Bar length (CeTZ units). Ignored when two positions are given.               |
+| `taps`   | `1`        | Number of evenly-spaced tap anchors (`tap1..tapN`).                          |
+| `angle`  | `0deg`     | Rotation. Use `90deg` for a vertical bus. Only for single-position placement.|
+| `stroke` | `1.8pt`    | Stroke override.                                                             |
+| `label`  | `none`     | Label content or dict.                                                       |
+
+## Anchors
+
+- `start`, `mid`, `end` — the three defining points along the bar
+- `tap1` .. `tapN` — evenly-spaced taps for `taps: N`
+- `north`, `south`, `east`, `west` — cardinal points for label placement
+
+## Variants
+
+**Vertical bus** via `angle: 90deg`:
+
+<Snippet name="bus-vertical" />
+
+**Two-node bus** for diagonal / arbitrary-orientation buses:
+
+<Snippet name="bus-two-node" />
+
+## Fractional attachment with `bus-frac`
+
+`bus-frac(name, fraction)` returns a **coordinate** — not an anchor name —
+that lies a given fraction of the way from the bus's `start` to its `end`.
+Use it whenever you want to attach to an arbitrary point on a bus without
+having to declare a matching `taps` count up front.
+
+```typst
+bus-frac("b1", 0)     // == "b1.start"
+bus-frac("b1", 0.5)   // == "b1.mid"
+bus-frac("b1", 1)     // == "b1.end"
+bus-frac("b1", 0.25)  // a quarter of the way along the bus
+```
+
+It works anywhere a coordinate is accepted — `wire`, `transformer`,
+`load`, `pv-panel`, etc. The fraction is taken along whichever
+orientation the bus has (horizontal, vertical, or diagonal), so the
+same expression works regardless of how the bus is rotated:
+
+<Snippet name="bus-frac-loads" />
+
+Under the hood `bus-frac` is just a CeTZ lerp coordinate
+`("name.start", fraction, "name.end")`, evaluated at draw time — so the
+fraction can even be a computation, e.g. `bus-frac("b3", 1/6)`.
+
+## Multiple buses & inter-bus wires
+
+<Snippet name="bus-multiple" />

@@ -1,0 +1,30 @@
+---
+title: Installation
+description: Importing powergretz from Typst Universe or a local checkout.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+<Tabs>
+  <TabItem label="Typst Universe">
+    Once published, import the package by its versioned spec:
+
+    ```typst
+    #import "@preview/powergretz:0.1.0" as pg
+    ```
+  </TabItem>
+  <TabItem label="Local checkout">
+    For local development, clone the repository and import directly from the
+    path:
+
+    ```typst
+    #import "path/to/powergretz/src/lib.typ" as pg
+    ```
+  </TabItem>
+</Tabs>
+
+The library exports five symbol families: `bus` (and `bus-frac`), `wire` /
+`elbow`, `external-grid`, `transformer`, `load`, and `pv-panel`. The
+canvas wrapper `pg.diagram(...)` installs the default style dictionary —
+**always start a diagram with it** rather than calling `cetz.canvas`
+directly.

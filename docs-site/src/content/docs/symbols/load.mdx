@@ -1,0 +1,28 @@
+---
+title: Load
+description: Filled downward-arrow generic load symbol.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+A filled downward triangle — the standard "generic load" symbol on a
+bus. Rotate with `angle:` to point it elsewhere; pass `elbow: <units>`
+to route the lead as an L-shape (across, then down to the arrow).
+
+<Snippet name="load-example" />
+
+## Parameters
+
+| Name     | Default | Description                                                                                       |
+| -------- | ------- | ------------------------------------------------------------------------------------------------- |
+| `size`   | `0.28`  | Triangle side length.                                                                             |
+| `lead`   | `0.25`  | Length of the stub wire from the connection point to the arrow's base.                            |
+| `elbow`  | `0`     | If non-zero, route the lead as an L: across by this many units, then down to the arrow.          |
+| `stroke` | `0.8pt` | Stroke override.                                                                                  |
+| `fill`   | `black` | Triangle fill — set to `none` for a hollow textbook arrow.                                        |
+
+## Anchors
+
+`in` (= connection point), `south` (= tip of arrow), `north`, `tip`,
+`east`, `west`, `default`. The `label-east` / `label-west` anchors sit
+just outside the arrow body so labels clear the symbol.

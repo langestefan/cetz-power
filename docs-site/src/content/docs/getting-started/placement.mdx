@@ -1,0 +1,24 @@
+---
+title: One-node vs two-node placement
+description: How two-terminal symbols position themselves.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+Two-terminal elements like the transformer accept either of two
+placements:
+
+1. **One position** plus an optional `angle:` — the symbol is centred at
+   that point. By default the symbol orients along the x-axis;
+   `angle: 90deg` makes it vertical.
+2. **Two positions** — the symbol spans from the first to the second,
+   orienting itself along that line. The two endpoints become the `in`
+   and `out` anchors, and the symbol draws its own connecting leads.
+
+<Snippet name="getting-started-placement" />
+
+For two-node placement, the lead-drawing is automatic only when the
+distance between the two endpoints is wider than the symbol's body. If
+you give a transformer two endpoints closer together than its own
+circles, no leads are drawn — the circles overlap the connection
+points instead.

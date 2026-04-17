@@ -1,0 +1,93 @@
+---
+title: Labels
+description: How label placement works — anchor, align, distance, the cascade.
+---
+
+Every symbol accepts a `label:` argument. The simplest form is just
+content; the dict form lets you control where it sits.
+
+```typst
+// Plain content uses the family default position (north / above).
+transformer("t1", (0, 0), (2, 0), label: [132/11 kV])
+
+// Dict form overrides any of: content, anchor, align, distance, size.
+transformer("t2", (0, -1), (2, -1), label: (
+  content: [T₁],
+  anchor: "south",    // world-space position relative to the symbol
+  align: auto,        // text-box anchor; `auto` = opposite of `anchor`
+  distance: 0.2,      // gap between symbol edge and text
+  size: 9pt,          // font size
+))
+```
+
+## Anchor names are world-space
+
+`anchor:` is interpreted in the **world** frame, not in the symbol's
+local frame. So `anchor: "north"` always means "above the symbol on the
+page", whether the symbol is rotated or not. `core.typ` rotates the
+world direction back through the symbol's `effective-angle` to find the
+matching local anchor — that's why `label: [132/11 kV]` on a vertical
+two-node transformer correctly lands above its top circle in world
+space rather than off to the side in some local frame.
+
+The eight compass anchors are:
+
+|              |             |              |
+| ------------ | ----------- | ------------ |
+| `north-west` | `north`     | `north-east` |
+| `west`       |             | `east`       |
+| `south-west` | `south`     | `south-east` |
+
+You can **also** pass a symbol-specific anchor name (`tap1`, `start`,
+`end`, `mid`, `tip`, `primary`, `secondary`, …); the label system
+attaches there directly without going through the rotation map.
+
+## Where the family defaults come from
+
+Each symbol has its own default `label` sub-dict in `src/styles.typ`.
+Per-call values win, family defaults are next, and the base label style
+is the fallback. Here's the cascade for the `bus` family:
+
+| Layer              | What it sets                                                                       |
+| ------------------ | ---------------------------------------------------------------------------------- |
+| Base default       | `anchor: "north"`, `align: auto`, `distance: 0.15`, `size: 8pt`                    |
+| Bus family         | `distance: 0.22` (overrides only the gap)                                          |
+| Per-call           | Whatever you pass in `label: (...)`                                                |
+| Runtime override   | `cetz.draw.set-style(powergretz: (bus: (label: (...))))`                           |
+
+## Three increasingly local ways to set bus label position
+
+```typst
+// 1. Per-call dict — the usual way.
+bus("b1", (0, 0), length: 4, label: (
+  content: [HV bus],
+  anchor: "south", distance: 0.4,
+))
+
+// 2. Set a family default for every bus in this canvas.
+cetz.draw.set-style(powergretz: (bus: (
+  label: (anchor: "south", distance: 0.3),
+)))
+bus("b1", (0, 0), label: [HV bus])
+bus("b2", (0, -2), label: [LV bus])
+
+// 3. Bypass the label system and place content at any bus anchor.
+bus("b1", (0, 0), length: 1.4, angle: 90deg)
+cetz.draw.content("b1.end", [HV bus], anchor: "south", padding: 0.15)
+```
+
+Use #1 most of the time, #2 when you have many buses styled the same
+way, and #3 when you need fine control or want to position multiple
+labels around one bus.
+
+## `align:` controls how the text sits at the anchor point
+
+`anchor:` picks the **position**; `align:` picks where on the text-box
+that position lands. `align: auto` (the default) sets it to the
+opposite of `anchor:` so the text reads cleanly *away from* the symbol
+— e.g. `anchor: "north"` + `align: "south"` puts the south edge of the
+text box at the north of the symbol, so the text extends further north.
+
+Override `align:` only when `auto` doesn't pick the right thing — for
+example, when you've used a non-compass anchor name and there's no
+opposite to compute.

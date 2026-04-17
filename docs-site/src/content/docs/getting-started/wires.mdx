@@ -1,0 +1,18 @@
+---
+title: Wires and elbows
+description: Straight and L-shaped routing between anchors.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+Use `wire(a, b)` to connect two points with a straight line, or
+`elbow(a, b, corner: "h")` for an L-shaped routing that goes
+horizontally first, then vertically (use `corner: "v"` for the
+opposite).
+
+<Snippet name="getting-started-wires-elbows" />
+
+Wires aren't full "symbols" — they have no label and no style family of
+their own; their stroke follows the global `powergretz.wire.stroke`. If
+you want a label on a wire, attach it to the symbol on either end
+instead.

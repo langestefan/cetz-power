@@ -1,0 +1,21 @@
+---
+title: Anchors
+description: Named connection points exposed by every symbol.
+---
+
+Every symbol exposes named anchors you can use as coordinates in
+subsequent calls. You refer to an anchor with dotted syntax:
+`"t1.primary"`, `"b1.tap2"`.
+
+| Symbol             | Anchors                                                                  |
+| ------------------ | ------------------------------------------------------------------------ |
+| `bus`              | `start`, `mid`, `end`, `tap1`..`tapN`, `north`, `south`, `east`, `west`  |
+| `transformer`      | `in`, `out`, `primary`, `secondary`, `north`, `south`, `center`          |
+| `external-grid`    | `in` (= connection point), `north`, `south`, `east`, `west`              |
+| `load`             | `in`, `tip`, `north`, `south`, `east`, `west`, `label-east`, `label-west`|
+| `pv-panel`         | `in`, `north`, `south`, `east`, `west`, `center`                         |
+
+Buses also support `bus-frac(name, fraction)` — a coordinate (not an
+anchor name) that lies a given fraction of the way from `start` to
+`end`. Useful for tap points you didn't pre-declare. See the
+[Bus](/symbols/bus/) reference for examples.

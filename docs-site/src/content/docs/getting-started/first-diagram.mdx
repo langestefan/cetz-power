@@ -1,0 +1,19 @@
+---
+title: Your first diagram
+description: A complete radial feeder in 7 lines of Typst.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+Every diagram is wrapped in `pg.diagram({ ... })`, which is a thin wrapper
+around `cetz.canvas` that installs `powergretz`'s default styles. Inside
+the block, `import pg: *` brings every symbol into scope.
+
+<Snippet name="getting-started-first-diagram" />
+
+That's it: one external grid, one step-down transformer, one bus with a
+few taps, and two loads — wired together by named anchors (`g.in`,
+`b.tap2`, `t.out`, …) rather than bare coordinates.
+
+The next pages explain the building blocks: anchors, placement,
+styling, labels, and wiring.

@@ -1,0 +1,33 @@
+---
+title: External grid
+description: Single-terminal connection representing the external power grid.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+Single-terminal connection representing "the grid beyond this point" —
+an infinite bus. Drawn as a cross-hatched square.
+
+<Snippet name="grid-example" />
+
+## Parameters
+
+| Name      | Default | Description                                                |
+| --------- | ------- | ---------------------------------------------------------- |
+| `size`    | `0.9`   | Side length of the square.                                 |
+| `lead`    | `0.2`   | Stub from connection point to the bottom of the square.   |
+| `fill`    | `none`  | Fill colour of the square.                                 |
+| `stroke`  | `0.8pt` | Stroke override.                                           |
+| `line-count` | `2` | Hatching density (number of cross-lines per direction).   |
+
+## Anchors
+
+`in` (= connection point, `(0,0)`), `center`, `north` (top of the square),
+`default`.
+
+## Rotation
+
+Rotate with `angle:` when you want the symbol to stick out of a
+horizontal bus instead of hanging below one:
+
+<Snippet name="grid-rotated" />

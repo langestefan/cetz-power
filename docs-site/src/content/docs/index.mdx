@@ -1,0 +1,47 @@
+---
+title: powergretz
+description: Power-system single-line diagrams in Typst, on top of CeTZ.
+template: splash
+hero:
+  tagline: Power-system single-line diagrams in Typst, on top of CeTZ.
+  actions:
+    - text: Get started
+      link: ./getting-started/installation/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/langestefan/powergretz
+      icon: external
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+import Snippet from '../../components/Snippet.astro';
+
+A small Typst package that gives you the symbols you actually need for
+drawing one-line diagrams of electrical power systems — buses, wires, the
+external-grid symbol, two-winding transformers, loads, and PV panels.
+
+<Snippet name="getting-started-first-diagram" caption="A complete radial feeder in 7 lines of Typst." />
+
+<CardGrid>
+  <Card title="Anchor-driven layout" icon="open-book">
+    Every symbol exposes named anchors (`start`, `mid`, `end`, `tap1..tapN`,
+    `north`, `south`, …). Wire things up by name; if you nudge a bus, the
+    rest follows.
+  </Card>
+  <Card title="One- or two-node placement" icon="random">
+    Two-terminal symbols (transformers, loads with elbows, …) accept either a
+    single position + `angle:` or two positions, in which case they orient
+    themselves along the line and draw their own leads.
+  </Card>
+  <Card title="Cascading styles" icon="setting">
+    A global `set-style(powergretz: (...))` changes defaults; per-family
+    overrides live under e.g. `powergretz.transformer`; per-call arguments
+    override both.
+  </Card>
+  <Card title="Labels everywhere" icon="document">
+    Every symbol accepts `label:` as a string, content, or a dict that
+    controls anchor, alignment, distance, and size — interpreted in
+    world-space so it stays sensible under rotation.
+  </Card>
+</CardGrid>

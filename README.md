@@ -71,13 +71,16 @@ Compiles every test file into `tests/<name>/out/*.svg` and (if reference images 
 
 ## Building the docs
 
-The docs live in `docs/` and target Typst's HTML export. To preview locally:
+The docs are an [Astro Starlight](https://starlight.astro.build) site under `docs-site/`. Prose is MDX, Typst diagrams are standalone snippets under `docs-site/snippets/` that get pre-compiled to SVG and embedded via a small `<Snippet>` component.
 
 ```bash
-typst compile --root . --format html --features html docs/main.typ docs/index.html
+cd docs-site
+npm ci
+npm run dev      # live preview at http://localhost:4321/powergretz/
+npm run build    # static site → docs-site/dist/
 ```
 
-Then open `docs/index.html` in a browser. The deployed docs are built and pushed to GitHub Pages on every push to `main` by `.github/workflows/docs.yml`.
+The deployed docs are built and pushed to GitHub Pages on every push to `main` by `.github/workflows/docs.yml`.
 
 ## License
 
