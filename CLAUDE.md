@@ -12,9 +12,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Run a single suite (or a few): `./tests/run.sh bus wire transformer` — argument is the directory name under `tests/`.
 - Compiler selection: the script first tries `$COMPILER` (default `../tsc.js`, a node wrapper expected one level above the repo root) and falls back to the system `typst` CLI. To force the CLI: `COMPILER=/dev/null ./tests/run.sh` (or just install `typst` and remove the wrapper).
 - Each test compiles `tests/<name>/test.typ` → `tests/<name>/out/test.svg`. There is no automatic image-diff step; failure means "did not compile". `tests/<name>/ref/` images, if added, are for manual comparison only.
-- Build the docs locally: `cd docs-site && npm ci && npm run dev`. Live preview at `http://localhost:4321/powergretz/`. `npm run build` produces a static site under `docs-site/dist/`.
-- The docs are an [Astro Starlight](https://starlight.astro.build) site. Prose lives in MDX under `docs-site/src/content/docs/`; Typst diagrams live as standalone snippets under `docs-site/snippets/<name>.typ` and are compiled to SVG by `docs-site/scripts/build-diagrams.mjs` into `docs-site/public/diagrams/<name>.svg`. The `<Snippet name="..." />` component (defined in `docs-site/src/components/Snippet.astro`) reads the snippet source at build time and renders it side-by-side with its SVG.
-- The deployed docs are built and pushed to GitHub Pages by `.github/workflows/docs.yml` on every push to `main`. There is no Typst-only build path any more.
+- Build the docs locally: `cd docs && npm ci && npm run dev`. Live preview at `http://localhost:4321/cetz-power/`. `npm run build` produces a static site under `docs/dist/`.
+- The docs are an [Astro Starlight](https://starlight.astro.build) site. Prose lives in MDX under `docs/src/content/docs/`; Typst diagrams live as standalone snippets under `docs/snippets/<name>.typ` and are compiled to SVG by `docs/scripts/build-diagrams.mjs` into `docs/public/diagrams/<name>.svg`. The `<Snippet name="..." />` component (defined in `docs/src/components/Snippet.astro`) reads the snippet source at build time and renders it side-by-side with its SVG.
+- The deployed docs are built and pushed to GitHub Pages by `.github/workflows/docs.yml` on every push to `main`. CI runs Node 22 (Astro 6 requires Node ≥22.12); local dev needs the same.
 
 ## Architecture
 

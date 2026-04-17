@@ -4,21 +4,20 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
-  // Update these for your GitHub Pages URL. For a project page hosted at
-  // https://<user>.github.io/powergretz/ keep `base: '/powergretz'`. For a
-  // user/organisation page (https://<user>.github.io/) drop the base.
+  // GitHub Pages project page at https://langestefan.github.io/cetz-power/
+  // (drop `base` if you ever rehome to a user/org root page).
   site: 'https://langestefan.github.io',
-  base: '/powergretz',
+  base: '/cetz-power',
 
   integrations: [
     starlight({
       title: 'powergretz',
       description: 'Power-system single-line diagrams in Typst, on top of CeTZ.',
       social: [
-        { icon: 'github', label: 'GitHub', href: 'https://github.com/langestefan/powergretz' },
+        { icon: 'github', label: 'GitHub', href: 'https://github.com/langestefan/cetz-power' },
       ],
       editLink: {
-        baseUrl: 'https://github.com/langestefan/powergretz/edit/main/docs-site/',
+        baseUrl: 'https://github.com/langestefan/cetz-power/edit/main/docs/',
       },
       sidebar: [
         {

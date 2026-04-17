@@ -71,13 +71,13 @@ Compiles every test file into `tests/<name>/out/*.svg` and (if reference images 
 
 ## Building the docs
 
-The docs are an [Astro Starlight](https://starlight.astro.build) site under `docs-site/`. Prose is MDX, Typst diagrams are standalone snippets under `docs-site/snippets/` that get pre-compiled to SVG and embedded via a small `<Snippet>` component.
+The docs are an [Astro Starlight](https://starlight.astro.build) site under `docs/`. Prose is MDX, Typst diagrams are standalone snippets under `docs/snippets/` that get pre-compiled to SVG and embedded via a small `<Snippet>` component. Astro 6 requires Node ≥22.12.
 
 ```bash
-cd docs-site
+cd docs
 npm ci
-npm run dev      # live preview at http://localhost:4321/powergretz/
-npm run build    # static site → docs-site/dist/
+npm run dev      # live preview at http://localhost:4321/cetz-power/
+npm run build    # static site → docs/dist/
 ```
 
 The deployed docs are built and pushed to GitHub Pages on every push to `main` by `.github/workflows/docs.yml`.
