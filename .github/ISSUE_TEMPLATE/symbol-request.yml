@@ -1,0 +1,156 @@
+name: Symbol request
+description: Propose a new power-system symbol to add to cetz-power.
+title: "[symbol] "
+labels: ["symbol-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for proposing a symbol! The more concrete you can be —
+        especially with a reference image and a textbook citation — the
+        easier it is to draw something the community will recognise.
+
+  - type: input
+    id: name
+    attributes:
+      label: Proposed name
+      description: |
+        How would you call the symbol from Typst code?
+        Use kebab-case, lowercase only — e.g. `circuit-breaker`,
+        `synchronous-machine`, `phase-shifting-transformer`.
+      placeholder: "e.g. synchronous-machine"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What does it represent?
+      description: |
+        One or two sentences explaining what the symbol stands for in a
+        single-line diagram, and when an engineer would reach for it.
+      placeholder: |
+        A synchronous machine — used wherever you'd otherwise draw a
+        bare generator circle but want to mark the rotor type explicitly.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reference-image
+    attributes:
+      label: Reference image
+      description: |
+        Drag-and-drop or paste an image of how the symbol should look
+        when rendered. Cropped textbook scans, schematic snippets, hand
+        drawings — anything is fine. Bonus for a labelled version
+        showing the connection points.
+      placeholder: "Drop your image here…"
+    validations:
+      required: true
+
+  - type: textarea
+    id: source
+    attributes:
+      label: Source / standard
+      description: |
+        Where did you get the reference image? Cite the textbook, the
+        standard (IEC 60617, IEEE 315, ANSI/CSA, …), the website, or the
+        package you're cribbing from. A page number or section helps
+        a lot if you have one.
+      placeholder: |
+        e.g. Glover, Sarma & Overbye, "Power System Analysis &
+        Design", 6th ed., Fig. 3.3 — or — IEC 60617, symbol S00115.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: terminals
+    attributes:
+      label: Number of terminals
+      description: |
+        How many electrical connection points does the symbol have?
+        This decides whether it's single-node (one position),
+        two-node (two positions, orients along the line), or
+        multi-terminal (one position + named output anchors like
+        `hv`, `lv`, `tv`).
+      options:
+        - "1 (single-terminal — hangs off a bus or wire)"
+        - "2 (two-terminal — sits between two anchors)"
+        - "3 (e.g. three-winding transformer, ∆-Y converter)"
+        - "4+ (multi-port — please describe in the next box)"
+        - "0 (annotation-only, like phase-tick marks)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: anchors
+    attributes:
+      label: Anchors / connection points
+      description: |
+        What named anchors should the symbol expose, and where do they
+        sit on the body? At minimum: `in` / `out` for two-terminal
+        symbols, plus any symbol-specific names (e.g. `primary`,
+        `secondary`, `hv`, `lv`, `tv`, `tip`, `north`/`south`/`east`/`west`).
+      placeholder: |
+        - `in`, `out` — left/right of the body in local frame
+        - `hv` — top, where the high-voltage line connects
+        - `tap1..tapN` — taps along the secondary winding
+    validations:
+      required: false
+
+  - type: textarea
+    id: variants
+    attributes:
+      label: Variants worth supporting
+      description: |
+        Are there meaningful variants of the symbol that should be
+        toggleable via parameters? Examples: `closed: true/false` for
+        switches, `filled: true/false` for arrows, `kind: "ac" | "dc"`
+        for converters.
+      placeholder: |
+        - `closed` (bool) — solid blade vs tilted-open blade
+        - `kind` ("salient" | "non-salient") — pole geometry
+    validations:
+      required: false
+
+  - type: textarea
+    id: prior-art
+    attributes:
+      label: Prior art in other Typst packages
+      description: |
+        Have you seen the same (or similar) symbol implemented in
+        another package — e.g. `zap`, `circuiteria`, `cetz-plot`?
+        Linking to their source helps a lot, even if their style isn't
+        what we want.
+      placeholder: |
+        zap implements something close at
+        https://codeberg.org/grangelouis/zap/src/branch/main/src/symbols/...
+    validations:
+      required: false
+
+  - type: textarea
+    id: usage-example
+    attributes:
+      label: How would you use it?
+      description: |
+        Show a tiny snippet of how a user would invoke it once it
+        exists. Doesn't have to be valid syntax — pseudocode is fine.
+        Helps make sure the proposed parameters fit real diagrams.
+      render: typst
+      placeholder: |
+        bus("hv", (0, 0), length: 1.4, angle: 90deg)
+        synchronous-machine("g1", "hv.mid", label: [G₁ — 600 MVA])
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Are you willing to help?
+      description: |
+        Totally optional — none of these are required to file the
+        request. Just helpful to know up front.
+      options:
+        - label: I can submit a draft pull request implementing the symbol.
+        - label: I can review or test someone else's implementation.
+        - label: I'd rather just file the request and let a maintainer pick it up.
