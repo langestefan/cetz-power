@@ -1,0 +1,50 @@
+name: Deploy documentation
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent docs deployment, and let in-progress runs finish
+# rather than cancelling them so a half-deployed Pages doesn't get stuck.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Typst
+        uses: typst-community/setup-typst@v4
+
+      - name: Build HTML docs
+        # `--input html=true` makes `pg.diagram` wrap each CeTZ canvas in
+        # `html.frame` so the diagrams are emitted as inline SVG. Without it
+        # they render to nothing in HTML mode.
+        run: |
+          mkdir -p site
+          typst compile --root . --format html --features html --input html=true \
+            docs/main.typ site/index.html
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

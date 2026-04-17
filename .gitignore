@@ -1,0 +1,27 @@
+# Test compile artifacts
+tests/*/out/
+
+# Typst compile outputs at the repo root
+*.pdf
+*.svg
+*.png
+!docs/**/*.png
+!docs/**/*.svg
+
+# HTML docs — generated locally for preview, deployed via CI
+docs/index.html
+site/
+
+# Editor / OS cruft
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+
+# Node (for the local tsc.js compile helper)
+node_modules/
+
+# claude
+.claude/

@@ -1,0 +1,91 @@
+// Default styles for all powergretz symbols.
+//
+// Everything is keyed under `ctx.style.powergretz`. To override globally:
+//
+//     cetz.draw.set-style(powergretz: (stroke: 1.2pt))
+//
+// Or per-symbol family:
+//
+//     cetz.draw.set-style(powergretz: (transformer: (radius: 0.4)))
+//
+// Individual calls can override with named arguments, e.g. `stroke: red`.
+
+#let default = (
+  // Base defaults that cascade down to each symbol unless overridden.
+  stroke: 0.8pt + black,
+  fill: none,
+  scale: 1.0,
+  // Default label style. Each symbol can override its label sub-dict.
+  label: (
+    content: none,
+    anchor: "north",   // where to attach the label on the symbol
+    align: auto,       // text alignment; auto => opposite of anchor
+    distance: 0.15,
+    size: 8pt,
+  ),
+
+  // ── Wire style (plain connections between symbols) ───────────────
+  wire: (
+    stroke: 0.8pt + black,
+  ),
+
+  // ── Bus (busbar) ────────────────────────────────────────────────
+  // Buses are length-defined, not symbol-sized.
+  bus: (
+    stroke: 1.8pt + black,  // thicker than wires
+    length: 3,              // default length in cetz units
+    taps: 1,                // default tap count
+    label: (distance: 0.22),
+  ),
+
+  // ── Transformer ─────────────────────────────────────────────────
+  // "distance" is the centre-to-centre spacing of the two circles.
+  transformer: (
+    radius: 0.45,
+    distance: 0.5,
+    stroke: 0.8pt + black,
+    fill: none,
+    label: (anchor: "north", distance: 0.2),
+  ),
+
+  // ── Load (arrow) ────────────────────────────────────────────────
+  load: (
+    size: 0.28,
+    stroke: 0.8pt + black,
+    fill: black,            // solid filled triangle — the conventional form
+    lead: 0.25,             // gap between bus / connection point and arrow base
+    // Labels sit directly below the arrow tip by default.
+    label: (anchor: "south", distance: 0.1),
+  ),
+
+  // ── Photovoltaic panel ──────────────────────────────────────────
+  "pv-panel": (
+    size: 0.35,             // panel width
+    aspect: 1.6,             // height / width ratio
+    stroke: 0.8pt + black,
+    fill: none,             // panel body fill
+    "triangle-fill": none,  // inner triangle fill (set to `black` for filled arrow)
+    "triangle-height": 0.45, // triangle height as fraction of panel height
+    lead: 0.25,
+    label: (anchor: "south", distance: 0.1),
+  ),
+
+  // ── External grid / infinite bus ────────────────────────────────
+  grid: (
+    size: 0.9,
+    stroke: 0.8pt + black,
+    fill: none,
+    distance: 0.2,          // lead from connection point to symbol
+    "line-count": 2,        // hatching density
+    label: (anchor: "north", distance: 0.2),
+  ),
+
+  // ── Debug (show anchors, like cetz) ────────────────────────────
+  debug: (
+    enabled: false,
+    radius: 0.05,
+    stroke: red,
+    fill: red,
+    font-size: 5pt,
+  ),
+)
