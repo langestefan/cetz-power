@@ -1,5 +1,5 @@
 #import "/src/lib.typ" as pg
-#import "@preview/cetz:0.3.2"
+#import "@preview/cetz:0.4.2"
 #set page(margin: 4pt, width: auto, height: auto)
 
 #pg.diagram(length: 1.2cm, {
