@@ -4,9 +4,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "npm run build:diagrams && astro dev",
+    "dev": "node scripts/dev.mjs",
     "build": "npm run build:diagrams && astro build",
     "build:diagrams": "node scripts/build-diagrams.mjs",
+    "watch:diagrams": "node --watch-path=./snippets scripts/build-diagrams.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
