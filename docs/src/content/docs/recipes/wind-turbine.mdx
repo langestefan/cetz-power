@@ -13,24 +13,3 @@ the active/reactive power flowing into each of its connections — the
 conventional way to read a load-flow result.
 
 <Snippet name="recipe-wind-turbine" />
-
-## Things worth noticing
-
-- **Bespoke symbols via raw CeTZ.** cetz-power doesn't ship a rotating
-  machine circle or a capacitor bank, so the snippet defines a tiny
-  `machine(pos, letter)` helper (a stroked circle plus a character) and
-  draws the capacitor plates with two `cetz.draw.line` calls. This is
-  the intended extension path — the package's own symbols are thin
-  wrappers over CeTZ, and you can mix them freely.
-- **Custom bus label placement.** The `Mastvoet` label can't sit at
-  `north` of its bus because the capacitor stem drops straight onto
-  `b3.end`. It's emitted with `cetz.draw.content` anchored to
-  `south-east` of a coordinate slightly above the bar, putting it in
-  the free space to the upper-left of the stem.
-- **Flow-label helper.** `flow(pos, mw, mvar, side)` keeps the
-  MW/Mvar text blocks right-aligned on the left side of a bus and
-  left-aligned on the right, so adjacent labels don't visually merge.
-- **Capacitor stem goes to `b3.end`, not `b3.mid`.** `end` is the top
-  of a vertical bus (the bus extends from `start` at the bottom to
-  `end` at the top in its local frame, before rotation), which is
-  where you want things that branch upward off the bar to attach.
