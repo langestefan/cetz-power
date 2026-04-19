@@ -70,6 +70,17 @@
     label: (anchor: "south", distance: 0.1),
   ),
 
+  // ── Machine (rotating machine / source / meter) ────────────────
+  // A stroked circle with an optional letter inside. Used for V
+  // (voltage source), A (asynchronous machine), G (generator), etc.
+  machine: (
+    radius: 0.3,
+    stroke: 0.8pt + black,
+    fill: none,
+    "letter-size": 10pt,
+    label: (anchor: "north", distance: 0.3),
+  ),
+
   // ── External grid / infinite bus ────────────────────────────────
   grid: (
     size: 0.9,

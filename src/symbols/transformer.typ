@@ -45,9 +45,13 @@
       }
     }
 
-    // Circles centred symmetrically around the symbol origin.
-    cetz.draw.circle((-d / 2, 0), radius: r, stroke: s, fill: f)
-    cetz.draw.circle((d / 2, 0), radius: r, stroke: s, fill: f)
+    // Circles centred symmetrically around the symbol origin. Fills are
+    // drawn in their own pass so the second circle's fill doesn't occlude
+    // the first circle's stroke in the overlap region.
+    cetz.draw.circle((-d / 2, 0), radius: r, stroke: none, fill: f)
+    cetz.draw.circle((d / 2, 0), radius: r, stroke: none, fill: f)
+    cetz.draw.circle((-d / 2, 0), radius: r, stroke: s, fill: none)
+    cetz.draw.circle((d / 2, 0), radius: r, stroke: s, fill: none)
 
     cetz.draw.anchor("in", (x-left, 0))
     cetz.draw.anchor("out", (x-right, 0))

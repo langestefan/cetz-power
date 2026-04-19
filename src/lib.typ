@@ -33,3 +33,4 @@
 #import "symbols/transformer.typ": transformer
 #import "symbols/load.typ": load
 #import "symbols/pv.typ": pv-panel
+#import "symbols/machine.typ": machine

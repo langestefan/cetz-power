@@ -38,6 +38,7 @@ export default defineConfig({
             { label: 'Bus', slug: 'symbols/bus' },
             { label: 'Wires', slug: 'symbols/wire' },
             { label: 'External grid', slug: 'symbols/external-grid' },
+            { label: 'Machine', slug: 'symbols/machine' },
             { label: 'Transformer', slug: 'symbols/transformer' },
             { label: 'Load', slug: 'symbols/load' },
             { label: 'PV panel', slug: 'symbols/pv-panel' },
@@ -47,6 +48,7 @@ export default defineConfig({
           label: 'Recipes',
           items: [
             { label: 'Radial feeder', slug: 'recipes/radial-feeder' },
+            { label: 'Wind turbine', slug: 'recipes/wind-turbine' },
           ],
         },
       ],

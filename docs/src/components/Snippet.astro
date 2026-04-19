@@ -2,11 +2,12 @@
 // Renders a Typst snippet from `docs-site/snippets/<name>.typ` alongside
 // its compiled SVG from `docs-site/public/diagrams/<name>.svg`.
 //
-// Code on the left, rendered diagram on the right (stacked on narrow
-// screens). Snippet sources are bundled at build time via Vite's `?raw`
-// glob; the SVG is fetched by the browser from the public directory.
+// Code on top, rendered diagram below. Snippet sources are bundled at
+// build time via Vite's `?raw` glob; the SVG is fetched by the browser
+// from the public directory.
 
 import { Code } from '@astrojs/starlight/components';
+import { existsSync, statSync } from 'node:fs';
 
 interface Props {
   name: string;
@@ -45,7 +46,11 @@ const trimmed = source
   .trim();
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const svgUrl = `${base}/diagrams/${name}.svg`;
+// Cache-bust the SVG URL with its file's mtime so browsers pick up the
+// rebuilt diagram instead of serving the previously-cached SVG.
+const svgFsPath = `./public/diagrams/${name}.svg`;
+const cacheBust = existsSync(svgFsPath) ? statSync(svgFsPath).mtimeMs : Date.now();
+const svgUrl = `${base}/diagrams/${name}.svg?v=${cacheBust}`;
 ---
 
 <figure class="snippet">

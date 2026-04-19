@@ -48,3 +48,14 @@ Set per-family defaults with `cetz.draw.set-style` to recolour every
 transformer in the diagram:
 
 <Snippet name="transformer-styling" />
+
+Override a single transformer by passing named arguments directly on the
+call. These win over both the global defaults and the family defaults:
+
+<Snippet name="transformer-styling-per-call" />
+
+`radius` and `distance` control the geometry — shrink them for dense
+one-lines where you want the transformer to read as a compact symbol,
+or grow them so the two windings dominate the diagram:
+
+<Snippet name="transformer-styling-geometry" />

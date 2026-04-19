@@ -1,0 +1,59 @@
+---
+title: Machine
+description: Circle symbol for rotating machines, sources, and meters — a letter inside picks the conventional meaning.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+A stroked circle with optional content inside — the conventional
+single-line notation for rotating machines, sources, and meters. The
+letter that goes inside picks the meaning; common ones:
+
+- **V** — voltage source
+- **A** — asynchronous machine
+- **G** — generator
+- **M** — motor
+- **W** — wattmeter
+
+<Snippet name="machine-example" />
+
+## Parameters
+
+Positional form is `machine(name, pos, letter?)`. A named `letter:` arg
+(if passed) takes precedence over the positional one.
+
+| Name          | Default  | Description                                            |
+| ------------- | -------- | ------------------------------------------------------ |
+| `letter`      | `none`   | Content drawn inside the circle — a string like `"V"`, math like `[$Phi$]`, any content. Accepted positionally as the third argument or as a named arg. |
+| `radius`      | `0.3`    | Circle radius.                                         |
+| `stroke`      | `0.8pt`  | Stroke override.                                       |
+| `fill`        | `none`   | Fill colour.                                           |
+| `letter-size` | `10pt`   | Font size of the inner content (applied only when `letter` is a string). |
+| `label`       | `none`   | External label (standard label dict).                  |
+
+## Anchors
+
+`center`, `north`, `south`, `east`, `west` — all four cardinal anchors
+sit on the circle's edge, so they're safe to use directly as wire
+endpoints without a visible gap.
+
+## Wiring
+
+Pick the compass anchor on the side the wire comes in from:
+
+<Snippet name="machine-wiring" />
+
+## Labels
+
+External annotations (machine ratings, names, etc.) use the same
+`label:` dict as every other cetz-power symbol — set the world-space
+`anchor:` to position the label, `distance:` to push it further away:
+
+<Snippet name="machine-labels" />
+
+## Styling
+
+`radius`, `stroke`, `fill`, and `letter-size` can be overridden per call.
+`letter` is content, so math mode and multi-character labels just work:
+
+<Snippet name="machine-styling" />

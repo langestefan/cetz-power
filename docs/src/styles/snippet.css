@@ -1,4 +1,4 @@
-/* Two-column code+diagram layout for the <Snippet> component. */
+/* Stacked code-above-diagram layout for the <Snippet> component. */
 .snippet {
   margin: 1.25rem 0;
 }
@@ -8,12 +8,6 @@
   grid-template-columns: 1fr;
   gap: 1rem;
   align-items: center;
-}
-
-@media (min-width: 56rem) {
-  .snippet__grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  }
 }
 
 .snippet__code > * {
