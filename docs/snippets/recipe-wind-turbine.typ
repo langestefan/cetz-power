@@ -35,4 +35,10 @@
   cetz.draw.content((rel: (0, -0.4), to: "b3.south-west"), anchor: "north-east", padding: 0.10, align(
     center,
   )[2,735 MW \ 0,226 MVAr])
+
+  // small bus, aligned with the bottom of the taller bus and ends at the middle of the taller bus
+  bus("b4", (9.5, -0.3), length: 0.6, angle: 90deg, label: (
+    anchor: "south",
+  ))
+  multi-wire("b3", "b4", count: 3, from: (0, 0.6), to: (0, 0.6))
 })

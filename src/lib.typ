@@ -34,3 +34,7 @@
 #import "symbols/load.typ": load
 #import "symbols/pv.typ": pv-panel
 #import "symbols/machine.typ": machine
+
+// ── Composition helpers ─────────────────────────────────────────────────
+
+#import "helpers.typ": multi-wire
