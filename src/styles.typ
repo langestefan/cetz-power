@@ -40,9 +40,11 @@
 
   // ── Transformer ─────────────────────────────────────────────────
   // "distance" is the centre-to-centre spacing of the two circles.
+  // Default ratio d/r ≈ 0.78 gives the tight, clearly-overlapping
+  // circles of the conventional two-winding symbol.
   transformer: (
     radius: 0.45,
-    distance: 0.5,
+    distance: 0.35,
     stroke: 0.8pt + black,
     fill: none,
     label: (anchor: "north", distance: 0.2),

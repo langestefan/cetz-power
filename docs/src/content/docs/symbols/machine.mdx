@@ -33,9 +33,10 @@ Positional form is `machine(name, pos, letter?)`. A named `letter:` arg
 
 ## Anchors
 
-`center`, `north`, `south`, `east`, `west` — all four cardinal anchors
-sit on the circle's edge, so they're safe to use directly as wire
-endpoints without a visible gap.
+`center`, `north`, `south`, `east`, `west` — the four cardinal edges,
+sitting on the circle. Plus `north-east`, `south-east`, `south-west`,
+`north-west` — the four 45° diagonals, also on the circle. All eight
+are safe as wire endpoints or label-attachment points.
 
 ## Wiring
 
@@ -50,6 +51,14 @@ External annotations (machine ratings, names, etc.) use the same
 `anchor:` to position the label, `distance:` to push it further away:
 
 <Snippet name="machine-labels" />
+
+For a caption tucked into one of the corners, use the diagonal anchors
+(`north-east`, `south-east`, `south-west`, `north-west`). The built-in
+`label:` dict only attaches one caption at a time; if you want multiple
+corner tags on the same machine, draw extra ones with
+`cetz.draw.content(<anchor>, anchor: <opposite>, …)`:
+
+<Snippet name="machine-corner-labels" />
 
 ## Styling
 

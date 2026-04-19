@@ -8,6 +8,11 @@
 
 /// Machine symbol (circle with optional inner content).
 ///
+/// Anchors: `center`, `north`, `south`, `east`, `west` (cardinal edges
+/// on the circle), plus `north-east`, `south-east`, `south-west`,
+/// `north-west` (the 45° diagonal points). All eight sit on the circle
+/// and are safe as wire endpoints or label attachment points.
+///
 /// Positional: `machine(name, pos)` or `machine(name, pos, letter)`.
 /// A named `letter:` argument (if given) takes precedence.
 ///
@@ -53,12 +58,20 @@
       cetz.draw.content((0, 0), inner)
     }
 
+    // Cardinal edges (on the circle).
     cetz.draw.anchor("default", (0, 0))
     cetz.draw.anchor("center", (0, 0))
     cetz.draw.anchor("north", (0, r))
     cetz.draw.anchor("south", (0, -r))
     cetz.draw.anchor("east", (r, 0))
     cetz.draw.anchor("west", (-r, 0))
+    // Diagonal corners at the 45° points on the circle — handy as label
+    // attachment points for captions sitting to the NE / SE / SW / NW.
+    let corner = r / calc.sqrt(2)
+    cetz.draw.anchor("north-east", (corner, corner))
+    cetz.draw.anchor("south-east", (corner, -corner))
+    cetz.draw.anchor("south-west", (-corner, -corner))
+    cetz.draw.anchor("north-west", (-corner, corner))
   }
 
   symbol("machine", name, ..positions, ..overrides, draw: draw)
