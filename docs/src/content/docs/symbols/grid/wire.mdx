@@ -91,5 +91,49 @@ instead of overriding per call:
 cetz.draw.set-style(cetz-power: (wire: (stroke: 1.4pt + orange)))
 ```
 
-See the [Wires-and-elbows getting-started page](/getting-started/wires/)
-for a side-by-side example of the family-level override.
+<Snippet name="wire-family-stroke" />
+
+The `set-style` only affects wires (and elbows); the buses and the
+transformer keep their own strokes. See the
+[Wires-and-elbows getting-started page](/getting-started/wires/)
+for the same pattern in context.
+
+## Colours, dashing, and per-phase coding
+
+`stroke:` accepts CeTZ's full stroke dict —
+`(paint: <color>, thickness: <length>, dash: <pattern>)` — so you
+can encode information about a connection in its appearance. A few
+patterns that come up often in power-system single-lines:
+
+### Three-phase colour coding
+
+Three parallel wires, one per phase, coloured to the IEC convention
+(red / yellow / blue). This is how a three-phase distribution feeder
+is conventionally drawn when the phases need to be visually
+distinguished — e.g. an unbalanced-load study or a connection
+diagram for a delta–wye transformer.
+
+<Snippet name="wire-three-phase" />
+
+### Planned / future connections
+
+A grey dashed line is the standard notation for **a connection that
+isn't built yet** — a planned tie-line, a contingency switch
+position, or any "this isn't here today but might be tomorrow"
+element on a network expansion plan. Pass the full stroke dict to
+combine colour, thickness, and dash:
+
+<Snippet name="wire-dashed" />
+
+### Voltage-level colour coding
+
+Bus and feeder colours encoded by voltage level — red for HV,
+orange for MV, blue for LV — with stroke thickness following the
+voltage. A glance at the operations-diagram tells you which part of
+the network you're looking at:
+
+<Snippet name="wire-voltage-coded" />
+
+The `stroke:` override works on **buses** the same way as on wires;
+this snippet uses it to make each busbar match its feeders'
+voltage colour.
