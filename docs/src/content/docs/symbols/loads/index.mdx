@@ -1,0 +1,20 @@
+---
+title: Loads
+description: Energy-consumer symbols — the generic load arrow, with optional elbow routing for off-axis placement.
+---
+
+The loads family covers symbols that consume energy at a connection
+point. Right now this is just the generic load (a downward-pointing
+arrow), with an optional elbow for L-shaped lead routing.
+
+## What's in this family
+
+| Symbol                          | Role in a one-line diagram                                                |
+| ------------------------------- | ------------------------------------------------------------------------- |
+| [Load](/symbols/loads/load/)    | Downward-pointing arrow representing a generic consumer. Place at any anchor; pass `elbow:` to route the lead as an L-shape. |
+
+## Source layout
+
+The symbol sources live under `src/symbols/loads/`. More specific
+load types (impedance loads, motor-load combos that don't use the
+machine symbol, etc.) would belong here.

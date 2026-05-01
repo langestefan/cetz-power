@@ -25,17 +25,29 @@
 #import "styles.typ": default as default-styles
 
 // ── Symbols ──────────────────────────────────────────────────────────────
+//
+// Organised into four families that mirror the docs sidebar and the
+// `src/symbols/<family>/` directory layout:
+//
+//   * grid        — network infrastructure (buses, wires, grids, transformers)
+//   * generation  — sources (machines like V/G/M/A, PV panels)
+//   * loads       — energy consumers (the generic load arrow)
+//   * electrical  — passive components (capacitors, …)
 
-#import "symbols/bus.typ": bus, bus-frac
-#import "symbols/wire.typ": wire, elbow
-#import "symbols/grid.typ": external-grid
-#import "symbols/transformer.typ": transformer
-#import "symbols/load.typ": load
-#import "symbols/pv.typ": pv-panel
-#import "symbols/machine.typ": machine
+// Grid
+#import "symbols/grid/bus.typ": bus, bus-frac
+#import "symbols/grid/wire.typ": wire, elbow
+#import "symbols/grid/external-grid.typ": external-grid
+#import "symbols/grid/transformer.typ": transformer
 
-// ── Electrical components (passive elements) ──────────────────────
+// Generation
+#import "symbols/generation/machine.typ": machine
+#import "symbols/generation/pv-panel.typ": pv-panel
 
+// Loads
+#import "symbols/loads/load.typ": load
+
+// Electrical components (passive)
 #import "symbols/electrical/capacitor.typ": capacitor
 
 // ── Composition helpers ─────────────────────────────────────────────────

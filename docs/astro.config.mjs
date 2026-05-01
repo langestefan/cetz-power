@@ -61,13 +61,31 @@ export default defineConfig({
         {
           label: 'Symbol reference',
           items: [
-            { label: 'Bus', slug: 'symbols/bus' },
-            { label: 'Wires', slug: 'symbols/wire' },
-            { label: 'External grid', slug: 'symbols/external-grid' },
-            { label: 'Machine', slug: 'symbols/machine' },
-            { label: 'Transformer', slug: 'symbols/transformer' },
-            { label: 'Load', slug: 'symbols/load' },
-            { label: 'PV panel', slug: 'symbols/pv-panel' },
+            {
+              label: 'Grid',
+              items: [
+                { label: 'Overview', slug: 'symbols/grid' },
+                { label: 'Bus', slug: 'symbols/grid/bus' },
+                { label: 'Wires', slug: 'symbols/grid/wire' },
+                { label: 'External grid', slug: 'symbols/grid/external-grid' },
+                { label: 'Transformer', slug: 'symbols/grid/transformer' },
+              ],
+            },
+            {
+              label: 'Generation',
+              items: [
+                { label: 'Overview', slug: 'symbols/generation' },
+                { label: 'Machine', slug: 'symbols/generation/machine' },
+                { label: 'PV panel', slug: 'symbols/generation/pv-panel' },
+              ],
+            },
+            {
+              label: 'Loads',
+              items: [
+                { label: 'Overview', slug: 'symbols/loads' },
+                { label: 'Load', slug: 'symbols/loads/load' },
+              ],
+            },
             {
               label: 'Electrical components',
               items: [

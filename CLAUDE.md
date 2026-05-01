@@ -18,9 +18,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Architecture
 
+### Symbol families
+
+`src/symbols/` is organised into four category sub-directories that mirror the docs sidebar:
+
+- `src/symbols/grid/` — network infrastructure (`bus`, `wire`, `external-grid`, `transformer`)
+- `src/symbols/generation/` — sources (`machine`, `pv-panel`)
+- `src/symbols/loads/` — energy consumers (`load`)
+- `src/symbols/electrical/` — passive components (`capacitor`)
+
+Adding a new symbol means picking the right category, dropping the file there, exporting it from `src/lib.typ` (which has a section per category), and adding a default style sub-dict under the symbol's family name in `src/styles.typ`.
+
 ### One primitive, many symbols
 
-Every symbol in `src/symbols/*.typ` is a thin closure around `symbol()` in `src/core.typ`. `symbol(family, name, ..positions, draw: <closure>, label:, angle:)` does the heavy lifting:
+Every symbol under `src/symbols/<category>/<name>.typ` is a thin closure around `symbol()` in `src/core.typ`. `symbol(family, name, ..positions, draw: <closure>, label:, angle:)` does the heavy lifting:
 
 1. **Style resolution** via `utils.typ::resolve-style`: merges flat top-level `cetz-power.*` keys, then the `cetz-power.<family>` sub-dict, then per-call named arguments. Defaults live in `src/styles.typ`.
 2. **Coordinate resolution and placement**: one position → symbol drawn in its local frame at that point with optional `angle:`; two positions → symbol centered at the midpoint and rotated so its local +x axis points from `in` to `out`. Two-node placement forbids `angle:` (asserted).
@@ -28,7 +39,7 @@ Every symbol in `src/symbols/*.typ` is a thin closure around `symbol()` in `src/
 4. **Labels** are drawn *outside* the rotated CeTZ group (in world frame) so text stays upright regardless of symbol rotation. The `anchor:` in the label dict is a **world-space** compass direction; `core.typ` rotates it back through `-effective-angle` to find the matching local anchor on the symbol.
 5. After drawing, the CeTZ "pen" is moved to the last input position so chained `line((), (rel: ...))` calls behave naturally.
 
-When adding a new symbol, follow the existing pattern: `#import "/src/core.typ": symbol`, build a `draw(ctx, positions, style)` closure that emits CeTZ primitives in local space and registers anchors, then call `symbol(<family>, name, ..positions, ..overrides, draw: draw)`. Add a default sub-dict under the family name in `styles.typ` if you need new style keys.
+When adding a new symbol, follow the existing pattern: drop the file under the appropriate `src/symbols/<category>/` sub-directory, do `#import "/src/core.typ": symbol`, build a `draw(ctx, positions, style)` closure that emits CeTZ primitives in local space and registers anchors, then call `symbol(<family>, name, ..positions, ..overrides, draw: draw)`. Add a default sub-dict under the family name in `styles.typ` if you need new style keys, and re-export from the matching block in `src/lib.typ`.
 
 ### Buses are length-defined, not symbol-sized
 

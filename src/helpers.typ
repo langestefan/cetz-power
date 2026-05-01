@@ -2,8 +2,8 @@
 // of cetz-power primitives for patterns that would otherwise need the
 // caller to write the same loop or coordinate math over and over.
 
-#import "symbols/wire.typ": wire
-#import "symbols/bus.typ": bus-frac
+#import "symbols/grid/wire.typ": wire
+#import "symbols/grid/bus.typ": bus-frac
 
 /// Draw `count` parallel wires between two buses.
 ///

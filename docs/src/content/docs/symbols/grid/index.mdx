@@ -1,0 +1,25 @@
+---
+title: Grid
+description: Network-infrastructure symbols — buses, wires, external grid, and transformers. The structural backbone of every single-line diagram.
+---
+
+The grid family covers the structural elements of a single-line
+diagram: the buses that organise voltage levels, the wires that
+connect them, the external-grid feed-in symbol, and the two-winding
+transformer for stepping voltage between levels.
+
+## What's in this family
+
+| Symbol                                    | Role in a one-line diagram                                                |
+| ----------------------------------------- | ------------------------------------------------------------------------- |
+| [Bus](/symbols/grid/bus/)                 | Length-defined busbar with named tap anchors. The organising element of every diagram. |
+| [Wires](/symbols/grid/wire/)              | Straight `wire(a, b)` and L-shaped `elbow(a, b, corner: …)` connections between anchors. |
+| [External grid](/symbols/grid/external-grid/) | Cross-hatched square representing an external (infinite-bus) source.   |
+| [Transformer](/symbols/grid/transformer/) | Two-winding transformer drawn as overlapping circles; one- or two-node placement. |
+
+## Source layout
+
+The symbol sources live under `src/symbols/grid/`. New grid-level
+elements (additional transformer types, breakers, disconnectors, …)
+belong here and are exported from `src/lib.typ` so they come into
+scope under the wildcard import.

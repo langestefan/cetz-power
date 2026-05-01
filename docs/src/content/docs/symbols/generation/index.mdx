@@ -1,0 +1,23 @@
+---
+title: Generation
+description: Source symbols — rotating machines, voltage sources, photovoltaic panels. Anything that injects power into the grid.
+---
+
+The generation family covers symbols that act as sources in a
+single-line diagram: rotating machines (synchronous, asynchronous,
+motors, generators), voltage sources, and photovoltaic panels. The
+machine symbol is shared between sources and motors — the letter
+inside the circle picks the conventional meaning.
+
+## What's in this family
+
+| Symbol                                      | Role in a one-line diagram                                                 |
+| ------------------------------------------- | -------------------------------------------------------------------------- |
+| [Machine](/symbols/generation/machine/)     | Stroked circle with an optional letter inside — `V` (voltage source), `G` (generator), `M` (motor), `A` (asynchronous machine), `W` (wattmeter), or any content. |
+| [PV panel](/symbols/generation/pv-panel/)   | Rectangle with a downward triangle indicating DC output; single connection at the top. |
+
+## Source layout
+
+The symbol sources live under `src/symbols/generation/`. Future
+additions (e.g. battery storage, wind-turbine-specific symbol) belong
+here.
