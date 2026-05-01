@@ -116,6 +116,7 @@ export default defineConfig({
             { label: 'Radial feeder', slug: 'recipes/radial-feeder' },
             { label: 'Wind turbine', slug: 'recipes/wind-turbine' },
             { label: 'Parallel transformers', slug: 'recipes/parallel-transformers' },
+            { label: 'Phase-to-earth fault', slug: 'recipes/phase-fault' },
           ],
         },
       ],

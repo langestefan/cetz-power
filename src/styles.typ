@@ -136,6 +136,19 @@
     label: (anchor: "north", distance: 0.15),
   ),
 
+  // ── Lightning bolt ──────────────────────────────────────────────
+  // Zigzag between two endpoints, with an arrowhead at `out` by
+  // default. Used to mark phase-to-ground faults / surge events in
+  // single-line diagrams.
+  bolt: (
+    stroke: 1.2pt + black,
+    segments: 4,
+    amplitude: 0.12,
+    arrow: true,
+    "arrow-color": black,
+    label: (anchor: "east", distance: 0.15),
+  ),
+
   // ── Ground ───────────────────────────────────────────────────────
   // Reference point. Default kind is the IEC earth-electrode (three
   // horizontal lines decreasing in width). `kind: "chassis"` uses a

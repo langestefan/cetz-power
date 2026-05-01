@@ -1,0 +1,40 @@
+---
+title: Phase-to-earth fault on a floating MV network
+description: Three-phase MV feeder with phase-to-ground capacitances and a single-phase earth fault on phase c — the classic floating-network fault scenario.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+A textbook diagram of a single-phase earth fault on an isolated
+("floating") medium-voltage network. The three phase conductors
+emerge from the source transformer through their winding inductances
+on the left, the phase-to-ground capacitances are sketched as three
+shunt capacitors hanging from the conductors, and the fault on phase
+c is marked with a stylised lightning bolt returning to the ground
+rail at the bottom. The four colours (red coils, blue cap leads,
+black phase wires, green ground) match the source figure.
+
+<Snippet name="recipe-phase-fault" />
+
+:::note[Credit]
+This diagram reproduces *Figuur 10.16 — Fase-aardsluiting in een
+zwevend MS-net* from
+[*Netten voor distributie van elektriciteit* (Phase to Phase),
+hoofdstuk 10](https://www.phasetophase.nl/boek/boek_2_10.html).
+The colour assignments and current-arrow directions are taken
+directly from the figure.
+:::
+
+## How the colours map to the symbols
+
+| Colour | Used for                                                                            |
+| ------ | ----------------------------------------------------------------------------------- |
+| Red    | The three winding inductors `La`/`Lb`/`Lc`, the per-phase fault-current arrows, the lightning bolt and `Ikt` label. |
+| Black  | The phase wires `a` / `b` / `c`, the source-transformer enclosure, and the capacitor plates. |
+| Blue   | The vertical leads from each phase down to its phase-to-ground capacitor.           |
+| Green  | The ground rail at the bottom of the figure (the earth-conductor reference).        |
+
+The lightning-bolt symbol is hand-drawn from a six-point polyline
+with `mark: (end: ">", fill: red)` for the arrowhead — there's no
+built-in `lightning-bolt` symbol, but a custom polyline is short
+enough to inline in the snippet.

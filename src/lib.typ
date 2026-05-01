@@ -55,6 +55,7 @@
 #import "symbols/electrical/voltagesource.typ": voltagesource
 #import "symbols/electrical/currentsource.typ": currentsource
 #import "symbols/electrical/ground.typ": ground
+#import "symbols/electrical/bolt.typ": bolt
 
 // Protection & switching
 #import "symbols/protection/switch.typ": switch
