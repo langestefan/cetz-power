@@ -23,35 +23,41 @@
   let ground-y = -0.6
   let phase-end = 5.4
 
-  // ── Source enclosure on the left ──
-  cetz.draw.rect((-1.8, 0.45), (-0.45, 2.75), stroke: 0.8pt + black)
+  // ── Three inductors with `in` ends along a single diagonal ──
+  // Each inductor is shifted right by the same step as you go down,
+  // so La.in / Lb.in / Lc.in are colinear. A single straight wire
+  // through all three left ends then forms the diagonal neutral
+  // connection from the top-left of La down to the bottom-right of
+  // Lc — one continuous line, no convergence point and no crossing.
+  let l-len = 0.8                  // inductor length (4 × 2 × 0.10)
+  let la-x = -1.7
+  let lb-x = -1.4
+  let lc-x = -1.1
 
-  // ── Three inductors inside the enclosure, one per phase ──
-  // Horizontal orientation (angle: -90deg) flush against the right
-  // side of the box; the in side faces the wye neutral on the left.
-  inductor("La", (-1.25, y-a), angle: -90deg,
+  inductor("La", (la-x, y-a), angle: -90deg,
     lead-in: 0, lead-out: 0,
     bumps: 4, bump-radius: 0.10, stroke: 1pt + r)
-  inductor("Lb", (-1.25, y-b), angle: -90deg,
+  inductor("Lb", (lb-x, y-b), angle: -90deg,
     lead-in: 0, lead-out: 0,
     bumps: 4, bump-radius: 0.10, stroke: 1pt + r)
-  inductor("Lc", (-1.25, y-c), angle: -90deg,
+  inductor("Lc", (lc-x, y-c), angle: -90deg,
     lead-in: 0, lead-out: 0,
     bumps: 4, bump-radius: 0.10, stroke: 1pt + r)
 
-  // ── Wye / star connection — crossed-diagonal layout ──
-  // Vertical "neutral collector" line on the left wall. The outer
-  // two phases cross-connect to it: La (top inductor) hooks down to
-  // the BOTTOM of the collector, Lc (bottom inductor) hooks up to
-  // the TOP — the two diagonals cross in the middle of the enclosure,
-  // with Lb running horizontally through the crossing point. This is
-  // the X-with-horizontal-middle (vertically-mirrored Z) pattern
-  // from the source figure.
-  let neut-x = -1.7
-  wire((neut-x, y-c), (neut-x, y-a), stroke: 1pt + r)  // vertical neutral
-  wire((neut-x, y-c), "La.in", stroke: 1pt + r)        // ↗ to top phase
-  wire((neut-x, y-b), "Lb.in", stroke: 1pt + r)        // → middle phase
-  wire((neut-x, y-a), "Lc.in", stroke: 1pt + r)        // ↘ to bottom phase
+  // Source enclosure — sized to wrap the diagonal layout with a
+  // small margin on each side.
+  cetz.draw.rect(
+    (la-x - 0.15, 0.45),
+    (lc-x + l-len + 0.15, 2.75),
+    stroke: 0.8pt + black,
+  )
+
+  // Diagonal neutral connection — drawn as two segments through
+  // Lb.in so the middle phase is electrically joined at the kink.
+  // La.in, Lb.in, Lc.in are colinear by construction, so the two
+  // segments render as one continuous straight diagonal.
+  wire("La.in", "Lb.in", stroke: 1pt + r)
+  wire("Lb.in", "Lc.in", stroke: 1pt + r)
 
   // ── Phase wires (black) extending right out of the enclosure ──
   wire("La.out", (phase-end, y-a))
