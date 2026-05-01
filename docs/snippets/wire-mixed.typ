@@ -2,15 +2,19 @@
 #set page(margin: 4pt, width: auto, height: auto)
 
 #diagram(length: 1.2cm, {
-  // Anchor → relative offset → absolute coord → anchor — every
-  // coordinate form mixed in one wire call.
-  bus("b1", (0, 0),    length: 1.2, angle: 90deg)
-  bus("b2", (3, -1.0), length: 1.2, angle: 90deg)
+  // Tie cable between two substations on either side of a road.
+  // The endpoints are anchored to each substation's busbar (so they
+  // move with the buses), but the route is pinned to two specific
+  // pole positions in between (absolute coordinates from the
+  // geographic layout). A short relative stub on the way out of the
+  // switchroom keeps the cable visually clear of the bus.
+  bus("subA", (0, 0),    length: 1.0, angle: 90deg, label: [Sub A])
+  bus("subB", (5, -1.5), length: 1.0, angle: 90deg, label: [Sub B])
   wire(
-    "b1.end",            // start at a named anchor
-    (rel: (0.4, 0)),     // step 0.4 right
-    (1.6, 0),            // jump to an absolute coord
-    (rel: (0, -1.0)),    // drop 1.0 down
-    "b2.end",            // and end at another named anchor
+    "subA.mid",          // anchored start
+    (rel: (0.4, 0)),     // brief stub out of the switchroom
+    (2.5, 0),            // pole 1 (geographic coord)
+    (3.5, -1.5),         // pole 2 (geographic coord)
+    "subB.mid",          // anchored end
   )
 })

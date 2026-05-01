@@ -2,21 +2,18 @@
 #set page(margin: 4pt, width: auto, height: auto)
 
 #diagram(length: 1.2cm, {
-  // All four coordinate forms in one wire:
-  //   1. Named anchor — `"b1.mid"` (the start)
-  //   2. `(rel: <vec>)` — offset from the previous point (b1.mid + (0, -0.4))
-  //   3. `(rel: <vec>, to: <anchor>)` — offset from a specific anchor,
-  //      ignoring the previous point (b2.mid + (0, 0.3))
-  //   4. Named anchor — `"b2.mid"` (the end)
-  //
-  // Useful when a wire has to approach an anchor from a known
-  // distance / direction without computing the absolute position.
-  bus("b1", (0, 0),    length: 1.2, angle: 90deg)
-  bus("b2", (2.5, -1), length: 1.2, angle: 90deg)
+  // Bus-tie cable between two parallel substations. The cable
+  // enters and leaves each bus PERPENDICULARLY with a fixed
+  // standoff — `(rel: <vec>, to: <anchor>)` pins the approach and
+  // landing points to each bus regardless of where the buses end
+  // up on the page. Move either bus and the routing follows
+  // automatically.
+  bus("b1", (0, 0),    length: 1.2, angle: 90deg, label: [Sub 1])
+  bus("b2", (3, -1.0), length: 1.2, angle: 90deg, label: [Sub 2])
   wire(
-    "b1.mid",
-    (rel: (0, -0.4)),
-    (rel: (0, 0.3), to: "b2.mid"),
-    "b2.mid",
+    "b1.mid",                          // start, anchored to bus 1
+    (rel: (0.5, 0), to: "b1.mid"),     // approach: 0.5 east of b1.mid
+    (rel: (-0.5, 0), to: "b2.mid"),    // landing:  0.5 west of b2.mid
+    "b2.mid",                          // end, anchored to bus 2
   )
 })

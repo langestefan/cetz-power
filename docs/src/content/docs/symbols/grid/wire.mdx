@@ -19,9 +19,9 @@ drop a tap from a bus to a symbol below it:
 ## Polylines — three or more points
 
 `wire` is variadic — pass any number of positional coordinates and
-each consecutive pair is joined by a straight segment. Coordinates
-can be anchor names, absolute tuples, or relative offsets (next
-section), in any combination:
+each consecutive pair is joined by a straight segment. The natural
+power-system use is a **transmission line passing through several
+substations in series**: one physical conductor, one `wire` call.
 
 <Snippet name="wire-polyline" />
 
@@ -30,30 +30,35 @@ section), in any combination:
 Any positional argument can be `(rel: <vec>)`. CeTZ interprets that
 as **"offset from the previous point in the list"** — each step is
 relative to where the wire is currently at, not to any named anchor.
-That makes routing a small jog or stub off a known anchor concise,
-without having to compute every absolute position by hand:
+This is the natural form for a **feeder that needs to bend around
+something** before reaching its load — for example an outgoing
+feeder that drops out of the switchgear, runs across the cable
+trench, then turns down into a load that's offset from the bus tap:
 
 <Snippet name="wire-relative" />
 
 If you'd rather offset from a *specific anchor* (instead of from
 "wherever the wire is right now"), use the longer form
-`(rel: <vec>, to: <coord>)`. Both forms can appear in the same wire
-— useful when most of the routing is sequential ("step from where I
-am now") but one waypoint needs to be pinned to a known anchor with
-a fixed offset:
+`(rel: <vec>, to: <coord>)`. Useful when a tie cable needs to
+**enter and leave each substation perpendicularly** with a known
+standoff — pin the approach and landing points to each bus and the
+routing follows automatically if the buses move:
 
 <Snippet name="wire-rel-to-anchor" />
 
-The third coordinate in that wire — `(rel: (0, 0.3), to: "b2.mid")`
-— sits 0.3 above `b2.mid` regardless of where the previous step
-ended up. The `to:` field re-anchors the relative offset.
+In that wire, `(rel: (0.5, 0), to: "b1.mid")` sits 0.5 east of
+`b1.mid`, and `(rel: (-0.5, 0), to: "b2.mid")` sits 0.5 west of
+`b2.mid` — both anchored to their respective buses regardless of
+where the previous step ended up.
 
 ## Mixing the forms
 
 Anchor names, absolute coordinates, and relative offsets can all sit
-in the same `wire` call. Useful when one end of the wire is anchored
-to a named symbol and the other has to bend through a couple of
-explicit waypoints to reach a second anchor:
+in the same `wire` call. The realistic case for absolute coordinates
+in an SLD is a **cable corridor with documented intermediate poles
+or joints** — the endpoints stay anchored to each substation's bus
+(so they move with the buses), but the route between them is pinned
+to specific geographic positions:
 
 <Snippet name="wire-mixed" />
 
