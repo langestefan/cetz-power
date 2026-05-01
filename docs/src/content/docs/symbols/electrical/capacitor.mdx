@@ -1,0 +1,75 @@
+---
+title: Capacitor
+description: Two parallel plates with a lead at each end (the symmetric textbook form). Pass lead-out 0 for a single-pole shunt cap with no return-to-ground wire.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+Two parallel plates with a lead at each end. The default form is the
+symmetric two-pole textbook capacitor — `in` at the bottom of the
+lower lead, `out` at the top of the upper lead, plates lying
+horizontally between them. This is the natural shape for inline /
+series-capacitor wiring and what readers expect when they see a
+capacitor on its own.
+
+<Snippet name="capacitor-example" />
+
+## Series capacitors
+
+With both leads present, the symbol exposes both `in` and `out` and
+sits naturally inline between two wires. Combine with `angle: -90deg`
+to lay it flat along a horizontal feeder:
+
+<Snippet name="capacitor-series" />
+
+## Rotating
+
+`angle:` rotates the entire symbol around the connection point.
+`-90deg` (clockwise) makes the leads horizontal and the plates
+vertical; `180deg` flips the whole thing upside-down so the leads
+extend downward:
+
+<Snippet name="capacitor-rotated" />
+
+## Single-pole shunt form
+
+In single-line / one-line diagrams a *shunt* capacitor is sometimes
+drawn without a return-to-ground wire — just the connection lead from
+the bus and the two plates, no upper lead. Pass `lead-out: 0` to drop
+the upper lead (the `out` anchor goes away with it):
+
+<Snippet name="capacitor-shunt" />
+
+## Parameters
+
+| Name           | Default       | Description                                                                                  |
+| -------------- | ------------- | -------------------------------------------------------------------------------------------- |
+| `plate-width`  | `0.5`         | Width of each plate.                                                                         |
+| `plate-gap`    | `0.12`        | Distance between the two plates.                                                             |
+| `lead-in`      | `0.3`         | Length of the lead from `in` up to the bottom plate.                                         |
+| `lead-out`     | `0.3`         | Length of the lead above the top plate. Set to `0` to drop the upper lead and the `out` anchor (single-pole shunt form). |
+| `stroke`       | `0.8pt + black` | Stroke for both leads and plates.                                                          |
+| `plate-stroke` | (= `stroke`)  | Separate stroke override for the plates only — handy for thicker plates than the lead.       |
+| `label`        | `none`        | Standard label dict (default `anchor: "north"`, `distance: 0.15`).                           |
+| `angle`        | `0deg`        | Rotation around the connection point.                                                        |
+
+## Anchors
+
+| Anchor                     | Position                                                                  |
+| -------------------------- | ------------------------------------------------------------------------- |
+| `in` / `default` / `south` | The connection point — where you placed the symbol.                       |
+| `out`                      | Top of the upper lead. **Only present when `lead-out > 0`** (the default).|
+| `north`                    | Top of the upper lead, or the top plate if `lead-out: 0`.                 |
+| `east`, `west`             | Right / left ends of the plates, vertically centred between them.         |
+| `center`                   | Midpoint between the two plates.                                          |
+
+All of these are after-rotation in world space when used as
+`"<name>.<anchor>"` from outside the symbol — pass them straight to
+`wire`, `elbow`, or `cetz.draw.content` calls.
+
+## Styling
+
+Per-call, family, and global overrides all work the same as for every
+other cetz-power symbol. Geometry knobs override at any layer:
+
+<Snippet name="capacitor-styling" />

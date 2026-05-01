@@ -68,6 +68,13 @@ export default defineConfig({
             { label: 'Transformer', slug: 'symbols/transformer' },
             { label: 'Load', slug: 'symbols/load' },
             { label: 'PV panel', slug: 'symbols/pv-panel' },
+            {
+              label: 'Electrical components',
+              items: [
+                { label: 'Overview', slug: 'symbols/electrical' },
+                { label: 'Capacitor', slug: 'symbols/electrical/capacitor' },
+              ],
+            },
           ],
         },
         {

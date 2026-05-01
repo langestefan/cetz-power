@@ -1,0 +1,31 @@
+---
+title: Electrical components
+description: Passive electrical components — capacitors and friends. Sit in their own family so style overrides scope cleanly.
+---
+
+This section covers passive electrical components: elements that store
+or dissipate energy without an active source. They share a few
+conventions:
+
+- They are placed at a single connection point (`in`) by default.
+- Single-line / one-line diagram convention applies: shunt elements are
+  drawn with **only the wire from the bus** — no return-to-ground wire.
+  Set the optional `lead-out` parameter non-zero to expose an `out`
+  anchor and use the symbol in-line as a series element.
+- Each component lives under its own family in `set-style(cetz-power: …)`,
+  so global, family, and per-call overrides cascade exactly the same as
+  for buses, transformers, and machines (see [Styling](/getting-started/styling/)).
+
+## Currently shipped
+
+| Component                              | What it draws                                                         |
+| -------------------------------------- | --------------------------------------------------------------------- |
+| [Capacitor](/symbols/electrical/capacitor/) | Two parallel plates with a single lead by default; `lead-out` for series form. |
+
+## Source layout
+
+The symbol sources live under `src/symbols/electrical/`. New passive
+components belong here and are exported the same way — add the import
+to `src/lib.typ` so they come into scope under the wildcard import,
+then add a default sub-dict to `src/styles.typ` keyed under the
+component name.

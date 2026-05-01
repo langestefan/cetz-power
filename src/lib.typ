@@ -34,6 +34,10 @@
 #import "symbols/pv.typ": pv-panel
 #import "symbols/machine.typ": machine
 
+// ── Electrical components (passive elements) ──────────────────────
+
+#import "symbols/electrical/capacitor.typ": capacitor
+
 // ── Composition helpers ─────────────────────────────────────────────────
 
 #import "helpers.typ": multi-wire

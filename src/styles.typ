@@ -83,6 +83,19 @@
     label: (anchor: "north", distance: 0.3),
   ),
 
+  // ── Capacitor ────────────────────────────────────────────────────
+  // Two parallel plates with a lead at each end (the symmetric, two-
+  // pole textbook form). For a single-line shunt with no ground return,
+  // override `lead-out: 0` per call.
+  capacitor: (
+    stroke: 0.8pt + black,
+    "plate-width": 0.5,
+    "plate-gap": 0.12,
+    "lead-in": 0.3,
+    "lead-out": 0.3,
+    label: (anchor: "north", distance: 0.15),
+  ),
+
   // ── External grid / infinite bus ────────────────────────────────
   grid: (
     size: 0.9,

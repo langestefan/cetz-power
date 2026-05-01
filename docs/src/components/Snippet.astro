@@ -8,6 +8,8 @@
 
 import { Code } from '@astrojs/starlight/components';
 import { existsSync, statSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { resolve } from 'node:path';
 
 interface Props {
   name: string;
@@ -65,9 +67,37 @@ const trimmed = source
   .trim();
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const svgFsPath = `./public/diagrams/${name}.svg`;
+const srcFsPath = `./snippets/${name}.typ`;
+
+// Dev-time safety net: rebuild this snippet's SVG on demand if it's
+// stale relative to the source. The standalone `node --watch-path`
+// snippet watcher in scripts/dev.mjs misses change events on some
+// filesystems (notably Nextcloud-synced directories) so the SVG can
+// drift behind the source. Vite always invalidates this component
+// when its imported `.typ` source changes — that triggers Astro to
+// re-render this Snippet, which gives us a reliable hook to recompile.
+//
+// In production the prebuilt diagrams from `npm run build:diagrams`
+// are authoritative; we skip this to avoid spawning typst per page.
+if (import.meta.env.DEV && existsSync(srcFsPath)) {
+  const srcMtime = statSync(srcFsPath).mtimeMs;
+  const svgMtime = existsSync(svgFsPath) ? statSync(svgFsPath).mtimeMs : 0;
+  if (srcMtime > svgMtime) {
+    const repoRoot = resolve('..');
+    const result = spawnSync(
+      'typst',
+      ['compile', '--root', repoRoot, '--format', 'svg', srcFsPath, svgFsPath],
+      { stdio: ['ignore', 'inherit', 'inherit'] },
+    );
+    if (result.status !== 0) {
+      console.error(`✗ on-demand compile failed for snippet "${name}"`);
+    }
+  }
+}
+
 // Cache-bust the SVG URL with its file's mtime so browsers pick up the
 // rebuilt diagram instead of serving the previously-cached SVG.
-const svgFsPath = `./public/diagrams/${name}.svg`;
 const cacheBust = existsSync(svgFsPath) ? statSync(svgFsPath).mtimeMs : Date.now();
 const svgUrl = `${base}/diagrams/${name}.svg?v=${cacheBust}`;
 ---
