@@ -115,6 +115,7 @@ export default defineConfig({
           items: [
             { label: 'Radial feeder', slug: 'recipes/radial-feeder' },
             { label: 'Wind turbine', slug: 'recipes/wind-turbine' },
+            { label: 'Parallel transformers', slug: 'recipes/parallel-transformers' },
           ],
         },
       ],

@@ -1,0 +1,24 @@
+---
+title: Two parallel transformers
+description: A 150 kV → 10 kV substation with two unequally-tapped transformers in parallel, feeding a single 60 MW / 60 Mvar load.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+Two transformers in parallel between a 150 kV bus (HS1) and a 10 kV
+bus (MS1), set to **different tap positions** (T1 at trap −8 / 87 %,
+T2 at trap −9 / 98 %). The load-flow result is shown on each side of
+each transformer: the unequal taps cause the active and reactive
+loading to split unevenly between the two parallel paths even though
+the total served load is just one 60 MW + 60 Mvar feeder.
+
+<Snippet name="recipe-parallel-transformers" />
+
+:::note[Credit]
+This diagram reproduces *Figuur 9.29 — Twee ongelijk ingestelde
+parallelle transformatoren* from
+[*Netten voor distributie van elektriciteit* (Phase to Phase),
+hoofdstuk 9](https://www.phasetophase.nl/boek/boek_2_9.html).
+Voltages, tap positions, and the active / reactive flows on every
+branch are taken directly from the figure.
+:::
