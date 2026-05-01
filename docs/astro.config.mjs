@@ -96,6 +96,16 @@ export default defineConfig({
                 { label: 'Diode', slug: 'symbols/electrical/diode' },
                 { label: 'Voltage source', slug: 'symbols/electrical/voltagesource' },
                 { label: 'Current source', slug: 'symbols/electrical/currentsource' },
+                { label: 'Ground', slug: 'symbols/electrical/ground' },
+              ],
+            },
+            {
+              label: 'Protection & switching',
+              items: [
+                { label: 'Overview', slug: 'symbols/protection' },
+                { label: 'Switch', slug: 'symbols/protection/switch' },
+                { label: 'Circuit breaker', slug: 'symbols/protection/breaker' },
+                { label: 'Fuse', slug: 'symbols/protection/fuse' },
               ],
             },
           ],

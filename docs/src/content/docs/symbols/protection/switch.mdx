@@ -1,0 +1,41 @@
+---
+title: Switch
+description: Two-pin switch / disconnector with a movable bar. Open by default; closed true gives the closed pose.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+A two-pin switch — the conventional SLD disconnector / load-break
+switch notation. Two small filled circles mark the pin positions; the
+movable bar joins the left pin and either tilts up (open, the default)
+or sits horizontal (closed).
+
+<Snippet name="switch-example" />
+
+## Open and closed states
+
+<Snippet name="switch-states" />
+
+The `in` and `out` anchors don't move when the state flips, so any
+wires you've routed to the switch keep their attachment points whether
+you flip `closed:` to `true` or back.
+
+## Parameters
+
+| Name             | Default       | Description                                                                  |
+| ---------------- | ------------- | ---------------------------------------------------------------------------- |
+| `closed`         | `false`       | `false` shows the bar tilted up (open); `true` shows it horizontal (closed). |
+| `switch-length`  | `0.45`        | Length of the bar (and the gap between the two pins on the wire).            |
+| `pivot-radius`   | `0.045`       | Radius of the small filled circles drawn at each pin.                        |
+| `open-angle`     | `30deg`       | Angle the bar tilts up from horizontal when open.                            |
+| `stroke`         | `0.8pt + black` | Stroke for the bar and the lead stubs.                                     |
+| `label`          | `none`        | Standard label dict (default `anchor: "north"`, `distance: 0.18`).           |
+
+## Anchors
+
+| Anchor          | Position                                                                  |
+| --------------- | ------------------------------------------------------------------------- |
+| `in`, `out`     | The two endpoints (passed by the caller).                                 |
+| `center`        | Midpoint between the two endpoints, on the centerline.                    |
+| `north`         | Just above the open-bar tip — useful for label attachment.                |
+| `south`         | Just below the centerline.                                                |

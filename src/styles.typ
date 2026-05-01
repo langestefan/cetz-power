@@ -136,6 +136,50 @@
     label: (anchor: "north", distance: 0.15),
   ),
 
+  // ── Ground ───────────────────────────────────────────────────────
+  // Reference point. Default kind is the IEC earth-electrode (three
+  // horizontal lines decreasing in width). `kind: "chassis"` uses a
+  // hatched bar; `kind: "signal"` uses a filled downward triangle.
+  ground: (
+    stroke: 0.8pt + black,
+    lead: 0.18,
+    width: 0.4,
+    kind: "earth",
+    label: (anchor: "south", distance: 0.1),
+  ),
+
+  // ── Switch / disconnector ───────────────────────────────────────
+  // Two-pin switch with a movable bar between them. Default is OPEN
+  // (bar tilted up); `closed: true` shows the bar horizontal.
+  switch: (
+    stroke: 0.8pt + black,
+    "switch-length": 0.45,
+    "pivot-radius": 0.045,
+    "open-angle": 30deg,
+    closed: false,
+    label: (anchor: "north", distance: 0.18),
+  ),
+
+  // ── Circuit breaker ─────────────────────────────────────────────
+  // Square box on a wire. Distinguishes a CB from a plain switch /
+  // disconnector in single-line diagrams.
+  breaker: (
+    stroke: 0.8pt + black,
+    fill: none,
+    size: 0.3,
+    label: (anchor: "north", distance: 0.15),
+  ),
+
+  // ── Fuse ────────────────────────────────────────────────────────
+  // Rectangle with a wire through it (IEC convention).
+  fuse: (
+    stroke: 0.8pt + black,
+    fill: none,
+    length: 0.6,
+    width: 0.22,
+    label: (anchor: "north", distance: 0.15),
+  ),
+
   // ── Voltage source ──────────────────────────────────────────────
   // Two-node circle with internal markings. `kind: "dc"` draws +/−;
   // "ac" / "sin" / "tri" / "saw" / "rect" draw the matching waveform.

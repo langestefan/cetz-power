@@ -1,0 +1,36 @@
+---
+title: Fuse
+description: IEC fuse symbol — rectangle with a wire passing through it. Two-node, sits inline between any two anchors.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+A rectangular body with a straight wire passing through it — the IEC
+overcurrent-protection notation. Fits inline between any two
+connection points.
+
+<Snippet name="fuse-example" />
+
+## On a feeder
+
+Fuses live between a busbar and the load they protect:
+
+<Snippet name="fuse-bus" />
+
+## Parameters
+
+| Name      | Default       | Description                                                                  |
+| --------- | ------------- | ---------------------------------------------------------------------------- |
+| `length`  | `0.6`         | Length of the rectangular body along the lead axis.                          |
+| `width`   | `0.22`        | Width of the body perpendicular to the leads.                                |
+| `stroke`  | `0.8pt + black` | Stroke for the body outline, the through-wire, and the lead stubs.         |
+| `fill`    | `none`        | Body fill.                                                                   |
+| `label`   | `none`        | Standard label dict (default `anchor: "north"`, `distance: 0.15`).           |
+
+## Anchors
+
+| Anchor          | Position                                                  |
+| --------------- | --------------------------------------------------------- |
+| `in`, `out`     | The two endpoints.                                        |
+| `center`        | Centre of the body.                                       |
+| `north`, `south`, `east`, `west` | The four sides of the body.              |

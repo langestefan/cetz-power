@@ -1,0 +1,53 @@
+---
+title: Ground
+description: Reference-ground symbol with three variants — earth electrode (default), chassis, and signal / common.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+Single-pole reference-ground symbol with a short lead at `in` and one
+of three terminal markings selected via `kind:`. The default is the
+IEC earth-electrode notation (three horizontal lines decreasing in
+width).
+
+<Snippet name="ground-example" />
+
+## Variants
+
+<Snippet name="ground-variants" />
+
+| `kind`             | What's drawn                                                              |
+| ------------------ | ------------------------------------------------------------------------- |
+| `"earth"` (default)| Three horizontal lines decreasing in width — earth electrode / PE.        |
+| `"chassis"`        | Solid horizontal bar with diagonal hatching — chassis / frame ground.     |
+| `"signal"`         | Filled downward-pointing triangle — signal / common ground.               |
+
+## Connecting to a bus
+
+Place the ground at any bus tap (or any anchor) — the lead drops
+straight down from the connection point:
+
+<Snippet name="ground-bus" />
+
+For grounded-star transformers and other equipment-grounding patterns,
+this is the symbol you connect to the neutral point.
+
+## Parameters
+
+| Name      | Default       | Description                                                                  |
+| --------- | ------------- | ---------------------------------------------------------------------------- |
+| `kind`    | `"earth"`     | One of `"earth"`, `"chassis"`, `"signal"`.                                   |
+| `lead`    | `0.18`        | Length of the lead from `in` down to the symbol body.                        |
+| `width`   | `0.4`         | Width of the widest horizontal line (or the chassis bar / triangle base).    |
+| `stroke`  | `0.8pt + black` | Stroke for the lead and the symbol marking.                                |
+| `label`   | `none`        | Standard label dict (default `anchor: "south"`, `distance: 0.1`).            |
+| `angle`   | `0deg`        | Rotation around the connection point.                                        |
+
+## Anchors
+
+| Anchor                     | Position                                                                  |
+| -------------------------- | ------------------------------------------------------------------------- |
+| `in` / `default` / `north` | The connection point.                                                     |
+| `south`                    | The bottom of the symbol (useful for tucking a label below).              |
+| `east`, `west`             | Right / left edges of the body (at the topmost line for `"earth"`).       |
+| `center`                   | Midpoint between `in` and `south`.                                        |

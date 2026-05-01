@@ -1,0 +1,42 @@
+---
+title: Circuit breaker
+description: Square-box circuit-breaker symbol — distinguishes a CB from a plain switch in single-line diagrams. Pass fill to colour-code.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+A small square (or rectangle) sitting inline on a wire. This is the
+conventional SLD notation for a circuit breaker — it deliberately
+looks different from the [switch](/symbols/protection/switch/) symbol
+so the reader can tell at a glance which feeders have CBs and which
+have plain disconnectors.
+
+<Snippet name="breaker-example" />
+
+## Between two buses
+
+The two-node placement orients the box along the in→out line and
+draws its own lead stubs to the bus mid-points:
+
+<Snippet name="breaker-bus" />
+
+`fill:` is a useful per-call override for colour-coding by voltage
+level — pass `red.lighten(70%)` for HV, `blue.lighten(70%)` for MV,
+etc. Then a glance at the diagram tells you the breaker's role.
+
+## Parameters
+
+| Name      | Default       | Description                                                                  |
+| --------- | ------------- | ---------------------------------------------------------------------------- |
+| `size`    | `0.3`         | Side length of the (square) box.                                             |
+| `stroke`  | `0.8pt + black` | Stroke for the box outline and the lead stubs.                             |
+| `fill`    | `none`        | Box fill. Useful for colour-coding by voltage level.                         |
+| `label`   | `none`        | Standard label dict (default `anchor: "north"`, `distance: 0.15`).           |
+
+## Anchors
+
+| Anchor          | Position                                                  |
+| --------------- | --------------------------------------------------------- |
+| `in`, `out`     | The two endpoints (passed by the caller).                 |
+| `center`        | Centre of the box.                                        |
+| `north`, `south`, `east`, `west` | The four sides of the box.               |

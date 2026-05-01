@@ -25,7 +25,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `src/symbols/grid/` — network infrastructure (`bus`, `wire`, `external-grid`, `transformer`)
 - `src/symbols/generation/` — sources (`machine`, `pv-panel`)
 - `src/symbols/loads/` — energy consumers (`load`)
-- `src/symbols/electrical/` — passive components (`capacitor`)
+- `src/symbols/electrical/` — passive components, sources, and ground (`capacitor`, `resistor`, `inductor`, `diode`, `voltagesource`, `currentsource`, `ground`)
+- `src/symbols/protection/` — switchgear and overcurrent protection (`switch`, `breaker`, `fuse`)
 
 Adding a new symbol means picking the right category, dropping the file there, exporting it from `src/lib.typ` (which has a section per category), and adding a default style sub-dict under the symbol's family name in `src/styles.typ`.
 

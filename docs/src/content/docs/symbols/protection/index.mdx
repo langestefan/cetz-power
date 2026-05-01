@@ -1,0 +1,33 @@
+---
+title: Protection & switching
+description: Switchgear and overcurrent protection — switches, circuit breakers, fuses. The elements you draw between buses to control and protect feeders.
+---
+
+The protection family covers switchgear and overcurrent-protection
+elements: anything you draw inline between two connection points to
+control current flow or interrupt it on a fault. They share a few
+conventions:
+
+- All are **two-node** symbols. Pass an `in` and an `out` coordinate
+  (or anchor); the body sits at the midpoint and the symbol orients
+  itself along the in→out line, drawing its own lead stubs to the
+  endpoints.
+- The `in` and `out` anchors are exposed for further wiring.
+- Each component has its own family in `set-style(cetz-power: …)`,
+  so global, family, and per-call overrides cascade exactly the same
+  way as for buses, transformers, and the rest of the package (see
+  [Styling](/getting-started/styling/)).
+
+## Currently shipped
+
+| Symbol                                            | What it draws                                                                                |
+| ------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| [Switch](/symbols/protection/switch/)             | Two-pin switch with a movable bar — open by default, `closed: true` for the closed pose.     |
+| [Circuit breaker](/symbols/protection/breaker/)   | Square box on a wire — the conventional SLD notation distinguishing a CB from a disconnector.|
+| [Fuse](/symbols/protection/fuse/)                 | Rectangle with a wire passing through it — IEC overcurrent-protection notation.              |
+
+## Source layout
+
+The symbol sources live under `src/symbols/protection/`. Future
+additions (load-break switches, earthing switches, surge arresters,
+recloser, …) belong here.
