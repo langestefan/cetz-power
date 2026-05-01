@@ -117,6 +117,7 @@ export default defineConfig({
             { label: 'Wind turbine', slug: 'recipes/wind-turbine' },
             { label: 'Parallel transformers', slug: 'recipes/parallel-transformers' },
             { label: 'Phase-to-earth fault', slug: 'recipes/phase-fault' },
+            { label: 'MV cable equivalent', slug: 'recipes/mv-cable-equivalent' },
           ],
         },
       ],

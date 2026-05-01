@@ -1,0 +1,35 @@
+---
+title: MV network with 200 km cable equivalent
+description: Source side in red, two-tone transformer (red primary / black secondary), and a 200 km cable modelled as an equivalent loop between K2 and K3.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+A medium-voltage network where a 200 km cable is modelled as an
+equivalent loop: the upper "Equivalent van 200 km" path through the
+Koo bus and the lower "Kabel" path together approximate the cable's
+pi-equivalent. The source side (`Netvoeding` → K1 → primary winding
+of the transformer) is highlighted in red so the reader sees at a
+glance which part of the network is "upstream".
+
+<Snippet name="recipe-mv-cable-equivalent" />
+
+:::note[Credit]
+This diagram reproduces *Figuur 10.15 — MS-net met een equivalente
+verbinding voor 200 km kabel* from
+[*Netten voor distributie van elektriciteit* (Phase to Phase),
+hoofdstuk 10](https://www.phasetophase.nl/boek/boek_2_10.html).
+:::
+
+## Techniques used
+
+This recipe combines several patterns documented in the symbol-
+reference pages — a useful tour of the styling vocabulary:
+
+| Pattern | Where |
+| ------- | ----- |
+| Per-call coloured stroke | The red `wire(..., stroke: 1pt + r)` and `bus(..., stroke: 1.8pt + r)` calls on the source side. See [Wires → Stroke override](/symbols/grid/wire/#stroke-override). |
+| Multi-point polyline with a `(rel: <vec>)` offset | The single `wire("K2.end", (rel: (0, 1.0)), (rel: (4.3, 0)), "K3.end")` that draws the entire upper conductor in one call. |
+| Hand-drawn two-tone transformer | The built-in `transformer` symbol takes one stroke for both circles; for a primary-only red colouring we draw the two circles + their leads with raw `cetz.draw.circle` / `wire` calls instead. |
+| Bus taps for fan-out | `bus("K3", …, taps: 3)` exposes `K3.tap1`, `tap2`, `tap3` for the Motor / Belasting / Generator branches. |
+| Manual labels via `cetz.draw.content` | Used for the long inline labels (`Equivalent van 200 km`, `Kabel`, `Motor`, `Belasting`, `Generator`) where the standard `label:` dict's positioning isn't precise enough. |
