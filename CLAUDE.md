@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-`cetz-power` is a Typst package that draws power-system single-line diagrams. It is a thin wrapper around [CeTZ](https://github.com/cetz-package/cetz) `0.4.2` (pinned in `src/deps.typ`). Package metadata lives in `typst.toml`; the entry point is `src/lib.typ`.
+`cetz-power` is a Typst package that draws power-system single-line diagrams. It is a thin wrapper around [CeTZ](https://github.com/cetz-package/cetz) `0.4.2` (pinned in `src/deps.typ`). Package metadata lives in `typst.toml`; the entry point is `src/lib.typ`, which re-exports the canvas wrapper, every symbol in `src/symbols/`, and the composition helpers in `src/helpers.typ`.
 
 ## Common commands
 
@@ -37,6 +37,10 @@ When adding a new symbol, follow the existing pattern: `#import "/src/core.typ":
 ### Wires are not symbols
 
 `wire()` and `elbow()` in `src/symbols/wire.typ` skip the `symbol()` machinery entirely (no label, no family-style cascade). They only read `cetz-power.wire.stroke` from the active style and draw a `cetz.draw.line`. Don't try to give them labels — wrap a labelled box around them instead, or attach the label to the symbol on either end.
+
+### Composition helpers
+
+`src/helpers.typ` is for short combinations of existing primitives that would otherwise force the caller to write the same loop or coordinate math repeatedly — it is **not** for new symbols. Currently it only exports `multi-wire(source, target, count:, from:, to:)`, which fans `count` evenly-spaced `wire()` calls between two buses using `bus-frac`. The `from`/`to` `(start, end)` fraction pairs let the caller narrow or skew the bundle on either bar (e.g. `from: (0.2, 0.8)` for a 60 %-wide bundle, asymmetric pairs for a fan-out). New helpers belong here when they compose existing primitives; anything that draws its own geometry should be a symbol under `src/symbols/` instead.
 
 ### Canvas wrapper
 
