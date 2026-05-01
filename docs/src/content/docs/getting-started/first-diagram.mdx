@@ -5,15 +5,62 @@ description: A complete radial feeder in 7 lines of Typst.
 
 import Snippet from '../../../components/Snippet.astro';
 
-Every diagram is wrapped in `pg.diagram({ ... })`, which is a thin wrapper
-around `cetz.canvas` that installs `cetz-power`'s default styles. Inside
-the block, `import pg: *` brings every symbol into scope.
-
 <Snippet name="getting-started-first-diagram" />
 
 That's it: one external grid, one step-down transformer, one bus with a
 few taps, and two loads — wired together by named anchors (`g.in`,
 `b.tap2`, `t.out`, …) rather than bare coordinates.
+
+## Anatomy of a diagram
+
+Every snippet on this site has the same three-line scaffold around the
+actual symbol calls:
+
+```typst
+#import "@preview/cetz-power:0.1.0" as pg
+
+#pg.diagram({
+  import pg: *
+  // your symbols go here
+})
+```
+
+The `#pg.diagram({ ... })` wrapper is **required** — it isn't decoration.
+Skipping it (calling raw `cetz.canvas` for example) means the symbols
+won't render the way you expect.
+
+### What `pg.diagram` does
+
+`pg.diagram(body, ..params)` is a ~20-line wrapper around CeTZ's own
+`cetz.canvas(...)`. It does two things `cetz.canvas` doesn't:
+
+1. **Installs the default style dictionary.** Every symbol in this
+   package reads its defaults — strokes, fills, sizes, label
+   positions — from the `cetz-power` key in CeTZ's style context.
+   `pg.diagram` is what puts the dictionary there. Without it the
+   three-layer style cascade (global → family → per-call, see
+   [Styling](/getting-started/styling/)) has no base to merge against,
+   so global and family-level overrides via `set-style(cetz-power: …)`
+   silently do nothing.
+2. **Handles HTML output.** When Typst is compiled to HTML (which is
+   how the diagrams on this site are produced), `pg.diagram` wraps the
+   result in `html.frame(...)` so it renders as inline SVG. CeTZ
+   canvases otherwise produce nothing in HTML mode because they
+   internally use Typst's `layout()` primitive, which HTML mode
+   ignores. PDF compilation is unaffected.
+
+Any extra named arguments (e.g. `length: 1.2cm` to set the unit-to-cm
+scale) are forwarded straight to `cetz.canvas`.
+
+### Why the inner `import pg: *`
+
+The `{ ... }` block after the function call is a Typst *code block*,
+which is a fresh lexical scope. The outer `#import "@preview/cetz-power:0.1.0" as pg`
+makes the package available as `pg`, but inside the code block you'd
+otherwise have to write `pg.bus(…)`, `pg.transformer(…)`, and so on.
+The line `import pg: *` re-exports every symbol into the block scope so
+you can write `bus(…)` directly. It's the same trick CeTZ users do
+inside `cetz.canvas({ import cetz.draw: * ; … })`.
 
 The next pages explain the building blocks: anchors, placement,
 styling, labels, and wiring.

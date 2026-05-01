@@ -23,8 +23,10 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
   </TabItem>
 </Tabs>
 
-The library exports five symbol families: `bus` (and `bus-frac`), `wire` /
-`elbow`, `external-grid`, `transformer`, `load`, and `pv-panel`. The
-canvas wrapper `pg.diagram(...)` installs the default style dictionary —
-**always start a diagram with it** rather than calling `cetz.canvas`
-directly.
+The library exports the symbol families `bus` (and `bus-frac`),
+`wire` / `elbow`, `external-grid`, `transformer`, `load`, `pv-panel`,
+and `machine`, plus the composition helper `multi-wire`. The canvas
+wrapper `pg.diagram(...)` installs the default style dictionary and
+handles HTML output — **always start a diagram with it** rather than
+calling `cetz.canvas` directly. See [Your first diagram](/getting-started/first-diagram/)
+for what it does and why it matters.

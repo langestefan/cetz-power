@@ -32,14 +32,33 @@ if (typeof source !== 'string') {
   );
 }
 
-// Strip the boilerplate header (the `#import` and `#set page` lines) so
-// readers see only the part that actually changes between snippets.
+// Strip only the per-file build harness — `#import` lines (the package
+// import + the `cetz` re-import some recipes do), `#set page`, and
+// `#set text`. These are identical across snippets and never
+// load-bearing for what the snippet is teaching.
+//
+// The `#pg.diagram(...) { ... }` wrapper stays. It is the canvas — it
+// installs cetz-power's default style dictionary into ctx.style and
+// (in HTML mode) wraps the result in `html.frame` so it renders as
+// inline SVG. Without it the snippet doesn't compile to anything and
+// callers couldn't copy-paste a working example. Hiding it from
+// readers obscures the package's actual entry point, so we display
+// what the source file actually contains.
+//
+// Highlighting trade-off: the Typst TextMate grammar can only
+// tokenize `#`-led expressions at statement boundaries — it has no
+// parser stack to know that the body inside `#pg.diagram({ ... })` is
+// itself code mode. So inside the wrapper, only the call name and
+// outer punctuation get distinct colors; deeper tokens render in the
+// theme's default text colour. That's a known limitation of every
+// shipped Typst grammar, not specific to this site.
 const trimmed = source
   .split('\n')
   .filter((line) => {
     const t = line.trim();
     if (t.startsWith('#import')) return false;
     if (t.startsWith('#set page')) return false;
+    if (t.startsWith('#set text')) return false;
     return true;
   })
   .join('\n')

@@ -1,6 +1,20 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+
+// Vendored Typst grammar (originally shipped by the typst-lsp VS Code
+// extension). Far richer than Shiki's bundled `typst` grammar — it
+// emits the same scopes the VS Code Typst extension does, so paired
+// with the `dark-plus` / `light-plus` themes the highlighting matches
+// what users see in their editor.
+const typstGrammar = JSON.parse(
+  readFileSync(
+    fileURLToPath(new URL('./syntaxes/typst.tmLanguage.json', import.meta.url)),
+    'utf8',
+  ),
+);
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,6 +27,18 @@ export default defineConfig({
     starlight({
       title: 'cetz-power',
       description: 'Power-system single-line diagrams in Typst, on top of CeTZ.',
+      // Starlight uses Expressive Code, which keeps its own Shiki
+      // language registry. Register the vendored Typst grammar (it
+      // overrides Shiki's bundled one) and pin the themes to VS
+      // Code's defaults so the rendered colors match what users see
+      // in their editor.
+      expressiveCode: {
+        themes: ['dark-plus', 'light-plus'],
+        shiki: {
+          langs: [{ ...typstGrammar, name: 'typst' }],
+          langAlias: { typ: 'typst' },
+        },
+      },
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/langestefan/cetz-power' },
       ],
