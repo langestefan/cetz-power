@@ -94,6 +94,8 @@ export default defineConfig({
                 { label: 'Resistor', slug: 'symbols/electrical/resistor' },
                 { label: 'Inductor', slug: 'symbols/electrical/inductor' },
                 { label: 'Diode', slug: 'symbols/electrical/diode' },
+                { label: 'Voltage source', slug: 'symbols/electrical/voltagesource' },
+                { label: 'Current source', slug: 'symbols/electrical/currentsource' },
               ],
             },
           ],

@@ -47,11 +47,13 @@
 // Loads
 #import "symbols/loads/load.typ": load
 
-// Electrical components (passive)
+// Electrical components (passive + sources)
 #import "symbols/electrical/capacitor.typ": capacitor
 #import "symbols/electrical/resistor.typ": resistor
 #import "symbols/electrical/inductor.typ": inductor
 #import "symbols/electrical/diode.typ": diode
+#import "symbols/electrical/voltagesource.typ": voltagesource
+#import "symbols/electrical/currentsource.typ": currentsource
 
 // ── Composition helpers ─────────────────────────────────────────────────
 

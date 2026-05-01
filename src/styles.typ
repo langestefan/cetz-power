@@ -136,6 +136,28 @@
     label: (anchor: "north", distance: 0.15),
   ),
 
+  // ── Voltage source ──────────────────────────────────────────────
+  // Two-node circle with internal markings. `kind: "dc"` draws +/−;
+  // "ac" / "sin" / "tri" / "saw" / "rect" draw the matching waveform.
+  voltagesource: (
+    stroke: 0.8pt + black,
+    fill: none,
+    radius: 0.3,
+    kind: "dc",
+    label: (anchor: "north", distance: 0.2),
+  ),
+
+  // ── Current source ──────────────────────────────────────────────
+  // Two-node circle with an internal arrow showing the in→out
+  // reference direction. `kind: "ac"` overlays a small sine wave.
+  currentsource: (
+    stroke: 0.8pt + black,
+    fill: none,
+    radius: 0.3,
+    kind: "dc",
+    label: (anchor: "north", distance: 0.2),
+  ),
+
   // ── External grid / infinite bus ────────────────────────────────
   grid: (
     size: 0.9,

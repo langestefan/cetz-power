@@ -1,0 +1,62 @@
+---
+title: Voltage source
+description: Circle-with-marker voltage source. DC by default; pass kind to switch to one of the AC waveform variants (sin, tri, saw, rect).
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+The circuit-theory voltage source: a circle drawn between the two
+connection points with an internal marking that picks the kind of
+source. The default DC form shows `+` and `−` markers; the AC variants
+draw the corresponding waveform inside the circle.
+
+<Snippet name="voltagesource-example" />
+
+> **When to reach for `machine` instead.** For the rotating-machine
+> notation (a circle with a single letter `V` / `G` / `M` / `A` / …
+> inside) used in single-line power-system diagrams, see
+> [Machine](/symbols/generation/machine/). `voltagesource` is the
+> circuit-theory variant — same circle, but with `+`/`−` or a
+> waveform inside instead of a letter.
+
+## Waveform variants
+
+`kind:` picks what's drawn inside the circle:
+
+<Snippet name="voltagesource-waveforms" />
+
+| `kind`           | Inside the circle                       |
+| ---------------- | --------------------------------------- |
+| `"dc"` (default) | `+` and `−` markers                     |
+| `"ac"`, `"sin"`  | Sine wave                               |
+| `"tri"`          | Triangle wave                           |
+| `"saw"`          | Sawtooth wave                           |
+| `"rect"`         | Square (rectangular) wave               |
+
+## Connecting between buses
+
+Like the [transformer](/symbols/grid/transformer/), the voltage source
+takes two endpoints and orients itself along the line between them,
+drawing its own leads to the body. Pass anchors as endpoints to wire
+it into a bus pair:
+
+<Snippet name="voltagesource-circuit" />
+
+## Parameters
+
+| Name        | Default       | Description                                                                              |
+| ----------- | ------------- | ---------------------------------------------------------------------------------------- |
+| `radius`    | `0.3`         | Body-circle radius.                                                                      |
+| `kind`      | `"dc"`        | One of `"dc"`, `"ac"` (= `"sin"`), `"sin"`, `"tri"`, `"saw"`, `"rect"`.                  |
+| `stroke`    | `0.8pt + black` | Stroke for the circle, leads, and internal marking.                                    |
+| `fill`      | `none`        | Body fill.                                                                               |
+| `label`     | `none`        | Standard label dict (default `anchor: "north"`, `distance: 0.2`).                        |
+| `angle`     | `0deg`        | Rotation (only valid for one-node placement).                                            |
+
+## Anchors
+
+| Anchor          | Position                                                                  |
+| --------------- | ------------------------------------------------------------------------- |
+| `in`, `out`     | The two endpoints (when two-node placed).                                 |
+| `center`        | Centre of the body circle.                                                |
+| `north`, `south`, `east`, `west` | Cardinal points just outside the circle.                 |
