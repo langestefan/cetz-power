@@ -3,6 +3,8 @@ title: Labels
 description: How label placement works — anchor, align, distance, the cascade.
 ---
 
+import Snippet from '../../../components/Snippet.astro';
+
 Every symbol accepts a `label:` argument. The simplest form is just
 content; the dict form lets you control where it sits.
 
@@ -19,6 +21,11 @@ transformer("t2", (0, -1), (2, -1), label: (
   size: 9pt,          // font size
 ))
 ```
+
+The four transformers below show how `anchor:`, `distance:`, and a
+non-compass anchor name change where the text lands:
+
+<Snippet name="getting-started-labels-anchors" />
 
 ## Anchor names are world-space
 
@@ -79,6 +86,13 @@ cetz.draw.content("b1.end", [HV bus], anchor: "south", padding: 0.15)
 Use #1 most of the time, #2 when you have many buses styled the same
 way, and #3 when you need fine control or want to position multiple
 labels around one bus.
+
+Setting a family-level default and overriding it per call:
+
+<Snippet name="getting-started-labels-cascade" />
+
+`b1` and `b2` inherit the family default (`anchor: "south"`); `b3`
+passes its own `anchor: "north"`, which wins.
 
 ## `align:` controls how the text sits at the anchor point
 

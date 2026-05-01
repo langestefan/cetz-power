@@ -16,3 +16,11 @@ Wires aren't full "symbols" — they have no label and no style family of
 their own; their stroke follows the global `cetz-power.wire.stroke`. If
 you want a label on a wire, attach it to the symbol on either end
 instead.
+
+## Restyling every wire at once
+
+Set `cetz-power.wire.stroke` once and every `wire` and `elbow` in the
+canvas picks it up. Symbol bodies keep their own stroke — only the
+wires change.
+
+<Snippet name="getting-started-wires-stroke" />

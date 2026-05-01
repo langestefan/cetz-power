@@ -3,6 +3,8 @@ title: Styling
 description: Three layers of style overrides — global, family, per-call.
 ---
 
+import Snippet from '../../../components/Snippet.astro';
+
 Every style can be overridden at three levels. From lowest to highest
 precedence:
 
@@ -12,17 +14,26 @@ precedence:
 cetz.draw.set-style(cetz-power: (stroke: 1pt + blue))
 ```
 
+<Snippet name="getting-started-styling-global" />
+
 **Family** — change every transformer:
 
 ```typst
 cetz.draw.set-style(cetz-power: (transformer: (radius: 0.5)))
 ```
 
+<Snippet name="getting-started-styling-family" />
+
+The bus on the right is unaffected — family overrides are scoped to
+the named family.
+
 **Per call** — pass as a named argument:
 
 ```typst
 transformer("t1", (0, 0), (2, 0), radius: 0.5, stroke: red)
 ```
+
+<Snippet name="getting-started-styling-per-call" />
 
 Per-call overrides win, family defaults next, global defaults last. The
 defaults themselves live in `src/styles.typ`.
