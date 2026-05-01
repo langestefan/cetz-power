@@ -37,27 +37,27 @@
   let lead = 0.15
   let bump-r = 0.10
   let l-len = lead + 4 * 2 * bump-r        // 0.95
-  let la-x = -1.7
+  let la-x = -1.4
   let lb-x = -1.4
-  let lc-x = -1.1
+  let lc-x = -1.4
 
   inductor("La", (la-x, y-a), angle: -90deg,
-    lead-in: lead, lead-out: 0,
+    lead-in: lead, lead-out: lead,
     bumps: 4, bump-radius: bump-r, stroke: 1pt + r)
   inductor("Lb", (lb-x, y-b), angle: -90deg,
-    lead-in: lead, lead-out: 0,
+    lead-in: lead, lead-out: lead,
     bumps: 4, bump-radius: bump-r, stroke: 1pt + r)
   inductor("Lc", (lc-x, y-c), angle: -90deg,
-    lead-in: lead, lead-out: 0,
+    lead-in: lead, lead-out: lead,
     bumps: 4, bump-radius: bump-r, stroke: 1pt + r)
 
   // Source enclosure — sized to wrap the diagonal layout with a
   // small margin on each side.
-  cetz.draw.rect(
-    (la-x - 0.15, 0.45),
-    (lc-x + l-len + 0.15, 2.75),
-    stroke: 0.8pt + black,
-  )
+  // cetz.draw.rect(
+  //   (la-x - 0.15, 0.45),
+  //   (lc-x + l-len + 0.15, 2.75),
+  //   stroke: 0.8pt + black,
+  // )
 
   // Diagonal neutral connection — one continuous straight line from
   // above La down to below Lc, passing through all three inductor
@@ -76,10 +76,20 @@
     lc-x - extend * slope-dx-per-dy,
     y-c - extend,
   )
-  wire(diag-top, "La.in", stroke: 0.8pt + black)
-  wire("La.in",  "Lb.in", stroke: 0.8pt + black)
-  wire("Lb.in",  "Lc.in", stroke: 0.8pt + black)
-  wire("Lc.in",  diag-bot, stroke: 0.8pt + black)
+  // wire(diag-top, "La.in", stroke: 0.8pt + black)
+  wire("La.in",  (rel: (0, -0.2)), (rel: (0.0, 0.2), to: "Lb.out"), "Lb.out", stroke: 0.8pt + black)
+  wire("Lb.in",  (rel: (0, -0.2)), (rel: (0.0, 0.2), to: "Lc.out"), "Lc.out", stroke: 0.8pt + black)
+  // Polyline: Lc.in → 0.2 left → another 0.2 left.
+  // Each `(rel: <vec>)` (no `to:`) is an offset from the previous
+  // point in the list, so this is a turtle-style chain.
+  wire(
+    "Lc.in",
+    (rel: (-0.2, 0)),
+    (rel: (0, 1.8)),
+    (rel: (1.4, 0)),
+    (rel: (0, -0.2)),
+    stroke: 0.8pt + black,
+  )
 
   // ── Phase wires (black) extending right out of the enclosure ──
   // Connect from each inductor's `out` (right side, end of the bumps
@@ -155,7 +165,7 @@
     stroke: 1.5pt + r, arrow-color: r,
     label: (
       content: text(size: 7pt, fill: r)[$I_(k t)$],
-      anchor: "east", distance: 0.15,
+      anchor: "south-east", distance: 0.15,
     ))
 
   // ── Ground rail (green) and ground reference symbol ──
@@ -163,5 +173,5 @@
     stroke: 2pt + g)
   // `lead: 0.08` pushes the earth lines just below the rail with a
   // visible stub connecting them.
-  ground("earth", (2.5, ground-y), kind: "earth", lead: 0.08)
+  ground("earth", (2.5, ground-y), kind: "earth", lead: 0.18)
 })

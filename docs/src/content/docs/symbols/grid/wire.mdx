@@ -16,6 +16,47 @@ drop a tap from a bus to a symbol below it:
 
 <Snippet name="wire-example" />
 
+## Polylines — three or more points
+
+`wire` is variadic — pass any number of positional coordinates and
+each consecutive pair is joined by a straight segment. Coordinates
+can be anchor names, absolute tuples, or relative offsets (next
+section), in any combination:
+
+<Snippet name="wire-polyline" />
+
+## Relative coordinates
+
+Any positional argument can be `(rel: <vec>)`. CeTZ interprets that
+as **"offset from the previous point in the list"** — each step is
+relative to where the wire is currently at, not to any named anchor.
+That makes routing a small jog or stub off a known anchor concise,
+without having to compute every absolute position by hand:
+
+<Snippet name="wire-relative" />
+
+If you'd rather offset from a *specific anchor* (instead of from
+"wherever the wire is right now"), use the longer form
+`(rel: <vec>, to: <coord>)`. Both forms can appear in the same wire
+— useful when most of the routing is sequential ("step from where I
+am now") but one waypoint needs to be pinned to a known anchor with
+a fixed offset:
+
+<Snippet name="wire-rel-to-anchor" />
+
+The third coordinate in that wire — `(rel: (0, 0.3), to: "b2.mid")`
+— sits 0.3 above `b2.mid` regardless of where the previous step
+ended up. The `to:` field re-anchors the relative offset.
+
+## Mixing the forms
+
+Anchor names, absolute coordinates, and relative offsets can all sit
+in the same `wire` call. Useful when one end of the wire is anchored
+to a named symbol and the other has to bend through a couple of
+explicit waypoints to reach a second anchor:
+
+<Snippet name="wire-mixed" />
+
 ## `elbow(a, b, corner: "h")`
 
 L-shaped routing. `corner: "h"` goes horizontally first then vertically;
@@ -25,8 +66,25 @@ L-shaped routing. `corner: "h"` goes horizontally first then vertically;
 
 ## Stroke override
 
-Both accept an optional `stroke:` argument to override the family default:
+Both accept an optional `stroke:` argument to override the family
+default. For `wire`, pass it as a named argument **after** all the
+positional coordinates — the polyline form takes any number of
+positionals, so the named arg has to come at the end:
 
 ```typst
 wire(a, b, stroke: 2pt + red)
+wire("a.in", (rel: (0, -1)), "b.in", stroke: 2pt + red)
+elbow(a, b, corner: "h", stroke: 2pt + red)
 ```
+
+<Snippet name="wire-stroke" />
+
+To restyle every wire in the canvas at once, set the family default
+instead of overriding per call:
+
+```typst
+cetz.draw.set-style(cetz-power: (wire: (stroke: 1.4pt + orange)))
+```
+
+See the [Wires-and-elbows getting-started page](/getting-started/wires/)
+for a side-by-side example of the family-level override.
