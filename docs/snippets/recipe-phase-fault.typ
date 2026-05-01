@@ -29,20 +29,27 @@
   // through all three left ends then forms the diagonal neutral
   // connection from the top-left of La down to the bottom-right of
   // Lc — one continuous line, no convergence point and no crossing.
-  let l-len = 0.8                  // inductor length (4 × 2 × 0.10)
+  //
+  // `lead-in: 0.15` gives each coil a short horizontal stub on its
+  // left side, so the diagonal joins a clean lead instead of meeting
+  // the first bump head-on (matches the source figure where the
+  // bumps start a short distance right of where the diagonal lands).
+  let lead = 0.15
+  let bump-r = 0.10
+  let l-len = lead + 4 * 2 * bump-r        // 0.95
   let la-x = -1.7
   let lb-x = -1.4
   let lc-x = -1.1
 
   inductor("La", (la-x, y-a), angle: -90deg,
-    lead-in: 0, lead-out: 0,
-    bumps: 4, bump-radius: 0.10, stroke: 1pt + r)
+    lead-in: lead, lead-out: 0,
+    bumps: 4, bump-radius: bump-r, stroke: 1pt + r)
   inductor("Lb", (lb-x, y-b), angle: -90deg,
-    lead-in: 0, lead-out: 0,
-    bumps: 4, bump-radius: 0.10, stroke: 1pt + r)
+    lead-in: lead, lead-out: 0,
+    bumps: 4, bump-radius: bump-r, stroke: 1pt + r)
   inductor("Lc", (lc-x, y-c), angle: -90deg,
-    lead-in: 0, lead-out: 0,
-    bumps: 4, bump-radius: 0.10, stroke: 1pt + r)
+    lead-in: lead, lead-out: 0,
+    bumps: 4, bump-radius: bump-r, stroke: 1pt + r)
 
   // Source enclosure — sized to wrap the diagonal layout with a
   // small margin on each side.
@@ -52,14 +59,32 @@
     stroke: 0.8pt + black,
   )
 
-  // Diagonal neutral connection — drawn as two segments through
-  // Lb.in so the middle phase is electrically joined at the kink.
-  // La.in, Lb.in, Lc.in are colinear by construction, so the two
-  // segments render as one continuous straight diagonal.
-  wire("La.in", "Lb.in", stroke: 1pt + r)
-  wire("Lb.in", "Lc.in", stroke: 1pt + r)
+  // Diagonal neutral connection — one continuous straight line from
+  // above La down to below Lc, passing through all three inductor
+  // `in` points. La.in / Lb.in / Lc.in are colinear by construction
+  // (each inductor is shifted right by the same step), so the four
+  // wire segments below render as one straight line. The two outer
+  // segments extend the diagonal past La.in and Lc.in so it reads
+  // as a prominent left-edge feature.
+  let slope-dx-per-dy = (lc-x - la-x) / (y-c - y-a)  // -0.375
+  let extend = 0.30
+  let diag-top = (
+    la-x + extend * slope-dx-per-dy,
+    y-a + extend,
+  )
+  let diag-bot = (
+    lc-x - extend * slope-dx-per-dy,
+    y-c - extend,
+  )
+  wire(diag-top, "La.in", stroke: 0.8pt + black)
+  wire("La.in",  "Lb.in", stroke: 0.8pt + black)
+  wire("Lb.in",  "Lc.in", stroke: 0.8pt + black)
+  wire("Lc.in",  diag-bot, stroke: 0.8pt + black)
 
   // ── Phase wires (black) extending right out of the enclosure ──
+  // Connect from each inductor's `out` (right side, end of the bumps
+  // — the symbol sets `out` there even when lead-out: 0) to the
+  // phase letter at the right edge.
   wire("La.out", (phase-end, y-a))
   wire("Lb.out", (phase-end, y-b))
   wire("Lc.out", (phase-end, y-c))

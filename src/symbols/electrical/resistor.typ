@@ -62,12 +62,13 @@
     cetz.draw.anchor("center", (0, mid-y))
     cetz.draw.anchor("east", (w / 2, mid-y))
     cetz.draw.anchor("west", (-w / 2, mid-y))
-    if lo > 0 {
-      cetz.draw.anchor("out", (0, out-y))
-      cetz.draw.anchor("north", (0, out-y))
-    } else {
-      cetz.draw.anchor("north", (0, top-y))
-    }
+    // `out` always points at the body's far end (the upper lead when
+    // lead-out > 0, otherwise the top edge of the body). Override the
+    // default `out` set by the symbol() wrapper so it doesn't silently
+    // collide with `in` when the symbol is in single-pole form.
+    let north-y = if lo > 0 { out-y } else { top-y }
+    cetz.draw.anchor("out", (0, north-y))
+    cetz.draw.anchor("north", (0, north-y))
   }
 
   symbol("resistor", name, ..positions, ..overrides, draw: draw)
