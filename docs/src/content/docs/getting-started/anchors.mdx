@@ -3,6 +3,8 @@ title: Anchors
 description: Named connection points exposed by every symbol.
 ---
 
+import Snippet from '../../../components/Snippet.astro';
+
 Every symbol exposes named anchors you can use as coordinates in
 subsequent calls. You refer to an anchor with dotted syntax:
 `"t1.primary"`, `"b1.tap2"`.
@@ -14,8 +16,42 @@ subsequent calls. You refer to an anchor with dotted syntax:
 | `external-grid`    | `in` (= connection point), `north`, `south`, `east`, `west`              |
 | `load`             | `in`, `tip`, `north`, `south`, `east`, `west`, `label-east`, `label-west`|
 | `pv-panel`         | `in`, `north`, `south`, `east`, `west`, `center`                         |
+| `machine`          | `center`, `north`, `south`, `east`, `west`, plus `north-east`, `south-east`, `south-west`, `north-west` (all on the circle) |
 
-Buses also support `bus-frac(name, fraction)` — a coordinate (not an
-anchor name) that lies a given fraction of the way from `start` to
-`end`. Useful for tap points you didn't pre-declare. See the
-[Bus](/symbols/bus/) reference for examples.
+Two-node symbols (`transformer`) always expose `in` and `out` — they
+alias the two endpoints. One-node symbols set `in` to the placement
+point so it doubles as the connection point.
+
+## Tap anchors on a bus
+
+Pass `taps: N` to declare `N` evenly-spaced anchors named `tap1`..`tapN`.
+You then address them by name in any subsequent call:
+
+<Snippet name="getting-started-anchors-bus-taps" />
+
+## Ad-hoc points with `bus-frac`
+
+When you need a connection point you didn't pre-declare, use
+`bus-frac(name, fraction)`. It returns a CeTZ lerp coordinate (not an
+anchor name), so the position is computed lazily from the bus's
+`start` and `end` — moving or rotating the bus moves the dependent
+loads with it.
+
+<Snippet name="getting-started-anchors-bus-frac" />
+
+`taps:` is the right call when the layout is regular (a bus with `N`
+identical feeders). `bus-frac` is the right call for irregular
+positions or when the count isn't fixed up front.
+
+## Symbol-specific anchors
+
+Many symbols expose names that are more meaningful than `in`/`out` or
+the cardinals. The transformer's `primary` and `secondary` are
+self-documenting wire endpoints; the machine's eight compass anchors
+let leads enter from any side without manual coordinate math.
+
+<Snippet name="getting-started-anchors-symbol-specific" />
+
+Any anchor — symbol-specific or cardinal — can be a wire endpoint, a
+bus position, or a placement point for the next symbol. See the
+[Bus](/symbols/bus/) reference for more on tap and `bus-frac` usage.
