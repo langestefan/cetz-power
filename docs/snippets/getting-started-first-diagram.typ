@@ -1,8 +1,7 @@
-#import "/src/lib.typ" as pg
+#import "/src/lib.typ": *
 #set page(margin: 4pt, width: auto, height: auto)
 
-#pg.diagram(length: 1.2cm, {
-  import pg: *
+#diagram(length: 1.2cm, {
   external-grid("g", (0, 1.3),
     label: (content: [132 kV], anchor: "east", distance: 0.2))
   wire("g.in", (0, 0.7))

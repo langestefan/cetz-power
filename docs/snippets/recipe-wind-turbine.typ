@@ -1,12 +1,9 @@
-#import "/src/lib.typ" as pg
-#import "@preview/cetz:0.4.2"
+#import "/src/lib.typ": *
 #set page(margin: 6pt, width: auto, height: auto)
 #set text(size: 7pt)
 
 // Figuur 8.25: Model van een vast toerental wind turbine met een asynchrone generator
-#pg.diagram(length: 1.2cm, {
-  import pg: *
-
+#diagram(length: 1.2cm, {
   machine("M1", (0, 0), "V")
 
   // Add the first bus

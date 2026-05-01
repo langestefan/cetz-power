@@ -1,8 +1,7 @@
-#import "/src/lib.typ" as pg
+#import "/src/lib.typ": *
 #set page(margin: 4pt, width: auto, height: auto)
 
-#pg.diagram(length: 1.2cm, {
-  import pg: *
+#diagram(length: 1.2cm, {
   // Two-winding transformer exposes `primary` and `secondary`
   // (aliases for `in` and `out`).
   transformer("t1", (0, 0), (2.5, 0))

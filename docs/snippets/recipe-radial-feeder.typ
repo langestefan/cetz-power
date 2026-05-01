@@ -1,9 +1,7 @@
-#import "/src/lib.typ" as pg
+#import "/src/lib.typ": *
 #set page(margin: 4pt, width: auto, height: auto)
 
-#pg.diagram(length: 1.2cm, {
-  import pg: *
-
+#diagram(length: 1.2cm, {
   // Three bus "nodes", evenly spaced.
   bus("b1", (1.7, 0), length: 1.4, angle: 90deg, label: [1])
   bus("b2", (4.6, 0), length: 1.4, angle: 90deg, label: [2])

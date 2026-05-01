@@ -1,8 +1,7 @@
-#import "/src/lib.typ" as pg
+#import "/src/lib.typ": *
 #set page(margin: 4pt, width: auto, height: auto)
 
-#pg.diagram(length: 1.2cm, {
-  import pg: *
+#diagram(length: 1.2cm, {
   machine("a", (0, 0), "A",
     label: (content: align(center)[Asynchronous \ generator],
             anchor: "south", distance: 0.35))

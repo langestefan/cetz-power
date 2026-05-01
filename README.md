@@ -7,11 +7,9 @@ A small package that gives you the symbols you actually need for drawing one-lin
 ## Quick example
 
 ```typst
-#import "@preview/cetz-power:0.1.0" as pg
+#import "@preview/cetz-power:0.1.0": *
 
-#pg.diagram({
-  import pg: *
-
+#diagram({
   // A horizontal bus with 5 tap points
   bus("b1", (0, 0), length: 5, taps: 5)
 
@@ -31,14 +29,16 @@ A small package that gives you the symbols you actually need for drawing one-lin
 Via Typst Universe (recommended once published):
 
 ```typst
-#import "@preview/cetz-power:0.1.0" as pg
+#import "@preview/cetz-power:0.1.0": *
 ```
 
 Or vendor locally by cloning the repo and importing from path:
 
 ```typst
-#import "path/to/cetz-power/src/lib.typ" as pg
+#import "path/to/cetz-power/src/lib.typ": *
 ```
+
+The wildcard form (`: *`) puts every symbol — `diagram`, `bus`, `transformer`, `wire`, … — directly in scope. If you'd rather keep them out of your top-level namespace, use `as pg` and write `pg.diagram(...)`, `pg.bus(...)` instead.
 
 ## What's in the box
 

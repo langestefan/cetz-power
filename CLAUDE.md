@@ -44,11 +44,26 @@ When adding a new symbol, follow the existing pattern: `#import "/src/core.typ":
 
 ### Canvas wrapper
 
-`pg.diagram(body)` (in `src/canvas.typ`) is the user-facing entry point. It calls `cetz.canvas` and inserts the entire `default` style dict from `styles.typ` under `ctx.style.cetz-power`. **Always start a diagram with `pg.diagram { ... }`** — calling raw `cetz.canvas` would leave `ctx.style.cetz-power` unset and every symbol would fall back to hard-coded literal defaults from its `draw` closure.
+`diagram(body)` (in `src/canvas.typ`) is the user-facing entry point. It calls `cetz.canvas` and inserts the entire `default` style dict from `styles.typ` under `ctx.style.cetz-power`. **Always start a diagram with `diagram { ... }`** — calling raw `cetz.canvas` would leave `ctx.style.cetz-power` unset and every symbol would fall back to hard-coded literal defaults from its `draw` closure. In HTML compilation mode (`--features html --input html=true`) the wrapper additionally wraps the canvas in `html.frame(...)` so it renders as inline SVG; CeTZ's `layout()`-based sizing produces nothing in HTML mode otherwise. PDF builds are unaffected.
+
+### Import convention
+
+The canonical user-facing import is the wildcard form:
+
+```typst
+#import "@preview/cetz-power:0.1.0": *
+
+#diagram({
+  bus("b1", (0, 0))
+  transformer("t", "b1.mid", (3, 0))
+})
+```
+
+The wildcard puts every symbol — `diagram`, `bus`, `bus-frac`, `wire`, `elbow`, `external-grid`, `transformer`, `load`, `pv-panel`, `machine`, `multi-wire`, plus the re-exported `cetz` module — directly in scope. The repo's docs, README, examples, and tests all follow this convention. The namespaced form `#import "..." as pg` + `pg.diagram(...)` still works (and is documented as an alternative for users who want to keep cetz-power's names out of their global namespace), but new examples should use the wildcard form.
 
 ### Tests
 
-`tests/harness.typ` exports `test(body)` which sets the page to auto-size with a 4pt margin, inserts a weak pagebreak, and wraps `body` in `pg.diagram`. Each test file is a sequence of `#test({ ... })` calls; they all compile to a single multi-page SVG. The convention is: short, declarative scenes covering each variant of the symbol under test. There is no test framework — "compiles cleanly" is the assertion.
+`tests/harness.typ` exports `test(body)` which sets the page to auto-size with a 4pt margin, inserts a weak pagebreak, and wraps `body` in `diagram`. Each test file is a sequence of `#test({ ... })` calls; they all compile to a single multi-page SVG. The convention is: short, declarative scenes covering each variant of the symbol under test. There is no test framework — "compiles cleanly" is the assertion.
 
 ## Style override pattern
 

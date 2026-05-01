@@ -11,13 +11,11 @@
 //
 //     node tsc.js examples/showcase.typ showcase.pdf --workspace=.
 
-#import "/src/lib.typ" as pg
+#import "/src/lib.typ": *
 
 #set page(margin: 14pt, width: auto, height: auto)
 
-#pg.diagram({
-  import pg: *
-
+#diagram({
   // ── HV side ─────────────────────────────────────────────────────
   external-grid("grid", (0, 0), label: [132 kV, 500 MVA])
   wire("grid.default", (0, -1.2))

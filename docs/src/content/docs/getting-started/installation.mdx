@@ -7,26 +7,45 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 <Tabs>
   <TabItem label="Typst Universe">
-    Once published, import the package by its versioned spec:
+    Once published, import everything from the package by its versioned spec:
 
     ```typst
-    #import "@preview/cetz-power:0.1.0" as pg
+    #import "@preview/cetz-power:0.1.0": *
     ```
   </TabItem>
   <TabItem label="Local checkout">
-    For local development, clone the repository and import directly from the
-    path:
+    For local development, clone the repository and import directly from
+    the path:
 
     ```typst
-    #import "path/to/cetz-power/src/lib.typ" as pg
+    #import "path/to/cetz-power/src/lib.typ": *
     ```
   </TabItem>
 </Tabs>
 
-The library exports the symbol families `bus` (and `bus-frac`),
-`wire` / `elbow`, `external-grid`, `transformer`, `load`, `pv-panel`,
-and `machine`, plus the composition helper `multi-wire`. The canvas
-wrapper `pg.diagram(...)` installs the default style dictionary and
-handles HTML output — **always start a diagram with it** rather than
-calling `cetz.canvas` directly. See [Your first diagram](/getting-started/first-diagram/)
-for what it does and why it matters.
+The wildcard form (`: *`) puts every symbol — `diagram`, `bus`,
+`bus-frac`, `wire`, `elbow`, `external-grid`, `transformer`, `load`,
+`pv-panel`, `machine`, the `multi-wire` helper, and the re-exported
+`cetz` module — directly in scope. You can then call them by name
+without a prefix:
+
+```typst
+#import "@preview/cetz-power:0.1.0": *
+
+#diagram({
+  bus("b1", (0, 0))
+  transformer("t", "b1.mid", (3, 0))
+})
+```
+
+If you'd rather keep cetz-power's symbols out of the top-level namespace
+(for example, to avoid collisions with your own `load` or `bus`), use
+the namespaced form `#import "@preview/cetz-power:0.1.0" as pg` and then
+write `pg.diagram(...)`, `pg.bus(...)`, etc. throughout. You'll need
+`import pg: *` once at the top of every `pg.diagram({ ... })` body if
+you want to drop the `pg.` prefix inside the canvas — see
+[Your first diagram](/getting-started/first-diagram/).
+
+The canvas wrapper `diagram(...)` installs the default style dictionary
+and handles HTML output — **always start a diagram with it** rather than
+calling `cetz.canvas` directly.

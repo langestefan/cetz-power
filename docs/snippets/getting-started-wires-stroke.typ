@@ -1,9 +1,7 @@
-#import "/src/lib.typ" as pg
-#import "@preview/cetz:0.4.2"
+#import "/src/lib.typ": *
 #set page(margin: 4pt, width: auto, height: auto)
 
-#pg.diagram(length: 1.2cm, {
-  import pg: *
+#diagram(length: 1.2cm, {
   // Wires read only `cetz-power.wire.stroke` — restyle every wire in
   // one place. Symbol bodies keep their own stroke.
   cetz.draw.set-style(cetz-power: (wire: (stroke: 1.4pt + orange)))

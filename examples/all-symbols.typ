@@ -1,14 +1,13 @@
 // Exercises one variant of every symbol family. If anything's syntactically
 // broken this will catch it — used during development to sanity-check.
 
-#import "/src/lib.typ" as pg
+#import "/src/lib.typ": *
 
 #set page(margin: 10pt, width: auto, height: auto)
 
 = Generators
 
-#pg.diagram({
-  import pg: *
+#diagram({
   ac-generator("g1", (0, 0))
   dc-generator("g2", (1.5, 0))
   sync-generator("g3", (3, 0))
@@ -18,8 +17,7 @@
 
 = Transformers
 
-#pg.diagram({
-  import pg: *
+#diagram({
   transformer("t1", (0, 0), (1.5, 0))
   three-winding-transformer("t2", (3.2, 0))
   autotransformer("t3", (5, 0), (6.5, 0))
@@ -27,8 +25,7 @@
 
 = Breakers, disconnectors, switches
 
-#pg.diagram({
-  import pg: *
+#diagram({
   circuit-breaker("cb1", (0, 0), (1.5, 0))
   circuit-breaker("cb2", (2, 0), (3.5, 0), closed: true)
   disconnector("d1", (4, 0), (5.5, 0))
@@ -39,8 +36,7 @@
 
 = Loads, grid, renewables
 
-#pg.diagram({
-  import pg: *
+#diagram({
   load("l1", (0, 0))
   resistive-load("l2", (1.5, 0))
   external-grid("grid1", (3, 0))
@@ -52,8 +48,7 @@
 
 = Storage, converters, measurement
 
-#pg.diagram({
-  import pg: *
+#diagram({
   battery("b1", (0, 0))
   bess("bess1", (1.5, 0))
   rectifier("r1", (3.5, 0), (5, 0))
@@ -66,8 +61,7 @@
 
 = Phase ticks on a wire
 
-#pg.diagram({
-  import pg: *
+#diagram({
   bus("b1", (0, 0), taps: 2)
   bus("b2", (5, 0), taps: 2)
   wire("b1.tap2", "b2.tap1")

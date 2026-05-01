@@ -1,8 +1,7 @@
-#import "/src/lib.typ" as pg
+#import "/src/lib.typ": *
 #set page(margin: 4pt, width: auto, height: auto)
 
-#pg.diagram(length: 1.6cm, {
-  import pg: *
+#diagram(length: 1.6cm, {
   machine("m", (0, 0), "A",
     label: (content: [NE tag], anchor: "north-east", distance: 0.05))
   // Add more corner labels with extra cetz.draw.content calls if you

@@ -1,9 +1,7 @@
-#import "/src/lib.typ" as pg
-#import "@preview/cetz:0.4.2"
+#import "/src/lib.typ": *
 #set page(margin: 4pt, width: auto, height: auto)
 
-#pg.diagram(length: 1.2cm, {
-  import pg: *
+#diagram(length: 1.2cm, {
   machine("default", (0, 0), "V")
   machine("big", (1.5, 0), "V", radius: 0.45, letter-size: 14pt)
   machine("filled", (3, 0), "G",

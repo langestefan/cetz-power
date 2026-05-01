@@ -4,9 +4,8 @@
 // buses, wires, the external-grid symbol, two-winding transformers, and
 // the generic load arrow.
 //
-//     #import "@preview/cetz-power:0.1.0" as pg
-//     #pg.diagram({
-//       import pg: *
+//     #import "@preview/cetz-power:0.1.0": *
+//     #diagram({
 //       bus("b1", (0, 0), length: 1.4, angle: 90deg, label: [1])
 //       external-grid("g", (-1, 0), angle: 90deg)
 //       wire("g.in", "b1.mid")

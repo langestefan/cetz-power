@@ -1,9 +1,8 @@
 #import "/tests/harness.typ": test
-#import "/src/lib.typ" as pg
+#import "/src/lib.typ": *
 
 // Simple substation: external grid → transformer → LV bus → three loads.
 #test({
-  import pg: *
 
   external-grid("eg", (0, 0), label: [132 kV \ 500 MVA])
   wire("eg.in", (0, -1.5))
@@ -18,7 +17,6 @@
 // Radial feeder: three vertical buses bridged by a transformer + a wire,
 // load tapped off bus 3 via an elbow.
 #test({
-  import pg: *
 
   bus("b1", (1.7, 0), length: 1.4, angle: 90deg, label: [1])
   bus("b2", (4.6, 0), length: 1.4, angle: 90deg, label: [2])

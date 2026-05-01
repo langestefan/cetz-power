@@ -1,8 +1,7 @@
-#import "/src/lib.typ" as pg
+#import "/src/lib.typ": *
 #set page(margin: 4pt, width: auto, height: auto)
 
-#pg.diagram(length: 1.2cm, {
-  import pg: *
+#diagram(length: 1.2cm, {
   // Default — uses the family default position (north).
   transformer("t1", (0, 0), (2, 0), label: [default])
 
