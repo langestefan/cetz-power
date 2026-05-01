@@ -10,8 +10,19 @@
   align-items: center;
 }
 
+.snippet__code {
+  /* CSS Grid items default to min-width: auto, which sizes the cell to
+   * its content. Without this, snippets with long lines (e.g. the
+   * wind-turbine recipe) blow the cell wider than the article column
+   * instead of letting Expressive Code's built-in horizontal scrollbar
+   * activate. min-width: 0 lets the cell respect 1fr and overflow-x
+   * inside the <pre> takes over. */
+  min-width: 0;
+}
+
 .snippet__code > * {
   margin: 0;
+  max-width: 100%;
 }
 
 .snippet__diagram {
