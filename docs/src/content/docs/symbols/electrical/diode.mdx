@@ -1,0 +1,58 @@
+---
+title: Diode
+description: Triangle-and-bar diode pointing from anode to cathode. Two-pole by default; rotate to set the conduction direction.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+An equilateral triangle pointing in the conventional current
+direction (anode → cathode), with a perpendicular bar at the
+cathode. Default form has both leads, so the diode sits inline like
+any other two-terminal element.
+
+<Snippet name="diode-example" />
+
+## Conduction direction
+
+The triangle always points from `in` toward `out` in the symbol's
+local frame. Rotating the symbol therefore picks which world
+direction current flows in:
+
+<Snippet name="diode-direction" />
+
+For an inline diode in a circuit (e.g. a half-wave rectifier), use
+`angle: -90deg` to lay it horizontal and connect `out` onward.
+
+## Single-pole form
+
+Pass `lead-out: 0` to drop the upper lead and the `out` anchor —
+useful when the diode terminates against a busbar without an
+explicit lead between them.
+
+## Parameters
+
+| Name        | Default        | Description                                                                  |
+| ----------- | -------------- | ---------------------------------------------------------------------------- |
+| `width`     | `0.4`          | Width of the triangle's base.                                                |
+| `height`    | `0.4`          | Height of the triangle from base to tip.                                     |
+| `bar-width` | (= `width`)    | Width of the cathode bar at the tip.                                         |
+| `lead-in`   | `0.15`         | Length of the lead from `in` up to the triangle base.                        |
+| `lead-out`  | `0.15`         | Length of the lead from the cathode bar to `out`. `0` drops it.              |
+| `stroke`    | `0.8pt + black`| Stroke for leads, triangle outline, and cathode bar.                         |
+| `fill`      | `none`         | Triangle fill. Pass `black` for the filled "engineering" form.               |
+| `label`     | `none`         | Standard label dict (default `anchor: "north"`, `distance: 0.15`).           |
+| `angle`     | `0deg`         | Rotation around the connection point — picks the conduction direction.       |
+
+## Anchors
+
+| Anchor                     | Position                                                                  |
+| -------------------------- | ------------------------------------------------------------------------- |
+| `in` / `default` / `south` | Anode side — the connection point.                                        |
+| `out`                      | Top of the upper lead. **Only present when `lead-out > 0`.**              |
+| `north`                    | Top of the upper lead, or the cathode bar if `lead-out: 0`.               |
+| `east`, `west`             | Right / left ends of the triangle base, at the anode side.                |
+| `center`                   | Centre of the triangle.                                                   |
+
+## Styling
+
+<Snippet name="diode-styling" />

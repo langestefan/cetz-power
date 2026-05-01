@@ -91,6 +91,9 @@ export default defineConfig({
               items: [
                 { label: 'Overview', slug: 'symbols/electrical' },
                 { label: 'Capacitor', slug: 'symbols/electrical/capacitor' },
+                { label: 'Resistor', slug: 'symbols/electrical/resistor' },
+                { label: 'Inductor', slug: 'symbols/electrical/inductor' },
+                { label: 'Diode', slug: 'symbols/electrical/diode' },
               ],
             },
           ],

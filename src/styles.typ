@@ -96,6 +96,46 @@
     label: (anchor: "north", distance: 0.15),
   ),
 
+  // ── Resistor ─────────────────────────────────────────────────────
+  // IEC rectangular form. Symmetric two-pole by default; override
+  // `lead-out: 0` for the single-pole / shunt form.
+  resistor: (
+    stroke: 0.8pt + black,
+    fill: none,
+    width: 0.3,
+    length: 0.7,
+    "lead-in": 0.2,
+    "lead-out": 0.2,
+    label: (anchor: "north", distance: 0.15),
+  ),
+
+  // ── Inductor ─────────────────────────────────────────────────────
+  // IEEE looped form: a chain of semicircular bumps. Symmetric two-
+  // pole by default; override `lead-out: 0` for the single-pole form.
+  inductor: (
+    stroke: 0.8pt + black,
+    bumps: 4,
+    "bump-radius": 0.1,
+    "lead-in": 0.2,
+    "lead-out": 0.2,
+    label: (anchor: "north", distance: 0.15),
+  ),
+
+  // ── Diode ────────────────────────────────────────────────────────
+  // Triangle pointing in current direction with a perpendicular bar
+  // at the cathode. Symmetric two-pole by default; default fill is
+  // `none` for the hollow form (pass `fill: black` for the filled
+  // textbook version).
+  diode: (
+    stroke: 0.8pt + black,
+    fill: none,
+    width: 0.4,
+    height: 0.4,
+    "lead-in": 0.15,
+    "lead-out": 0.15,
+    label: (anchor: "north", distance: 0.15),
+  ),
+
   // ── External grid / infinite bus ────────────────────────────────
   grid: (
     size: 0.9,

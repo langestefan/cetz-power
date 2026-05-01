@@ -1,0 +1,55 @@
+---
+title: Resistor
+description: IEC rectangular resistor with a lead at each end. Two-pole by default; pass lead-out 0 for the single-pole shunt form.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+A rectangle with a lead at each end — the IEC convention used in
+European single-line diagrams. The IEEE zigzag is sometimes preferred
+in North American schematics; this package ships the rectangle by
+default because it dominates power-system SLDs.
+
+<Snippet name="resistor-example" />
+
+## Series resistor
+
+With both leads (the default), the symbol exposes both `in` and `out`
+and sits naturally inline. Combine with `angle: -90deg` to lay it
+flat between two horizontally-separated buses:
+
+<Snippet name="resistor-series" />
+
+## Single-pole / shunt form
+
+Pass `lead-out: 0` to drop the upper lead (and the `out` anchor) when
+the resistor terminates at a connection point — for example a
+neutral-grounding resistor on a star-point wye, drawn without
+explicitly showing the ground return.
+
+## Parameters
+
+| Name        | Default       | Description                                                                                  |
+| ----------- | ------------- | -------------------------------------------------------------------------------------------- |
+| `width`     | `0.3`         | Width of the rectangle (perpendicular to the leads).                                         |
+| `length`    | `0.7`         | Length of the rectangle along the lead axis.                                                 |
+| `lead-in`   | `0.2`         | Length of the lead from `in` up to the body.                                                 |
+| `lead-out`  | `0.2`         | Length of the lead above the body. Set to `0` for the single-pole form (drops the `out` anchor). |
+| `stroke`    | `0.8pt + black` | Stroke for both leads and the body outline.                                                |
+| `fill`      | `none`        | Body fill.                                                                                   |
+| `label`     | `none`        | Standard label dict (default `anchor: "north"`, `distance: 0.15`).                           |
+| `angle`     | `0deg`        | Rotation around the connection point.                                                        |
+
+## Anchors
+
+| Anchor                     | Position                                                              |
+| -------------------------- | --------------------------------------------------------------------- |
+| `in` / `default` / `south` | The connection point — where you placed the symbol.                   |
+| `out`                      | Top of the upper lead. **Only present when `lead-out > 0`.**          |
+| `north`                    | Top of the upper lead, or the top edge of the body if `lead-out: 0`.  |
+| `east`, `west`             | Right / left edges of the body, vertically centred.                   |
+| `center`                   | Centre of the body.                                                   |
+
+## Styling
+
+<Snippet name="resistor-styling" />

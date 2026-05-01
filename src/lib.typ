@@ -49,6 +49,9 @@
 
 // Electrical components (passive)
 #import "symbols/electrical/capacitor.typ": capacitor
+#import "symbols/electrical/resistor.typ": resistor
+#import "symbols/electrical/inductor.typ": inductor
+#import "symbols/electrical/diode.typ": diode
 
 // ── Composition helpers ─────────────────────────────────────────────────
 
