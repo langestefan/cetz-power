@@ -64,4 +64,4 @@
 
 // ── Composition helpers ─────────────────────────────────────────────────
 
-#import "helpers.typ": multi-wire
+#import "helpers.typ": multi-wire, note

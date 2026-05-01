@@ -29,16 +29,16 @@
   bus("Koo", (5.85, 1.85), length: 0.5, angle: 90deg, label: (
     content: [Koo], anchor: "north", distance: 0.2,
   ))
-  bus("K3", (8, 0), length: 1.5, angle: 90deg, taps: 3, label: (
+  bus("K3", (8, 0), length: 1.5, angle: 90deg, taps: 7, label: (
     content: [K3], anchor: "north", distance: 0.2,
   ))
 
   // Right-side branches (Motor / load / Generator) placed further
   // out so labels fit between K3 and each symbol without crossing
   // the bus.
-  machine("M1", (rel: (2.5, 0), to: "K3.tap3"), "M")
-  load("L1", (rel: (2.5, 0), to: "K3.tap2"), angle: 90deg)
-  machine("G1", (rel: (2.5, 0), to: "K3.tap1"), "G")
+  machine("M1", (rel: (2.5, 0), to: "K3.tap6"), "M")
+  load("L1", (rel: (2.5, 0), to: "K3.tap4"), angle: 90deg)
+  machine("G1", (rel: (2.5, 0), to: "K3.tap2"), "G")
 
   // ── Source-side wiring (red). ──
   wire("V.east", "K1.mid", stroke: 1pt + r)
@@ -78,35 +78,15 @@
     [Equivalent van 200 km],
   )
 
-  // ── Lower path: the cable itself, tapped at 1/8 from the bottom
-  //    of each bus (just above the bus.start, not at the very end). ──
-  wire(bus-frac("K2", 2 / 8), bus-frac("K3", 2 / 8))
-  cetz.draw.content(
-    (5.85, -0.85),
-    anchor: "north",
-    [Kabel],
+  // ── Lower path: the cable itself. The wire's own `label:` arg
+  //    drops the "Kabel" caption at the midpoint, below the line.
+  wire(bus-frac("K2", 2 / 8), bus-frac("K3", 2 / 8),
+    label: [Kabel], label-side: "south", label-distance: 0.2,
   )
 
-  // ── Right-side branch wires off K3. ──
-  wire("K3.tap3", "M1.west")
-  wire("K3.tap2", "L1.in")
-  wire("K3.tap1", "G1.west")
-
-  // ── Right-side labels — placed manually so they sit on the wires
-  //    between K3 and each symbol, matching the source figure. ──
-  cetz.draw.content(
-    (rel: (-0.35, 0.15), to: "M1.west"),
-    anchor: "east",
-    [Motor],
-  )
-  cetz.draw.content(
-    (rel: (-0.35, 0.18), to: "L1.in"),
-    anchor: "east",
-    [Belasting],
-  )
-  cetz.draw.content(
-    (rel: (-0.35, 0.15), to: "G1.west"),
-    anchor: "east",
-    [Generator],
-  )
+  // ── Right-side branch wires off K3, each carrying its own label
+  //    above the wire — `wire(..., label: …)` does the positioning. ──
+  wire("K3.tap6", "M1.west", label: [Motor])
+  wire("K3.tap4", "L1.in",   label: [Belasting])
+  wire("K3.tap2", "G1.west", label: [Generator])
 })

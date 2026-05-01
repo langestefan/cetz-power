@@ -72,3 +72,38 @@
     "b2.mid",
   )
 })
+
+// Inline `label:` — caption at wire midpoint, default `north` side.
+#test({
+  bus("b1", (0, 0), length: 1.2, angle: 90deg)
+  bus("b2", (3, 0), length: 1.2, angle: 90deg)
+  wire("b1.mid", "b2.mid", label: [Tie cable])
+})
+
+// All four cardinal `label-side` values + a custom distance.
+#test({
+  wire((0, 0),    (3, 0),    label: [north], label-side: "north")
+  wire((0, -1),   (3, -1),   label: [south], label-side: "south")
+  wire((0, -2),   (3, -2),   label: [east],  label-side: "east")
+  wire((0, -3),   (3, -3),   label: [west],  label-side: "west")
+  wire((0, -4.5), (3, -4.5), label: [far north],
+    label-side: "north", label-distance: 0.4)
+})
+
+// Label on a polyline — midpoint is computed from FIRST and LAST
+// points, so intermediate corners don't shift the label.
+#test({
+  wire(
+    (0, 0), (1, 1), (2, 0), (3, 1),
+    label: [zigzag],
+  )
+})
+
+// Standalone `note()` for free-floating captions.
+#test({
+  bus("b", (0, 0), length: 2, taps: 3)
+  note("b.tap1", [tap 1], side: "south")
+  note("b.tap2", [middle], side: "north")
+  note(("b.tap2", 50%, "b.tap3"), [between t2 and t3], side: "south")
+  note((1.0, 0.5), [floating], side: "east")
+})

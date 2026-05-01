@@ -62,6 +62,61 @@ to specific geographic positions:
 
 <Snippet name="wire-mixed" />
 
+## Inline labels — the `label:` argument
+
+Pass `label: <content>` to drop a text caption at the midpoint of
+the wire. The midpoint is the lerp-50 % between the **first** and
+**last** positional points, so it works the same whether the wire
+is a two-point straight line or a multi-point polyline.
+
+<Snippet name="wire-label" />
+
+`label-side:` picks which compass direction off the midpoint the
+caption sits on — `"north"` (the default), `"south"`, `"east"`,
+`"west"`, or one of the four 45° diagonals. `label-distance:` is
+the gap between the wire and the nearest edge of the text:
+
+<Snippet name="wire-label-sides" />
+
+The full set of label-related arguments:
+
+| Argument          | Default | What it controls                                                |
+| ----------------- | ------- | --------------------------------------------------------------- |
+| `label`           | `none`  | The caption content. `none` = no label drawn.                   |
+| `label-side`      | `"north"` | Which side of the wire midpoint the label sits on.            |
+| `label-distance`  | `0.15`  | Gap between the wire and the closest edge of the label.         |
+| `label-align`     | `auto`  | Text alignment within the label box — `auto` keeps cetz's default; pass `left` / `center` / `right` to override (useful for multi-line labels). |
+| `label-size`      | `7pt`   | Font size for the label.                                        |
+
+For full positioning control, or for labels that aren't tied to a
+wire, use the standalone [`note()` helper](#standalone-labels-with-note)
+instead.
+
+## Standalone labels with `note()`
+
+`note(pos, body, side: "north")` drops a free-floating caption next
+to any coordinate or anchor. It's the building block underneath the
+`wire(label: …)` shortcut, exposed for cases where the label doesn't
+belong to a wire — labelling a tap point on a bus, annotating an
+empty area of the diagram, or pinning a caption to the midpoint
+between two anchors via a CeTZ lerp coord:
+
+<Snippet name="wire-note" />
+
+`note` accepts the same compass-side vocabulary as
+`wire(label-side: ...)`. The full signature:
+
+```typst
+note(
+  pos,                         // anchor name, tuple, lerp, …
+  body,                        // the caption content
+  side: "north",               // compass side of pos
+  distance: 0.15,              // gap from pos
+  text-align: auto,            // left / center / right; auto keeps cetz's default
+  size: 7pt,                   // font size
+)
+```
+
 ## `elbow(a, b, corner: "h")`
 
 L-shaped routing. `corner: "h"` goes horizontally first then vertically;
