@@ -29,7 +29,7 @@
   bus("Koo", (5.85, 1.85), length: 0.5, angle: 90deg, label: (
     content: [Koo], anchor: "north", distance: 0.2,
   ))
-  bus("K3", (8, 0), length: 1.5, angle: 90deg, taps: 7, label: (
+  bus("K3", (5.85, 0), length: 1.5, angle: 90deg, taps: 7, label: (
     content: [K3], anchor: "north", distance: 0.2,
   ))
 
@@ -73,7 +73,7 @@
   )
 
   cetz.draw.content(
-    (3.9, 0.20),
+    (2.5, 1.50),
     anchor: "south-west",
     [Equivalent van 200 km],
   )
