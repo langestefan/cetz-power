@@ -27,6 +27,11 @@
 /// - size (float): square side length
 /// - lead (float): length of stub from origin to the bottom of the square
 /// - line-count (int): hatching density. Default `2`.
+/// - background (color | none): fill colour for the inside of the
+///   square, drawn under the cross-hatching so the chord lines
+///   remain visible on top. Default `none`. Read `background` as
+///   "the colour behind the hatching" — it's the same shape as
+///   `fill` but the name reads more naturally for that intent.
 /// -> content
 #let external-grid(name, ..args) = {
   let positions = args.pos()
@@ -39,6 +44,7 @@
     let s = style.at("stroke", default: 0.8pt + black)
     let f = style.at("fill", default: none)
     let l = if lead != none { lead } else { style.at("distance", default: 0.2) }
+    let bg = style.at("background", default: none)
 
     let bot = l
     let top = l + sz
@@ -47,6 +53,14 @@
     // Stub
     if l > 0 {
       cetz.draw.line((0, 0), (0, bot), stroke: s)
+    }
+    // Backdrop fill — drawn before the square outline and the chord
+    // lines, bounded to the square interior, so the hatching reads as
+    // sitting ON TOP of the colour. `fill` (the conventional shape
+    // fill) is then layered on top, allowing both to coexist if
+    // somebody passes both.
+    if bg != none {
+      cetz.draw.rect((-half, bot), (half, top), fill: bg, stroke: none)
     }
     // Outer square
     cetz.draw.rect((-half, bot), (half, top), stroke: s, fill: f)

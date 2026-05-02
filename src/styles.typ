@@ -222,6 +222,12 @@
     fill: none,
     distance: 0.2,          // lead from connection point to symbol
     "line-count": 2,        // hatching density
+    // Optional fill colour for the inside of the cross-hatched square
+    // (drawn beneath the diagonals so the chord lines remain visible
+    // on top). Distinct from `fill` only in name — `background` reads
+    // more naturally when the intent is "tint the area behind the
+    // hatching" rather than "fill a shape".
+    background: none,
     label: (anchor: "north", distance: 0.2),
   ),
 

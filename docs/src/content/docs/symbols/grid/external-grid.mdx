@@ -19,6 +19,7 @@ an infinite bus. Drawn as a cross-hatched square.
 | `fill`    | `none`  | Fill colour of the square.                                 |
 | `stroke`  | `0.8pt` | Stroke override.                                           |
 | `line-count` | `2` | Hatching density. `0` = bare square (no hatching); `1` = just the two main diagonals (a bare X); `2` adds the conventional cross-hatch; higher values give a progressively denser grid. Must be `>= 0`. |
+| `background` | `none` | Fill colour for the inside of the square, drawn under the cross-hatching so the chord lines remain visible on top. Same shape as `fill`; the name reads more naturally for "tint behind the hatching". |
 
 ## Hatching density
 
@@ -43,3 +44,41 @@ Rotate with `angle:` when you want the symbol to stick out of a
 horizontal bus instead of hanging below one:
 
 <Snippet name="grid-rotated" />
+
+## Fancier examples
+
+### Voltage-level colour coding
+
+The same red / orange / blue convention used elsewhere in the
+diagram for voltage levels works on the grid stroke too. Pair it
+with `line-count` to give a visual cue about source strength —
+denser hatching reads as a stiffer upstream system:
+
+<Snippet name="grid-voltage-coded" />
+
+### Multi-line labels with engineering data
+
+The `label:` argument accepts arbitrary Typst content, so a
+multi-line label can carry the numbers a power-system engineer
+actually wants to see — short-circuit power, X/R ratio, nominal
+voltage. Combine with a tinted `fill:` to make the source pop:
+
+<Snippet name="grid-rich-label" />
+
+### Tinted background
+
+`background:` fills the inside of the square (under the
+cross-hatching) — useful for colour-coding source strength,
+voltage level, or system zone without changing the stroke colour.
+The hatching stays on top so the symbol still reads as a grid:
+
+<Snippet name="grid-background" />
+
+### Two utilities feeding a common bus
+
+Two grids feeding the same bus from opposite sides — a classic
+"two-source" infeed for redundancy and short-circuit studies. Each
+grid is colour-coded after its source utility, with `angle:` used
+to point them inward at the shared bus:
+
+<Snippet name="grid-feeder-callout" />
