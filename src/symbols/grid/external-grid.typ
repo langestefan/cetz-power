@@ -8,12 +8,25 @@
 
 /// External grid / infinite-bus connection.
 ///
-/// Drawn as a square with an X inside (cross-hatching can be added with
-/// more lines if desired — default keeps it clean).
+/// Drawn as a square with diagonal hatching inside. The two main
+/// diagonals (corner-to-corner) are always drawn; `line-count`
+/// controls how many additional chord pairs are added on top of
+/// them, giving a denser cross-hatch:
+///
+/// - `line-count: 0` — bare square, no hatching at all.
+/// - `line-count: 1` — just the two main diagonals (a bare X
+///   inside the square).
+/// - `line-count: 2` — default: 1 chord in each of 4 directions
+///   added to the diagonals (the conventional "rotated inner square
+///   surrounded by 4 triangles" hatching).
+/// - `line-count: 3`, `4`, … — progressively denser hatching.
+///
+/// Pass it as a per-call override or globally via `set-style`.
 ///
 /// - name (str): CeTZ group name
 /// - size (float): square side length
 /// - lead (float): length of stub from origin to the bottom of the square
+/// - line-count (int): hatching density. Default `2`.
 /// -> content
 #let external-grid(name, ..args) = {
   let positions = args.pos()
@@ -38,24 +51,39 @@
     // Outer square
     cetz.draw.rect((-half, bot), (half, top), stroke: s, fill: f)
 
-    // External-grid hatching: n-1 parallel chords in each of the two
-    // diagonal directions, stopping at the square's sides to form the
-    // familiar "cross-hatched square" (rotated inner square surrounded by
-    // four triangles when n=2).
+    // External-grid hatching. Two main corner-to-corner diagonals are
+    // always drawn; line-count adds (n-1) chord pairs in each diagonal
+    // direction, evenly spaced at offsets sz/n, 2*sz/n, …, (n-1)*sz/n
+    // from the main diagonal. Each chord is a full-width segment with
+    // slope ±1, clipped to the square's edges.
+    //
+    // For n=1 only the X is drawn; for n=2 the result is the classic
+    // "rotated inner square surrounded by 4 corner triangles"; for
+    // higher n the cross-hatch becomes proportionally denser.
     let n = style.at("line-count", default: 2)
-    let step = sz / n
-    for i in range(1, n) {
-      let o = step * i
-      // "\" chords: short lines parallel to the top-left → bottom-right diagonal.
-      cetz.draw.line((-half + o, top), (-half, top - o), stroke: s)
-      cetz.draw.line((half - o, bot), (half, bot + o), stroke: s)
-      // "/" chords: short lines parallel to the top-right → bottom-left diagonal.
-      cetz.draw.line((-half + o, top), (half, top - o), stroke: s)
-      cetz.draw.line((half - o, bot), (-half, bot + o), stroke: s)
+    assert(
+      type(n) == int and n >= 0,
+      message: "external-grid line-count must be an integer >= 0, got " + repr(n),
+    )
+    if n >= 1 {
+      let step = sz / n
+      for i in range(1, n) {
+        let k = step * i
+        // "\" chords (slope -1, parallel to the top-left → bottom-right diagonal).
+        // Upper-right of diagonal: top edge to right edge.
+        cetz.draw.line((-half + k, top), (half, bot + k), stroke: s)
+        // Lower-left of diagonal: bottom edge to left edge.
+        cetz.draw.line((half - k, bot), (-half, top - k), stroke: s)
+        // "/" chords (slope +1, parallel to the bottom-left → top-right diagonal).
+        // Upper-left of diagonal: left edge to top edge.
+        cetz.draw.line((-half, bot + k), (half - k, top), stroke: s)
+        // Lower-right of diagonal: bottom edge to right edge.
+        cetz.draw.line((-half + k, bot), (half, top - k), stroke: s)
+      }
+      // Main diagonals — corner to opposite corner.
+      cetz.draw.line((-half, top), (half, bot), stroke: s)
+      cetz.draw.line((half, top), (-half, bot), stroke: s)
     }
-    // Main diagonals — corner to opposite corner.
-    cetz.draw.line((-half, top), (half, bot), stroke: s)
-    cetz.draw.line((half, top), (-half, bot), stroke: s)
 
     cetz.draw.anchor("default", (0, 0))
     cetz.draw.anchor("in", (0, 0))

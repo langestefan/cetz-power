@@ -18,7 +18,19 @@ an infinite bus. Drawn as a cross-hatched square.
 | `lead`    | `0.2`   | Stub from connection point to the bottom of the square.   |
 | `fill`    | `none`  | Fill colour of the square.                                 |
 | `stroke`  | `0.8pt` | Stroke override.                                           |
-| `line-count` | `2` | Hatching density (number of cross-lines per direction).   |
+| `line-count` | `2` | Hatching density. `0` = bare square (no hatching); `1` = just the two main diagonals (a bare X); `2` adds the conventional cross-hatch; higher values give a progressively denser grid. Must be `>= 0`. |
+
+## Hatching density
+
+`n = 0` draws a bare square with no hatching at all. From `n = 1`
+onwards the two main corner-to-corner diagonals are added, and each
+higher `n` overlays additional evenly-spaced chord pairs to produce a
+denser cross-hatch:
+
+<Snippet name="grid-line-count" />
+
+Override per call (`external-grid("g", (0,0), line-count: 4)`) or
+globally via `set-style(cetz-power: (grid: ("line-count": 4)))`.
 
 ## Anchors
 
