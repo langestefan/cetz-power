@@ -86,7 +86,7 @@
 
   // ── Right-side branch wires off K3, each carrying its own label
   //    above the wire — `wire(..., label: …)` does the positioning. ──
-  wire("K3.tap6", "M1.west", label: [Motor])
-  wire("K3.tap4", "L1.in",   label: [Belasting])
-  wire("K3.tap2", "G1.west", label: [Generator])
+  wire("K3.tap6", "M1.west", label: [Motor], label-align: "center")
+  wire("K3.tap4", "L1.in",   label: [Belasting], label-align: "center")
+  wire("K3.tap2", "G1.west", label: [Generator], label-align: "center")
 })

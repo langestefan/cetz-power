@@ -85,7 +85,7 @@ The full set of label-related arguments:
 | `label`           | `none`  | The caption content. `none` = no label drawn.                   |
 | `label-side`      | `"north"` | Which side of the wire midpoint the label sits on.            |
 | `label-distance`  | `0.15`  | Gap between the wire and the closest edge of the label.         |
-| `label-align`     | `auto`  | Text alignment within the label box — `auto` keeps cetz's default; pass `left` / `center` / `right` to override (useful for multi-line labels). |
+| `label-align`     | `"center"` | Horizontal position of the label box relative to the wire midpoint. `"left"` pins the box's left edge at the midpoint (text extends right), `"center"` centres the box, `"right"` pins the right edge (text extends left). Only meaningful when `label-side` is `"north"` or `"south"`. |
 | `label-size`      | `7pt`   | Font size for the label.                                        |
 
 For full positioning control, or for labels that aren't tied to a

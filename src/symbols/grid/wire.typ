@@ -108,9 +108,12 @@
 ///   Default `"north"`.
 /// - label-distance: gap between the wire and the label edge in canvas
 ///   units. Default `0.15`.
-/// - label-align: text alignment within the label box (`auto` to
-///   inherit cetz's default; pass `left` / `center` / `right` to
-///   override).
+/// - label-align: horizontal alignment of the label box relative to
+///   the wire midpoint — `"left"` pins the box's left edge at the
+///   midpoint (text extends right), `"center"` centres the box on
+///   the midpoint (the default), `"right"` pins the right edge at
+///   the midpoint (text extends left). Only meaningful for
+///   `label-side: "north"` or `"south"`; ignored for sideways labels.
 /// - label-size: font size for the label. Default `7pt`.
 /// -> content
 #let wire(..args) = {
@@ -120,8 +123,12 @@
   let label = named.at("label", default: none)
   let label-side = named.at("label-side", default: "north")
   let label-distance = named.at("label-distance", default: 0.15)
-  let label-align = named.at("label-align", default: auto)
+  let label-align = named.at("label-align", default: "center")
   let label-size = named.at("label-size", default: 7pt)
+  assert(
+    label-align in ("left", "center", "right"),
+    message: "wire label-align must be \"left\", \"center\", or \"right\", got " + repr(label-align),
+  )
   assert(
     pts.len() >= 2,
     message: "wire() needs at least two positions, got " + str(pts.len()),
@@ -136,12 +143,22 @@
       )
       // Midpoint of the first and last positional coordinates.
       let mid = (pts.first(), 50%, pts.last())
-      let aligned = if label-align == auto { label } else { align(label-align, label) }
+      // For label-side north/south the base anchor is south/north (centred
+      // on the midpoint). label-align shifts the anchor horizontally so the
+      // label box's left/right edge — instead of its centre — sits on the
+      // midpoint, which lets multiple labels be made flush at the same x.
+      let base-anchor = _opposite-side.at(label-side)
+      let h-suffix = (left: "-west", center: "", right: "-east").at(label-align)
+      let anchor = if label-side in ("north", "south") {
+        base-anchor + h-suffix
+      } else {
+        base-anchor
+      }
       cetz.draw.content(
         mid,
-        anchor: _opposite-side.at(label-side),
+        anchor: anchor,
         padding: label-distance,
-        text(size: label-size, aligned),
+        text(size: label-size, label),
       )
     }
   })
