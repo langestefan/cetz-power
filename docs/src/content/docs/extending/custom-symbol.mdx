@@ -1,0 +1,276 @@
+---
+title: Creating your own symbol
+description: Define a one-off symbol in your own document, or upstream a new one as a PR.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+When the symbol you need isn't in the library, you have two options:
+
+1. **Define it locally** in your own document. The same `symbol()`
+   primitive that the built-in symbols use is exported from the
+   package, so a one-off symbol is just a `#let` away.
+2. **Upstream it as a PR** — the right move when the symbol is one
+   that other users of the package would also need. This page ends
+   with the checklist for that.
+
+Both paths use the exact same `symbol()` machinery, so you can
+prototype a symbol locally and only worry about packaging once it's
+working.
+
+## The `symbol()` primitive
+
+Every built-in symbol — bus, transformer, capacitor, all of them —
+is a thin closure around `symbol()` from `src/core.typ`:
+
+```typst
+symbol(family, name, ..positions, draw: closure, label:, angle:)
+```
+
+It does the heavy lifting:
+
+- **Style resolution.** Merges the global `cetz-power.*` defaults,
+  the family sub-dict, and any per-call named arguments into one
+  flat `style` dict that's handed to your `draw` closure.
+- **Coordinate placement.** One position → symbol drawn at that
+  point in its local frame, with optional `angle:`. Two positions →
+  symbol centred at the midpoint and rotated so its local +x axis
+  points from the first position to the second.
+- **Anchor exposure.** `in` and `out` are always available
+  (aliasing the origin for one-node symbols, the two endpoints for
+  two-node). Anything you register inside the `draw` closure with
+  `cetz.draw.anchor(name, pos)` becomes addressable as
+  `<your-name>.<anchor-name>`.
+- **Label rendering** in world space, so the text stays upright
+  regardless of the symbol's rotation.
+
+You write the `draw` closure; `symbol()` handles the rest.
+
+## A minimum viable symbol
+
+Here's a tiny custom symbol — a `junction` dot for marking a tee
+where two wires meet on a shared bus. It's defined inline at the
+top of the snippet, then used the same way you'd use any built-in.
+
+<Snippet name="extending-custom-symbol-junction" />
+
+The `draw` closure has signature `(ctx, positions, style)`:
+
+- `ctx` is the CeTZ context (rarely needed).
+- `positions` is the list of resolved coordinates — one entry for a
+  one-node symbol, two for a two-node.
+- `style` is the merged style dict for this family. Read your
+  defaults with `style.at("key", default: <fallback>)` so the
+  symbol still works if no family entry exists in `styles.typ`.
+
+Everything you draw inside the closure is in the symbol's **local
+frame** — `(0, 0)` is the symbol's origin, the +x axis is its
+"forward" direction. `symbol()` translates and rotates the group
+around you, so you don't have to think about the world position.
+
+## Adding more anchors
+
+The wrapper exposes `in` and `out` for every symbol, but a useful
+component usually wants more — directional anchors callers can wire
+to without computing offsets by hand. Register them inside the
+`draw` closure with `cetz.draw.anchor`:
+
+```typst
+let draw(ctx, positions, style) = {
+  // ... draw geometry ...
+  cetz.draw.anchor("default", (0, 0))
+  cetz.draw.anchor("north",   (0,  r))
+  cetz.draw.anchor("south",   (0, -r))
+  cetz.draw.anchor("east",    ( r, 0))
+  cetz.draw.anchor("west",    (-r, 0))
+}
+```
+
+The four compass points are a good baseline; symbol-specific
+anchors (the transformer's `primary` / `secondary`, the load's
+`tip`) belong here too. Anchors are addressed as
+`<name>.<anchor>` from the call site, e.g. `wire("j.south", ...)`.
+
+If your symbol has a body that extends the connection point along
++x (a series component like a capacitor), set `out` explicitly to
+the body's far end — otherwise the wrapper's default leaves
+`in` and `out` aliased to the same position.
+
+## Two-node placement
+
+Pass two positions and `symbol()` centres the symbol between them
+and rotates it so local +x points from `in` to `out`. The world
+distance between the two endpoints is available inside the closure
+as `cetz.vector.dist(positions.first(), positions.last())`:
+
+<Snippet name="extending-custom-symbol-twonode" />
+
+You can build symbols that scale with the distance between their
+endpoints (like the bus, which fills the gap), or that draw
+fixed-size geometry between two named points (like the transformer,
+whose two circles always have the same radius regardless of how far
+apart `in` and `out` are).
+
+## Style cascade
+
+If your symbol has knobs that callers should be able to override,
+read them from the `style` dict that `symbol()` hands you:
+
+```typst
+let radius = style.at("radius", default: 0.06)
+let stroke = style.at("stroke", default: 0.6pt + black)
+let fill   = style.at("fill",   default: black)
+```
+
+The values come from a three-layer merge (lowest to highest
+precedence):
+
+1. **Global defaults** — top-level keys under `cetz-power.*` in
+   `set-style` calls.
+2. **Family defaults** — the sub-dict under your symbol's family
+   name (`cetz-power.junction.*`). For local symbols this is empty;
+   for built-ins it's defined in `src/styles.typ`.
+3. **Per-call overrides** — named arguments passed to your symbol
+   call (`junction("j", pos, radius: 0.1, fill: red)`).
+
+So the same call site reads them all uniformly. As long as you
+provide sensible `default:` fallbacks, your symbol works without
+any entry in `styles.typ` — useful while prototyping locally.
+
+## Upstreaming as a PR
+
+When the symbol is mature enough that other users of the package
+would want it, contribute it back. The full checklist:
+
+### 1. Pick the right category
+
+`src/symbols/` is organised into five sub-directories that mirror
+the docs sidebar. Drop the file under the matching one:
+
+| Directory | What lives here |
+| --- | --- |
+| `src/symbols/grid/` | Network infrastructure — buses, wires, grids, transformers. |
+| `src/symbols/generation/` | Sources — machines (V/G/M/A circles), PV panels. |
+| `src/symbols/loads/` | Energy consumers — the generic load arrow. |
+| `src/symbols/electrical/` | Passive components, sources, ground — capacitor, resistor, inductor, diode, voltage / current source, ground, lightning bolt. |
+| `src/symbols/protection/` | Switchgear and overcurrent protection — switch, breaker, fuse. |
+
+### 2. Build the symbol file
+
+Follow the existing pattern. The header for `src/symbols/grid/junction.typ`
+would look like:
+
+```typst
+// Junction — small filled dot marking a tee on a shared bus.
+
+#import "/src/deps.typ": cetz
+#import "/src/core.typ": symbol
+
+/// Junction dot — a small filled circle.
+///
+/// Anchors: `in` / `out` (= placement point), plus the four cardinal
+/// edges `north` / `south` / `east` / `west` on the dot's perimeter.
+///
+/// - name (str): CeTZ group name.
+/// - pos (coordinate): where to place the symbol.
+/// - radius (float): dot radius (style override).
+/// - fill: dot fill (style override).
+/// - stroke: dot stroke (style override).
+/// -> content
+#let junction(name, pos, ..overrides) = {
+  let draw(ctx, positions, style) = {
+    // ... same body as the local prototype ...
+  }
+  symbol("junction", name, pos, ..overrides, draw: draw)
+}
+```
+
+The doc comment block above `#let` is the source of truth — keep
+it in sync with the actual arguments.
+
+### 3. Add a default style sub-dict
+
+In `src/styles.typ`, add an entry under the family name with the
+defaults your `style.at(...)` calls expect:
+
+```typst
+junction: (
+  stroke: 0.6pt + black,
+  fill: black,
+  radius: 0.06,
+  label: (anchor: "north", distance: 0.12),
+),
+```
+
+This is what callers see when they write
+`set-style(cetz-power: (junction: (radius: 0.1)))`. The
+`label:` sub-dict is read by `core.typ` for the symbol's external
+label and is optional — leave it out if your symbol doesn't take a
+useful label.
+
+### 4. Re-export from `lib.typ`
+
+Add an import line in the matching block of `src/lib.typ`. The
+wildcard `import "@preview/cetz-power:0.1.0": *` puts it in
+scope for users:
+
+```typst
+// Grid
+#import "symbols/grid/junction.typ": junction
+```
+
+### 5. Add a test
+
+Tests live under `tests/<symbol-name>/test.typ`. Each test file
+calls `#test({ ... })` once per scene; "compiles cleanly" is the
+assertion (there is no automatic image diff). Mirror the format
+of an existing suite — `tests/capacitor/test.typ` is a good
+reference: one scene per variant (default, with overrides,
+rotated, with a label, family-styled).
+
+Run the suite with:
+
+```bash
+./tests/run.sh junction
+```
+
+Or run everything:
+
+```bash
+./tests/run.sh
+```
+
+### 6. Add a docs page and snippet
+
+Two files:
+
+- **`docs/snippets/junction-example.typ`** — a self-contained Typst
+  snippet demonstrating the symbol. Start with the `#import` and
+  `#set page` lines from any existing snippet.
+- **`docs/src/content/docs/symbols/grid/junction.mdx`** — the
+  prose page. Use one of the existing pages as a template
+  (`symbols/electrical/capacitor.mdx` is a good one). Reference
+  the snippet with `<Snippet name="junction-example" />`.
+
+Then wire the page into `docs/astro.config.mjs` under the
+matching sidebar group:
+
+```js
+{ label: 'Junction', slug: 'symbols/grid/junction' },
+```
+
+Run `npm --prefix docs run dev` to preview the page locally at
+`http://localhost:4321/cetz-power/symbols/grid/junction/`.
+
+### 7. Open the PR
+
+Push your branch to a fork and open a PR against `main`. CI runs:
+
+- The full Typst test suite (`tests/run.sh`).
+- The docs build (`npm --prefix docs run build`), which compiles
+  every snippet to SVG and builds the static site.
+
+Both must pass. Keep the PR focused: one new symbol per PR, with
+its tests, styles entry, lib export, and docs page in the same
+commit. That makes the change easy to review and easy to revert
+if something downstream breaks.

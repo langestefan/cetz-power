@@ -111,6 +111,13 @@ export default defineConfig({
           ],
         },
         {
+          label: 'Extending',
+          items: [
+            { label: 'Creating your own symbol', slug: 'extending/custom-symbol' },
+            { label: 'Composing with regular CeTZ', slug: 'extending/composing-with-cetz' },
+          ],
+        },
+        {
           label: 'Recipes',
           items: [
             { label: 'Radial feeder', slug: 'recipes/radial-feeder' },

@@ -1,0 +1,113 @@
+---
+title: Composing with regular CeTZ
+description: Mix CeTZ primitives into a cetz-power diagram for arrows, regions, dimensions, and other annotations.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+`diagram(body)` is a thin wrapper around `cetz.canvas` that installs
+the `cetz-power` style dictionary into `ctx.style` before invoking
+your body. So everything you can do inside a regular CeTZ canvas —
+arrows, rectangles, custom paths, math content — works inside a
+cetz-power diagram too.
+
+That makes the package easy to extend. When the standard symbols
+get you most of the way to the diagram you want but you need an
+annotation, a region highlight, or a custom shape, you don't have
+to rewrite anything: just drop CeTZ primitives into the same
+`diagram` block.
+
+## The CeTZ module is already in scope
+
+The wildcard import re-exports CeTZ alongside the symbols:
+
+```typst
+#import "@preview/cetz-power:0.1.0": *
+```
+
+That puts `cetz` (the whole module) in your namespace, so you can
+reach for `cetz.draw.line`, `cetz.draw.rect`, `cetz.draw.content`,
+`cetz.vector.dist`, and anything else from CeTZ without a separate
+import. (You can verify this by reading `src/lib.typ` — `cetz` is
+re-exported from the deps module.)
+
+The pattern below in each example is the same: take an existing
+recipe (the [radial feeder](/cetz-power/recipes/radial-feeder/) is
+small enough to keep in your head), copy it, and add CeTZ
+primitives to it. Nothing about the cetz-power calls changes.
+
+## Power-flow arrows
+
+A common annotation: show the magnitude and direction of real or
+reactive power on a feeder line. `cetz.draw.line` takes a `mark:`
+argument for arrowheads at either end:
+
+<Snippet name="extending-cetz-arrow" />
+
+The arrow lives entirely in CeTZ: a line from one absolute coord
+to another, with an arrowhead `mark` and a `cetz.draw.content` for
+the caption. The cetz-power buses, transformer, and load on the
+same canvas are unchanged.
+
+## Region highlights
+
+Mark a study area, a control zone, or a substation boundary with a
+dashed rectangle. Same pattern — drop a `cetz.draw.rect` into the
+diagram body:
+
+<Snippet name="extending-cetz-region" />
+
+`cetz.draw.rect` takes two opposite corners and accepts the full
+CeTZ stroke dict — `(paint:, thickness:, dash:)` — so dashed,
+dotted, or coloured boundaries are all one line. Leave `fill:
+none` so the symbols underneath stay visible.
+
+## Dimension lines
+
+For as-built drawings, distances and clearances often need to be
+called out. A dimension line is two short tick marks at the
+endpoints, an arrowed segment between them, and a caption — every
+piece is a CeTZ primitive:
+
+<Snippet name="extending-cetz-dimension" />
+
+`mark: (start: "<", end: ">")` puts arrowheads on both ends of the
+segment. The tick marks are just two extra short lines. If you
+find yourself drawing the same dimension repeatedly, wrap it in
+your own `#let` — same pattern as a [custom
+symbol](/cetz-power/extending/custom-symbol/), but you don't even
+need `symbol()` for non-anchored geometry.
+
+## Other useful CeTZ primitives
+
+A short tour of CeTZ functions that come up most often when
+extending a power diagram:
+
+| Function | What it draws |
+| --- | --- |
+| `cetz.draw.line(a, b, mark: ...)` | Straight segment, optionally with arrowheads. |
+| `cetz.draw.rect(corner-a, corner-b)` | Rectangle from two opposite corners. |
+| `cetz.draw.circle(center, radius: r)` | Circle. Useful for highlighting a node. |
+| `cetz.draw.arc(center, start: a, stop: b, radius: r)` | Arc — handy for indicating angle ranges or rotations. |
+| `cetz.draw.bezier(a, b, ctrl1, ctrl2)` | Cubic Bezier. The right call for a curved annotation that needs to wrap around something. |
+| `cetz.draw.content(pos, anchor: ..., padding: ..., body)` | Place arbitrary Typst content (text, math, an image) at a coordinate. |
+| `cetz.draw.line(..., stroke: (paint:, thickness:, dash:))` | Full stroke dict for colour, thickness, and dash pattern. |
+
+For the full list, see the [CeTZ
+documentation](https://github.com/cetz-package/cetz/blob/main/manual.pdf)
+— everything in `cetz.draw.*` is fair game inside a `diagram`
+block.
+
+## Coordinate compatibility
+
+Every CeTZ coordinate form works inside a cetz-power diagram —
+including the cetz-power anchors. `cetz.draw.line` will happily
+take `"b1.tap2"` or `bus-frac("b3", 0.25)` as one of its
+endpoints, so you can pin a custom annotation directly to a
+cetz-power symbol and let it follow when the symbol moves:
+
+<Snippet name="extending-cetz-coords" />
+
+That's the most useful property to remember: there's no boundary
+between "cetz-power coordinates" and "CeTZ coordinates" — every
+anchor in your diagram is addressable from both sides.
