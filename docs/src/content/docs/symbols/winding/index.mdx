@@ -56,6 +56,19 @@ shapes: D + y for "delta primary, wye secondary"; the trailing
 number is the clock position, which becomes a `-clock × 30°`
 rotation on the secondary side.
 
+## A wye and delta bus pair on shared rails
+
+Skeleton mode (`body: false`) turns each winding into a placement
+scaffold — the symbol exposes its anchors but draws no geometry, so
+the AC current sources you hang off `y.neutral`/`y.v`/`y.u`/`y.w`
+(and the delta sides between `d.v`/`d.u`/`d.w`) end up *being* the
+visible loop. Below, two such buses share the same set of three
+phase rails — Bus-_i_ wye-connected with an earthed neutral on the
+left, Bus-_j_ delta-connected on the right, with the conventional
+dashed gap between them where the rails continue elsewhere:
+
+<Snippet name="winding-bus-pair" />
+
 ## Source layout
 
 The symbol sources live under `src/symbols/winding/`. Each shape is a
