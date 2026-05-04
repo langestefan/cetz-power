@@ -62,6 +62,11 @@
 #import "symbols/protection/breaker.typ": breaker
 #import "symbols/protection/fuse.typ": fuse
 
+// Winding configurations (transformer vector groups)
+#import "symbols/winding/delta.typ": delta
+#import "symbols/winding/wye.typ": wye
+#import "symbols/winding/zigzag.typ": zigzag
+
 // ── Composition helpers ─────────────────────────────────────────────────
 
 #import "helpers.typ": multi-wire, note

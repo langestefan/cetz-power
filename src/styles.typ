@@ -231,6 +231,42 @@
     label: (anchor: "north", distance: 0.2),
   ),
 
+  // ── Winding configurations (transformer vector groups) ─────────
+  // Three primitives — `delta`, `wye`, `zigzag` — sharing a single
+  // family dict. `size` is the radius from the centre to each of
+  // the three terminals: the circumradius of the delta triangle,
+  // the arm length of the wye, and the total reach of each zigzag
+  // arm. Default orientation matches IEC clock 0 (the "V" terminal
+  // at the top, "U" bottom-left, "W" bottom-right). Rotate with the
+  // standard `angle:` arg — e.g. `angle: -150deg` for clock 5.
+  winding: (
+    stroke: 0.8pt + black,
+    fill: none,
+    size: 0.6,
+    "label-size": 8pt,
+    "label-distance": 0.18,
+    // Per-terminal labels in (U, V, W) order — uppercase for the
+    // primary winding by convention. Pass lowercase via override
+    // (`terminals: ("u", "v", "w")`) when drawing the secondary.
+    terminals: ("U", "V", "W"),
+    // Per-symbol label dict (the OUTSIDE caption — not the per-terminal
+    // labels). Default sits north of the symbol.
+    label: (anchor: "north", distance: 0.28),
+    // Zigzag-specific: how far along the arm the kink sits, as a
+    // fraction of `size`. 0.5 = halfway. Smaller values → kink closer
+    // to the centre.
+    "zigzag-kink": 0.5,
+    // Zigzag-specific: lateral offset of the kink from the arm axis,
+    // expressed as a fraction of `size`. Larger = wider zigzag.
+    "zigzag-offset": 0.18,
+    // Skeleton mode — when `false`, the symbol exposes its anchors
+    // (terminals, mid-arm/side, neutral, cardinals) but draws no
+    // geometry or terminal labels. Lets callers use the symbol as a
+    // placement scaffold and overlay their own components without
+    // visual collisions.
+    body: true,
+  ),
+
   // ── Debug (show anchors, like cetz) ────────────────────────────
   debug: (
     enabled: false,

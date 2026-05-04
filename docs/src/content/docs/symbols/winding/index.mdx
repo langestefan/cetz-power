@@ -1,0 +1,65 @@
+---
+title: Winding configurations
+description: Three-phase transformer winding shapes — delta, wye, zigzag — with terminal labels and rotation matching the IEC vector-group convention.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+The winding family draws the three classical three-phase
+configurations used to describe a transformer's vector group: the
+delta (Δ / D), the wye / star (Y), and the zigzag (Z). Each one is a
+small standalone symbol with the three phase terminals exposed as
+named anchors, so you can compose primary–secondary pairs (Yy0,
+Dy11, Yz5, …) by placing two of them side by side and rotating the
+secondary by the relevant clock number.
+
+<Snippet name="winding-overview" />
+
+## What's in this family
+
+| Symbol                                  | Shape                                                         |
+| --------------------------------------- | ------------------------------------------------------------- |
+| [Delta](/symbols/winding/delta/)        | Equilateral triangle. Phase terminals at the three vertices.  |
+| [Wye / star](/symbols/winding/wye/)     | Three arms from a common neutral to the phase terminals.      |
+| [Zigzag](/symbols/winding/zigzag/)      | Three arms with a single perpendicular kink — the "broken Y". |
+
+## Shared conventions
+
+All three primitives share the same `winding` style family, so once
+you set defaults (e.g. stroke colour, terminal label size) they apply
+to every shape:
+
+- **Default orientation** matches IEC clock 0 — the V terminal at the
+  top, U bottom-left, W bottom-right.
+- **Rotation by clock number** is just `angle: -clock * 30deg`. Clock
+  6 flips the symbol 180°; clock 11 lands at -330° (≡ 30°).
+- **Terminal labels** default to uppercase `("U", "V", "W")` for the
+  primary winding. Pass `terminals: ("u", "v", "w")` for the
+  secondary, or any three contents (e.g. math like `[$V_1$]`) for
+  custom labelling.
+- **Anchors** `u`, `v`, `w` are always present at the phase
+  terminals, plus `center` (geometric centre) and the `north`,
+  `south`, `east`, `west` cardinals on the bounding circle. Wye and
+  zigzag additionally expose `neutral` at the meeting point.
+- **Per-terminal labels stay upright** regardless of how the symbol
+  itself is rotated — they are counter-rotated through the symbol's
+  effective angle, just like the outer caption.
+
+## Drawing a vector group
+
+Two windings + an outer label tells the whole story:
+
+<Snippet name="winding-vector-group" />
+
+The two-letter notation in the standard tables is just the pair of
+shapes: D + y for "delta primary, wye secondary"; the trailing
+number is the clock position, which becomes a `-clock × 30°`
+rotation on the secondary side.
+
+## Source layout
+
+The symbol sources live under `src/symbols/winding/`. Each shape is a
+thin closure around the `symbol` primitive, so you can add new
+configurations (open delta, scott-T, …) by following the same
+pattern documented in [Creating your own
+symbol](/extending/custom-symbol/).

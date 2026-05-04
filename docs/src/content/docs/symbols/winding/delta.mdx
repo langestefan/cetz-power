@@ -1,0 +1,82 @@
+---
+title: Delta winding
+description: Equilateral-triangle three-phase delta connection (Δ / D / d) with terminal labels and rotation matching the IEC clock convention.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+The delta primitive draws an equilateral triangle with the three
+phase terminals at its vertices. In IEC clock-0 orientation the V
+terminal sits at the top vertex, U at the bottom-left, W at the
+bottom-right.
+
+<Snippet name="winding-delta-example" />
+
+## Rotation by clock number
+
+Vector-group tables describe the secondary winding's phase shift in
+clock positions; one position is 30°. Rotate with `angle:
+-clock × 30deg`:
+
+<Snippet name="winding-delta-clock" />
+
+## Primary vs secondary labelling
+
+The primary side conventionally uses uppercase terminal letters; the
+secondary uses lowercase. Pass `terminals:` to override:
+
+<Snippet name="winding-secondary" />
+
+## A delta-connected current injection
+
+Skip the triangle outline with `body: false` and let the three side
+components draw the loop themselves. Below, three AC current
+sources sit between the vertex anchors — they form the delta loop
+through their own leads, no separate triangle needed:
+
+<Snippet name="winding-delta-circuit" />
+
+The same pattern applies to any per-side component (impedances,
+switches, …): `delta(..., body: false)` exposes `u`, `v`, `w` as
+named scaffold anchors, and `mid-uv` / `mid-vw` / `mid-wu` are the
+side midpoints if you instead want to keep the triangle drawn and
+attach to it.
+
+## Parameters
+
+| Name              | Default          | Description                                                                                  |
+| ----------------- | ---------------- | -------------------------------------------------------------------------------------------- |
+| `size`            | `0.6`            | Circumradius — distance from centre to each vertex.                                          |
+| `terminals`       | `("U", "V", "W")`| Three label values in (U, V, W) order. Strings render italicised; pass content for math.     |
+| `body`            | `true`           | Set to `false` to suppress the triangle outline and vertex labels — useful for skeleton-mode composition. |
+| `stroke`          | `0.8pt + black`  | Stroke for the triangle outline.                                                             |
+| `fill`            | `none`           | Fill colour for the triangle interior.                                                       |
+| `label-size`      | `8pt`            | Font size for terminal labels (set via family dict).                                         |
+| `label-distance`  | `0.18`           | Radial offset of terminal labels from each vertex (family dict).                             |
+| `angle`           | `0deg`           | Rotation around the centre — use `-clock * 30deg` for IEC vector groups.                     |
+| `label`           | `none`           | Outer caption (standard label dict, default `anchor: "north"`).                              |
+
+## Anchors
+
+| Anchor                          | Position                                                       |
+| ------------------------------- | -------------------------------------------------------------- |
+| `u`, `v`, `w`                   | The three triangle vertices (also exposed under the strings supplied in `terminals:` if they differ). |
+| `mid-uv`, `mid-vw`, `mid-wu`    | Midpoint of each triangle side — the natural insertion / labelling point for a per-side component. |
+| `center` / `default`            | Centroid of the triangle.                                      |
+| `north`, `south`, `east`, `west`| Compass points on the bounding circle of radius `size`.        |
+| `in`, `out`                     | Aliases for the placement coordinate (the standard cetz-power one-node anchors). |
+
+## Styling
+
+Set per-family defaults to recolour every winding in the diagram, or
+override per call. Family defaults and per-call args cascade exactly
+the same way as for any other cetz-power symbol — see
+[Styling](/getting-started/styling/) for the general rules.
+
+<Snippet name="winding-delta-styling" />
+
+> **Style keys with hyphens.** `label-size`, `label-distance`,
+> `zigzag-kink`, and `zigzag-offset` can't be passed as named
+> arguments directly — Typst's grammar rejects quoted-string
+> identifiers in calls. Set them via the family dict instead, e.g.
+> `cetz.draw.set-style(cetz-power: (winding: ("label-size": 11pt)))`.

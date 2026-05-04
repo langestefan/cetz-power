@@ -1,0 +1,60 @@
+---
+title: Wye / star winding
+description: Three-arm wye (Y / star) connection with the common neutral point and three phase terminals exposed as anchors.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+The wye primitive draws three straight arms from a common neutral
+point out to the three phase terminals. Default orientation matches
+IEC clock 0 (V at the top, U bottom-left, W bottom-right).
+
+<Snippet name="winding-wye-example" />
+
+## A primary–secondary pair
+
+Most of the time you draw two windings together to communicate the
+vector group. The secondary lives at `angle: -clock * 30deg`:
+
+<Snippet name="winding-wye-pair" />
+
+## Wiring the terminals
+
+Each terminal is a named anchor (`u`, `v`, `w`), the kink point /
+mid-arm of each arm is `mid-u` / `mid-v` / `mid-w`, and the common
+centre is `neutral`. Pass `body: false` to suppress the wye's own
+arm lines and terminal labels — the symbol then becomes a placement
+scaffold for whatever you want to wire up between those anchors. In
+the snippet below, three AC current sources radiate from the neutral
+to each phase, the neutral is earthed, and the bus rails connect to
+the same terminal anchors:
+
+<Snippet name="winding-wye-circuit" />
+
+The reference direction of each AC current source runs from `in` to
+`out` (here: out of the neutral, into the phase), giving the
+canonical current-injection convention.
+
+## Parameters
+
+| Name              | Default          | Description                                                                                  |
+| ----------------- | ---------------- | -------------------------------------------------------------------------------------------- |
+| `size`            | `0.6`            | Arm length (centre to each terminal).                                                        |
+| `terminals`       | `("U", "V", "W")`| Three label values in (U, V, W) order.                                                       |
+| `body`            | `true`           | Set to `false` to suppress the arm lines and terminal labels — useful for skeleton-mode composition. |
+| `stroke`          | `0.8pt + black`  | Stroke for the three arms.                                                                   |
+| `label-size`      | `8pt`            | Terminal-label font size (family dict).                                                      |
+| `label-distance`  | `0.18`           | Radial offset of terminal labels (family dict).                                              |
+| `angle`           | `0deg`           | Rotation around the neutral. Use `-clock * 30deg` for IEC vector groups.                     |
+| `label`           | `none`           | Outer caption.                                                                               |
+
+## Anchors
+
+| Anchor                          | Position                                                                |
+| ------------------------------- | ----------------------------------------------------------------------- |
+| `u`, `v`, `w`                   | The three arm endpoints (also under the strings from `terminals:` when they differ). |
+| `mid-u`, `mid-v`, `mid-w`       | Midpoint of each arm — the natural insertion point for an in-line component (current source, switch, …). |
+| `neutral`                       | The common centre point — connect it to a `ground` symbol for an earthed neutral.    |
+| `center` / `default`            | Same point as `neutral`.                                                |
+| `north`, `south`, `east`, `west`| Compass points on the bounding circle of radius `size`.                 |
+| `in`, `out`                     | Aliases for the placement coordinate.                                   |

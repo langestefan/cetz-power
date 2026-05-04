@@ -72,6 +72,15 @@ export default defineConfig({
               ],
             },
             {
+              label: 'Winding configurations',
+              items: [
+                { label: 'Overview', slug: 'symbols/winding' },
+                { label: 'Delta', slug: 'symbols/winding/delta' },
+                { label: 'Wye / star', slug: 'symbols/winding/wye' },
+                { label: 'Zigzag', slug: 'symbols/winding/zigzag' },
+              ],
+            },
+            {
               label: 'Generation',
               items: [
                 { label: 'Overview', slug: 'symbols/generation' },
