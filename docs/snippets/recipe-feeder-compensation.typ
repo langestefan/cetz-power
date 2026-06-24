@@ -37,17 +37,20 @@
   bus("hs", (x-hs, topy), length: bus-h, angle: 90deg)
   cetz.draw.content((x-hs, topy + ext + 0.3), align(center)[Onderstation HS \ 150,000 kV])
   wire("V.east", "hs.mid")
-  note((x-hs / 2, topy), [7 A], side: "north")
+  note((x-hs * 1.25, topy), [7 A], side: "north")
 
   // Onderstation MS — the MV busbar (vertical). It taps the transformer +
   // top feeder at `topy` and the compensation + step-down at `comp-y`, and
   // overshoots each by `ext` so its top lines up with the HS busbar.
   bus("ms", (x-ms, topy + ext), (x-ms, comp-y - ext))
+  // The MS busbar continues downward (dashed) — more feeders not shown.
+  wire((x-ms, comp-y - ext), (x-ms, comp-y - ext - dash-len),
+    stroke: (paint: black, thickness: 1.8pt, dash: "dashed"))
   cetz.draw.content((x-ms, topy + ext + 0.3), align(center)[Onderstation MS \ 10,451 kV])
 
   transformer("tr", "hs.mid", (x-ms, topy), radius: 0.28, distance: 0.3)
   cetz.draw.content(((x-hs + x-ms) / 2, topy - 0.6), [Voedingstransformator])
-  note((x-ms - 0.6, topy), [93 A], side: "north")
+  note((x-ms*0.9, topy), [93 A], side: "north")
 
   // ── Feeders — aligned: same station x and same end x ───────────
   feeder("top", (x-ms, topy), stations("1"),
