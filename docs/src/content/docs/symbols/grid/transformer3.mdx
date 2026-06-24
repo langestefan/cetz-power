@@ -1,0 +1,71 @@
+---
+title: Transformer (3-winding)
+description: Three-winding transformer drawn as the conventional trefoil of three overlapping circles.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+Three-winding transformer drawn as the conventional **trefoil** — three
+mutually-overlapping circles. The default orientation is *vertex-left*:
+the high-voltage (primary) winding sits on the left, and the two
+secondaries are stacked on the right — upper (`lv`) and lower (`tv`).
+That makes it drop straight into a left→right feed that splits into two
+branches, such as the stator and rotor paths of a doubly-fed induction
+generator.
+
+<Snippet name="transformer3-example" />
+
+Unlike the two-winding [`transformer`](/symbols/grid/transformer/), a
+three-winding transformer has **three terminals**, so it cannot orient
+itself along a single in→out line. It is therefore a **one-node symbol**:
+place it at a point and rotate with `angle:`.
+
+## Parameters
+
+| Name               | Default | Description                                                  |
+| ------------------ | ------- | ------------------------------------------------------------ |
+| `radius`           | `0.32`  | Radius of each circle.                                       |
+| `distance`         | `0.42`  | Centre-to-centre spacing of the equilateral circle cluster.  |
+| `fill`             | `none`  | Fill applied to all three circles.                           |
+| `stroke`           | `0.8pt` | Stroke applied to all three circles.                         |
+| `primary-stroke`   | `stroke`| Per-winding stroke for the HV (left) circle.                 |
+| `secondary-stroke` | `stroke`| Per-winding stroke for the LV (upper-right) circle.          |
+| `tertiary-stroke`  | `stroke`| Per-winding stroke for the TV (lower-right) circle.          |
+| `primary-fill` / `secondary-fill` / `tertiary-fill` | `fill` | Per-winding fills. |
+| `label`            | `none`  | Typical use: voltage ratings, e.g. `[23 / 0,96 / 0,69 kV]`.  |
+
+## Anchors
+
+The three terminal anchors sit on each circle's outer edge, radial from
+the centroid (in the symbol's local frame, before rotation):
+
+| Anchor                          | Winding                       |
+| ------------------------------- | ----------------------------- |
+| `hv` / `primary` / `in`         | HV — left circle              |
+| `lv` / `secondary`              | LV — upper-right circle        |
+| `tv` / `tertiary`               | TV — lower-right circle        |
+
+plus `center`, `north`, `south`, `east`, `west`. There is no single
+`out` anchor (a three-winding transformer has two outgoing windings) —
+wire `lv` and `tv` explicitly.
+
+## Placement
+
+Place with a single coordinate plus an optional `angle:`. The symbol is
+centred at that point and rotated about it:
+
+<Snippet name="transformer3-placement" />
+
+## Doubly-fed induction generator
+
+The canonical use: the HV winding ties to a grid bus, and the two
+secondaries feed the stator and rotor branches of the machine.
+
+<Snippet name="transformer3-dfig" />
+
+## Styling
+
+Each winding can be coloured independently with the per-winding stroke
+and fill keys — handy for distinguishing voltage levels at a glance:
+
+<Snippet name="transformer3-styling" />

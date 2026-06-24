@@ -50,6 +50,19 @@
     label: (anchor: "north", distance: 0.2),
   ),
 
+  // ── Three-winding transformer ───────────────────────────────────
+  // Trefoil of three overlapping circles (HV left, LV upper-right,
+  // TV lower-right). "distance" is the centre-to-centre spacing of the
+  // equilateral cluster; the default keeps the three circles clearly
+  // distinct while still overlapping.
+  transformer3: (
+    radius: 0.32,
+    distance: 0.42,
+    stroke: 0.8pt + black,
+    fill: none,
+    label: (anchor: "north", distance: 0.2),
+  ),
+
   // ── Load (arrow) ────────────────────────────────────────────────
   load: (
     size: 0.28,

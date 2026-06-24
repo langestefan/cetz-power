@@ -39,6 +39,7 @@
 #import "symbols/grid/wire.typ": wire, elbow
 #import "symbols/grid/external-grid.typ": external-grid
 #import "symbols/grid/transformer.typ": transformer
+#import "symbols/grid/transformer3.typ": transformer3
 
 // Generation
 #import "symbols/generation/machine.typ": machine

@@ -20,13 +20,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Symbol families
 
-`src/symbols/` is organised into four category sub-directories that mirror the docs sidebar:
+`src/symbols/` is organised into six category sub-directories that mirror the docs sidebar:
 
-- `src/symbols/grid/` — network infrastructure (`bus`, `wire`, `external-grid`, `transformer`)
+- `src/symbols/grid/` — network infrastructure (`bus`, `wire`, `external-grid`, `transformer`, `transformer3`). `transformer` is a two-node element that orients along its in→out line; `transformer3` (three-winding trefoil) has three terminals, so it is a one-node symbol placed with `angle:` and exposes `hv`/`lv`/`tv` (= `primary`/`secondary`/`tertiary`) terminal anchors.
 - `src/symbols/generation/` — sources (`machine`, `pv-panel`)
 - `src/symbols/loads/` — energy consumers (`load`)
-- `src/symbols/electrical/` — passive components, sources, and ground (`capacitor`, `resistor`, `inductor`, `diode`, `voltagesource`, `currentsource`, `ground`)
+- `src/symbols/electrical/` — passive components, sources, ground, and the lightning `bolt` (`capacitor`, `resistor`, `inductor`, `diode`, `voltagesource`, `currentsource`, `ground`, `bolt`)
 - `src/symbols/protection/` — switchgear and overcurrent protection (`switch`, `breaker`, `fuse`)
+- `src/symbols/winding/` — transformer vector-group windings (`delta`, `wye`, `zigzag`). These expose phase-terminal anchors (`u`/`v`/`w`, side midpoints) and respect a `terminals` style key for labels; pass `body: false` to keep just the anchors as a placement scaffold.
 
 Adding a new symbol means picking the right category, dropping the file there, exporting it from `src/lib.typ` (which has a section per category), and adding a default style sub-dict under the symbol's family name in `src/styles.typ`.
 
@@ -52,7 +53,12 @@ When adding a new symbol, follow the existing pattern: drop the file under the a
 
 ### Composition helpers
 
-`src/helpers.typ` is for short combinations of existing primitives that would otherwise force the caller to write the same loop or coordinate math repeatedly — it is **not** for new symbols. Currently it only exports `multi-wire(source, target, count:, from:, to:)`, which fans `count` evenly-spaced `wire()` calls between two buses using `bus-frac`. The `from`/`to` `(start, end)` fraction pairs let the caller narrow or skew the bundle on either bar (e.g. `from: (0.2, 0.8)` for a 60 %-wide bundle, asymmetric pairs for a fan-out). New helpers belong here when they compose existing primitives; anything that draws its own geometry should be a symbol under `src/symbols/` instead.
+`src/helpers.typ` is for short combinations of existing primitives that would otherwise force the caller to write the same loop or coordinate math repeatedly — it is **not** for new symbols. It currently exports two things:
+
+- `multi-wire(source, target, count:, from:, to:)` — fans `count` evenly-spaced `wire()` calls between two buses using `bus-frac`. The `from`/`to` `(start, end)` fraction pairs let the caller narrow or skew the bundle on either bar (e.g. `from: (0.2, 0.8)` for a 60 %-wide bundle, asymmetric pairs for a fan-out).
+- `note(pos, body, side:)` — drops a free-floating text label beside any coordinate/anchor/lerp, picking the label anchor opposite to `side` so the text sits cleanly on the requested side. Use it for captions on wires (which can't take labels) and tap points.
+
+New helpers belong here when they compose existing primitives; anything that draws its own geometry should be a symbol under `src/symbols/` instead.
 
 ### Canvas wrapper
 

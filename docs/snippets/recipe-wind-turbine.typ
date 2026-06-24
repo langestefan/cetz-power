@@ -5,27 +5,24 @@
 // Figuur 8.25: Model van een vast toerental wind turbine met een
 // asynchrone generator + Q-compensatie.
 #diagram(length: 1.2cm, {
+  // A labelled vertical bus with the two power-flow callouts that sit
+  // under its bottom corners (P/Q in on the left, P/Q out on the right).
+  let flow-bus(name, pos, title, left, right) = {
+    bus(name, pos, length: 1.2, angle: 90deg, label: (content: align(center)[#title]))
+    note(name + ".south-west", left, side: "south-west", distance: 0.10, text-align: center)
+    note(name + ".south-east", right, side: "south-east", distance: 0.10, text-align: center)
+  }
+
   machine("M1", (0, 0), "V")
 
   // Externe net 1
-  bus("b1", (1.5, 0), length: 1.2, angle: 90deg, label: (
-    content: align(center)[Externe net \ 22,000 kV],
-  ))
-  cetz.draw.content("b1.south-west", anchor: "north-east", padding: 0.10,
-    align(center)[2,707 MW \ -0,069 MVAr])
-  cetz.draw.content("b1.south-east", anchor: "north-west", padding: 0.10,
-    align(center)[-2,707 MW \ -0,069 MVAr])
-
+  flow-bus("b1", (1.5, 0), [Externe net \ 22,000 kV],
+    [2,707 MW \ -0,069 MVAr], [-2,707 MW \ -0,069 MVAr])
   wire("M1.east", "b1.mid")
 
   // Externe net 2
-  bus("b2", (4.0, 0), length: 1.2, angle: 90deg, label: (
-    content: align(center)[Externe net \ 22,040 kV],
-  ))
-  cetz.draw.content("b2.south-west", anchor: "north-east", padding: 0.10,
-    align(center)[2,712 MW \ 0,039 MVAr])
-  cetz.draw.content("b2.south-east", anchor: "north-west", padding: 0.10,
-    align(center)[-2,712 MW \ -0,039 MVAr])
+  flow-bus("b2", (4.0, 0), [Externe net \ 22,040 kV],
+    [2,712 MW \ 0,039 MVAr], [-2,712 MW \ -0,039 MVAr])
 
   // 23 / 0,96 kV transformer between externe-net 2 and the mastvoet bus.
   transformer("t1", "b2.mid", (rel: (3.5, 0), to: "b2.mid"),
@@ -38,17 +35,10 @@
     anchor: "north",
     distance: 0.15,
   ))
-  cetz.draw.content((rel: (0, -0.4), to: "b3.south-west"),
-    anchor: "north-east", padding: 0.10,
-    align(center)[2,735 MW \ 0,226 MVAr])
+  note((rel: (0, -0.4), to: "b3.south-west"), [2,735 MW \ 0,226 MVAr],
+    side: "south-west", distance: 0.10, text-align: center)
 
-  // Q-compensatie: shunt capacitor to the right of mastvoet, rotated
-  // -90deg so the plates run vertical (parallel to the mastvoet bus).
-  // Cap position is computed *relative to* the bus tap so it sits at
-  // exactly the tap's y, regardless of how mastvoet itself is placed —
-  // makes the connecting wire purely horizontal. Tap point is 1/8 from
-  // the top of mastvoet (bus-frac 7/8). No lead-out — single-line
-  // convention, no return-to-ground wire.
+  // Q-compensatie: shunt capacitor to the right of mastvoet
   let cap-tap = bus-frac("b3", 20/12)
   capacitor("c1", (rel: (1.25, 0), to: cap-tap),
     angle: -90deg,
@@ -58,11 +48,8 @@
     ),
   )
   wire(cap-tap, "c1.in")
-  cetz.draw.content(
-    (rel: (0, -0.3), to: "c1.center"),
-    anchor: "north",
-    align(center)[Qnom = 1,5 MVAr],
-  )
+  note((rel: (0, -0.3), to: "c1.center"), [Qnom = 1,5 MVAr],
+    side: "south", distance: 0)
 
   // Gondel — small bus aligned with the lower part of mastvoet.
   bus("b4", (10.5, -0.3), length: 0.6, angle: 90deg, label: (
