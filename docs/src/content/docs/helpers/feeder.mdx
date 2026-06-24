@@ -39,6 +39,9 @@ feeder("f", (0, 0),
   coloured), overriding the feeder-wide `load-stroke` / `load-fill`.
 - `tx-stroke` / `tx-fill` — per-station transformer styling, overriding the
   feeder-wide `tx-stroke` / `tx-fill`.
+- `draw` (function) — a custom drop drawer for this station (a motor,
+  capacitor, sub-feeder, …), overriding the feeder-wide `drop-draw`. See
+  [Custom drops](#custom-drops).
 
 `currents` is a separate list of segment labels. A feeder of N stations has
 **N + 1** segments — the lead-in, each inter-station gap, and the tail — so
@@ -58,6 +61,7 @@ labelled elsewhere, e.g. a step-down).
 | `extend` | `0.6` | Dashed continuation past the end (`0` = none). |
 | `angle` | `0deg` | Angle of attack — the direction the run travels. |
 | `drop-angle` | `auto` | Direction the drops travel (`auto` = perpendicular to the run). |
+| `drop-draw` | `auto` | What hangs at each tap (`auto` = transformer + load). See [Custom drops](#custom-drops). |
 | `line-stroke` | `auto` | Stroke of the run (`auto` = the active `cetz-power.wire.stroke`). |
 | `extend-stroke` | `auto` | Stroke of the dashed tail (`auto` = the run's stroke + dash). |
 | `extend-stroke` | `(dash: "dashed")` | Stroke of the dashed continuation. |
@@ -170,6 +174,54 @@ Two `feeder` calls off one riser make a small radial network — exactly the
 pattern the recipe below scales up:
 
 <Snippet name="feeder-network" />
+
+## Custom drops
+
+The transformer + load drop is just the default. Pass a `drop-draw` closure
+(feeder-wide) or a per-station `draw` to hang **anything** off a tap — a
+motor, a capacitor bank, a breaker, even another feeder.
+
+The closure receives one `info` dictionary:
+
+| Field | Meaning |
+| ----- | ------- |
+| `info.name` | A unique base name for this station's elements. |
+| `info.at` | The tap coordinate (where the drop meets the run). |
+| `info.foot` | The drop's end point (`at` + `drop` along the drop direction). |
+| `info.angle` | The drop direction, as an angle (so you can orient symbols). |
+| `info.drop` | The drop length. |
+| `info.st` | The station dict itself (read your own custom keys). |
+
+The feeder still owns the run line, the tap dot, the station `label`, and the
+current labels — the closure only fills the drop.
+
+:::caution
+You're placing real symbols, so respect each one's API: connect one-node
+symbols (`machine`, `capacitor`, `pv-panel`) with your own wire and orient
+them with `angle:`, give two-node symbols (`transformer`) both endpoints
+(`info.at`, `info.foot`), and size a drop's contents to fit `info.drop` —
+a body wider than the drop will overlap the run.
+:::
+
+### A whole feeder of something else
+
+`drop-draw` swaps the default for every tap — here a motor at each:
+
+<Snippet name="feeder-motor" />
+
+### A different thing per tap
+
+Per-station `draw` mixes drops on one run — a distribution transformer, a
+motor, and a shunt capacitor:
+
+<Snippet name="feeder-mixed" />
+
+### Sub-feeders (a radial tree)
+
+`feeder` is reentrant, so a drop can be another `feeder` — branch a tap into
+a sub-feeder:
+
+<Snippet name="feeder-tree" />
 
 ## In a full diagram
 

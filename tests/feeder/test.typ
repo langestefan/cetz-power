@@ -99,3 +99,22 @@
     currents: ([8 A], [4 A], none))
   feeder("r", (0, -2.6), sts, drop-angle: -55deg, lead: 1, spacing: 1.6)
 })
+
+// Custom drops: feeder-wide drop-draw (motors), per-station draw (mixed),
+// and a reentrant sub-feeder.
+#test({
+  let motor = info => { machine(info.name, info.foot, "M"); wire(info.at, info.name + ".north") }
+  feeder("m", (0, 0), ((label: [M1],), (label: [M2],)), drop-draw: motor,
+    currents: ([8 A], [4 A], none))
+  feeder("x", (0, -2.4),
+    (
+      (label: [tx], load: [5 A]),
+      (label: [mot], draw: motor),
+      (label: [sub], draw: info => {
+        feeder(info.name, info.at, ((label: [], load: [2 A]),),
+          angle: -90deg, lead: 0.8, drop: 0.7,
+          tx-radius: 0.13, tx-distance: 0.14, load-size: 0.18, extend: 0.3)
+      }),
+    ),
+    spacing: 2.4)
+})

@@ -135,6 +135,9 @@
 ///       coloured), overriding the feeder `load-stroke` / `load-fill`.
 ///     - `tx-stroke` / `tx-fill`: per-station transformer styling,
 ///       overriding the feeder `tx-stroke` / `tx-fill`.
+///     - `draw` (function): a custom drop drawer for this station,
+///       overriding the feeder `drop-draw` (see below). Put anything off
+///       the tap — a motor, capacitor, breaker, sub-feeder, …
 /// - currents (array): segment labels, one per segment — there are
 ///   `stations.len() + 1` segments (the lead-in, each inter-station gap,
 ///   and the tail). `none` entries are skipped (e.g. when the first
@@ -160,6 +163,12 @@
 ///   regardless of the run's `angle`. The station captions and current
 ///   labels stay anchored to the run — only the drops (and their load
 ///   captions) move.
+/// - drop-draw (function | auto): what hangs at each tap. `auto` (default)
+///   is the built-in transformer + load. Pass a closure `info => { … }` to
+///   draw anything instead (per-station `draw` overrides it). `info` is a
+///   dict `(name, at, foot, angle, drop, st)`: a unique base name, the tap
+///   coordinate, the drop's end point, the drop direction (angle), the drop
+///   length, and the station dict.
 /// - up (bool): drop above the run instead of below (current labels and
 ///   the station caption flip sides to match). Ignored when `drop-angle`
 ///   is set explicitly.
@@ -189,6 +198,7 @@
   angle: 0deg,
   drop: 0.95,
   drop-angle: auto,
+  drop-draw: auto,
   up: false,
   dot: 0.06,
   label-gap: 0.5,
@@ -224,24 +234,15 @@
   let perp(p, o) = (rel: (o * ddv.at(0), o * ddv.at(1)), to: p)     // along the drop
   let rperp(p, o) = (rel: (o * rp.at(0), o * rp.at(1)), to: p)      // run's perpendicular
 
-  // Draw the drops FIRST, so the run line can be laid on top of their
-  // connecting leads: each lead then meets the run at its edge instead of
-  // crossing into it (only visible when `line-stroke` contrasts with the
-  // leads, but always more correct). Tap dots go on last, over the line.
-  for (i, st) in stations.enumerate() {
-    let tap = along(lead + i * spacing)
-    let label = st.at("label", default: none)
-    if label != none {
-      cetz.draw.content(rperp(tap, -label-gap), align(center)[#label])
-    }
+  // Built-in drop: a transformer (unless `tx: false`) + a load arrow, the LV
+  // caption tracking the arrow tip. Used as the default `drop-draw`; it takes
+  // the same `info` dict that custom drawers receive.
+  let default-drop(info) = {
+    let st = info.st
     let load-label = st.at("load", default: none)
     if load-label != none {
-      // The drop points along `ddv`; the load arrow (default south) is
-      // rotated to match.
-      let ang = drop-dir + 90deg
-      // Per-station overrides: `tx` toggles the transformer, `stroke` /
-      // `fill` restyle the load arrow and `tx-stroke` / `tx-fill` the
-      // transformer (thin / thick / coloured).
+      let dn = info.name
+      let ang = info.angle + 90deg            // load arrow points along the drop
       let st-tx = st.at("tx", default: tx)
       let st-stroke = st.at("stroke", default: load-stroke)
       let st-fill = st.at("fill", default: load-fill)
@@ -249,26 +250,46 @@
       let st-tx-fill = st.at("tx-fill", default: tx-fill)
       if st-tx {
         // Tap → transformer → load.
-        let foot = perp(tap, drop)
-        transformer(name + "-t" + str(i), tap, foot,
+        transformer(dn + "-t", info.at, info.foot,
           radius: tx-radius, distance: tx-distance,
           stroke: st-tx-stroke, fill: st-tx-fill)
-        load(name + "-l" + str(i), foot, lead: load-lead, size: load-size,
+        load(dn + "-l", info.foot, lead: load-lead, size: load-size,
           angle: ang, stroke: st-stroke, fill: st-fill)
       } else {
-        // No transformer: the load hangs straight off the tap (its lead
-        // spans the drop).
-        load(name + "-l" + str(i), tap, lead: drop, size: load-size,
+        // No transformer: the load hangs straight off the tap.
+        load(dn + "-l", info.at, lead: info.drop, size: load-size,
           angle: ang, stroke: st-stroke, fill: st-fill)
       }
-      // Caption hangs off the actual arrow tip (the load's `south` anchor)
-      // by `load-gap`, so it tracks `drop` / `load-size` / `angle` and never
-      // collides with the arrow.
+      // Caption hangs off the arrow tip (the load's `south` anchor), so it
+      // tracks `drop` / `load-size` / `angle` and never collides with it.
       cetz.draw.content(
-        (rel: (load-gap * ddv.at(0), load-gap * ddv.at(1)), to: name + "-l" + str(i) + ".south"),
+        (rel: (load-gap * ddv.at(0), load-gap * ddv.at(1)), to: dn + "-l.south"),
         align(center)[#load-label],
       )
     }
+  }
+
+  // Draw the drops FIRST, so the run line can be laid on top of their
+  // connecting leads: each lead then meets the run at its edge instead of
+  // crossing into it. Tap dots go on last, over the line. The drop itself is
+  // pluggable — a per-station `draw`, else the feeder `drop-draw`, else the
+  // built-in transformer + load above. Each drawer gets an `info` dict:
+  // `(name, at, foot, angle, drop, st)`.
+  for (i, st) in stations.enumerate() {
+    let tap = along(lead + i * spacing)
+    let label = st.at("label", default: none)
+    if label != none {
+      cetz.draw.content(rperp(tap, -label-gap), align(center)[#label])
+    }
+    let drawer = st.at("draw", default: if drop-draw == auto { default-drop } else { drop-draw })
+    drawer((
+      name: name + "-" + str(i),
+      at: tap,
+      foot: perp(tap, drop),
+      angle: drop-dir,
+      drop: drop,
+      st: st,
+    ))
   }
 
   // The run + optional dashed continuation, drawn over the drop leads so a
