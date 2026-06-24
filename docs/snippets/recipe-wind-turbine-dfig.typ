@@ -52,7 +52,7 @@
   // ── Upper branch: stator ───────────────────────────────────────
   bus("b3", (rel: (d-mast, by), to: "t.center"), length: blen, angle: 90deg,
     label: (content: align(center)[Mastvoet \ 0,947 kV]))
-  elbow("t.lv", "b3.mid", corner: "h")
+  elbow("t.lv", "b3.mid", corner: "v")
   bus("b5", (rel: (d-gond, 0), to: "b3.mid"), length: blen, angle: 90deg,
     label: (content: align(center)[Gondel \ 0,954 kV]))
   multi-wire("b3", "b5", count: 3, from: (0, 0.6), to: (0, 0.6))
@@ -62,7 +62,7 @@
   // ── Lower branch: rotor (Mastvoet → Gondel cable box) ──────────
   bus("b4", (rel: (d-mast, -by), to: "t.center"), length: blen, angle: 90deg,
     label: (content: align(center)[Mastvoet \ 0,717 kV], anchor: "south"))
-  elbow("t.tv", "b4.mid", corner: "h")
+  elbow("t.tv", "b4.mid", corner: "v")
   bus("b6", (rel: (d-gond, 0), to: "b4.mid"), length: blen, angle: 90deg,
     label: (content: align(center)[Gondel \ 0,718 kV], anchor: "north"))
   multi-wire("b4", "b6", count: 2, from: (0, 0.6), to: (0, 0.6))

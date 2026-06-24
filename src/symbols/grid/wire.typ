@@ -180,9 +180,10 @@
   assert(corner in ("h", "v"), message: "corner must be \"h\" or \"v\"")
   cetz.draw.get-ctx(ctx => {
     let s = _wire-stroke(ctx, stroke)
-    // (a, "-|", b) → point with a's x, b's y → vertical-first L
-    // (a, "|-", b) → point with b's x, a's y → horizontal-first L
-    let knee = if corner == "h" { (a, "|-", b) } else { (a, "-|", b) }
+    // CeTZ perpendicular coordinates: (a, "-|", b) resolves to (b's x,
+    // a's y) — the horizontal-first knee — and (a, "|-", b) to (a's x,
+    // b's y) — the vertical-first knee.
+    let knee = if corner == "h" { (a, "-|", b) } else { (a, "|-", b) }
     cetz.draw.line(a, knee, b, stroke: s)
   })
 }
