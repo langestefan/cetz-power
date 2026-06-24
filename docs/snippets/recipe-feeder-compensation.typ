@@ -18,6 +18,7 @@
   let dx     = 2.5         // station spacing
   let x-end  = 12.2        // both feeders end here, so "28 A" shares an x
   let tail   = x-end - (x-n1 + 2 * dx)   // common tail length
+  let dash-len = 0.9       // length of the dashed tail on each feeder
   let bus-h  = 1.1         // HS busbar length
   let ext    = bus-h / 2   // MS bus overshoots each tap by this (top aligns with HS top)
 
@@ -51,10 +52,12 @@
   // ── Feeders — aligned: same station x and same end x ───────────
   feeder("top", (x-ms, topy), stations("1"),
     currents: ([56 A], [47 A], [38 A], [28 A]),
-    lead: x-n1 - x-ms, spacing: dx, tail: tail, drop-angle: -45deg, drop: 1.1)
+    lead: x-n1 - x-ms, spacing: dx, tail: tail, extend: dash-len,
+    drop-angle: -45deg, drop: 1.1)
   feeder("bot", (x-step, boty), stations("2"),
     currents: (none, [47 A], [38 A], [28 A]),
-    lead: x-n1 - x-step, spacing: dx, tail: tail, drop-angle: -45deg, drop: 1.1)
+    lead: x-n1 - x-step, spacing: dx, tail: tail, extend: dash-len,
+    drop-angle: -45deg, drop: 1.1)
 
   // ── Compensation + step down to the bottom feeder ──────────────
   let cp = (x-ms - 0.5, comp-y)               // wire end = tip of the ">"

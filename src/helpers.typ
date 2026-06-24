@@ -150,8 +150,9 @@
 /// - line-stroke (stroke | auto): stroke of the main run. `auto` (default)
 ///   uses the active `cetz-power.wire.stroke` — pass e.g. `1.4pt + blue`
 ///   for a heavier or colour-coded feeder line.
-/// - extend-stroke (stroke): stroke of the dashed continuation. Defaults to
-///   `(dash: "dashed")`; set it to match a custom `line-stroke`.
+/// - extend-stroke (stroke | auto): stroke of the dashed continuation.
+///   `auto` (default) reuses the run's thickness and paint and just adds the
+///   dash, so the solid run and dashed tail are the same weight.
 /// - drop (float): length of the transformer + load drop.
 /// - drop-angle (angle | auto): direction every drop travels. `auto`
 ///   (default) keeps them perpendicular to the run (the `up` side); set an
@@ -184,7 +185,7 @@
   tail: auto,
   extend: 0.6,
   line-stroke: auto,
-  extend-stroke: (dash: "dashed"),
+  extend-stroke: auto,
   angle: 0deg,
   drop: 0.95,
   drop-angle: auto,
@@ -271,12 +272,22 @@
   }
 
   // The run + optional dashed continuation, drawn over the drop leads so a
-  // contrasting `line-stroke` reads cleanly. `auto` falls back to the active
-  // `cetz-power.wire.stroke`.
-  wire(start, along(total), stroke: line-stroke)
-  if extend > 0 {
-    wire(along(total), along(total + extend), stroke: extend-stroke)
-  }
+  // contrasting `line-stroke` reads cleanly. The dashed tail inherits the
+  // run's exact stroke (thickness + paint) and only adds the dash, so the
+  // two read as one line; pass `extend-stroke` to override it.
+  cetz.draw.get-ctx(ctx => {
+    let run-stroke = if line-stroke == auto {
+      ctx.style.at("cetz-power", default: (:)).at("wire", default: (:)).at("stroke", default: 0.8pt + black)
+    } else { line-stroke }
+    cetz.draw.line(start, along(total), stroke: run-stroke)
+    if extend > 0 {
+      let tail-stroke = if extend-stroke == auto {
+        let s = stroke(run-stroke)
+        (paint: s.paint, thickness: s.thickness, dash: "dashed")
+      } else { extend-stroke }
+      cetz.draw.line(along(total), along(total + extend), stroke: tail-stroke)
+    }
+  })
 
   // Tap dots, on top of the run line.
   if dot > 0 {
