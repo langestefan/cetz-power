@@ -41,14 +41,18 @@
   wire("b1.mid", "b2.mid")
 
   // Three-winding transformer: HV ← Trafo MS, LV → stator, TV → rotor.
+  // Aim the secondaries straight up / down so the branch wires leave the
+  // LV / TV circles perpendicular (the elbows rise vertically first, then
+  // turn into the cable boxes).
   transformer3("t", (rel: (d-tx, 0), to: "b2.mid"),
+    lv-angle: 90deg, tv-angle: -90deg,
     label: (content: [23 / 0,96 / 0,69 kV], anchor: "east", distance: 0.3))
   wire("b2.mid", "t.hv")
 
   // ── Upper branch: stator ───────────────────────────────────────
   bus("b3", (rel: (d-mast, by), to: "t.center"), length: blen, angle: 90deg,
     label: (content: align(center)[Mastvoet \ 0,947 kV]))
-  elbow("t.lv", "b3.mid")
+  elbow("t.lv", "b3.mid", corner: "h")
   bus("b5", (rel: (d-gond, 0), to: "b3.mid"), length: blen, angle: 90deg,
     label: (content: align(center)[Gondel \ 0,954 kV]))
   multi-wire("b3", "b5", count: 3, from: (0, 0.6), to: (0, 0.6))
@@ -58,7 +62,7 @@
   // ── Lower branch: rotor (Mastvoet → Gondel cable box) ──────────
   bus("b4", (rel: (d-mast, -by), to: "t.center"), length: blen, angle: 90deg,
     label: (content: align(center)[Mastvoet \ 0,717 kV], anchor: "south"))
-  elbow("t.tv", "b4.mid")
+  elbow("t.tv", "b4.mid", corner: "h")
   bus("b6", (rel: (d-gond, 0), to: "b4.mid"), length: blen, angle: 90deg,
     label: (content: align(center)[Gondel \ 0,718 kV], anchor: "north"))
   multi-wire("b4", "b6", count: 2, from: (0, 0.6), to: (0, 0.6))

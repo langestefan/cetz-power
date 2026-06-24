@@ -32,12 +32,16 @@ place it at a point and rotate with `angle:`.
 | `secondary-stroke` | `stroke`| Per-winding stroke for the LV (upper-right) circle.          |
 | `tertiary-stroke`  | `stroke`| Per-winding stroke for the TV (lower-right) circle.          |
 | `primary-fill` / `secondary-fill` / `tertiary-fill` | `fill` | Per-winding fills. |
+| `lead`             | `0`     | Length of the lead stub from each circle edge to its terminal anchor (`0` = flush on the edge). See [Controlling the terminals](#controlling-the-terminals). |
+| `hv-angle` / `lv-angle` / `tv-angle` | `180deg` / `60deg` / `-60deg` | Direction each terminal exits its circle, CCW from +x. |
 | `label`            | `none`  | Typical use: voltage ratings, e.g. `[23 / 0,96 / 0,69 kV]`.  |
 
 ## Anchors
 
-The three terminal anchors sit on each circle's outer edge, radial from
-the centroid (in the symbol's local frame, before rotation):
+The three terminal anchors sit where each winding's wire exits its
+circle — by default radial from the centroid, but you can re-aim and
+extend them (see [Controlling the terminals](#controlling-the-terminals)).
+Positions are given in the symbol's local frame, before rotation:
 
 | Anchor                          | Winding                       |
 | ------------------------------- | ----------------------------- |
@@ -48,6 +52,39 @@ the centroid (in the symbol's local frame, before rotation):
 plus `center`, `north`, `south`, `east`, `west`. There is no single
 `out` anchor (a three-winding transformer has two outgoing windings) —
 wire `lv` and `tv` explicitly.
+
+## Controlling the terminals
+
+By default each terminal exits its circle **radially from the centroid**
+— HV at `180deg` (left), LV at `60deg` (up-right), TV at `-60deg`
+(down-right) — and sits flush on the circle edge. Two style keys move the
+connection points:
+
+- **`hv-angle` / `lv-angle` / `tv-angle`** set the *direction* each
+  winding's wire leaves its circle, measured counter-clockwise from the
+  +x axis. Re-aim a secondary straight up (`90deg`) or down (`-90deg`),
+  or point a terminal anywhere on its circle.
+- **`lead`** sets the *distance* the terminal sits beyond the circle
+  edge, drawing a stub in that winding's stroke. `0` (default) keeps the
+  anchor flush on the edge.
+
+The two compose — the terminal anchor is computed as
+
+```
+circle-centre + (radius + lead) · (cos θ, sin θ)
+```
+
+where `θ` is that terminal's angle. The default angles happen to equal
+the radial direction to each circle and `lead` is `0`, so the defaults
+reproduce the flush, on-the-edge terminals — existing diagrams are
+unchanged.
+
+The `hv` / `lv` / `tv` anchors always track the resulting positions, so
+wires and elbows attach correctly however you aim or extend the
+terminals. Left to right below: the defaults, a `lead` stub on every
+terminal, and the secondaries re-aimed vertically with leads:
+
+<Snippet name="transformer3-terminals" />
 
 ## Placement
 

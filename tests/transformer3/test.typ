@@ -32,3 +32,21 @@
   wire("t.lv", (rel: (1.5, 0), to: "t.lv"))
   wire("t.tv", (rel: (1.5, 0), to: "t.tv"))
 })
+
+// Lead stubs on every terminal.
+#test({
+  transformer3("t", (0, 0), lead: 0.4)
+})
+
+// Custom exit angles: LV straight up, TV straight down, HV unchanged.
+#test({
+  transformer3("t", (0, 0), lv-angle: 90deg, tv-angle: -90deg)
+})
+
+// Angles + leads together, anchors still drive the wires.
+#test({
+  transformer3("t", (0, 0), lead: 0.5, lv-angle: 90deg, tv-angle: -90deg)
+  wire("t.lv", (rel: (0, 1), to: "t.lv"))
+  wire("t.tv", (rel: (0, -1), to: "t.tv"))
+  wire("t.hv", (rel: (-1, 0), to: "t.hv"))
+})

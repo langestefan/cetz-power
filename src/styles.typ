@@ -60,6 +60,13 @@
     distance: 0.42,
     stroke: 0.8pt + black,
     fill: none,
+    // Connection points: each terminal exits its circle at the given
+    // angle (CCW from +x); `lead` draws a stub of that length out to the
+    // anchor (0 = flush on the circle edge).
+    lead: 0,
+    "hv-angle": 180deg,
+    "lv-angle": 60deg,
+    "tv-angle": -60deg,
     label: (anchor: "north", distance: 0.2),
   ),
 

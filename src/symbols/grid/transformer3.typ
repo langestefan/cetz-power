@@ -20,25 +20,34 @@
 /// whose centroid is the symbol origin; `distance` is the centre-to-
 /// centre spacing (triangle side) and `radius` the circle radius.
 ///
-/// Terminal anchors sit on each circle's outer edge, radially from the
-/// centroid:
+/// Terminal anchors sit where each winding's wire exits its circle:
 ///
 ///   * `hv` / `primary` / `in` — left circle (high voltage)
 ///   * `lv` / `secondary`      — upper-right circle
 ///   * `tv` / `tertiary`       — lower-right circle
 ///
-/// plus `center`, `north`, `south`, `east`, `west`. Wire each terminal
-/// to its bus or branch; no leads are drawn automatically (matching the
-/// two-winding symbol in one-node mode).
+/// plus `center`, `north`, `south`, `east`, `west`.
+///
+/// By default each terminal exits its circle radially from the centroid
+/// (HV at 180°, LV at 60°, TV at −60°). Control where the connection
+/// points land with the per-terminal `hv-angle` / `lv-angle` / `tv-angle`
+/// exit directions, and push them further out (with a drawn lead stub)
+/// via `lead`. Both are backward-compatible: the defaults reproduce the
+/// flush-on-the-circle terminals.
 ///
 /// Each winding can be styled independently — `primary-stroke` /
 /// `primary-fill`, `secondary-stroke` / `secondary-fill`, and
 /// `tertiary-stroke` / `tertiary-fill` — all defaulting to the unified
-/// `stroke` / `fill`.
+/// `stroke` / `fill`. A lead stub picks up its winding's stroke.
 ///
 /// - name (str): CeTZ group name.
 /// - radius (float): radius of each circle (style override).
 /// - distance (float): centre-to-centre spacing of the circles.
+/// - lead (float): length of the lead stub drawn from each circle edge
+///   to its terminal anchor. `0` (default) keeps the anchor on the edge.
+/// - hv-angle / lv-angle / tv-angle (angle): direction in which each
+///   terminal exits its circle, measured CCW from +x. Defaults
+///   `180deg` / `60deg` / `-60deg`.
 /// - stroke / fill: applied to ALL three circles unless overridden
 ///   per winding.
 /// - primary-stroke / primary-fill: override for the HV (left) circle.
@@ -62,6 +71,10 @@
     let pf = style.at("primary-fill", default: f)
     let sf = style.at("secondary-fill", default: f)
     let tf = style.at("tertiary-fill", default: f)
+    let lead = style.at("lead", default: 0)
+    let a-hv = style.at("hv-angle", default: 180deg)
+    let a-lv = style.at("lv-angle", default: 60deg)
+    let a-tv = style.at("tv-angle", default: -60deg)
 
     // Equilateral triangle of circle centres, centroid at the origin,
     // one vertex pointing left (-x). Circumradius R = side / sqrt(3).
@@ -71,12 +84,18 @@
     let c-lv = (cap-R / 2, d / 2)
     let c-tv = (cap-R / 2, -d / 2)
 
-    // Terminals sit on each circle's outer edge, radially outward from
-    // the centroid — i.e. R + r along each vertex direction.
-    let edge = cap-R + r
-    let t-hv = (-edge, 0)
-    let t-lv = (edge / 2, edge * rt3 / 2)
-    let t-tv = (edge / 2, -edge * rt3 / 2)
+    // A winding's wire leaves its circle at angle `a`; the terminal
+    // anchor is `lead` beyond the edge, the stub running from edge to it.
+    // Returns (anchor-point, edge-point). With the default angles and
+    // lead = 0 this reproduces the flush radial terminals.
+    let term(c, a) = {
+      let (cx, cy) = c
+      let (dx, dy) = (calc.cos(a), calc.sin(a))
+      ((cx + (r + lead) * dx, cy + (r + lead) * dy), (cx + r * dx, cy + r * dy))
+    }
+    let (t-hv, e-hv) = term(c-hv, a-hv)
+    let (t-lv, e-lv) = term(c-lv, a-lv)
+    let (t-tv, e-tv) = term(c-tv, a-tv)
 
     // Fills first (stroke none) then strokes (fill none), so a later
     // circle's fill can't occlude an earlier circle's stroke in the
@@ -87,6 +106,13 @@
     cetz.draw.circle(c-hv, radius: r, stroke: ps, fill: none)
     cetz.draw.circle(c-lv, radius: r, stroke: ss, fill: none)
     cetz.draw.circle(c-tv, radius: r, stroke: ts, fill: none)
+
+    // Lead stubs (each in its winding's stroke), only when lead > 0.
+    if lead > 0 {
+      cetz.draw.line(e-hv, t-hv, stroke: ps)
+      cetz.draw.line(e-lv, t-lv, stroke: ss)
+      cetz.draw.line(e-tv, t-tv, stroke: ts)
+    }
 
     // Terminal anchors. `in` aliases the HV terminal for natural
     // left-feed; there is no single `out` (two secondaries) — use
