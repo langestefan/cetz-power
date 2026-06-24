@@ -57,6 +57,7 @@ When adding a new symbol, follow the existing pattern: drop the file under the a
 
 - `multi-wire(source, target, count:, from:, to:)` — fans `count` evenly-spaced `wire()` calls between two buses using `bus-frac`. The `from`/`to` `(start, end)` fraction pairs let the caller narrow or skew the bundle on either bar (e.g. `from: (0.2, 0.8)` for a 60 %-wide bundle, asymmetric pairs for a fan-out).
 - `note(pos, body, side:)` — drops a free-floating text label beside any coordinate/anchor/lerp, picking the label anchor opposite to `side` so the text sits cleanly on the requested side. Use it for captions on wires (which can't take labels) and tap points.
+- `feeder(name, start, stations, ...)` — draws a distribution feeder: a straight run from `start` with an evenly-spaced tap per entry in the `stations` data list, an optional transformer+`load` "drop" under each (down, or up with `up: true`), per-segment `currents` labels (N+1 of them, `none` to skip), and a dashed continuation. `stations` is a list of `(label:, load:)` dicts (omit `load` for a bare tap). `lead`/`spacing`/`tail`/`extend` size the run. It composes `wire`/`transformer`/`load`/`note` — see the feeder-compensation recipe.
 
 New helpers belong here when they compose existing primitives; anything that draws its own geometry should be a symbol under `src/symbols/` instead.
 

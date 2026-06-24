@@ -1,0 +1,157 @@
+---
+title: Feeder
+description: Draw a distribution feeder — a run with a transformer + load drop per station, current labels, and a dashed continuation — from a station data list.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+`feeder` draws a distribution feeder in one call: a straight run with an
+evenly-spaced tap per station, an optional transformer +
+[`load`](/symbols/loads/load/) "drop" under each, per-segment current
+labels, and a dashed continuation. It's a composition helper — it loops
+`wire`, `transformer`, `load`, and `note` over a data list, so you
+*describe* the feeder instead of placing every element by hand.
+
+<Snippet name="feeder-example" />
+
+```typst
+feeder("f", (0, 0),
+  (
+    (label: [N1 \ 10,4 kV], load: [10 A \ 230 V]),
+    (label: [N2 \ 10,4 kV], load: [10 A \ 230 V]),
+    (label: [N3 \ 10,4 kV], load: [10 A \ 230 V]),
+  ),
+  currents: ([56 A], [47 A], [38 A], [28 A]))
+```
+
+## The station list
+
+`stations` is a list of dictionaries — one per tap, left to right:
+
+- `label` (content | none) — caption beside the tap (station id, voltage,
+  …), placed on the side opposite the drop.
+- `load` (content | none) — caption under the load arrow (the LV rating).
+  When present, a transformer + load drop is drawn; when omitted the
+  station is a **bare labelled tap**.
+- `tx` (bool) — per-station override of the feeder-wide `tx` flag; set
+  `false` to hang the load straight off the tap (no transformer).
+- `stroke` / `fill` — per-station load-arrow styling (thin / thick /
+  coloured), overriding the feeder-wide `load-stroke` / `load-fill`.
+- `tx-stroke` / `tx-fill` — per-station transformer styling, overriding the
+  feeder-wide `tx-stroke` / `tx-fill`.
+
+`currents` is a separate list of segment labels. A feeder of N stations has
+**N + 1** segments — the lead-in, each inter-station gap, and the tail — so
+pass up to N + 1 entries; `none` skips one (handy when a segment is
+labelled elsewhere, e.g. a step-down).
+
+## Parameters
+
+| Name | Default | Description |
+| ---- | ------- | ----------- |
+| `start` | — | Where the run begins (any CeTZ coordinate, e.g. a bus anchor). |
+| `stations` | — | Per-tap data list (see above). |
+| `currents` | `()` | Segment labels, up to `N + 1`; `none` skips one. |
+| `lead` | `1.7` | Distance from `start` to the first station. |
+| `spacing` | `2.5` | Distance between consecutive stations. |
+| `tail` | `auto` | Last station → line end (`auto` = `lead`). |
+| `extend` | `0.6` | Dashed continuation past the end (`0` = none). |
+| `line-stroke` | `auto` | Stroke of the run (`auto` = the active `cetz-power.wire.stroke`). |
+| `extend-stroke` | `(dash: "dashed")` | Stroke of the dashed continuation. |
+| `drop` | `0.95` | Length of the transformer + load drop. |
+| `up` | `false` | Hang drops above the run instead of below. |
+| `dot` | `0.06` | Tap-dot radius (`0` = no dot). |
+| `label-gap` / `load-gap` | `0.5` / `1.7` | Tap-to-caption distances. |
+| `tx` | `true` | Draw a transformer in each drop (`false` = load only). |
+| `tx-radius` / `tx-distance` | `0.2` / `0.22` | Drop transformer geometry. |
+| `tx-stroke` / `tx-fill` | `0.8pt + black` / `none` | Default transformer styling (per-station `tx-stroke` / `tx-fill` override). |
+| `load-size` / `load-lead` | `0.26` / `0.12` | Drop load-arrow geometry. |
+| `load-stroke` / `load-fill` | `0.8pt + black` / `black` | Default load-arrow styling (per-station `stroke` / `fill` override). |
+
+The i-th station's transformer and load get `<name>-t<i>` / `<name>-l<i>`
+group names, so you can still anchor to them afterwards.
+
+## Examples
+
+### Any number of stations
+
+The station count follows the data list — build it inline, or generate it
+with `.map`:
+
+<Snippet name="feeder-count" />
+
+### Drops above the run
+
+`up: true` hangs the drops above the line; the captions and current labels
+flip to the underside to match:
+
+<Snippet name="feeder-up" />
+
+### Bare taps and skipped segments
+
+Omit a station's `load` for a bare labelled tap, and pass `none` in
+`currents` to leave a segment unlabelled:
+
+<Snippet name="feeder-bare" />
+
+### Without transformers
+
+`tx: false` drops the transformers — the load hangs straight off each tap
+(its lead spans the drop). Useful for a plain load feeder, or set `tx` per
+station to mix transformer and direct-load taps:
+
+<Snippet name="feeder-notx" />
+
+### Styling the load arrows
+
+Each station can carry its own `stroke` / `fill`, so loads can be
+hollow-thin, thick, or coloured — independently along the feeder (set
+`load-stroke` / `load-fill` instead to style the whole feeder at once):
+
+<Snippet name="feeder-loads" />
+
+The transformers take the same treatment via `tx-stroke` / `tx-fill`
+(feeder-wide) or per-station, so a whole drop can be colour-coded:
+
+<Snippet name="feeder-tx-style" />
+
+### Styling the run line
+
+The line the drops branch off is a `wire`, so `line-stroke` restyles it —
+a heavier busbar, or a colour-coded voltage level. `extend-stroke` styles
+the dashed continuation to match:
+
+<Snippet name="feeder-line" />
+
+### Sizing the drop
+
+`drop`, `tx-radius` / `tx-distance`, and `load-size` / `load-gap` scale the
+hanging transformer and load:
+
+<Snippet name="feeder-geometry" />
+
+### Terminating the run
+
+`extend: 0` ends the feeder cleanly (no dashed continuation), `tail` sets
+how far it runs past the last station, and `dot: 0` drops the tap dots:
+
+<Snippet name="feeder-terminated" />
+
+### Starting from existing geometry
+
+`start` is any coordinate, so a feeder can hang straight off a bus anchor:
+
+<Snippet name="feeder-bus" />
+
+### A radial pair
+
+Two `feeder` calls off one riser make a small radial network — exactly the
+pattern the recipe below scales up:
+
+<Snippet name="feeder-network" />
+
+## In a full diagram
+
+See the [Feeder compensation recipe](/recipes/feeder-compensation/), where
+two `feeder` calls — sharing one station-data closure — build both MV
+feeders of a real load-flow figure.

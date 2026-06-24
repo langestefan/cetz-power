@@ -121,6 +121,12 @@ export default defineConfig({
           ],
         },
         {
+          label: 'Composition helpers',
+          items: [
+            { label: 'Feeder', slug: 'helpers/feeder' },
+          ],
+        },
+        {
           label: 'Extending',
           items: [
             { label: 'Creating your own symbol', slug: 'extending/custom-symbol' },
@@ -136,6 +142,7 @@ export default defineConfig({
             { label: 'Parallel transformers', slug: 'recipes/parallel-transformers' },
             { label: 'Phase-to-earth fault', slug: 'recipes/phase-fault' },
             { label: 'MV cable equivalent', slug: 'recipes/mv-cable-equivalent' },
+            { label: 'Feeder compensation', slug: 'recipes/feeder-compensation' },
           ],
         },
       ],

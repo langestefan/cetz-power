@@ -1,0 +1,41 @@
+---
+title: Negative-load compensation on MV feeders
+description: A feeding substation supplying two MV feeders of distribution Netstations, with a negative load compensating the coincidence factor.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+A medium-voltage distribution network: a feeding substation (HV → MV
+transformer) supplies two MV feeders, each carrying three *Netstations* —
+a tap, a distribution transformer, and the aggregated LV load. A
+*negative load* (`Compensatie`) models the reactive compensation that
+offsets the coincidence factor of the combined demand. Every segment is
+annotated with its current, the way a load-flow result is read.
+
+<Snippet name="recipe-feeder-compensation" />
+
+## How it's built
+
+- Both MV runs come from the package's **`feeder`** helper — one call each.
+  It draws the line, an evenly-spaced tap per station, the transformer +
+  [`load`](/symbols/loads/load/) "drop" under each one, the per-segment
+  current labels, and the dashed continuation. The two calls differ only in
+  start point, height, station numbering, and which currents to show.
+- The per-station data is a list of `(label, load)` dicts; a small
+  `stations(p)` closure builds the shared three-station list, varying only
+  the leading digit (`"1"` → 11/12/13, `"2"` → 21/22/23).
+- The **source** section (V → feeding transformer → MS node) and the
+  **compensation** are drawn explicitly: the compensation is a `>` glyph
+  (two `cetz.draw.line`s) with its tip on the wire end, and the **57 A
+  step-down** to the bottom feeder is a single `elbow`.
+
+`feeder` is versatile beyond this figure: drops can hang above the run
+(`up: true`), a station with no `load` is a bare labelled tap, and `lead` /
+`spacing` / `extend` size the run — see its definition in `src/helpers.typ`.
+
+:::note[Credit]
+This diagram reproduces *Figuur 9.22 — Negatieve belasting ter compensatie
+van de gelijktijdigheid* from
+[*Netten voor distributie van elektriciteit* (Phase to Phase),
+hoofdstuk 9](https://www.phasetophase.nl/boek/boek_2_9.html).
+:::
