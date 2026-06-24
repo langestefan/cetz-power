@@ -83,3 +83,19 @@
     line-stroke: 1.6pt + blue,
     extend-stroke: (paint: blue, thickness: 1.6pt, dash: "dashed"))
 })
+
+// Angle of attack: positive, negative, and steep (current labels follow).
+#test({
+  let sts = ((label: [A], load: [4 A]), (label: [B], load: [4 A]))
+  feeder("p", (0, 0), sts, angle: 25deg, lead: 1, spacing: 1.6, currents: ([8 A], [4 A], none))
+  feeder("n", (0, 0), sts, angle: -25deg, lead: 1, spacing: 1.6)
+  feeder("v", (4, 0), sts, angle: 70deg, lead: 1, spacing: 1.6, up: true)
+})
+
+// drop-angle: tilted run with vertical drops, and raked drops on a flat run.
+#test({
+  let sts = ((label: [A], load: [4 A]), (label: [B], load: [4 A]))
+  feeder("t", (0, 0), sts, angle: 20deg, drop-angle: -90deg, lead: 1, spacing: 1.6,
+    currents: ([8 A], [4 A], none))
+  feeder("r", (0, -2.6), sts, drop-angle: -55deg, lead: 1, spacing: 1.6)
+})

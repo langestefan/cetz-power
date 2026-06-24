@@ -101,6 +101,16 @@
   }
 }
 
+// Snap a direction vector to the nearest of the eight compass anchors.
+#let _compass-of(v) = {
+  let deg = calc.atan2(v.at(0), v.at(1)) / 1deg
+  let k = int(calc.rem(calc.round(deg / 45) + 8, 8))
+  (
+    "east", "north-east", "north", "north-west",
+    "west", "south-west", "south", "south-east",
+  ).at(k)
+}
+
 /// Draw a feeder: a straight run with an evenly-spaced tap per station,
 /// each optionally carrying a transformer + load "drop", plus per-segment
 /// current labels and a dashed continuation. Both feeders of a radial /
@@ -134,16 +144,28 @@
 /// - tail (float | auto): distance from the last station to the line end.
 ///   `auto` (default) uses `lead`.
 /// - extend (float): dashed continuation drawn past the end (`0` = none).
+/// - angle (angle): direction of the run — the "angle of attack". `0deg`
+///   (default) runs horizontally to the right; the whole feeder (stations,
+///   drops, labels) rotates with it while text stays upright.
 /// - line-stroke (stroke | auto): stroke of the main run. `auto` (default)
 ///   uses the active `cetz-power.wire.stroke` — pass e.g. `1.4pt + blue`
 ///   for a heavier or colour-coded feeder line.
 /// - extend-stroke (stroke): stroke of the dashed continuation. Defaults to
 ///   `(dash: "dashed")`; set it to match a custom `line-stroke`.
 /// - drop (float): length of the transformer + load drop.
+/// - drop-angle (angle | auto): direction every drop travels. `auto`
+///   (default) keeps them perpendicular to the run (the `up` side); set an
+///   absolute angle (e.g. `-90deg` for straight down) to aim all drops
+///   regardless of the run's `angle`. The station captions and current
+///   labels stay anchored to the run — only the drops (and their load
+///   captions) move.
 /// - up (bool): drop above the run instead of below (current labels and
-///   the station caption flip sides to match).
+///   the station caption flip sides to match). Ignored when `drop-angle`
+///   is set explicitly.
 /// - dot (float): tap-dot radius (`0` = no dot).
-/// - label-gap / load-gap (float): tap-to-caption distances.
+/// - label-gap (float): tap-to-station-caption distance.
+/// - load-gap (float): gap from the load arrow's tip to its caption, so the
+///   caption tracks `drop` / `load-size` and never collides with the arrow.
 /// - tx (bool): draw a transformer in each drop (`false` = load only).
 /// - tx-radius / tx-distance (float): drop transformer geometry.
 /// - tx-stroke / tx-fill: default transformer styling for the feeder
@@ -163,11 +185,13 @@
   extend: 0.6,
   line-stroke: auto,
   extend-stroke: (dash: "dashed"),
+  angle: 0deg,
   drop: 0.95,
+  drop-angle: auto,
   up: false,
   dot: 0.06,
   label-gap: 0.5,
-  load-gap: 1.7,
+  load-gap: 0.35,
   tx: true,
   tx-radius: 0.2,
   tx-distance: 0.22,
@@ -179,29 +203,41 @@
   load-fill: black,
 ) = {
   let n = stations.len()
-  let dir = if up { 1 } else { -1 }                 // drop direction (±y)
   let tail-len = if tail == auto { lead } else { tail }
   let total = lead + calc.max(n - 1, 0) * spacing + tail-len
 
-  // The run + optional dashed continuation. `line-stroke: auto` falls back
-  // to the active `cetz-power.wire.stroke`.
-  wire(start, (rel: (total, 0), to: start), stroke: line-stroke)
-  if extend > 0 {
-    wire((rel: (total, 0), to: start), (rel: (total + extend, 0), to: start),
-      stroke: extend-stroke)
-  }
+  // Run direction `u` (the angle of attack) and the perpendicular drop
+  // direction `ddv`. Everything is positioned along these two vectors, so
+  // `angle` rotates the whole feeder while the labels stay upright.
+  let u = (calc.cos(angle), calc.sin(angle))
+  // The run's own perpendicular (the `up` side). Captions and current
+  // labels are placed against this, so they keep their position relative to
+  // the run no matter where `drop-angle` aims the drops.
+  let run-perp = if up { angle + 90deg } else { angle - 90deg }
+  // Direction the drops travel. `drop-angle: auto` keeps them perpendicular
+  // to the run; otherwise every drop points at the given absolute angle.
+  let drop-dir = if drop-angle == auto { run-perp } else { drop-angle }
+  let rp = (calc.cos(run-perp), calc.sin(run-perp))
+  let ddv = (calc.cos(drop-dir), calc.sin(drop-dir))
+  let along(d) = (rel: (d * u.at(0), d * u.at(1)), to: start)
+  let perp(p, o) = (rel: (o * ddv.at(0), o * ddv.at(1)), to: p)     // along the drop
+  let rperp(p, o) = (rel: (o * rp.at(0), o * rp.at(1)), to: p)      // run's perpendicular
 
-  // Stations: tap dot, caption, and (when a `load` is given) the drop.
+  // Draw the drops FIRST, so the run line can be laid on top of their
+  // connecting leads: each lead then meets the run at its edge instead of
+  // crossing into it (only visible when `line-stroke` contrasts with the
+  // leads, but always more correct). Tap dots go on last, over the line.
   for (i, st) in stations.enumerate() {
-    let tap = (rel: (lead + i * spacing, 0), to: start)
-    if dot > 0 { cetz.draw.circle(tap, radius: dot, fill: black) }
+    let tap = along(lead + i * spacing)
     let label = st.at("label", default: none)
     if label != none {
-      cetz.draw.content((rel: (0, -dir * label-gap), to: tap), align(center)[#label])
+      cetz.draw.content(rperp(tap, -label-gap), align(center)[#label])
     }
     let load-label = st.at("load", default: none)
     if load-label != none {
-      let ang = if up { 180deg } else { 0deg }
+      // The drop points along `ddv`; the load arrow (default south) is
+      // rotated to match.
+      let ang = drop-dir + 90deg
       // Per-station overrides: `tx` toggles the transformer, `stroke` /
       // `fill` restyle the load arrow and `tx-stroke` / `tx-fill` the
       // transformer (thin / thick / coloured).
@@ -212,7 +248,7 @@
       let st-tx-fill = st.at("tx-fill", default: tx-fill)
       if st-tx {
         // Tap → transformer → load.
-        let foot = (rel: (0, dir * drop), to: tap)
+        let foot = perp(tap, drop)
         transformer(name + "-t" + str(i), tap, foot,
           radius: tx-radius, distance: tx-distance,
           stroke: st-tx-stroke, fill: st-tx-fill)
@@ -224,12 +260,34 @@
         load(name + "-l" + str(i), tap, lead: drop, size: load-size,
           angle: ang, stroke: st-stroke, fill: st-fill)
       }
-      cetz.draw.content((rel: (0, dir * load-gap), to: tap), align(center)[#load-label])
+      // Caption hangs off the actual arrow tip (the load's `south` anchor)
+      // by `load-gap`, so it tracks `drop` / `load-size` / `angle` and never
+      // collides with the arrow.
+      cetz.draw.content(
+        (rel: (load-gap * ddv.at(0), load-gap * ddv.at(1)), to: name + "-l" + str(i) + ".south"),
+        align(center)[#load-label],
+      )
     }
   }
 
-  // Per-segment current labels, sitting opposite the drops.
-  let side = if up { "south" } else { "north" }
+  // The run + optional dashed continuation, drawn over the drop leads so a
+  // contrasting `line-stroke` reads cleanly. `auto` falls back to the active
+  // `cetz-power.wire.stroke`.
+  wire(start, along(total), stroke: line-stroke)
+  if extend > 0 {
+    wire(along(total), along(total + extend), stroke: extend-stroke)
+  }
+
+  // Tap dots, on top of the run line.
+  if dot > 0 {
+    for i in range(n) {
+      cetz.draw.circle(along(lead + i * spacing), radius: dot, fill: black)
+    }
+  }
+
+  // Per-segment current labels, on the run's perpendicular (opposite the
+  // default drop side), independent of `drop-angle`.
+  let side = _compass-of((-rp.at(0), -rp.at(1)))
   for (i, c) in currents.enumerate() {
     if c != none {
       let mx = if i == 0 {
@@ -239,7 +297,7 @@
       } else {
         lead + calc.max(n - 1, 0) * spacing + tail-len / 2
       }
-      note((rel: (mx, 0), to: start), c, side: side)
+      note(along(mx), c, side: side)
     }
   }
 }

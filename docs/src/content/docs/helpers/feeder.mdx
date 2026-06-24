@@ -56,12 +56,15 @@ labelled elsewhere, e.g. a step-down).
 | `spacing` | `2.5` | Distance between consecutive stations. |
 | `tail` | `auto` | Last station → line end (`auto` = `lead`). |
 | `extend` | `0.6` | Dashed continuation past the end (`0` = none). |
+| `angle` | `0deg` | Angle of attack — the direction the run travels. |
+| `drop-angle` | `auto` | Direction the drops travel (`auto` = perpendicular to the run). |
 | `line-stroke` | `auto` | Stroke of the run (`auto` = the active `cetz-power.wire.stroke`). |
 | `extend-stroke` | `(dash: "dashed")` | Stroke of the dashed continuation. |
 | `drop` | `0.95` | Length of the transformer + load drop. |
 | `up` | `false` | Hang drops above the run instead of below. |
 | `dot` | `0.06` | Tap-dot radius (`0` = no dot). |
-| `label-gap` / `load-gap` | `0.5` / `1.7` | Tap-to-caption distances. |
+| `label-gap` | `0.5` | Tap → station-caption distance. |
+| `load-gap` | `0.35` | Gap from the load arrow tip to its caption (tracks `drop`). |
 | `tx` | `true` | Draw a transformer in each drop (`false` = load only). |
 | `tx-radius` / `tx-distance` | `0.2` / `0.22` | Drop transformer geometry. |
 | `tx-stroke` / `tx-fill` | `0.8pt + black` / `none` | Default transformer styling (per-station `tx-stroke` / `tx-fill` override). |
@@ -79,6 +82,23 @@ The station count follows the data list — build it inline, or generate it
 with `.map`:
 
 <Snippet name="feeder-count" />
+
+### Angle of attack
+
+`angle` sets the direction the run travels. The whole feeder rotates — run,
+taps, and the perpendicular drops — while the text stays upright. Give two
+feeders a shared `start` and opposite angles to make them radiate:
+
+<Snippet name="feeder-angle" />
+
+### Aiming the drops
+
+`drop-angle` sets the direction every drop travels, independent of the run.
+By default it's perpendicular to the run; set an absolute angle (e.g.
+`-90deg` for straight down) to rake them — here the run is tilted but the
+drops hang vertically:
+
+<Snippet name="feeder-drop-angle" />
 
 ### Drops above the run
 

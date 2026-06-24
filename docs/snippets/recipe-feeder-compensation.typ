@@ -36,9 +36,9 @@
 
   // ── Feeders (same helper, different data) ──────────────────────
   feeder("top", (x-ms, topy), stations("1"),
-    currents: ([56 A], [47 A], [38 A], [28 A]), lead: 1.7)
+    currents: ([56 A], [47 A], [38 A], [28 A]), lead: 2.2, drop-angle: -45deg, drop: 1.1)
   feeder("bot", (x-step, boty), stations("2"),
-    currents: (none, [47 A], [38 A], [28 A]), lead: 0.6)
+    currents: (none, [47 A], [38 A], [28 A]), lead: 1.2, drop-angle: -45deg, drop: 1.1)
 
   // ── Compensation + step down to the bottom feeder ──────────────
   wire((x-ms, topy), (x-ms, comp-y))          // drop from the MS node
