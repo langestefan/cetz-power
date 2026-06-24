@@ -15,19 +15,6 @@
     note(name + ".south-east", right, side: "south-east", distance: 0.10, text-align: center)
   }
 
-  // A "cable box": two short buses (Mastvoet ← → Gondel) closed top and
-  // bottom by a 2-strand multi-wire, forming the rectangle of the figure.
-  let cable-box(name, pos, mv, gv, len: 0.7, span: 2.6) = {
-    bus(name + "-m", pos, length: len, angle: 90deg,
-      label: (content: align(center)[#mv], anchor: "north", distance: 0.15))
-    bus(name + "-g", (rel: (span, 0), to: pos), length: len, angle: 90deg,
-      label: (content: align(center)[#gv], anchor: "north", distance: 0.15))
-    multi-wire(name + "-m", name + "-g", count: 2)
-  }
-
-  let upper = 1.0
-  let lower = -1.0
-
   // ── Left feed (main axis) ──────────────────────────────────────
   machine("M1", (0, 0), "V")
   flow-bus("b1", (1.6, 0), [Externe net \ 22,000 kV],
@@ -45,52 +32,57 @@
 
   // ── Upper branch: stator ───────────────────────────────────────
   bus("b3", (2*4.2, 1.0), length: 0.6, angle: 90deg, label: (
-    content: align(center)[Mastvoet \ 0,947 kV], 
+    content: align(center)[Mastvoet \ 0,947 kV],
   ))
   elbow("t.lv", "b3.mid")
   bus("b5", (3*4.2, 1.0), length: 0.6, angle: 90deg, label: (
-    content: align(center)[Gondel \ 0,954 kV], 
+    content: align(center)[Gondel \ 0,954 kV],
   ))
   multi-wire("b3", "b5", count: 3, from: (0, 0.6), to: (0, 0.6))
 
-  // // ── Upper branch: stator ───────────────────────────────────────
+  // ── Lower branch: rotor (Mastvoet → Gondel cable box) ──────────
   bus("b4", (2*4.2, -1.0), length: 0.6, angle: 90deg, label: (
-    content: align(center)[Mastvoet \ 0,717 kV], anchor: "south", 
+    content: align(center)[Mastvoet \ 0,717 kV], anchor: "south",
   ))
   elbow("t.tv", "b4.mid")
     bus("b6", (3*4.2, -1.0), length: 0.6, angle: 90deg, label: (
-    content: align(center)[Gondel \ 0,718 kV], anchor: "south", 
+    content: align(center)[Gondel \ 0,718 kV], anchor: "north",
   ))
   multi-wire("b4", "b6", count: 2, from: (0, 0.6), to: (0, 0.6))
-  
-  // cable-box("cu", (8.4, upper), [Mastvoet \ 0,947 kV], [Gondel \ 0,954 kV])
-  // elbow("t.lv", "cu-m.mid", corner: "v")
-  // machine("G2", (rel: (1.6, 0), to: "cu-g.mid"), "G",
-  //   label: (content: align(center)[2,500 MW \ 0,467 Mvar], anchor: "north", distance: 0.2))
-  // wire("cu-g.mid", "G2.west")
-  // note((7.3, upper), [2,463 MW \ 0,458 Mvar], side: "north", text-align: center)
+  note((7.0, -1.0), [0,500 MW \ 0,000 Mvar], side: "south", 
+    text-align: center)
 
-  // // ── Lower branch: rotor + converter ────────────────────────────
-  // cable-box("cl", (8.4, lower), [Mastvoet \ 0,717 kV], [Gondel \ 0,718 kV])
-  // elbow("t.tv", "cl-m.mid", corner: "v")
-  // note((7.3, lower), [0,500 MW \ 0,000 Mvar], side: "south", text-align: center)
+  // Converter 
+  cetz.draw.rect((14.1, -1.65), (16.0, -0.35), name: "conv",
+    stroke: (dash: "dashed", thickness: 0.6pt)
+  )
+  cetz.draw.content("conv.north", anchor: "north", padding: 0.1, [Converter])
 
-  // // Converter — dashed box with a wedge (two lines) at its left.
-  // let cv = (rel: (1.4, 0), to: "cl-g.mid")
-  // wire("cl-g.mid", cv)
-  // cetz.draw.rect((rel: (0, -0.5), to: cv), (rel: (1.7, 0.5), to: cv),
-  //   stroke: (dash: "dashed", thickness: 0.6pt))
-  // cetz.draw.line((rel: (0.15, 0), to: cv), (rel: (0.7, 0.3), to: cv),
-  //   stroke: 0.7pt + black)
-  // cetz.draw.line((rel: (0.15, 0), to: cv), (rel: (0.7, -0.3), to: cv),
-  //   stroke: 0.7pt + black)
-  // cetz.draw.content((rel: (0.85, 0.35), to: cv), [Converter])
-  // note((rel: (-0.25, -0.12), to: cv), [-0,500 MW \ 0,000 Mvar],
-  //   side: "south", text-align: center)
+  // Generator on the stator path.
+  machine("G2", ("conv.center", "|-", "b5.mid"), "G",
+    label: (content: align(center)[2,500 MW \ 0,467 Mvar], anchor: "north", distance: 0.2))
+  wire("b5.mid", "G2.west")
+  note((7.0, 1.0), [2,463 MW \ 0,458 Mvar], side: "north", 
+    text-align: center)
 
-  // // ── Turbine envelope (dashed boundary) ─────────────────────────
-  // // Encloses the two cable boxes; the generator and converter sit just
-  // // outside on the right, with the feed lines crossing the boundary.
-  // cetz.draw.rect((7.6, -2.2), (12.1, 2.2),
-  //   stroke: (dash: "dashed", thickness: 0.6pt))
+  wire("conv.north", "G2.south",  stroke: (dash: "dashed", thickness: 0.6pt))
+
+  // Converter on the rotor path — a dashed rectangle with a wedge whose
+  // right side IS the box's left edge (the two lines land on its NW / SW
+  // corners).
+  let apex = (13.6, -1.0)
+  wire("b6.mid", apex)
+
+  // Wedge
+  cetz.draw.line(apex, (rel: (0, -0.32), to: "conv.north-west"), 
+    stroke: 0.7pt + black)
+  cetz.draw.line(apex, (rel: (0, 0.32), to: "conv.south-west"), 
+    stroke: 0.7pt + black)
+
+  note((13.2, -1.1), [-0,500 MW \ 0,000 Mvar], side: "south", 
+    text-align: center)
+
+  // ── Envelope (dashed boundary) ─────────────────────────
+  cetz.draw.rect((12.0, -2.0), (16.2, 2.2),
+    stroke: (dash: "dashed", thickness: 0.6pt))
 })
