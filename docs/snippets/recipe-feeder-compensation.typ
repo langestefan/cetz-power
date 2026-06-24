@@ -10,10 +10,16 @@
 #diagram(length: 1cm, {
   let topy   = 0           // top feeder height
   let boty   = -3.0        // bottom feeder height
-  let x-tr   = 1.6         // feeding transformer
-  let x-ms   = 2.9         // MS busbar node (top feeder starts here)
-  let x-step = 4.0         // where the 57 A drop meets the bottom feeder
-  let comp-y = -1.1        // compensation / step-down junction height
+  let x-hs   = 1.6         // HS busbar
+  let x-ms   = 4.0         // MS busbar (top feeder starts here)
+  let x-step = 4.8         // where the 57 A drop meets the bottom feeder
+  let comp-y = -1.1        // MS-bus foot / compensation + step junction
+  let x-n1   = 5.6         // first Netstation (shared by both feeders)
+  let dx     = 2.5         // station spacing
+  let x-end  = 12.2        // both feeders end here, so "28 A" shares an x
+  let tail   = x-end - (x-n1 + 2 * dx)   // common tail length
+  let bus-h  = 1.1         // HS busbar length
+  let ext    = bus-h / 2   // MS bus overshoots each tap by this (top aligns with HS top)
 
   // Station data shared by both feeders (only the numbering differs).
   let stations(p) = (
@@ -24,24 +30,33 @@
 
   // ── Source ─────────────────────────────────────────────────────
   machine("V", (0, topy), "V")
-  cetz.draw.content((0, topy + 0.7), align(center)[Onderstation HS \ 150,000 kV])
   cetz.draw.content((0, topy - 0.55), align(center)[Voedende net \ 7 A])
-  transformer("tr", (x-tr, topy), radius: 0.28, distance: 0.3)
-  cetz.draw.content((x-tr, topy - 0.6), [Voedingstransformator])
-  cetz.draw.content((x-ms, topy + 0.7), align(center)[Onderstation MS \ 10,451 kV])
-  wire("V.east", "tr.in")
-  wire("tr.out", (x-ms, topy))
-  note(((0 + x-tr) / 2, topy), [7 A], side: "north")
-  note(((x-tr + x-ms) / 2, topy), [93 A], side: "north")
 
-  // ── Feeders (same helper, different data) ──────────────────────
+  // Onderstation HS — the 150 kV busbar.
+  bus("hs", (x-hs, topy), length: bus-h, angle: 90deg)
+  cetz.draw.content((x-hs, topy + ext + 0.3), align(center)[Onderstation HS \ 150,000 kV])
+  wire("V.east", "hs.mid")
+  note((x-hs / 2, topy), [7 A], side: "north")
+
+  // Onderstation MS — the MV busbar (vertical). It taps the transformer +
+  // top feeder at `topy` and the compensation + step-down at `comp-y`, and
+  // overshoots each by `ext` so its top lines up with the HS busbar.
+  bus("ms", (x-ms, topy + ext), (x-ms, comp-y - ext))
+  cetz.draw.content((x-ms, topy + ext + 0.3), align(center)[Onderstation MS \ 10,451 kV])
+
+  transformer("tr", "hs.mid", (x-ms, topy), radius: 0.28, distance: 0.3)
+  cetz.draw.content(((x-hs + x-ms) / 2, topy - 0.6), [Voedingstransformator])
+  note((x-ms - 0.6, topy), [93 A], side: "north")
+
+  // ── Feeders — aligned: same station x and same end x ───────────
   feeder("top", (x-ms, topy), stations("1"),
-    currents: ([56 A], [47 A], [38 A], [28 A]), lead: 2.2, drop-angle: -45deg, drop: 1.1)
+    currents: ([56 A], [47 A], [38 A], [28 A]),
+    lead: x-n1 - x-ms, spacing: dx, tail: tail, drop-angle: -45deg, drop: 1.1)
   feeder("bot", (x-step, boty), stations("2"),
-    currents: (none, [47 A], [38 A], [28 A]), lead: 1.2, drop-angle: -45deg, drop: 1.1)
+    currents: (none, [47 A], [38 A], [28 A]),
+    lead: x-n1 - x-step, spacing: dx, tail: tail, drop-angle: -45deg, drop: 1.1)
 
   // ── Compensation + step down to the bottom feeder ──────────────
-  wire((x-ms, topy), (x-ms, comp-y))          // drop from the MS node
   let cp = (x-ms - 0.5, comp-y)               // wire end = tip of the ">"
   wire((x-ms, comp-y), cp)
   cetz.draw.line((rel: (-0.3, 0.22), to: cp), cp, (rel: (-0.3, -0.22), to: cp),
