@@ -1,0 +1,41 @@
+---
+title: Wind turbine with a doubly-fed induction generator
+description: Three-winding transformer splitting into a stator path (to the generator) and a rotor path (via a converter) — the classic DFIG single-line.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+The variable-speed counterpart to the [fixed-speed wind
+turbine](/recipes/wind-turbine/). A **doubly-fed induction generator
+(DFIG)** feeds the grid from its stator *and* exchanges slip power
+through its rotor via a back-to-back converter. A three-winding
+transformer does the splitting: the HV winding ties to the grid, one
+secondary feeds the stator path, and the other feeds the rotor path.
+
+<Snippet name="recipe-wind-turbine-dfig" />
+
+## How it's built
+
+A few composition patterns carry most of the diagram:
+
+- **The split** is a single [`transformer3`](/symbols/grid/transformer3/)
+  placed on the main axis. Its `hv` terminal takes the feed from the
+  *Trafo MS* bus; `lv` and `tv` fan up and down into the two branches
+  (routed with `elbow(..., corner: "v")` for a clean riser-then-run).
+- **The cable boxes** (*Mastvoet* → *Gondel*) are not a special symbol —
+  each is two short buses closed top and bottom by `multi-wire(...,
+  count: 2)`, which lands one strand at each bus end and so draws the
+  rectangle. A small local `cable-box` closure stamps both.
+- **The P/Q callouts** under the left buses reuse the same `flow-bus`
+  closure as the fixed-speed recipe — a bus plus two corner `note`s.
+- **The converter** and the **turbine envelope** are plain
+  `cetz.draw.rect` calls with a dashed stroke; the converter's wedge is
+  just two `cetz.draw.line`s.
+
+:::note[Credit]
+This diagram reproduces *Figuur 8.31 — Model van een variabel toerental
+windturbine met een dubbelgevoede inductiegenerator* from
+[*Netten voor distributie van elektriciteit* (Phase to Phase),
+hoofdstuk 8.2](https://www.phasetophase.nl/boek/boek_2_8.html).
+Voltages and power flows are taken directly from the figure.
+:::

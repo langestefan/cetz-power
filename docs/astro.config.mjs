@@ -132,6 +132,7 @@ export default defineConfig({
           items: [
             { label: 'Radial feeder', slug: 'recipes/radial-feeder' },
             { label: 'Wind turbine', slug: 'recipes/wind-turbine' },
+            { label: 'Wind turbine (DFIG)', slug: 'recipes/wind-turbine-dfig' },
             { label: 'Parallel transformers', slug: 'recipes/parallel-transformers' },
             { label: 'Phase-to-earth fault', slug: 'recipes/phase-fault' },
             { label: 'MV cable equivalent', slug: 'recipes/mv-cable-equivalent' },
