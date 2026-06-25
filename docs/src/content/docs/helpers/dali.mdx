@@ -48,11 +48,7 @@ the box is `<name>`, the current clamp `<name>-ct`, and the voltage
 transformer `<name>-vt`. Anchor a [`note`](/helpers/feeder/) (or any content)
 to them:
 
-```typst
-dali("m", (4, 0), label: [Meter])
-note("m-ct.west", [I], side: "west")    // left of the clamp
-note("m-vt.east", [U], side: "east")    // right of the transformer
-```
+<Snippet name="dali-captions" />
 
 The same anchors let you wire further off the box (`m.south`, `m.center`, …).
 
