@@ -1,0 +1,49 @@
+---
+title: Modified CIGRE LV network
+description: The modified CIGRE low-voltage benchmark — external grid, MV bus, 250 kVA transformer, and three radial 400 V feeders (residential, industrial, commercial) with ~30 nodes.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+The full modified CIGRE low-voltage benchmark on one canvas: an external
+grid feeds an MV bus (switch **S2**, 11 kV) and an **11/0.4 kV, 250 kVA**
+transformer onto the 400 V **LV bus**, which fans out into three radial
+feeders — **residential** (R1–R13), **industrial** (a single 100 m run to
+I1), and **commercial** (C1–C14). Every segment carries its length, and
+loads hang off the nodes as direction arrows.
+
+<Snippet name="recipe-cigre-lv" />
+
+## How it's built
+
+It's a lot of repetition, so the whole diagram runs on six tiny closures
+defined at the top of the snippet:
+
+- `dot(p)` — a filled node circle; `nl(p, c, s)` — a node label
+  ([`note`](/helpers/feeder/) at a side); `dl(a, b, c, s)` — a segment-length
+  label at the midpoint (`(a, 50%, b)` lerp).
+- `seg(a, b)` — a [`wire`](/symbols/grid/wire/); `ld(name, p, ang)` — a
+  directional [`load`](/symbols/loads/load/) arrow (`ang` in degrees: `0`
+  down, `90` right, `-90` left), with `fill: none` for the hollow ▷ / ◁
+  loads. `drop(...)` taps a node circle a distance below its parent and
+  hangs a load off it — that's the C9/C10/C13/C14/R12 pattern in one line.
+- The three feeders are then just node coordinates plus loops: the
+  residential and commercial main lines are `range`-mapped
+  (`R = i => (rx, by - i*rs)`), and branches are placed relative to them.
+  Rooftop PV at R8/R9 is the [`pv-panel`](/symbols/generation/pv-panel/) symbol.
+- The top chain is built explicitly — [`external-grid`](/symbols/grid/external-grid/),
+  a [`switch`](/symbols/protection/switch/) (S2) above a
+  [`bus`](/symbols/grid/bus/) (the MV bus), and a
+  [`transformer`](/symbols/grid/transformer/) down to the LV `bus`.
+
+Because it's all coordinates and closures, re-spacing a feeder or adding a
+node is a one-line change.
+
+:::note[Credit]
+This reproduces *Figure 3.6 — The modified CIGRE LV network used for the
+quasi-dynamic simulations* from
+[*Reactive power management and flexibility aggregation in active
+distribution networks*](https://research.tue.nl/nl/publications/reactive-power-management-and-flexibility-aggregation-in-active-d/)
+(Eindhoven University of Technology), itself adapted from the CIGRE Task
+Force C6.04 low-voltage benchmark network.
+:::

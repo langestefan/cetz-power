@@ -146,6 +146,7 @@ export default defineConfig({
             { label: 'Feeder compensation', slug: 'recipes/feeder-compensation' },
             { label: 'MV transport link', slug: 'recipes/ms-transport' },
             { label: 'Reactive power flow', slug: 'recipes/reactive-flow' },
+            { label: 'Modified CIGRE LV network', slug: 'recipes/cigre-lv' },
           ],
         },
       ],
