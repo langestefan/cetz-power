@@ -66,8 +66,10 @@ same expression works regardless of how the bus is rotated:
 <Snippet name="bus-frac-loads" />
 
 Under the hood `bus-frac` is just a CeTZ lerp coordinate
-`("name.start", fraction, "name.end")`, evaluated at draw time — so the
-fraction can even be a computation, e.g. `bus-frac("b3", 1/6)`.
+`("name.start", fraction * 100%, "name.end")`, evaluated at draw time — so
+the fraction can even be a computation, e.g. `bus-frac("b3", 1/6)`. (The
+`* 100%` matters: CeTZ reads a plain-float lerp offset as an absolute
+distance, but a ratio as a true fraction of the bar's length.)
 
 ## Multiple buses & inter-bus wires
 

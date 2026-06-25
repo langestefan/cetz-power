@@ -143,6 +143,7 @@ export default defineConfig({
             { label: 'Phase-to-earth fault', slug: 'recipes/phase-fault' },
             { label: 'MV cable equivalent', slug: 'recipes/mv-cable-equivalent' },
             { label: 'Feeder compensation', slug: 'recipes/feeder-compensation' },
+            { label: 'MV transport link', slug: 'recipes/ms-transport' },
           ],
         },
       ],

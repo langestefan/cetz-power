@@ -102,9 +102,15 @@
   symbol("bus", name, ..positions, ..overrides, draw: draw)
 }
 
-/// Convenience: `bus-at(name, bus-anchor, fraction)` returns a local anchor
-/// name for a fractional point along `bus-name`. Because CeTZ evaluates
-/// anchor strings late, we instead build a coordinate expression.
+/// Convenience: `bus-frac(name, fraction)` returns a coordinate a given
+/// `fraction` (0..1) of the way from the bus's `start` to its `end`.
+/// Because CeTZ evaluates anchor strings late, we build a lerp coordinate
+/// rather than a named anchor.
+///
+/// The fraction is passed as a *ratio* (`fraction * 100%`): CeTZ's lerp
+/// coordinate treats a plain float offset as an absolute distance along
+/// the segment, but a ratio as a true percentage — so `bus-frac("b1", 0.5)`
+/// lands at the midpoint regardless of the bus's length.
 ///
 /// Usage:
 ///
@@ -113,5 +119,5 @@
 ///
 /// -> coordinate
 #let bus-frac(bus-name, fraction) = {
-  (bus-name + ".start", fraction, bus-name + ".end")
+  (bus-name + ".start", fraction * 100%, bus-name + ".end")
 }

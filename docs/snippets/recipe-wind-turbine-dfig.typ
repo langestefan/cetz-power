@@ -55,7 +55,7 @@
   elbow("t.lv", "b3.mid", corner: "v")
   bus("b5", (rel: (d-gond, 0), to: "b3.mid"), length: blen, angle: 90deg,
     label: (content: align(center)[Gondel \ 0,954 kV]))
-  multi-wire("b3", "b5", count: 3, from: (0, 0.6), to: (0, 0.6))
+  multi-wire("b3", "b5", count: 3, from: (0, 1), to: (0, 1))
   note((rel: (-d-mast / 2, 0), to: "b3.mid"), [2,463 MW \ 0,458 Mvar],
     side: "north", text-align: center)
 
@@ -65,7 +65,7 @@
   elbow("t.tv", "b4.mid", corner: "v")
   bus("b6", (rel: (d-gond, 0), to: "b4.mid"), length: blen, angle: 90deg,
     label: (content: align(center)[Gondel \ 0,718 kV], anchor: "north"))
-  multi-wire("b4", "b6", count: 2, from: (0, 0.6), to: (0, 0.6))
+  multi-wire("b4", "b6", count: 2, from: (0, 1), to: (0, 1))
   note((rel: (-d-mast / 2, 0), to: "b4.mid"), [0,500 MW \ 0,000 Mvar],
     side: "south", text-align: center)
 

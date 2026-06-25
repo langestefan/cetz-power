@@ -39,7 +39,7 @@
     side: "south-west", distance: 0.10, text-align: center)
 
   // Q-compensatie: shunt capacitor to the right of mastvoet
-  let cap-tap = bus-frac("b3", 20/12)
+  let cap-tap = bus-frac("b3", 5/6)
   capacitor("c1", (rel: (1.25, 0), to: cap-tap),
     angle: -90deg,
     lead-out: 0,
@@ -57,7 +57,10 @@
     anchor: "north",
     distance: 0.15,
   ))
-  multi-wire("b3", "b4", count: 3, from: (0, 0.6), to: (0, 0.6))
+  // Mastvoet (b3, length 2.0) is taller than Gondel (b4, length 0.6); the
+  // bottom 30 % of b3 spans the same height as the full b4, so the three
+  // cables stay horizontal.
+  multi-wire("b3", "b4", count: 3, from: (0, 0.3), to: (0, 1))
 
   // Asynchrone generator on the far right (image labels it "A").
   machine("M2", (12.5, -0.3), "A", label: (
