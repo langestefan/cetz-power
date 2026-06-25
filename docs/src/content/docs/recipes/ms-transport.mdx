@@ -18,11 +18,14 @@ node carries its load-flow result.
 ## How it's built
 
 - The diagram is a grid of **vertical busbars** (`bus` placed with two
-  endpoints, so the length is implicit). A tiny `bundle(x0, x1)` closure
-  draws one `wire` per cable at a shared set of y-levels, so the OS-MS →
-  RS-MS link and the departing stubs all line up across the figure. The
-  **Koppelveld** is a single bus-coupler `wire` — it forks out of each
-  RS-MS bar *between* two cables rather than running parallel to them.
+  endpoints, so the length is implicit) joined entirely by
+  [`multi-wire`](/helpers/feeder/): the OS-MS → RS-MS link is one
+  bus-to-bus call, the **Koppelveld** is a single bus coupler
+  (`count: 1`), and the **departing feeders** are a `multi-wire` *stub fan*
+  — passing an offset `(out-len, 0)` instead of a target bus draws the
+  cables into open space, since there's no facing bar on the right.
+  Because the bars overshoot their cables (see below), every call lands on
+  the same fractional `band`, so all the cables line up.
 - The **HV feed** is drawn green: a [`machine`](/symbols/generation/machine/)
   source, a short [`bus`](/symbols/grid/bus/), and the
   [`wire`](/symbols/grid/wire/)s take `stroke: g`; the
@@ -42,12 +45,11 @@ node carries its load-flow result.
   (`x-*` columns, `gap`, `n` cables), so changing the spacing or adding a
   cable is a one-line change.
 
-:::note[Why an explicit loop, not `multi-wire`?]
-The [`multi-wire`](/helpers/feeder/) helper would draw the OS-MS → RS-MS
-link, but the departing feeders on the right terminate in open space —
-there's no target bus for `multi-wire` to span to. Drawing both with one
-`bundle(x0, x1)` closure keeps them uniform and guarantees every cable
-shares the same y-levels.
+:::tip[`multi-wire` stub fans]
+`multi-wire`'s `target` can be a bus name **or** a `(dx, dy)` offset. With an
+offset it draws free stubs off the source bar — exactly the departing-feeder
+case, where the cables leave RS-MS uitgaand with no facing bus to land on.
+That's what lets the whole figure use one helper for every cable group.
 :::
 
 :::note[Credit]

@@ -32,18 +32,17 @@
   let box-bot = -3.55
   let dashed  = (dash: "dashed", thickness: 0.7pt)
 
-  let tapy(i) = ytop - i * gap      // y of the i-th cable (shared by every bundle)
+  let tapy(i) = ytop - i * gap      // y of the i-th cable
   let bus-top = ytop + over         // common top of all four busbars
   let bus-bot = ybot - over         // bottom of the three tall busbars
   let koppy   = (tapy(4) + tapy(5)) / 2   // Koppelveld height (between two cables)
 
-  // A bundle of `n` parallel cables between two x-positions, one per cable.
-  let bundle(x0, x1) = {
-    for i in range(n) {
-      let y = tapy(i)
-      wire((x0, y), (x1, y))
-    }
-  }
+  // The tall bars overshoot the cables by `over` at each end, so the cables
+  // occupy the `band` fraction of each bar (the rest is overshoot). Feeding
+  // `multi-wire` this band reproduces the evenly-spaced cable grid exactly.
+  let lo   = over / (bus-top - bus-bot)
+  let band = (lo, 1 - lo)
+  let kf   = (bus-top - koppy) / (bus-top - bus-bot)   // Koppelveld fraction
 
   // ── Station envelopes (drawn first, behind everything) ─────────
   cetz.draw.rect((x-ts - 0.9, box-top), (x-osms + 0.7, box-bot), stroke: dashed)
@@ -86,20 +85,21 @@
   // ── MV transport link: OS-MS → RS-MS (six cables) ──────────────
   bus("rsms", (x-rsms, bus-top), (x-rsms, bus-bot))
   note((x-rsms, bus-top + 0.05), [RS-MS \ 9.962 kV], side: "north", text-align: center)
-  bundle(x-osms, x-rsms)
+  multi-wire("osms", "rsms", count: n, from: band, to: band)
 
-  // ── Coupling field (Koppelveld): a single bus coupler between the two
-  // RS-MS bars, forking out of each between two cables ───────────
+  // ── Coupling field (Koppelveld): a single bus coupler (count: 1) tying
+  // the two RS-MS bars between two cables ────────────────────────
   bus("uit", (x-uit, bus-top), (x-uit, bus-bot))
   note((x-uit, bus-top + 0.05), [RS-MS uitgaand \ 9.962 kV], side: "north",
     text-align: center)
-  wire((x-rsms, koppy), (x-uit, koppy))
+  multi-wire("rsms", "uit", count: 1, from: (kf, kf), to: (kf, kf))
   note(((x-rsms + x-uit) / 2, koppy), [Koppelveld], side: "north")
   cetz.draw.content((x-rsms + 0.15, bus-bot - 0.15), anchor: "north-west",
     [17.005 MW \ 6.991 Mvar])
   cetz.draw.content((x-uit - 0.15, bus-bot - 0.15), anchor: "north-east",
     [-17.005 MW \ -6.991 Mvar])
 
-  // ── Departing feeders off RS-MS uitgaand ───────────────────────
-  bundle(x-uit, x-uit + out-len)
+  // ── Departing feeders off RS-MS uitgaand — a stub fan (offset target,
+  // no facing bus) ───────────────────────────────────────────────
+  multi-wire("uit", (out-len, 0), count: n, from: band)
 })

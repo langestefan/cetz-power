@@ -39,3 +39,12 @@
   bus("b2", (3, 0), length: 1.4, angle: 90deg)
   multi-wire("b1", "b2", count: 1)
 })
+
+// Stub fan — an offset `(dx, dy)` target draws free stubs off one bar
+// (no facing bus), with `from` narrowing the band as usual.
+#test({
+  import "/src/lib.typ": *
+  bus("b1", (0, 0), length: 1.6, angle: 90deg)
+  multi-wire("b1", (1.5, 0), count: 4)
+  multi-wire("b1", (-0.8, 0), count: 2, from: (0.2, 0.8))
+})
