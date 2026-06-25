@@ -16,28 +16,37 @@ loads hang off the nodes as direction arrows.
 
 ## How it's built
 
-It's a lot of repetition, so the whole diagram runs on six tiny closures
-defined at the top of the snippet:
+It's a radial tree, so the whole diagram is one **LV bus** with three main
+lines branching off — drawn by a couple of small closures rather than placed
+by hand:
 
-- `dot(p)` — a filled node circle; `nl(p, c, s)` — a node label
-  ([`note`](/helpers/feeder/) at a side); `dl(a, b, c, s)` — a segment-length
-  label at the midpoint (`(a, 50%, b)` lerp).
-- `seg(a, b)` — a [`wire`](/symbols/grid/wire/); `ld(name, p, ang)` — a
-  directional [`load`](/symbols/loads/load/) arrow (`ang` in degrees: `0`
-  down, `90` right, `-90` left), with `fill: none` for the hollow ▷ / ◁
-  loads. `drop(...)` taps a node circle a distance below its parent and
-  hangs a load off it — that's the C9/C10/C13/C14/R12 pattern in one line.
-- The three feeders are then just node coordinates plus loops: the
-  residential and commercial main lines are `range`-mapped
-  (`R = i => (rx, by - i*rs)`), and branches are placed relative to them.
-  Rooftop PV at R8/R9 is the [`pv-panel`](/symbols/generation/pv-panel/) symbol.
+- `nodes(start, n, step, dir)` returns `n` coordinates a `step` apart from
+  `start` along a unit vector (`down` / `left` / `right`); `chain(...)` walks
+  them, drawing a [`wire`](/symbols/grid/wire/) per hop (each labelled with
+  its length), a dot, and the node label. So a whole feeder line is two
+  calls:
+
+  ```typst
+  let C = nodes((cx, by), 6, cs, down)                     // C1 … C6 coords
+  chain((cx, by), C, [30m], range(1, 7).map(i => [C#i]),  // draw + label them
+    ("west", "east", "east", "west", "west", "east"))
+  ```
+
+- The horizontal sub-feeders (R9–R11, C7–C8, C11–C12) use the same
+  `nodes`/`chain` pair; `drop(...)` taps a node circle a branch below its
+  parent and hangs a [`load`](/symbols/loads/load/) off it (the
+  C9/C10/C13/C14/R12 pattern). `dl` rotates the length label to run along
+  vertical segments.
+- The three rooftop **PV panels** (R8, R9, C6) are the one hand-placed bit
+  — a [`pv-panel`](/symbols/generation/pv-panel/) at the node, rotated for
+  the C6 one.
 - The top chain is built explicitly — [`external-grid`](/symbols/grid/external-grid/),
   a [`switch`](/symbols/protection/switch/) (S2) above a
   [`bus`](/symbols/grid/bus/) (the MV bus), and a
   [`transformer`](/symbols/grid/transformer/) down to the LV `bus`.
 
-Because it's all coordinates and closures, re-spacing a feeder or adding a
-node is a one-line change.
+Because the feeders are `nodes` + `chain` + a label list, re-spacing one or
+adding a node is a one-line change.
 
 :::note[Credit]
 This reproduces *Figure 3.6 — The modified CIGRE LV network used for the
