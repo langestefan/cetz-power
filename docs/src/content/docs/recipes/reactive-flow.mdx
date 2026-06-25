@@ -8,8 +8,8 @@ import Snippet from '../../../components/Snippet.astro';
 A whole-network overview of reactive-power flow direction. An HV network
 (modelled as an [external grid](/symbols/grid/external-grid/)) plus a
 synchronous generator feed the **T-D interface**; three HV/MV transformers
-step down to the MV conductor, three MV/LV transformers step down to the LV
-feeders, and **DALI** sensors meter the LV interface. The middle path carries
+step down to the MV bus, three MV/LV transformers step down to the LV
+feeders, and a **DALI** unit meters the LV interface. The middle path carries
 direction arrows — Q₁ (solid →) flows TSO→DSO, Q₂ (dashed ⇠) DSO→TSO.
 
 <Snippet name="recipe-reactive-flow" />
@@ -21,17 +21,23 @@ direction arrows — Q₁ (solid →) flows TSO→DSO, Q₂ (dashed ⇠) DSO→T
   **SG** is a [`voltagesource`](/symbols/electrical/voltagesource/) with
   `kind: "ac"`, which draws the sine-in-a-circle generator symbol, tapped
   below the feed with its own short `wire`.
-- The **T-D interface** and the **MV node** are plain vertical
-  [`wire`](/symbols/grid/wire/)s, *not* busbars — thin conductors that join
-  the three transformers at each voltage level. The "T-D interface" callout
-  points at the midpoint of the left conductor, where the HV feed enters
-  between the transformer banks.
+- The HV and MV levels are two vertical [`bus`](/symbols/grid/bus/)bars that
+  carry the transformer banks. The **T-D interface** — where HV becomes MV —
+  is the middle HV/MV transformer; the TSO/DSO area shading runs straight
+  through the bank there, and the callout arrow points at it.
 - Each bank is three [`transformer`](/symbols/grid/transformer/)s placed
-  two-node between a conductor and the next column. A small `qpair(cx, y)`
+  two-node between a busbar and the next column. A small `qpair(cx, y)`
   closure draws the solid-→ / dashed-⇠ flow arrows on the middle row with
   `cetz.draw.line(..., mark: (end: ">"))`.
 - The LV feeder is a `wire` carrying three [`load`](/symbols/loads/load/)
-  arrows; the **DALI** sensor is a labelled `rect` tapped off the line
-  through two small metering circles. The **TSO/DSO** area shading is two
-  background `rect`s split at the T-D interface, and the legend reuses the
-  same arrow styles as the flow markers.
+  arrows; the **DALI** unit is the [`dali`](/helpers/dali/) helper — a CT
+  clamp around the line plus a voltage transformer feeding the box. The
+  **TSO/DSO** area shading is two background `rect`s split at the T-D
+  interface, and the legend reuses the same arrow styles as the flow markers.
+
+:::note[Credit]
+This diagram reproduces *Figure 1.2* from
+[*Reactive power management and flexibility aggregation in active
+distribution networks*](https://research.tue.nl/nl/publications/reactive-power-management-and-flexibility-aggregation-in-active-d/)
+(Eindhoven University of Technology).
+:::
