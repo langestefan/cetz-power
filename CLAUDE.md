@@ -45,7 +45,9 @@ When adding a new symbol, follow the existing pattern: drop the file under the a
 
 ### Buses are length-defined, not symbol-sized
 
-`bus()` is special: it has a `length` (or two endpoints), and exposes `start`, `mid`, `end`, plus N evenly-spaced `tap1..tapN` anchors when called with `taps: N`. Use `bus-frac("b1", 0.25)` to address a fractional point — it returns a CeTZ lerp coordinate `(b1.start, 0.25, b1.end)` evaluated lazily.
+`bus()` is special: it has a `length` (or two endpoints), and exposes `start`, `mid`, `end`, plus N evenly-spaced `tap1..tapN` anchors when called with `taps: N`. Use `bus-frac("b1", 0.25)` to address a fractional point — it returns a CeTZ lerp coordinate `(b1.start, 25%, b1.end)` evaluated lazily. **The `25%` matters:** CeTZ reads a plain-float lerp offset as an *absolute distance* along the segment, only a ratio as a true fraction — so `bus-frac` multiplies its argument by `100%`. (Same for `multi-wire`'s `from`/`to`, which are fractions.)
+
+**Aligning bus tops/ends — do this with equal overshoots, every time.** When a tall bus must line its *top* up with a shorter reference bar (e.g. the OS-MS/RS-MS bars vs. the TS bar in the MS-transport recipe, or the MS bar vs. the HS bar in feeder-compensation), do **not** just stretch the top. Compute the overshoot once and apply it symmetrically to *both* ends: `over = ref-h/2 - gap/2`, then place the tall bus from `(x, top-cable + over)` to `(x, bottom-cable - over)`. Extending only the top leaves the bar visually lopsided and misaligned — this keeps coming up, so reach for the symmetric-overshoot pattern from the start.
 
 ### Wires are not symbols
 

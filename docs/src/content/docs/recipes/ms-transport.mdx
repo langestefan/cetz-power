@@ -1,0 +1,58 @@
+---
+title: MV transport link with switching station
+description: A feeding substation supplying a switching station over a six-cable MV link, with an internal coupling field feeding the departing feeders.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+A medium-voltage transport connection: a feeding substation
+(*Onderstation*) steps a high-voltage source down through a TS/MS
+transformer onto its OS-MS busbar, then carries the power to a switching
+station (*Schakelstation*) over a six-cable MV link. Inside the
+Schakelstation a coupling field (*Koppelveld*) ties the incoming RS-MS bar
+to the outgoing RS-MS bar, which fans out to the departing feeders. Each
+node carries its load-flow result.
+
+<Snippet name="recipe-ms-transport" />
+
+## How it's built
+
+- The diagram is a grid of **vertical busbars** (`bus` placed with two
+  endpoints, so the length is implicit). A tiny `bundle(x0, x1)` closure
+  draws one `wire` per cable at a shared set of y-levels, so the OS-MS →
+  RS-MS link and the departing stubs all line up across the figure. The
+  **Koppelveld** is a single bus-coupler `wire` — it forks out of each
+  RS-MS bar *between* two cables rather than running parallel to them.
+- The **HV feed** is drawn green: a [`machine`](/symbols/generation/machine/)
+  source, a short [`bus`](/symbols/grid/bus/), and the
+  [`wire`](/symbols/grid/wire/)s take `stroke: g`; the
+  [`transformer`](/symbols/grid/transformer/) keeps its **MS-side** winding
+  black via `secondary-stroke: black`. The whole feed sits half a cable-gap
+  low, so its lead meets the OS-MS bar *between* the top two cables — a fork.
+- The four busbars share one **top edge**: each tall bar overshoots its
+  cables by `over = ts-h/2 - gap/2` at the top and the same at the bottom, so
+  its top lands exactly at the short TS bar's top (see the
+  [`bus`](/symbols/grid/bus/) reference).
+- The two **station envelopes** are plain dashed `cetz.draw.rect`s drawn
+  first (so the cables sit on top), each with a large title. The MV cables
+  deliberately cross the box edges — the link leaves the Onderstation and
+  enters the Schakelstation.
+- Every callout is a [`note`](/helpers/feeder/) or a `cetz.draw.content`
+  anchored beside the bar it annotates; the layout is fully parametric
+  (`x-*` columns, `gap`, `n` cables), so changing the spacing or adding a
+  cable is a one-line change.
+
+:::note[Why an explicit loop, not `multi-wire`?]
+The [`multi-wire`](/helpers/feeder/) helper would draw the OS-MS → RS-MS
+link, but the departing feeders on the right terminate in open space —
+there's no target bus for `multi-wire` to span to. Drawing both with one
+`bundle(x0, x1)` closure keeps them uniform and guarantees every cable
+shares the same y-levels.
+:::
+
+:::note[Credit]
+This diagram reproduces *Figuur 13.16 — MS-transportverbinding met
+schakelstation* from
+[*Netten voor distributie van elektriciteit* (Phase to Phase),
+hoofdstuk 13](https://www.phasetophase.nl/boek/boek_2_13.html).
+:::
