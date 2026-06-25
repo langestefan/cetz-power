@@ -124,6 +124,7 @@ export default defineConfig({
           label: 'Composition helpers',
           items: [
             { label: 'Feeder', slug: 'helpers/feeder' },
+            { label: 'DALI metering unit', slug: 'helpers/dali' },
           ],
         },
         {
@@ -144,6 +145,7 @@ export default defineConfig({
             { label: 'MV cable equivalent', slug: 'recipes/mv-cable-equivalent' },
             { label: 'Feeder compensation', slug: 'recipes/feeder-compensation' },
             { label: 'MV transport link', slug: 'recipes/ms-transport' },
+            { label: 'Reactive power flow', slug: 'recipes/reactive-flow' },
           ],
         },
       ],

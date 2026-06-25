@@ -70,4 +70,4 @@
 
 // ── Composition helpers ─────────────────────────────────────────────────
 
-#import "helpers.typ": multi-wire, note, feeder
+#import "helpers.typ": multi-wire, note, feeder, dali

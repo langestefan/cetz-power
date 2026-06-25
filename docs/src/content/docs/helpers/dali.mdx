@@ -1,0 +1,62 @@
+---
+title: DALI metering unit
+description: Hang a DALI-style metering unit off a line — a current clamp for I, a voltage-measurement transformer for V, and a labelled box — in one call.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+`dali` draws a metering unit hanging from a line: a **current clamp** (a CT
+that *encircles the measured line*) for I, a **voltage transformer** — the
+package's own [`transformer`](/symbols/grid/transformer/) symbol, on a tap
+wire — for V, and a labelled box below. It's the LV-interface sensor from the
+[reactive-flow recipe](/recipes/reactive-flow/), packaged so you *describe*
+it instead of placing every circle, wire, and box by hand. The label
+defaults to `DALI` but is configurable, so it works for any CT + VT metering
+box.
+
+<Snippet name="dali-example" />
+
+```typst
+dali("m", (4, 0), width: 1.1, lead: 0.45, tail: 0.5, label: [Meter])
+```
+
+The vertical layout is `line → lead → V transformer → tail → box`. The CT
+clamp encircles the line at the I tap (the line you draw passes straight
+through it) and its secondary drops to the box.
+
+## Parameters
+
+| Name | Default | Description |
+| ---- | ------- | ----------- |
+| `pos` | — | Tap point on the line — the top centre, between the I and V taps. Place it on a horizontal line. |
+| `width` | `0.9` | Horizontal distance between the I and V taps. |
+| `lead` | `0.35` | Distance from the line down to the measurement symbols. |
+| `tail` | `0.4` | Distance from the symbols down to the box. |
+| `box-width` | `auto` | Box width (`auto` = `width + 0.6`). |
+| `box-height` | `0.7` | Box height. |
+| `clamp-radius` | `0.14` | CT-clamp circle radius (it encircles the line). |
+| `tx-radius` / `tx-distance` | `0.16` / `0.18` | Voltage-transformer geometry, passed to the [`transformer`](/symbols/grid/transformer/) symbol. |
+| `tx-stroke` / `tx-fill` | `auto` / `none` | Voltage-transformer styling (`tx-stroke: auto` follows `stroke`). |
+| `label` | `[DALI]` | Box label. |
+| `stroke` / `fill` | `0.8pt + black` / `none` | Stroke for the wires, clamp and box; box fill. |
+
+## Captions are yours to place
+
+The component draws only the symbols and box — there are no built-in I / V
+labels. It names its three parts so you can caption them however you like:
+the box is `<name>`, the current clamp `<name>-ct`, and the voltage
+transformer `<name>-vt`. Anchor a [`note`](/helpers/feeder/) (or any content)
+to them:
+
+```typst
+dali("m", (4, 0), label: [Meter])
+note("m-ct.west", [I], side: "west")    // left of the clamp
+note("m-vt.east", [U], side: "east")    // right of the transformer
+```
+
+The same anchors let you wire further off the box (`m.south`, `m.center`, …).
+
+## In a full diagram
+
+See the [reactive power flow recipe](/recipes/reactive-flow/), where a `dali`
+unit meters the 400/230 V interface below the middle MV/LV transformer.

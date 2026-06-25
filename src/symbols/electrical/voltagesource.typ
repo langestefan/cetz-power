@@ -119,8 +119,10 @@
 
     cetz.draw.anchor("default", (0, 0))
     cetz.draw.anchor("center", (0, 0))
-    cetz.draw.anchor("north", (0, r + 0.05))
-    cetz.draw.anchor("south", (0, -r - 0.05))
+    // All four cardinals sit ON the circle, so wires connect flush; label
+    // clearance comes from the label `distance`, not an anchor offset.
+    cetz.draw.anchor("north", (0, r))
+    cetz.draw.anchor("south", (0, -r))
     cetz.draw.anchor("east", (r, 0))
     cetz.draw.anchor("west", (-r, 0))
   }

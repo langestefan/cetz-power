@@ -1,0 +1,37 @@
+---
+title: Reactive power flow (TSO–DSO)
+description: A TSO/DSO single-line overview — HV network and SG feeding the T-D interface, HV/MV and MV/LV transformer banks, LV feeders with DALI metering, and Q-flow direction arrows.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+A whole-network overview of reactive-power flow direction. An HV network
+(modelled as an [external grid](/symbols/grid/external-grid/)) plus a
+synchronous generator feed the **T-D interface**; three HV/MV transformers
+step down to the MV conductor, three MV/LV transformers step down to the LV
+feeders, and **DALI** sensors meter the LV interface. The middle path carries
+direction arrows — Q₁ (solid →) flows TSO→DSO, Q₂ (dashed ⇠) DSO→TSO.
+
+<Snippet name="recipe-reactive-flow" />
+
+## How it's built
+
+- The **HV network** is an [`external-grid`](/symbols/grid/external-grid/)
+  rotated to point right (`angle: 90deg`) with a grey `background`; the
+  **SG** is a [`voltagesource`](/symbols/electrical/voltagesource/) with
+  `kind: "ac"`, which draws the sine-in-a-circle generator symbol, tapped
+  below the feed with its own short `wire`.
+- The **T-D interface** and the **MV node** are plain vertical
+  [`wire`](/symbols/grid/wire/)s, *not* busbars — thin conductors that join
+  the three transformers at each voltage level. The "T-D interface" callout
+  points at the midpoint of the left conductor, where the HV feed enters
+  between the transformer banks.
+- Each bank is three [`transformer`](/symbols/grid/transformer/)s placed
+  two-node between a conductor and the next column. A small `qpair(cx, y)`
+  closure draws the solid-→ / dashed-⇠ flow arrows on the middle row with
+  `cetz.draw.line(..., mark: (end: ">"))`.
+- The LV feeder is a `wire` carrying three [`load`](/symbols/loads/load/)
+  arrows; the **DALI** sensor is a labelled `rect` tapped off the line
+  through two small metering circles. The **TSO/DSO** area shading is two
+  background `rect`s split at the T-D interface, and the legend reuses the
+  same arrow styles as the flow markers.
