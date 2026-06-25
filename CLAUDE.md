@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-`cetz-power` is a Typst package that draws power-system single-line diagrams. It is a thin wrapper around [CeTZ](https://github.com/cetz-package/cetz) `0.4.2` (pinned in `src/deps.typ`). Package metadata lives in `typst.toml`; the entry point is `src/lib.typ`, which re-exports the canvas wrapper, every symbol in `src/symbols/`, and the composition helpers in `src/helpers.typ`.
+`cetz-power` is a Typst package that draws power-system single-line diagrams. It is a thin wrapper around [CeTZ](https://github.com/cetz-package/cetz) `0.4.2` (pinned in `src/deps.typ`). Package metadata lives in `typst.toml`; the entry point is `src/lib.typ`, which re-exports the canvas wrapper, every symbol in `src/symbols/`, and the composition helpers in `src/helpers/`.
 
 ## Common commands
 
@@ -13,7 +13,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Compiler selection: the script first tries `$COMPILER` (default `../tsc.js`, a node wrapper expected one level above the repo root) and falls back to the system `typst` CLI. To force the CLI: `COMPILER=/dev/null ./tests/run.sh` (or just install `typst` and remove the wrapper).
 - Each test compiles `tests/<name>/test.typ` → `tests/<name>/out/test.svg`. There is no automatic image-diff step; failure means "did not compile". `tests/<name>/ref/` images, if added, are for manual comparison only.
 - Build the docs locally: `cd docs && npm ci && npm run dev`. Live preview at `http://localhost:4321/cetz-power/`. `npm run build` produces a static site under `docs/dist/`.
-- The docs are an [Astro Starlight](https://starlight.astro.build) site. Prose lives in MDX under `docs/src/content/docs/`; Typst diagrams live as standalone snippets under `docs/snippets/<name>.typ` and are compiled to SVG by `docs/scripts/build-diagrams.mjs` into `docs/public/diagrams/<name>.svg`. The `<Snippet name="..." />` component (defined in `docs/src/components/Snippet.astro`) reads the snippet source at build time and renders it side-by-side with its SVG.
+- The docs are an [Astro Starlight](https://starlight.astro.build) site. Prose lives in MDX under `docs/src/content/docs/`; Typst diagrams live as standalone snippets under `docs/snippets/<category>/<name>.typ` (category sub-folders mirroring `src/symbols/`, plus `recipes/`, `helpers/`, `getting-started/`, `extending/`) and are compiled to SVG by `docs/scripts/build-diagrams.mjs` (which walks the tree) into a **flat** `docs/public/diagrams/<name>.svg`. Snippet basenames are unique across folders, so the `<Snippet name="..." />` component (in `docs/src/components/Snippet.astro`) resolves a snippet by basename regardless of which folder it lives in — `name` never includes the sub-path.
 - The deployed docs are built and pushed to GitHub Pages by `.github/workflows/docs.yml` on every push to `main`. CI runs Node 22 (Astro 6 requires Node ≥22.12); local dev needs the same.
 
 ## Architecture
@@ -55,7 +55,7 @@ When adding a new symbol, follow the existing pattern: drop the file under the a
 
 ### Composition helpers
 
-`src/helpers.typ` is for short combinations of existing primitives that would otherwise force the caller to write the same loop or coordinate math repeatedly — it is **not** for new symbols. It currently exports two things:
+`src/helpers/` (one file per helper, mirroring `src/symbols/`) is for short combinations of existing primitives that would otherwise force the caller to write the same loop or coordinate math repeatedly — it is **not** for new symbols. `src/lib.typ` re-exports each helper. It currently exports four things:
 
 - `multi-wire(source, target, count:, from:, to:)` — fans `count` evenly-spaced `wire()` calls off a bus using `bus-frac`. `target` is polymorphic: a **bus name** (str) draws a bus-to-bus bundle (`to` applies); a **`(dx, dy)` offset** (array) draws free **stubs** of that displacement off each source point — for departing feeders / fans with no facing bar. The `from`/`to` `(start, end)` fraction pairs narrow or skew the bundle on each bar (e.g. `from: (0.2, 0.8)` for a 60 %-wide bundle; to land a bundle on the cable band of a bar that overshoots its cables by `over`, pass `from: (over/L, 1 - over/L)` where `L` is the bar length). `count: 1` draws a single coupler at the band midpoint.
 - `note(pos, body, side:)` — drops a free-floating text label beside any coordinate/anchor/lerp, picking the label anchor opposite to `side` so the text sits cleanly on the requested side. Use it for captions on wires (which can't take labels) and tap points.

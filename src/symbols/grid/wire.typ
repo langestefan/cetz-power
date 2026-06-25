@@ -19,8 +19,8 @@
 // Map "the side of the anchor I want my label to sit on" to "the
 // anchor on the label that should land at the supplied position" —
 // they're opposite compass directions. Used by `wire(..., label: …)`
-// and by `helpers.typ::note`. Duplicated here (kept in sync) to
-// avoid an import cycle between this file and helpers.typ.
+// and by `helpers/note.typ`. Duplicated here (kept in sync) to avoid an
+// import cycle between this file and the helpers.
 #let _opposite-side = (
   "north":      "south",
   "south":      "north",

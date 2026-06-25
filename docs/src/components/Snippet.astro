@@ -1,6 +1,7 @@
 ---
-// Renders a Typst snippet from `docs-site/snippets/<name>.typ` alongside
-// its compiled SVG from `docs-site/public/diagrams/<name>.svg`.
+// Renders a Typst snippet from `docs/snippets/<category>/<name>.typ`
+// (resolved by basename) alongside its compiled SVG from
+// `docs/public/diagrams/<name>.svg`.
 //
 // Code on top, rendered diagram below. Snippet sources are bundled at
 // build time via Vite's `?raw` glob; the SVG is fetched by the browser
@@ -18,19 +19,22 @@ interface Props {
 
 const { name, caption } = Astro.props;
 
-// Bundle every snippet's source at build time. The keys are paths like
-// "../../snippets/foo.typ"; values are the file contents as strings.
-const sources = import.meta.glob('../../snippets/*.typ', {
+// Bundle every snippet's source at build time. Snippets live in category
+// sub-folders (symbols/grid/, recipes/, …), so glob recursively; keys are
+// paths like "../../snippets/symbols/grid/bus-example.typ". We resolve by
+// basename, so `<Snippet name="bus-example" />` finds it wherever it sits
+// (basenames are unique across folders).
+const sources = import.meta.glob('../../snippets/**/*.typ', {
   query: '?raw',
   import: 'default',
   eager: true,
 }) as Record<string, string>;
 
-const sourceKey = `../../snippets/${name}.typ`;
-const source = sources[sourceKey];
+const sourceKey = Object.keys(sources).find((k) => k.endsWith(`/${name}.typ`));
+const source = sourceKey ? sources[sourceKey] : undefined;
 if (typeof source !== 'string') {
   throw new Error(
-    `Snippet "${name}" not found. Add docs-site/snippets/${name}.typ.`,
+    `Snippet "${name}" not found. Add a docs/snippets/**/${name}.typ file.`,
   );
 }
 
@@ -68,7 +72,9 @@ const trimmed = source
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const svgFsPath = `./public/diagrams/${name}.svg`;
-const srcFsPath = `./snippets/${name}.typ`;
+// `sourceKey` is like "../../snippets/symbols/grid/bus-example.typ"; the
+// fs path from the astro root (docs/) is "./snippets/symbols/grid/…".
+const srcFsPath = `./${sourceKey.replace('../../', '')}`;
 
 // Dev-time safety net: rebuild this snippet's SVG on demand if it's
 // stale relative to the source. The standalone `node --watch-path`

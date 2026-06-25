@@ -1,8 +1,8 @@
-// Compiles every Typst snippet under `snippets/` to an SVG under
-// `public/diagrams/`. Skips snippets whose existing SVG is newer than
-// the source (incremental builds).
+// Compiles every Typst snippet under `snippets/` (recursively, through the
+// category sub-folders) to an SVG under `public/diagrams/`. Skips snippets
+// whose existing SVG is newer than the source (incremental builds).
 //
-// Run from inside `docs-site/`:
+// Run from inside `docs/`:
 //   node scripts/build-diagrams.mjs
 //
 // CI invokes this via `npm run build:diagrams` before `astro build`.
@@ -20,9 +20,20 @@ const outDir = join(docsSite, 'public', 'diagrams');
 
 mkdirSync(outDir, { recursive: true });
 
-const snippets = readdirSync(snippetsDir)
-  .filter((f) => extname(f) === '.typ')
-  .sort();
+// Snippets live in category sub-folders (symbols/grid/, recipes/, …); walk
+// recursively. SVGs are written flat to public/diagrams/<basename>.svg, so
+// snippet basenames stay unique across folders (they are — prefixed).
+function findSnippets(dir) {
+  const out = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...findSnippets(full));
+    else if (entry.isFile() && extname(entry.name) === '.typ') out.push(full);
+  }
+  return out;
+}
+
+const snippets = findSnippets(snippetsDir).sort();
 
 if (snippets.length === 0) {
   console.error(`No .typ snippets found in ${snippetsDir}`);
@@ -33,9 +44,8 @@ let built = 0;
 let skipped = 0;
 let failed = 0;
 
-for (const file of snippets) {
-  const name = basename(file, '.typ');
-  const src = join(snippetsDir, file);
+for (const src of snippets) {
+  const name = basename(src, '.typ');
   const dst = join(outDir, `${name}.svg`);
 
   if (existsSync(dst) && statSync(dst).mtimeMs > statSync(src).mtimeMs) {
@@ -49,7 +59,7 @@ for (const file of snippets) {
     { stdio: ['ignore', 'inherit', 'inherit'] },
   );
   if (result.status !== 0) {
-    console.error(`\n✗ failed to compile ${file}`);
+    console.error(`\n✗ failed to compile ${name}`);
     failed += 1;
     continue;
   }
