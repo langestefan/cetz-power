@@ -147,6 +147,7 @@ export default defineConfig({
             { label: 'MV transport link', slug: 'recipes/ms-transport' },
             { label: 'Reactive power flow', slug: 'recipes/reactive-flow' },
             { label: 'Modified CIGRE LV network', slug: 'recipes/cigre-lv' },
+            { label: 'Modified CIGRE MV network', slug: 'recipes/cigre-mv' },
           ],
         },
       ],

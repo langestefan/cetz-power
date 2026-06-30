@@ -1,0 +1,53 @@
+---
+title: Modified CIGRE MV network
+description: The modified CIGRE medium-voltage benchmark — a 110 kV grid feeding two parallel 110/20 kV transformers, two MV feeders (nodes 1–14) tied through switch S1, with phase-marked line segments, blue flexible loads and rooftop PV.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+The modified CIGRE medium-voltage benchmark on one canvas: an
+[external grid](/symbols/grid/external-grid/) feeds the 110 kV **bus 0**,
+which splits onto two **parallel 110/20 kV transformers** — each with an
+HV-side [switch](/symbols/protection/switch/). **Feeder 1** (nodes 1–11,
+with **LV-feeder 1** at node 6) and **Feeder 2** (nodes 12–14, with
+**LV-feeder 2** at node 14) hang off them, and the two feeders are tied
+through switch **S1** (2.0 km). Every line segment carries its length and
+the three-stroke phase-conductor mark; the flexible devices — loads and
+rooftop PV — are drawn in blue.
+
+<Snippet name="recipe-cigre-mv" />
+
+## How it's built
+
+- Every numbered point in the figure is a **real busbar**, so each is a short
+  horizontal [`bus`](/symbols/grid/bus/) drawn by a `bbar(name, x, y, hl)`
+  closure. The through-lines tap each bar at its centre while loads, PV and
+  the bus number hang off offset points addressed with
+  [`bus-frac`](/symbols/grid/bus/) (e.g. `bus-frac("b1", 0.25)`) or the
+  `start`/`end` anchors — that's what keeps a load, a PV and a passing feeder
+  from all landing on the same spot. Bus 3 is a wide bar because it branches
+  (down to Bus 7, left to Bus 4); the rest are narrow.
+- `link(a, b, lbl, lside, ang)` joins two bus points with a
+  [`wire`](/symbols/grid/wire/), stamps the **three diagonal phase ticks** at
+  35 % along it, and drops the length label. The ticks are a tiny CeTZ group —
+  `set-origin` to the tick point, `rotate` to the segment angle (`ang`), then
+  three short parallel strokes — so they sit square across the line whatever
+  its direction.
+- `bload(...)` is a blue [`load`](/symbols/loads/load/) and `bpv(...)` a blue
+  [`pv-panel`](/symbols/generation/pv-panel/) — both reuse the stock symbols,
+  only the colour changes.
+- The two **110/20 kV** banks are a [`switch`](/symbols/protection/switch/)
+  over a [`transformer`](/symbols/grid/transformer/), drawn in a `for` loop
+  over the two feeder columns; the **LV-feeder** buses (6 and 14) drop through
+  a small `transformer` to a blue load. The **S1/S2/S3** disconnectors are
+  stock `switch`es spliced straight between bus anchors, and the two dashed
+  **feeder boundaries** are background `rect`s.
+
+:::note[Credit]
+This reproduces *Figure E.1 — Modified CIGRE MV distribution network used
+for case study* from
+[*Reactive power management and flexibility aggregation in active
+distribution networks*](https://research.tue.nl/nl/publications/reactive-power-management-and-flexibility-aggregation-in-active-d/)
+(Eindhoven University of Technology), itself adapted from the CIGRE Task
+Force C6.04 medium-voltage benchmark network.
+:::
