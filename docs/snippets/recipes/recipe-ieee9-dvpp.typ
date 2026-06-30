@@ -11,7 +11,7 @@
 // geometry matches the original. Every connection taps a bus interior (often its
 // centre), never an endpoint.
 #diagram(length: 1cm, {
-  let s = 0.025                  // image-pixel → cm
+  let s = 0.017                  // image-pixel → cm (compressed)
   let H = 489
   let P(x, y) = (x * s, (H - y) * s)   // flip y (image is y-down)
 
@@ -26,9 +26,9 @@
   let nl(p, c, sd) = note(p, text(size: 8pt)[#c], side: sd, distance: 0.06)
   // synchronous machine = the built-in circle-with-sine source, plus a caption.
   let sg(name, p, lbl, lside) = {
-    voltagesource(name, p, kind: "sin", radius: 0.5, fill: gray)
+    voltagesource(name, p, kind: "sin", radius: 0.4, fill: gray)
     let cx = p.at(0); let cy = p.at(1)
-    let off = 0.62                       // outside the r=0.5 circle
+    let off = 0.52                       // outside the r=0.4 circle
     let txt = text(size: 8pt)[#lbl]
     if lside == "south" {
       cetz.draw.content((cx, cy - off), anchor: "north", txt)
@@ -53,7 +53,7 @@
 
   // ── DVPP background area (drawn first, behind everything) ────────
   cetz.draw.rect(
-    P(232, 400), P(680, 217),
+    P(232, 400), P(680, 226),
     fill: gray.lighten(58%),
     stroke: (dash: "dashed", paint: gray.darken(25%), thickness: 0.6pt),
     radius: 0.12,
@@ -88,11 +88,11 @@
   bus("d4", P(595, 347), P(642, 347)); nl(P(650, 347), [d4], "east")
 
   // ── transformers (leads land on bus centres) ────────────────────
-  transformer("t27", P(187, yc), P(281, yc), radius: 0.27, distance: 0.24)
-  transformer("t93", P(463, yc), P(557, yc), radius: 0.27, distance: 0.24)
-  transformer("t14", P(281, 191), P(352, 191), radius: 0.27, distance: 0.24)
-  transformer("poc2", P(387.5, 159), P(387.5, 235), radius: 0.27, distance: 0.24)
-  transformer("poc1", P(528, 159), P(528, 235), radius: 0.27, distance: 0.24)
+  transformer("t27", P(187, yc), P(281, yc), radius: 0.23, distance: 0.2)
+  transformer("t93", P(463, yc), P(557, yc), radius: 0.23, distance: 0.2)
+  transformer("t14", P(281, 191), P(352, 191), radius: 0.23, distance: 0.2)
+  transformer("poc2", P(387.5, 159), P(387.5, 235), radius: 0.23, distance: 0.2)
+  transformer("poc1", P(528, 159), P(528, 235), radius: 0.23, distance: 0.2)
   nl(P(401, 200), [POC 2], "east"); nl(P(541, 200), [POC 1], "east")
   transformer("twind", P(327, 317), P(364, 317), radius: 0.14, distance: 0.15)
   transformer("tbess", P(416, 381), P(463.5, 381), radius: 0.14, distance: 0.15)

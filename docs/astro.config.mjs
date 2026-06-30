@@ -148,6 +148,7 @@ export default defineConfig({
             { label: 'Reactive power flow', slug: 'recipes/reactive-flow' },
             { label: 'Modified CIGRE LV network', slug: 'recipes/cigre-lv' },
             { label: 'Modified CIGRE MV network', slug: 'recipes/cigre-mv' },
+            { label: 'Modified IEEE 9-bus with DVPP', slug: 'recipes/ieee9-dvpp' },
           ],
         },
       ],

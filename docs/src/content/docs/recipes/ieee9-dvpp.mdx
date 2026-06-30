@@ -1,0 +1,56 @@
+---
+title: Modified IEEE 9-bus with DVPP
+description: A modified IEEE nine-bus transmission system (synchronous machines SG1–SG3, buses 1–9) feeding an MV distribution grid — the DVPP area, buses d1a/d1b and d2–d8 — connected at buses 4 and 6 through two POC transformers, with wind, battery (BESS) and PV plants tying in through their own transformers.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+A modified **IEEE nine-bus** transmission system with an MV distribution grid
+hung underneath. Three synchronous machines (**SG1–SG3**) sit behind buses 1–3;
+the classic 4–9 network carries the firm loads. The **DVPP area** (a dynamic
+virtual power plant — buses **d1a/d1b** and **d2–d8**) connects to the
+transmission grid at **buses 4 and 6** through the two **POC** transformers, and
+inside it a **wind** plant, a battery (**BESS**) and a **PV** plant each tie in
+through their own transformer. The whole figure was digitised from the source,
+so the relative geometry matches the original.
+
+<Snippet name="recipe-ieee9-dvpp" />
+
+## How it's built
+
+- **Digitised from a pixel map.** A single helper `P(x, y) = (x * s, (H - y) * s)`
+  maps source-image pixels to canvas coordinates — flipping the image's y-down
+  axis to CeTZ's y-up — so every [`bus`](/symbols/grid/bus/),
+  [`transformer`](/symbols/grid/transformer/) and conductor reads straight off
+  the measured pixel numbers (`bus("b7", P(281, 38), P(281, 83))`). The scale
+  `s` is the master **compression** knob: shrinking it shortens every line while
+  the fixed-size symbols stay put.
+- **Synchronous machines reuse a stock symbol.** SG1–SG3 are
+  [`voltagesource`](/symbols/electrical/voltagesource/) circles with
+  `kind: "sin"` (the circle-with-sine generator), wrapped in a small `sg(...)`
+  closure that adds the grey fill and a caption placed *outside* the circle.
+- **Transformers double as conductors.** The transmission-line banks and the two
+  vertical **POC** transformers are stock two-node
+  [`transformer`](/symbols/grid/transformer/)s — their auto-drawn leads *are* the
+  line into each bus, landing on bus centres. The three small device
+  transformers feed the wind/BESS/PV blocks.
+- **Every join is perpendicular.** The 4→5 and 4→6 funnels never meet a bar at an
+  angle: each leaves its bus with a short vertical stub, runs the diagonal in the
+  middle, then drops a matching stub into bus 4 — and the two legs are exact
+  **mirror images** about bus 4's centre (where the load arrow sits).
+- **Taps are placed deliberately.** Connections tap bus *interiors* (often the
+  centre); where two conductors leave one bar on opposite sides they share a
+  single collinear vertical; and a bar's taps are spread evenly (d8 carries three
+  equidistant taps — transformer→left, the d7 link→centre, the load→right).
+- **The DVPP boundary.** A dashed background `rect` groups the distribution grid;
+  it is drawn first so it sits behind everything. Leads cross its edge, but the
+  POC transformer symbols are kept clear of it. The coloured **wind / BESS / PV**
+  blocks are plain `rect`s, each wired to its transformer so nothing floats.
+- **Loads** are small [`load`](/symbols/loads/load/) arrows aimed with `angle:`
+  (and `elbow:` for the up-then-right MV loads), anchored at the bus they tap.
+
+:::note[Credit]
+This reproduces *Figure 3.15 — Case study III: Modified IEEE nine-bus system
+with MV distribution grid* from Verena Häberle's PhD thesis (ETH Zürich),
+*Control and stability analysis of dynamic virtual power plants*.
+:::
