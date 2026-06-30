@@ -118,7 +118,6 @@
   nl("b6.end", [6], "east")
   lvfeed("tx6", bus-frac("b6", 0.2))                       // blue transformer load (left)
   bload("l6", bus-frac("b6", 0.71))                        // blue regular load (right, under S2)
-  cetz.draw.content((1.0, 0.95), anchor: "north-west", [LV-feeder 1])
 
   // ── Bus 5 centre → Bus 6 centre along the bottom (two 90° turns). ──
   wire((-2.3, 4.2), (-2.3, 0.6)); ticks((-2.3, 3.4), V)
@@ -141,7 +140,6 @@
   nl((6.05, 4.0), [14], "east")
   bload("l14", bus-frac("b14", 0.25))
   lvfeed("tx14", bus-frac("b14", 0.78))
-  cetz.draw.content((5.62, 3.0), anchor: "north-west", [LV-feeder 2])
 
   // ── Tie: Bus 7 goes down, turns east through S1 (inside Feeder 2),
   //    then turns north up Bus 14's centre line.
