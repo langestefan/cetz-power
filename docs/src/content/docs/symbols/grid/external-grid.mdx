@@ -6,7 +6,8 @@ description: Single-terminal connection representing the external power grid.
 import Snippet from '../../../../components/Snippet.astro';
 
 Single-terminal connection representing "the grid beyond this point" —
-an infinite bus. Drawn as a cross-hatched square.
+an infinite bus. Drawn as a cross-hatched square (or rectangle — see
+[below](#rectangular-shapes)).
 
 <Snippet name="grid-example" />
 
@@ -14,8 +15,10 @@ an infinite bus. Drawn as a cross-hatched square.
 
 | Name      | Default | Description                                                |
 | --------- | ------- | ---------------------------------------------------------- |
-| `size`    | `0.9`   | Side length of the square.                                 |
-| `lead`    | `0.2`   | Stub from connection point to the bottom of the square.   |
+| `size`    | `0.9`   | Side length of the square (default for both `width` and `height`). |
+| `width`   | `none`  | Box width; overrides `size` on the horizontal axis. `none` = use `size`. |
+| `height`  | `none`  | Box height; overrides `size` on the vertical axis. `none` = use `size`. |
+| `lead`    | `0.2`   | Stub from connection point to the bottom of the box.      |
 | `fill`    | `none`  | Fill colour of the square.                                 |
 | `stroke`  | `0.8pt` | Stroke override.                                           |
 | `line-count` | `2` | Hatching density. `0` = bare square (no hatching); `1` = just the two main diagonals (a bare X); `2` adds the conventional cross-hatch; higher values give a progressively denser grid. Must be `>= 0`. |
@@ -33,10 +36,28 @@ denser cross-hatch:
 Override per call (`external-grid("g", (0,0), line-count: 4)`) or
 globally via `set-style(cetz-power: (grid: ("line-count": 4)))`.
 
+## Rectangular shapes
+
+Pass `width` and/or `height` to draw the grid as a rectangle instead of a
+square. Either dimension defaults to `size` when omitted, so setting just
+`width` gives a wide box of height `size`. The hatching is a family of
+true ±45° lines **clipped to the box edges**, so it stays at a real 45°
+whatever the aspect ratio — a wide box is a straight-line cross-hatch, not
+a stretched X. The line pitch follows the shorter side, keeping the hatch
+density consistent between square and rectangular boxes.
+
+<Snippet name="grid-rectangle" />
+
+Connect from the side anchors (`east` / `west`) when the box feeds a
+horizontal run — pair with `distance: 0` to drop the lead stub if the box
+sits flush on its connection, as in the
+[MV radial feeder recipe](/recipes/mv-radial-feeder/).
+
 ## Anchors
 
-`in` (= connection point, `(0,0)`), `center`, `north` (top of the square),
-`default`.
+`in` (= connection point, `(0,0)`), `center`, `north` (top edge mid),
+`south` (bottom edge mid = connection point), `east` / `west` (side edge
+mids), `default`.
 
 ## Rotation
 

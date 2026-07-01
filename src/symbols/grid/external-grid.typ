@@ -23,9 +23,16 @@
 ///
 /// Pass it as a per-call override or globally via `set-style`.
 ///
+/// The symbol is a square by default. Pass `width` and/or `height` to
+/// draw it as a rectangle — the cross-hatching stretches to the new
+/// aspect ratio. Either one defaults to `size` when omitted, so setting
+/// just `width` gives a wide box of height `size`, and so on.
+///
 /// - name (str): CeTZ group name
-/// - size (float): square side length
-/// - lead (float): length of stub from origin to the bottom of the square
+/// - size (float): square side length (default for both width and height)
+/// - width (float): box width; defaults to `size`
+/// - height (float): box height; defaults to `size`
+/// - lead (float): length of stub from origin to the bottom of the box
 /// - line-count (int): hatching density. Default `2`.
 /// - background (color | none): fill colour for the inside of the
 ///   square, drawn under the cross-hatching so the chord lines
@@ -41,14 +48,22 @@
 
   let draw(ctx, positions, style) = {
     let sz = style.at("size", default: 0.5)
+    // Width and height default to the square `size`; set either (or both)
+    // to draw a rectangular external grid. The hatching below is written
+    // in terms of edge fractions, so it stretches to any aspect ratio and
+    // reduces exactly to the classic square pattern when `sw == sh`.
+    let sw = style.at("width", default: none)
+    let sh = style.at("height", default: none)
+    if sw == none { sw = sz }
+    if sh == none { sh = sz }
     let s = style.at("stroke", default: 0.8pt + black)
     let f = style.at("fill", default: none)
     let l = if lead != none { lead } else { style.at("distance", default: 0.2) }
     let bg = style.at("background", default: none)
 
     let bot = l
-    let top = l + sz
-    let half = sz / 2
+    let top = l + sh
+    let half = sw / 2
 
     // Stub
     if l > 0 {
@@ -65,47 +80,48 @@
     // Outer square
     cetz.draw.rect((-half, bot), (half, top), stroke: s, fill: f)
 
-    // External-grid hatching. Two main corner-to-corner diagonals are
-    // always drawn; line-count adds (n-1) chord pairs in each diagonal
-    // direction, evenly spaced at offsets sz/n, 2*sz/n, …, (n-1)*sz/n
-    // from the main diagonal. Each chord is a full-width segment with
-    // slope ±1, clipped to the square's edges.
-    //
-    // For n=1 only the X is drawn; for n=2 the result is the classic
-    // "rotated inner square surrounded by 4 corner triangles"; for
-    // higher n the cross-hatch becomes proportionally denser.
+    // External-grid hatching: a family of true ±45° lines (slope ±1),
+    // evenly spaced and *clipped to the box edges* — so the diagonals stay
+    // at 45° whatever the aspect ratio (a wide box is not a stretched X,
+    // it's a straight-line cross-hatch). `line-count` sets the density:
+    // the spacing is (shorter side)/n, so a square keeps the conventional
+    // look — n=1 is the bare X, n=2 the classic "rotated inner diamond
+    // surrounded by 4 corner triangles", higher n a denser hatch — and a
+    // rectangle is filled with the same-pitch 45° grid.
     let n = style.at("line-count", default: 2)
     assert(
       type(n) == int and n >= 0,
       message: "external-grid line-count must be an integer >= 0, got " + repr(n),
     )
     if n >= 1 {
-      let step = sz / n
-      for i in range(1, n) {
-        let k = step * i
-        // "\" chords (slope -1, parallel to the top-left → bottom-right diagonal).
-        // Upper-right of diagonal: top edge to right edge.
-        cetz.draw.line((-half + k, top), (half, bot + k), stroke: s)
-        // Lower-left of diagonal: bottom edge to left edge.
-        cetz.draw.line((half - k, bot), (-half, top - k), stroke: s)
-        // "/" chords (slope +1, parallel to the bottom-left → top-right diagonal).
-        // Upper-left of diagonal: left edge to top edge.
-        cetz.draw.line((-half, bot + k), (half - k, top), stroke: s)
-        // Lower-right of diagonal: bottom edge to right edge.
-        cetz.draw.line((-half + k, bot), (half, top - k), stroke: s)
+      let xL = -half; let xR = half; let yB = bot; let yT = top
+      let d = calc.min(sw, sh) / n          // 45° line pitch (along an axis)
+      // Number of evenly-spaced offsets across the box's diagonal span,
+      // excluding the two zero-length corner grazes at the extremes.
+      let steps = int(calc.floor((sw + sh) / d + 0.000001))
+      let eps = 0.000000001
+      for i in range(1, steps) {
+        let off = i * d
+        // "\" line (slope −1): x + y = c, clipped to the box.
+        let c = (xL + yB) + off
+        let lo = calc.max(xL, c - yT)
+        let hi = calc.min(xR, c - yB)
+        if hi - lo > eps { cetz.draw.line((lo, c - lo), (hi, c - hi), stroke: s) }
+        // "/" line (slope +1): y − x = g, clipped to the box.
+        let g = (yB - xR) + off
+        let glo = calc.max(xL, yB - g)
+        let ghi = calc.min(xR, yT - g)
+        if ghi - glo > eps { cetz.draw.line((glo, g + glo), (ghi, g + ghi), stroke: s) }
       }
-      // Main diagonals — corner to opposite corner.
-      cetz.draw.line((-half, top), (half, bot), stroke: s)
-      cetz.draw.line((half, top), (-half, bot), stroke: s)
     }
 
     cetz.draw.anchor("default", (0, 0))
     cetz.draw.anchor("in", (0, 0))
-    cetz.draw.anchor("center", (0, bot + sz / 2))
+    cetz.draw.anchor("center", (0, bot + sh / 2))
     cetz.draw.anchor("north", (0, top))
     cetz.draw.anchor("south", (0, 0))
-    cetz.draw.anchor("east", (half, bot + sz / 2))
-    cetz.draw.anchor("west", (-half, bot + sz / 2))
+    cetz.draw.anchor("east", (half, bot + sh / 2))
+    cetz.draw.anchor("west", (-half, bot + sh / 2))
   }
 
   symbol("grid", name, ..positions, ..overrides, draw: draw)

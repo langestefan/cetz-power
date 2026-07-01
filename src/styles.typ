@@ -238,6 +238,10 @@
   // ── External grid / infinite bus ────────────────────────────────
   grid: (
     size: 0.9,
+    // width/height override `size` per-axis to draw a rectangular grid;
+    // `none` means "fall back to size" (a square).
+    width: none,
+    height: none,
     stroke: 0.8pt + black,
     fill: none,
     distance: 0.2,          // lead from connection point to symbol
