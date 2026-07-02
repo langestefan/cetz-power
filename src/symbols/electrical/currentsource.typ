@@ -38,7 +38,8 @@
       let span = cetz.vector.dist(positions.at(0), positions.at(1))
       let half = span / 2
       if half > x-right {
-        let wire-stroke = ctx.style
+        let wire-stroke = ctx
+          .style
           .at("cetz-power", default: (:))
           .at("wire", default: (:))
           .at("stroke", default: s)
@@ -52,7 +53,8 @@
     // Arrow inside the circle, pointing from -x to +x (in→out).
     let arrow-y = if kind == "ac" { -r * 0.2 } else { 0 }
     cetz.draw.line(
-      (-r * 0.5, arrow-y), (r * 0.5, arrow-y),
+      (-r * 0.5, arrow-y),
+      (r * 0.5, arrow-y),
       stroke: s,
       mark: (end: ">", fill: black, scale: 0.7),
     )

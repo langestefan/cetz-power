@@ -14,10 +14,10 @@
     // compass anchors so callers can wire to whichever side is
     // closer without computing offsets by hand.
     cetz.draw.anchor("default", (0, 0))
-    cetz.draw.anchor("north", (0,  r))
+    cetz.draw.anchor("north", (0, r))
     cetz.draw.anchor("south", (0, -r))
-    cetz.draw.anchor("east",  ( r, 0))
-    cetz.draw.anchor("west",  (-r, 0))
+    cetz.draw.anchor("east", (r, 0))
+    cetz.draw.anchor("west", (-r, 0))
   }
   symbol("junction", name, pos, ..overrides, draw: draw)
 }

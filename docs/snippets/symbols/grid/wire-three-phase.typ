@@ -12,7 +12,7 @@
   let b = rgb("#2244aa")
 
   bus("src", (0, 0), length: 2, angle: 90deg, taps: 3, label: [Source])
-  bus("ld",  (4, 0), length: 2, angle: 90deg, taps: 3, label: [Load])
+  bus("ld", (4, 0), length: 2, angle: 90deg, taps: 3, label: [Load])
 
   wire("src.tap1", "ld.tap1", stroke: 1.4pt + r)
   wire("src.tap2", "ld.tap2", stroke: 1.4pt + y)

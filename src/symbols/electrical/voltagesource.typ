@@ -93,7 +93,8 @@
       let span = cetz.vector.dist(positions.at(0), positions.at(1))
       let half = span / 2
       if half > x-right {
-        let wire-stroke = ctx.style
+        let wire-stroke = ctx
+          .style
           .at("cetz-power", default: (:))
           .at("wire", default: (:))
           .at("stroke", default: s)

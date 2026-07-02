@@ -18,7 +18,13 @@
 
 // Style override: thicker stroke and filled
 #test({
-  transformer("t", (0, 0), (2, 0), stroke: 1.2pt + black, fill: yellow.lighten(60%))
+  transformer(
+    "t",
+    (0, 0),
+    (2, 0),
+    stroke: 1.2pt + black,
+    fill: yellow.lighten(60%),
+  )
 })
 
 // Bus-to-bus (common pattern). Leads are drawn automatically.

@@ -37,7 +37,8 @@
     let half = span / 2
     let half-len = len / 2
 
-    let wire-stroke = ctx.style
+    let wire-stroke = ctx
+      .style
       .at("cetz-power", default: (:))
       .at("wire", default: (:))
       .at("stroke", default: s)
@@ -48,8 +49,10 @@
 
     // Body rectangle.
     cetz.draw.rect(
-      (-half-len, -w / 2), (half-len, w / 2),
-      stroke: s, fill: f,
+      (-half-len, -w / 2),
+      (half-len, w / 2),
+      stroke: s,
+      fill: f,
     )
     // Wire through the body — the fuse element. Drawn last so it
     // sits on top of the rectangle's fill.

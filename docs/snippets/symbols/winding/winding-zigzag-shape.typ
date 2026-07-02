@@ -11,6 +11,8 @@
   cetz.draw.set-style(cetz-power: (winding: ("zigzag-offset": 0.30)))
   zigzag("b", (2, 0), label: [wide])
 
-  cetz.draw.set-style(cetz-power: (winding: ("zigzag-kink": 0.3, "zigzag-offset": 0.18)))
+  cetz.draw.set-style(cetz-power: (
+    winding: ("zigzag-kink": 0.3, "zigzag-offset": 0.18),
+  ))
   zigzag("c", (4, 0), label: [kink near centre])
 })

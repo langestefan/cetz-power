@@ -56,26 +56,43 @@
 ) = {
   let hw = width / 2
   let p(dx, dy) = (rel: (dx, dy), to: pos)
-  let vt-body = tx-distance + 2 * tx-radius     // VT in→out span
-  let drop = lead + vt-body + tail              // line → box top
+  let vt-body = tx-distance + 2 * tx-radius // VT in→out span
+  let drop = lead + vt-body + tail // line → box top
   let bw = if box-width == auto { width + 0.6 } else { box-width }
   let ts = if tx-stroke == auto { stroke } else { tx-stroke }
 
   // I — a CT clamp encircling the measured line at the tap; its secondary
   // drops to the box. The line itself is drawn by the caller.
-  cetz.draw.circle(p(-hw, 0), radius: clamp-radius, stroke: stroke, fill: none,
-    name: name + "-ct")
+  cetz.draw.circle(
+    p(-hw, 0),
+    radius: clamp-radius,
+    stroke: stroke,
+    fill: none,
+    name: name + "-ct",
+  )
   cetz.draw.line(p(-hw, -clamp-radius), p(-hw, -drop), stroke: stroke)
 
   // V — tap wire, the voltage transformer (reused `transformer` symbol,
   // spanning exactly its body so it draws no extra leads), then on to the box.
   cetz.draw.line(p(hw, 0), p(hw, -lead), stroke: stroke)
-  transformer(name + "-vt", p(hw, -lead), p(hw, -(lead + vt-body)),
-    radius: tx-radius, distance: tx-distance, stroke: ts, fill: tx-fill)
+  transformer(
+    name + "-vt",
+    p(hw, -lead),
+    p(hw, -(lead + vt-body)),
+    radius: tx-radius,
+    distance: tx-distance,
+    stroke: ts,
+    fill: tx-fill,
+  )
   cetz.draw.line(p(hw, -(lead + vt-body)), p(hw, -drop), stroke: stroke)
 
   // The box (named, so callers can anchor to it).
-  cetz.draw.rect(p(-bw / 2, -drop), p(bw / 2, -drop - box-height),
-    stroke: stroke, fill: fill, name: name)
+  cetz.draw.rect(
+    p(-bw / 2, -drop),
+    p(bw / 2, -drop - box-height),
+    stroke: stroke,
+    fill: fill,
+    name: name,
+  )
   cetz.draw.content(p(0, -drop - box-height / 2), label)
 }

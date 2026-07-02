@@ -47,9 +47,9 @@
 
     // Panel rectangle — top edge centred at (panel-x, panel-top-y),
     // extending downward by h.
-    let left   = panel-x - w / 2
-    let right  = panel-x + w / 2
-    let top    = panel-top-y
+    let left = panel-x - w / 2
+    let right = panel-x + w / 2
+    let top = panel-top-y
     let bottom = panel-top-y - h
     cetz.draw.rect((left, bottom), (right, top), stroke: s, fill: f)
 
@@ -67,24 +67,24 @@
       // and the visible outline is provided by the two diagonal lines
       // we add right after).
       cetz.draw.line(
-        (left,    top),
-        (right,   top),
+        (left, top),
+        (right, top),
         (panel-x, tri-bottom),
         close: true,
         stroke: none,
         fill: tri-fill,
       )
     }
-    cetz.draw.line((left,  top), (panel-x, tri-bottom), stroke: s)
+    cetz.draw.line((left, top), (panel-x, tri-bottom), stroke: s)
     cetz.draw.line((right, top), (panel-x, tri-bottom), stroke: s)
 
     cetz.draw.anchor("default", (0, 0))
-    cetz.draw.anchor("in",      (0, 0))
-    cetz.draw.anchor("north",   (0, 0))
-    cetz.draw.anchor("south",   (panel-x, bottom))
-    cetz.draw.anchor("east",    (right, (top + bottom) / 2))
-    cetz.draw.anchor("west",    (left,  (top + bottom) / 2))
-    cetz.draw.anchor("center",  (panel-x, (top + bottom) / 2))
+    cetz.draw.anchor("in", (0, 0))
+    cetz.draw.anchor("north", (0, 0))
+    cetz.draw.anchor("south", (panel-x, bottom))
+    cetz.draw.anchor("east", (right, (top + bottom) / 2))
+    cetz.draw.anchor("west", (left, (top + bottom) / 2))
+    cetz.draw.anchor("center", (panel-x, (top + bottom) / 2))
   }
 
   symbol("pv-panel", name, ..positions, ..overrides, draw: draw)

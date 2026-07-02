@@ -64,8 +64,7 @@
     }
 
     if arrow {
-      cetz.draw.line(..pts, stroke: s,
-        mark: (end: ">", fill: arrow-color))
+      cetz.draw.line(..pts, stroke: s, mark: (end: ">", fill: arrow-color))
     } else {
       cetz.draw.line(..pts, stroke: s)
     }

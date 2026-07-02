@@ -66,11 +66,13 @@
       cetz.draw.line((0, 0), (0, bottom-y), stroke: s)
     }
     cetz.draw.line(
-      (-pw / 2, bottom-y), (pw / 2, bottom-y),
+      (-pw / 2, bottom-y),
+      (pw / 2, bottom-y),
       stroke: plate-stroke,
     )
     cetz.draw.line(
-      (-pw / 2, top-y), (pw / 2, top-y),
+      (-pw / 2, top-y),
+      (pw / 2, top-y),
       stroke: plate-stroke,
     )
     if lo > 0 {

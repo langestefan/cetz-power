@@ -71,7 +71,8 @@
     let x1 = L / 2
 
     cetz.draw.line(
-      (x0, 0), (x1, 0),
+      (x0, 0),
+      (x1, 0),
       stroke: style.at("stroke", default: 1.8pt + black),
     )
 
@@ -95,8 +96,8 @@
     // "north" sits just above the bar, halfway along.
     cetz.draw.anchor("north", ((x0 + x1) / 2, 0.15))
     cetz.draw.anchor("south", ((x0 + x1) / 2, -0.15))
-    cetz.draw.anchor("east",  (x1 + 0.05, 0))
-    cetz.draw.anchor("west",  (x0 - 0.05, 0))
+    cetz.draw.anchor("east", (x1 + 0.05, 0))
+    cetz.draw.anchor("west", (x0 - 0.05, 0))
   }
 
   symbol("bus", name, ..positions, ..overrides, draw: draw)

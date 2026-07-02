@@ -72,12 +72,20 @@
       // Filled downward-pointing triangle.
       let h = w * 0.6
       cetz.draw.line(
-        (-w / 2, bottom-y), (w / 2, bottom-y), (0, bottom-y - h),
-        close: true, stroke: s, fill: black,
+        (-w / 2, bottom-y),
+        (w / 2, bottom-y),
+        (0, bottom-y - h),
+        close: true,
+        stroke: s,
+        fill: black,
       )
       south-y = bottom-y - h
     } else {
-      assert(false, message: "ground kind must be one of \"earth\", \"chassis\", \"signal\"; got " + repr(kind))
+      assert(
+        false,
+        message: "ground kind must be one of \"earth\", \"chassis\", \"signal\"; got "
+          + repr(kind),
+      )
     }
 
     cetz.draw.anchor("default", (0, 0))

@@ -46,8 +46,8 @@
     let li = style.at("lead-in", default: 0.15)
     let lo = style.at("lead-out", default: 0.15)
 
-    let base-y = li             // triangle base
-    let tip-y = base-y + h      // triangle tip = cathode bar position
+    let base-y = li // triangle base
+    let tip-y = base-y + h // triangle tip = cathode bar position
     let mid-y = (base-y + tip-y) / 2
     let out-y = tip-y + lo
 
@@ -55,8 +55,12 @@
 
     // Triangle: base across (-w/2, base-y) — (w/2, base-y), tip at (0, tip-y).
     cetz.draw.line(
-      (-w / 2, base-y), (w / 2, base-y), (0, tip-y),
-      close: true, stroke: s, fill: f,
+      (-w / 2, base-y),
+      (w / 2, base-y),
+      (0, tip-y),
+      close: true,
+      stroke: s,
+      fill: f,
     )
     // Cathode bar at the tip.
     cetz.draw.line((-bw / 2, tip-y), (bw / 2, tip-y), stroke: s)

@@ -6,7 +6,9 @@
 // engineer cares about — short-circuit power, X/R ratio, and the
 // nominal voltage.
 #diagram(length: 1.2cm, {
-  external-grid("g", (0, 0),
+  external-grid(
+    "g",
+    (0, 0),
     size: 1.0,
     stroke: 1.2pt + rgb("#1a4d8f"),
     fill: rgb("#e8f0fa"),

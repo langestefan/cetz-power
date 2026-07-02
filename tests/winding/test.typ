@@ -42,7 +42,9 @@
 // Style keys with dashes must be passed via the family dict because
 // Typst named arguments don't accept quoted identifiers.
 #test({
-  cetz.draw.set-style(cetz-power: (winding: (size: 0.9, stroke: 1.4pt + black, "label-size": 11pt)))
+  cetz.draw.set-style(cetz-power: (
+    winding: (size: 0.9, stroke: 1.4pt + black, "label-size": 11pt),
+  ))
   delta("d", (0, 0))
 })
 

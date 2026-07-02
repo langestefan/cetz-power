@@ -45,7 +45,8 @@
     let half = span / 2
     let half-sz = sz / 2
 
-    let wire-stroke = ctx.style
+    let wire-stroke = ctx
+      .style
       .at("cetz-power", default: (:))
       .at("wire", default: (:))
       .at("stroke", default: s)
@@ -64,8 +65,10 @@
         cetz.draw.line((half-sz, 0), (half, 0), stroke: wire-stroke)
       }
       cetz.draw.rect(
-        (-half-sz, -half-sz), (half-sz, half-sz),
-        stroke: s, fill: f,
+        (-half-sz, -half-sz),
+        (half-sz, half-sz),
+        stroke: s,
+        fill: f,
       )
     }
 

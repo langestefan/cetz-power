@@ -54,7 +54,8 @@
     let pin-right = (half - stub, 0)
 
     // Wire stubs from the endpoints to the pins.
-    let wire-stroke = ctx.style
+    let wire-stroke = ctx
+      .style
       .at("cetz-power", default: (:))
       .at("wire", default: (:))
       .at("stroke", default: s)

@@ -14,12 +14,12 @@
   // The phase rails sit OUTSIDE the wye's bounding triangle so the
   // current-source bodies can't graze any rail. Short vertical
   // stubs drop each lower terminal to its rail.
-  let cx  =  1.0
-  let xL  = -0.7
-  let xR  =  2.7
-  let yA  =  1.2
-  let yB  = -1.5
-  let yC  = -2.3
+  let cx = 1.0
+  let xL = -0.7
+  let xR = 2.7
+  let yA = 1.2
+  let yB = -1.5
+  let yC = -2.3
 
   // ── Skeleton wye: anchors only, no geometry ──────────────────
   wye("y", (cx, 0), size: 1.2, body: false)
@@ -45,20 +45,52 @@
 
   // ── Bus-tap dots ─────────────────────────────────────────────
   cetz.draw.circle("y.v", radius: 0.06, stroke: none, fill: black)
-  cetz.draw.circle(("y.u", "|-", (0, yB)), radius: 0.06, stroke: none, fill: black)
-  cetz.draw.circle(("y.w", "|-", (0, yC)), radius: 0.06, stroke: none, fill: black)
+  cetz.draw.circle(
+    ("y.u", "|-", (0, yB)),
+    radius: 0.06,
+    stroke: none,
+    fill: black,
+  )
+  cetz.draw.circle(
+    ("y.w", "|-", (0, yC)),
+    radius: 0.06,
+    stroke: none,
+    fill: black,
+  )
 
   // ── Source labels (absolute coords, near each source body) ───
-  cetz.draw.content((1.45, 0.6),  text(size: 9pt, $s_i^a$), anchor: "west")
-  cetz.draw.content((0.05, 0.05), text(size: 9pt, $s_i^b$), anchor: "south-east")
-  cetz.draw.content((1.95, 0.05), text(size: 9pt, $s_i^c$), anchor: "south-west")
+  cetz.draw.content((1.45, 0.6), text(size: 9pt, $s_i^a$), anchor: "west")
+  cetz.draw.content(
+    (0.05, 0.05),
+    text(size: 9pt, $s_i^b$),
+    anchor: "south-east",
+  )
+  cetz.draw.content(
+    (1.95, 0.05),
+    text(size: 9pt, $s_i^c$),
+    anchor: "south-west",
+  )
 
   // ── Vertex / tap labels ──────────────────────────────────────
-  cetz.draw.content("y.v",                       text(size: 9pt, [a]), anchor: "south", padding: 0.16)
-  cetz.draw.content(("y.u", "|-", (0, yB)),      text(size: 9pt, [b]), anchor: "north", padding: 0.14)
-  cetz.draw.content(("y.w", "|-", (0, yC)),      text(size: 9pt, [c]), anchor: "north", padding: 0.14)
+  cetz.draw.content("y.v", text(size: 9pt, [a]), anchor: "south", padding: 0.16)
+  cetz.draw.content(
+    ("y.u", "|-", (0, yB)),
+    text(size: 9pt, [b]),
+    anchor: "north",
+    padding: 0.14,
+  )
+  cetz.draw.content(
+    ("y.w", "|-", (0, yC)),
+    text(size: 9pt, [c]),
+    anchor: "north",
+    padding: 0.14,
+  )
 
   // ── Captions ─────────────────────────────────────────────────
-  cetz.draw.content((cx, yA + 0.7),   text(size: 10pt, weight: "bold", [Bus-#emph[i]]))
-  cetz.draw.content((cx, yC - 0.45),  text(size: 9pt, [Wye-Connection]))
+  cetz.draw.content((cx, yA + 0.7), text(
+    size: 10pt,
+    weight: "bold",
+    [Bus-#emph[i]],
+  ))
+  cetz.draw.content((cx, yC - 0.45), text(size: 9pt, [Wye-Connection]))
 })

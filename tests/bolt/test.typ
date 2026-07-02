@@ -18,7 +18,7 @@
 
 // Different segment counts: 2 (Z), 4 (default), 8 (noisy).
 #test({
-  bolt("b1", (0,   0), (0,   -1.5), segments: 2)
+  bolt("b1", (0, 0), (0, -1.5), segments: 2)
   bolt("b2", (1.0, 0), (1.0, -1.5))
   bolt("b3", (2.0, 0), (2.0, -1.5), segments: 8)
 })

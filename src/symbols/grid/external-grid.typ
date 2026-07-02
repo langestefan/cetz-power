@@ -91,11 +91,15 @@
     let n = style.at("line-count", default: 2)
     assert(
       type(n) == int and n >= 0,
-      message: "external-grid line-count must be an integer >= 0, got " + repr(n),
+      message: "external-grid line-count must be an integer >= 0, got "
+        + repr(n),
     )
     if n >= 1 {
-      let xL = -half; let xR = half; let yB = bot; let yT = top
-      let d = calc.min(sw, sh) / n          // 45° line pitch (along an axis)
+      let xL = -half
+      let xR = half
+      let yB = bot
+      let yT = top
+      let d = calc.min(sw, sh) / n // 45° line pitch (along an axis)
       // Number of evenly-spaced offsets across the box's diagonal span,
       // excluding the two zero-length corner grazes at the extremes.
       let steps = int(calc.floor((sw + sh) / d + 0.000001))
@@ -106,12 +110,16 @@
         let c = (xL + yB) + off
         let lo = calc.max(xL, c - yT)
         let hi = calc.min(xR, c - yB)
-        if hi - lo > eps { cetz.draw.line((lo, c - lo), (hi, c - hi), stroke: s) }
+        if hi - lo > eps {
+          cetz.draw.line((lo, c - lo), (hi, c - hi), stroke: s)
+        }
         // "/" line (slope +1): y − x = g, clipped to the box.
         let g = (yB - xR) + off
         let glo = calc.max(xL, yB - g)
         let ghi = calc.min(xR, yT - g)
-        if ghi - glo > eps { cetz.draw.line((glo, g + glo), (ghi, g + ghi), stroke: s) }
+        if ghi - glo > eps {
+          cetz.draw.line((glo, g + glo), (ghi, g + ghi), stroke: s)
+        }
       }
     }
 

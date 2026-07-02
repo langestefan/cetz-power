@@ -11,7 +11,9 @@
 
 #import "deps.typ": cetz
 #import "styles.typ": default as default-styles
-#import "utils.typ": resolve-style, label-anchor-for-angle, normalise-scale, opposite
+#import "utils.typ": (
+  label-anchor-for-angle, normalise-scale, opposite, resolve-style,
+)
 
 #let _angle-type = angle
 
@@ -118,12 +120,16 @@
   // ("north", "east", ...) where the label sits relative to the symbol.
   // We translate that into the corresponding LOCAL anchor of the symbol
   // (rotated back through -effective-angle) and attach there.
-  let lbl = if type(label) == dictionary { label.at("content", default: none) } else { label }
+  let lbl = if type(label) == dictionary {
+    label.at("content", default: none)
+  } else { label }
   if lbl != none {
     cetz.draw.get-ctx(ctx => {
       let style = resolve-style(ctx, family, positions-and-overrides.named())
       let label-style = style.at("label", default: (:))
-      let lbl-dict = if type(label) == dictionary { label } else { (content: lbl) }
+      let lbl-dict = if type(label) == dictionary { label } else {
+        (content: lbl)
+      }
       let ls = (:)
       for (k, v) in label-style { ls.insert(k, v) }
       for (k, v) in lbl-dict { ls.insert(k, v) }
@@ -146,8 +152,14 @@
       // To find the LOCAL anchor whose rotated position lands at the requested
       // world direction, we subtract the symbol's effective-angle.
       let compass = (
-        east: 0, "north-east": 45, north: 90, "north-west": 135,
-        west: 180, "south-west": 225, south: 270, "south-east": 315,
+        east: 0,
+        "north-east": 45,
+        north: 90,
+        "north-west": 135,
+        west: 180,
+        "south-west": 225,
+        south: 270,
+        "south-east": 315,
       )
       let local-anchor = if type(world-anchor) != str {
         world-anchor
@@ -158,14 +170,15 @@
         let local-deg = calc.rem(world-deg - effective-angle-outer / 1deg, 360)
         if local-deg < 0 { local-deg = local-deg + 360 }
         // Snap: each cardinal owns a 45° sector centred on its angle.
-        if local-deg < 22.5 or local-deg >= 337.5 { "east" }
-        else if local-deg < 67.5 { "north-east" }
-        else if local-deg < 112.5 { "north" }
-        else if local-deg < 157.5 { "north-west" }
-        else if local-deg < 202.5 { "west" }
-        else if local-deg < 247.5 { "south-west" }
-        else if local-deg < 292.5 { "south" }
-        else { "south-east" }
+        if local-deg < 22.5 or local-deg >= 337.5 { "east" } else if (
+          local-deg < 67.5
+        ) { "north-east" } else if local-deg < 112.5 { "north" } else if (
+          local-deg < 157.5
+        ) { "north-west" } else if local-deg < 202.5 { "west" } else if (
+          local-deg < 247.5
+        ) { "south-west" } else if local-deg < 292.5 { "south" } else {
+          "south-east"
+        }
       }
 
       let attach = if type(local-anchor) == str {
@@ -178,7 +191,9 @@
       // of the world anchor, so text extends AWAY from the symbol.
       let text-align = ls.at("align", default: auto)
       if text-align == auto {
-        text-align = if type(world-anchor) == str { opposite(world-anchor) } else { "center" }
+        text-align = if type(world-anchor) == str {
+          opposite(world-anchor)
+        } else { "center" }
       }
 
       cetz.draw.content(

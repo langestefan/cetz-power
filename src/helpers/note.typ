@@ -6,10 +6,10 @@
 // label that should land at the supplied position". They're opposites.
 // Used by both `note` and `wire(..., label: …)`.
 #let _opposite-side = (
-  "north":      "south",
-  "south":      "north",
-  "east":       "west",
-  "west":       "east",
+  "north": "south",
+  "south": "north",
+  "east": "west",
+  "west": "east",
   "north-east": "south-west",
   "south-west": "north-east",
   "north-west": "south-east",
@@ -54,8 +54,10 @@
 ) = {
   assert(
     side in _opposite-side,
-    message: "note() side must be one of " + repr(_opposite-side.keys())
-      + ", got " + repr(side),
+    message: "note() side must be one of "
+      + repr(_opposite-side.keys())
+      + ", got "
+      + repr(side),
   )
   let aligned = if text-align == auto { body } else { align(text-align, body) }
   cetz.draw.content(

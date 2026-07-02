@@ -13,10 +13,10 @@
 
 // All AC waveform variants in a row.
 #test({
-  voltagesource("v1", (0,  0), (2,  0), kind: "ac")
-  voltagesource("v2", (3,  0), (5,  0), kind: "sin")
-  voltagesource("v3", (6,  0), (8,  0), kind: "tri")
-  voltagesource("v4", (9,  0), (11, 0), kind: "saw")
+  voltagesource("v1", (0, 0), (2, 0), kind: "ac")
+  voltagesource("v2", (3, 0), (5, 0), kind: "sin")
+  voltagesource("v3", (6, 0), (8, 0), kind: "tri")
+  voltagesource("v4", (9, 0), (11, 0), kind: "saw")
   voltagesource("v5", (12, 0), (14, 0), kind: "rect")
 })
 
@@ -29,7 +29,10 @@
 
 // Geometry / styling overrides.
 #test({
-  voltagesource("v", (0, 0), (2, 0),
+  voltagesource(
+    "v",
+    (0, 0),
+    (2, 0),
     radius: 0.5,
     stroke: 1.4pt + blue,
     fill: yellow.lighten(80%),

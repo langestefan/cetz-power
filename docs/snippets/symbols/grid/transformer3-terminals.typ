@@ -14,5 +14,10 @@
 
   // Per-terminal angles re-aim the secondaries straight up / down.
   transformer3("c", (5.2, 0), lead: 0.35, lv-angle: 90deg, tv-angle: -90deg)
-  note((5.2, -1.2), [lv-angle: 90°\ tv-angle: -90°], side: "south", text-align: center)
+  note(
+    (5.2, -1.2),
+    [lv-angle: 90°\ tv-angle: -90°],
+    side: "south",
+    text-align: center,
+  )
 })

@@ -18,10 +18,13 @@
 
 // Per-winding styling.
 #test({
-  transformer3("t", (0, 0),
+  transformer3(
+    "t",
+    (0, 0),
     primary-stroke: 1.2pt + black,
     secondary-stroke: red,
-    tertiary-stroke: blue)
+    tertiary-stroke: blue,
+  )
 })
 
 // DFIG split: HV from a bus, two secondaries fanning into two branches.

@@ -18,8 +18,20 @@
 // Relabelled + filled box + styled VT, compact, and anchored at box south.
 #test({
   wire((-1, 0), (1, 0))
-  dali("d", (0, 0), width: 0.6, lead: 0.22, tail: 0.28, box-height: 0.5,
-    box-width: 0.9, clamp-radius: 0.1, tx-radius: 0.12, tx-distance: 0.13,
-    tx-stroke: blue, label: [M], fill: white)
+  dali(
+    "d",
+    (0, 0),
+    width: 0.6,
+    lead: 0.22,
+    tail: 0.28,
+    box-height: 0.5,
+    box-width: 0.9,
+    clamp-radius: 0.1,
+    tx-radius: 0.12,
+    tx-distance: 0.13,
+    tx-stroke: blue,
+    label: [M],
+    fill: white,
+  )
   cetz.draw.line("d.south", (rel: (0, -0.4), to: "d.south"))
 })

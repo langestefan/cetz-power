@@ -63,11 +63,13 @@
           local-pos.at(0) + ldist * calc.cos(out-deg),
           local-pos.at(1) + ldist * calc.sin(out-deg),
         )
-        let body = if type(txt) == str { emph(text(size: lsize, txt)) } else { text(size: lsize, txt) }
+        let body = if type(txt) == str { emph(text(size: lsize, txt)) } else {
+          text(size: lsize, txt)
+        }
         cetz.draw.content(lp, body, angle: -rot)
       }
       lbl(pu, 210deg, terms.at(0))
-      lbl(pv,  90deg, terms.at(1))
+      lbl(pv, 90deg, terms.at(1))
       lbl(pw, 330deg, terms.at(2))
     }
 
@@ -95,10 +97,10 @@
     cetz.draw.anchor("default", (0, 0))
     // Cardinal anchors sit on the bounding circle at radius `r`,
     // regardless of where the vertices are — handy for the outer label.
-    cetz.draw.anchor("north", (0,  r))
+    cetz.draw.anchor("north", (0, r))
     cetz.draw.anchor("south", (0, -r))
-    cetz.draw.anchor("east",  ( r, 0))
-    cetz.draw.anchor("west",  (-r, 0))
+    cetz.draw.anchor("east", (r, 0))
+    cetz.draw.anchor("west", (-r, 0))
   }
 
   symbol("winding", name, ..positions, ..overrides, draw: draw)

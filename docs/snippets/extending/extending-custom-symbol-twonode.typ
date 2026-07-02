@@ -12,7 +12,8 @@
     let len = cetz.vector.dist(positions.first(), positions.last())
     let s = style.at("stroke", default: 0.8pt + black)
     cetz.draw.line(
-      (0, 0), (len, 0),
+      (0, 0),
+      (len, 0),
       stroke: s,
       mark: (end: ">", fill: s.paint),
     )

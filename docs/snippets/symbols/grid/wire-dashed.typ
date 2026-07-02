@@ -17,11 +17,9 @@
   wire("subA.mid", "subB.mid")
 
   // Planned future tie-line — darker grey, thicker, dashed
-  wire("subB.mid", "subC.mid",
-    stroke: (
-      paint: gray.darken(40%),
-      thickness: 1.5pt,
-      dash: "dashed",
-    ),
-  )
+  wire("subB.mid", "subC.mid", stroke: (
+    paint: gray.darken(40%),
+    thickness: 1.5pt,
+    dash: "dashed",
+  ))
 })

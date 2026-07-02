@@ -37,7 +37,8 @@
   assert(
     raw.len() in (1, 2),
     message: "machine() takes 1 position and an optional letter, got "
-      + str(raw.len()) + " positional args",
+      + str(raw.len())
+      + " positional args",
   )
   let positions = (raw.at(0),)
   let letter = if raw.len() == 2 { raw.at(1) } else { none }
@@ -54,7 +55,9 @@
 
     cetz.draw.circle((0, 0), radius: r, stroke: s, fill: f)
     if letter != none {
-      let inner = if type(letter) == str { text(size: lsize, letter) } else { letter }
+      let inner = if type(letter) == str { text(size: lsize, letter) } else {
+        letter
+      }
       cetz.draw.content((0, 0), inner)
     }
 

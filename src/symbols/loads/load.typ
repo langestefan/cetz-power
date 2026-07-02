@@ -43,11 +43,13 @@
     // Triangle pointing down: a flat top edge and a tip `sz` below it.
     // With `fill: none` (the default) this gives the textbook hollow-arrow
     // load symbol; pass `fill: black` for the filled "engineering" form.
-    let top-left  = (arrow-x - sz / 2, arrow-base-y)
+    let top-left = (arrow-x - sz / 2, arrow-base-y)
     let top-right = (arrow-x + sz / 2, arrow-base-y)
-    let tip       = (arrow-x, arrow-base-y - sz)
+    let tip = (arrow-x, arrow-base-y - sz)
     cetz.draw.line(
-      top-left, top-right, tip,
+      top-left,
+      top-right,
+      tip,
       close: true,
       stroke: s,
       fill: f,
@@ -64,8 +66,14 @@
     cetz.draw.anchor("west", (arrow-x - sz / 2, arrow-base-y - sz / 2))
     // Label anchors: just outside the arrow body — close enough to read as
     // "this label belongs to this load", far enough not to overlap.
-    cetz.draw.anchor("label-east", (arrow-x + sz / 2 + 0.1, arrow-base-y - sz / 2))
-    cetz.draw.anchor("label-west", (arrow-x - sz / 2 - 0.1, arrow-base-y - sz / 2))
+    cetz.draw.anchor("label-east", (
+      arrow-x + sz / 2 + 0.1,
+      arrow-base-y - sz / 2,
+    ))
+    cetz.draw.anchor("label-west", (
+      arrow-x - sz / 2 - 0.1,
+      arrow-base-y - sz / 2,
+    ))
   }
 
   symbol("load", name, ..positions, ..overrides, draw: draw)

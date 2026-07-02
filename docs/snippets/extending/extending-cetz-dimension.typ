@@ -12,7 +12,7 @@
   wire("g.in", "b1.mid")
   transformer("t", "b1.mid", "b2.mid", label: [10/0.4 kV])
   wire("b2.mid", "b3.mid")
-  load("ld", bus-frac("b3", 1/6), elbow: 0.4)
+  load("ld", bus-frac("b3", 1 / 6), elbow: 0.4)
 
   // ── cetz extras ──────────────────────────────────────────────────
   // Dimension line: short ticks on the two endpoints, an arrow-headed
@@ -21,7 +21,8 @@
   cetz.draw.line((4.6, y-dim - 0.1), (4.6, y-dim + 0.1), stroke: 0.6pt + black)
   cetz.draw.line((7.0, y-dim - 0.1), (7.0, y-dim + 0.1), stroke: 0.6pt + black)
   cetz.draw.line(
-    (4.6, y-dim), (7.0, y-dim),
+    (4.6, y-dim),
+    (7.0, y-dim),
     stroke: 0.6pt + black,
     mark: (end: ">", fill: black),
   )

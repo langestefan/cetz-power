@@ -63,7 +63,7 @@
 // named anchor, `(rel: vec)` (relative to previous point), and
 // `(rel: vec, to: anchor)` (relative to a specific named anchor).
 #test({
-  bus("b1", (0, 0),    length: 1.2, angle: 90deg)
+  bus("b1", (0, 0), length: 1.2, angle: 90deg)
   bus("b2", (2.5, -1), length: 1.2, angle: 90deg)
   wire(
     "b1.mid",
@@ -82,19 +82,27 @@
 
 // All four cardinal `label-side` values + a custom distance.
 #test({
-  wire((0, 0),    (3, 0),    label: [north], label-side: "north")
-  wire((0, -1),   (3, -1),   label: [south], label-side: "south")
-  wire((0, -2),   (3, -2),   label: [east],  label-side: "east")
-  wire((0, -3),   (3, -3),   label: [west],  label-side: "west")
-  wire((0, -4.5), (3, -4.5), label: [far north],
-    label-side: "north", label-distance: 0.4)
+  wire((0, 0), (3, 0), label: [north], label-side: "north")
+  wire((0, -1), (3, -1), label: [south], label-side: "south")
+  wire((0, -2), (3, -2), label: [east], label-side: "east")
+  wire((0, -3), (3, -3), label: [west], label-side: "west")
+  wire(
+    (0, -4.5),
+    (3, -4.5),
+    label: [far north],
+    label-side: "north",
+    label-distance: 0.4,
+  )
 })
 
 // Label on a polyline — midpoint is computed from FIRST and LAST
 // points, so intermediate corners don't shift the label.
 #test({
   wire(
-    (0, 0), (1, 1), (2, 0), (3, 1),
+    (0, 0),
+    (1, 1),
+    (2, 0),
+    (3, 1),
     label: [zigzag],
   )
 })

@@ -15,11 +15,7 @@
 
 // Geometry overrides: wider plates, bigger gap, longer in-lead.
 #test({
-  capacitor("c", (0, 0),
-    plate-width: 0.9,
-    plate-gap: 0.3,
-    lead-in: 0.6,
-  )
+  capacitor("c", (0, 0), plate-width: 0.9, plate-gap: 0.3, lead-in: 0.6)
 })
 
 // Series cap: lead-out > 0 exposes an `out` anchor for in-line use.
@@ -43,11 +39,13 @@
 
 // Family-level styling.
 #test({
-  cetz.draw.set-style(cetz-power: (capacitor: (
-    "plate-width": 0.7,
-    "plate-gap": 0.18,
-    stroke: 1.2pt + blue,
-  )))
+  cetz.draw.set-style(cetz-power: (
+    capacitor: (
+      "plate-width": 0.7,
+      "plate-gap": 0.18,
+      stroke: 1.2pt + blue,
+    ),
+  ))
   capacitor("c1", (0, 0))
   capacitor("c2", (1.5, 0))
   capacitor("c3", (3.0, 0))

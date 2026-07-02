@@ -10,7 +10,8 @@
 // Look up the wire stroke from the active cetz-power style, or fall back.
 #let _wire-stroke(ctx, override) = {
   if override != auto { return override }
-  ctx.style
+  ctx
+    .style
     .at("cetz-power", default: (:))
     .at("wire", default: (:))
     .at("stroke", default: 0.8pt + black)
@@ -22,10 +23,10 @@
 // and by `helpers/note.typ`. Duplicated here (kept in sync) to avoid an
 // import cycle between this file and the helpers.
 #let _opposite-side = (
-  "north":      "south",
-  "south":      "north",
-  "east":       "west",
-  "west":       "east",
+  "north": "south",
+  "south": "north",
+  "east": "west",
+  "west": "east",
   "north-east": "south-west",
   "south-west": "north-east",
   "north-west": "south-east",
@@ -127,7 +128,8 @@
   let label-size = named.at("label-size", default: 7pt)
   assert(
     label-align in ("left", "center", "right"),
-    message: "wire label-align must be \"left\", \"center\", or \"right\", got " + repr(label-align),
+    message: "wire label-align must be \"left\", \"center\", or \"right\", got "
+      + repr(label-align),
   )
   assert(
     pts.len() >= 2,
@@ -139,7 +141,8 @@
     if label != none {
       assert(
         label-side in _opposite-side,
-        message: "wire label-side must be a compass direction, got " + repr(label-side),
+        message: "wire label-side must be a compass direction, got "
+          + repr(label-side),
       )
       // Midpoint of the first and last positional coordinates.
       let mid = (pts.first(), 50%, pts.last())

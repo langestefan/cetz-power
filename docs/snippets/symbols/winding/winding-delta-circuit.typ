@@ -7,12 +7,12 @@
 // two-node `currentsource` between two vertex anchors, and the
 // sources' built-in leads form the triangle for us.
 #diagram(length: 1.1cm, {
-  let cx  =  1.0
-  let xL  = -0.7
-  let xR  =  2.7
-  let yA  =  1.2   // matches d.v.y
-  let yB  = -1.5   // below d.u and d.w (whose y = -0.6) so the
-  let yC  = -2.3   // bottom side of the triangle clears Phase B.
+  let cx = 1.0
+  let xL = -0.7
+  let xR = 2.7
+  let yA = 1.2 // matches d.v.y
+  let yB = -1.5 // below d.u and d.w (whose y = -0.6) so the
+  let yC = -2.3 // bottom side of the triangle clears Phase B.
 
   // ── Skeleton delta: anchors only, no triangle ────────────────
   delta("d", (cx, 0), size: 1.2, body: false)
@@ -38,20 +38,57 @@
 
   // ── Vertex / bus-tap dots ────────────────────────────────────
   cetz.draw.circle("d.v", radius: 0.06, stroke: none, fill: black)
-  cetz.draw.circle(("d.u", "|-", (0, yB)), radius: 0.06, stroke: none, fill: black)
-  cetz.draw.circle(("d.w", "|-", (0, yC)), radius: 0.06, stroke: none, fill: black)
+  cetz.draw.circle(
+    ("d.u", "|-", (0, yB)),
+    radius: 0.06,
+    stroke: none,
+    fill: black,
+  )
+  cetz.draw.circle(
+    ("d.w", "|-", (0, yC)),
+    radius: 0.06,
+    stroke: none,
+    fill: black,
+  )
 
   // ── Source labels (absolute coords, near each side's mid) ────
-  cetz.draw.content((0.05, 0.6),  text(size: 9pt, $s_j^(a b)$), anchor: "south-east")
-  cetz.draw.content((1.0, -0.95), text(size: 9pt, $s_j^(b c)$), anchor: "north", padding: 0.18)
-  cetz.draw.content((1.95, 0.6),  text(size: 9pt, $s_j^(c a)$), anchor: "south-west")
+  cetz.draw.content(
+    (0.05, 0.6),
+    text(size: 9pt, $s_j^(a b)$),
+    anchor: "south-east",
+  )
+  cetz.draw.content(
+    (1.0, -0.95),
+    text(size: 9pt, $s_j^(b c)$),
+    anchor: "north",
+    padding: 0.18,
+  )
+  cetz.draw.content(
+    (1.95, 0.6),
+    text(size: 9pt, $s_j^(c a)$),
+    anchor: "south-west",
+  )
 
   // ── Vertex labels ────────────────────────────────────────────
-  cetz.draw.content("d.v",                       text(size: 9pt, [a]), anchor: "south", padding: 0.16)
-  cetz.draw.content(("d.u", "|-", (0, yB)),      text(size: 9pt, [b]), anchor: "north", padding: 0.14)
-  cetz.draw.content(("d.w", "|-", (0, yC)),      text(size: 9pt, [c]), anchor: "north", padding: 0.14)
+  cetz.draw.content("d.v", text(size: 9pt, [a]), anchor: "south", padding: 0.16)
+  cetz.draw.content(
+    ("d.u", "|-", (0, yB)),
+    text(size: 9pt, [b]),
+    anchor: "north",
+    padding: 0.14,
+  )
+  cetz.draw.content(
+    ("d.w", "|-", (0, yC)),
+    text(size: 9pt, [c]),
+    anchor: "north",
+    padding: 0.14,
+  )
 
   // ── Captions ─────────────────────────────────────────────────
-  cetz.draw.content((cx, yA + 0.7),   text(size: 10pt, weight: "bold", [Bus-#emph[j]]))
-  cetz.draw.content((cx, yC - 0.45),  text(size: 9pt, [Delta-Connection]))
+  cetz.draw.content((cx, yA + 0.7), text(
+    size: 10pt,
+    weight: "bold",
+    [Bus-#emph[j]],
+  ))
+  cetz.draw.content((cx, yC - 0.45), text(size: 9pt, [Delta-Connection]))
 })

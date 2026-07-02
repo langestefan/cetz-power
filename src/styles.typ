@@ -18,8 +18,8 @@
   // Default label style. Each symbol can override its label sub-dict.
   label: (
     content: none,
-    anchor: "north",   // where to attach the label on the symbol
-    align: auto,       // text alignment; auto => opposite of anchor
+    anchor: "north", // where to attach the label on the symbol
+    align: auto, // text alignment; auto => opposite of anchor
     distance: 0.15,
     size: 8pt,
   ),
@@ -32,9 +32,9 @@
   // ── Bus (busbar) ────────────────────────────────────────────────
   // Buses are length-defined, not symbol-sized.
   bus: (
-    stroke: 1.8pt + black,  // thicker than wires
-    length: 3,              // default length in cetz units
-    taps: 1,                // default tap count
+    stroke: 1.8pt + black, // thicker than wires
+    length: 3, // default length in cetz units
+    taps: 1, // default tap count
     label: (distance: 0.22),
   ),
 
@@ -86,19 +86,19 @@
   load: (
     size: 0.28,
     stroke: 0.8pt + black,
-    fill: black,            // solid filled triangle — the conventional form
-    lead: 0.25,             // gap between bus / connection point and arrow base
+    fill: black, // solid filled triangle — the conventional form
+    lead: 0.25, // gap between bus / connection point and arrow base
     // Labels sit directly below the arrow tip by default.
     label: (anchor: "south", distance: 0.1),
   ),
 
   // ── Photovoltaic panel ──────────────────────────────────────────
   "pv-panel": (
-    size: 0.35,             // panel width
-    aspect: 1.6,             // height / width ratio
+    size: 0.35, // panel width
+    aspect: 1.6, // height / width ratio
     stroke: 0.8pt + black,
-    fill: none,             // panel body fill
-    "triangle-fill": none,  // inner triangle fill (set to `black` for filled arrow)
+    fill: none, // panel body fill
+    "triangle-fill": none, // inner triangle fill (set to `black` for filled arrow)
     "triangle-height": 0.45, // triangle height as fraction of panel height
     lead: 0.25,
     label: (anchor: "south", distance: 0.1),
@@ -257,8 +257,8 @@
     height: none,
     stroke: 0.8pt + black,
     fill: none,
-    distance: 0.2,          // lead from connection point to symbol
-    "line-count": 2,        // hatching density
+    distance: 0.2, // lead from connection point to symbol
+    "line-count": 2, // hatching density
     // Optional fill colour for the inside of the cross-hatched square
     // (drawn beneath the diagonals so the chord lines remain visible
     // on top). Distinct from `fill` only in name — `background` reads

@@ -12,8 +12,14 @@
   let deg = calc.atan2(v.at(0), v.at(1)) / 1deg
   let k = int(calc.rem(calc.round(deg / 45) + 8, 8))
   (
-    "east", "north-east", "north", "north-west",
-    "west", "south-west", "south", "south-east",
+    "east",
+    "north-east",
+    "north",
+    "north-west",
+    "west",
+    "south-west",
+    "south",
+    "south-east",
   ).at(k)
 }
 
@@ -137,8 +143,8 @@
   let rp = (calc.cos(run-perp), calc.sin(run-perp))
   let ddv = (calc.cos(drop-dir), calc.sin(drop-dir))
   let along(d) = (rel: (d * u.at(0), d * u.at(1)), to: start)
-  let perp(p, o) = (rel: (o * ddv.at(0), o * ddv.at(1)), to: p)     // along the drop
-  let rperp(p, o) = (rel: (o * rp.at(0), o * rp.at(1)), to: p)      // run's perpendicular
+  let perp(p, o) = (rel: (o * ddv.at(0), o * ddv.at(1)), to: p) // along the drop
+  let rperp(p, o) = (rel: (o * rp.at(0), o * rp.at(1)), to: p) // run's perpendicular
 
   // Built-in drop: a transformer (unless `tx: false`) + a load arrow, the LV
   // caption tracking the arrow tip. Used as the default `drop-draw`; it takes
@@ -148,7 +154,7 @@
     let load-label = st.at("load", default: none)
     if load-label != none {
       let dn = info.name
-      let ang = info.angle + 90deg            // load arrow points along the drop
+      let ang = info.angle + 90deg // load arrow points along the drop
       let st-tx = st.at("tx", default: tx)
       let st-stroke = st.at("stroke", default: load-stroke)
       let st-fill = st.at("fill", default: load-fill)
@@ -156,20 +162,43 @@
       let st-tx-fill = st.at("tx-fill", default: tx-fill)
       if st-tx {
         // Tap → transformer → load.
-        transformer(dn + "-t", info.at, info.foot,
-          radius: tx-radius, distance: tx-distance,
-          stroke: st-tx-stroke, fill: st-tx-fill)
-        load(dn + "-l", info.foot, lead: load-lead, size: load-size,
-          angle: ang, stroke: st-stroke, fill: st-fill)
+        transformer(
+          dn + "-t",
+          info.at,
+          info.foot,
+          radius: tx-radius,
+          distance: tx-distance,
+          stroke: st-tx-stroke,
+          fill: st-tx-fill,
+        )
+        load(
+          dn + "-l",
+          info.foot,
+          lead: load-lead,
+          size: load-size,
+          angle: ang,
+          stroke: st-stroke,
+          fill: st-fill,
+        )
       } else {
         // No transformer: the load hangs straight off the tap.
-        load(dn + "-l", info.at, lead: info.drop, size: load-size,
-          angle: ang, stroke: st-stroke, fill: st-fill)
+        load(
+          dn + "-l",
+          info.at,
+          lead: info.drop,
+          size: load-size,
+          angle: ang,
+          stroke: st-stroke,
+          fill: st-fill,
+        )
       }
       // Caption hangs off the arrow tip (the load's `south` anchor), so it
       // tracks `drop` / `load-size` / `angle` and never collides with it.
       cetz.draw.content(
-        (rel: (load-gap * ddv.at(0), load-gap * ddv.at(1)), to: dn + "-l.south"),
+        (
+          rel: (load-gap * ddv.at(0), load-gap * ddv.at(1)),
+          to: dn + "-l.south",
+        ),
         align(center)[#load-label],
       )
     }
@@ -187,7 +216,9 @@
     if label != none {
       cetz.draw.content(rperp(tap, -label-gap), align(center)[#label])
     }
-    let drawer = st.at("draw", default: if drop-draw == auto { default-drop } else { drop-draw })
+    let drawer = st.at("draw", default: if drop-draw == auto {
+      default-drop
+    } else { drop-draw })
     drawer((
       name: name + "-" + str(i),
       at: tap,
@@ -204,7 +235,11 @@
   // two read as one line; pass `extend-stroke` to override it.
   cetz.draw.get-ctx(ctx => {
     let run-stroke = if line-stroke == auto {
-      ctx.style.at("cetz-power", default: (:)).at("wire", default: (:)).at("stroke", default: 0.8pt + black)
+      ctx
+        .style
+        .at("cetz-power", default: (:))
+        .at("wire", default: (:))
+        .at("stroke", default: 0.8pt + black)
     } else { line-stroke }
     cetz.draw.line(start, along(total), stroke: run-stroke)
     if extend > 0 {

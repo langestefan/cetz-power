@@ -36,7 +36,9 @@
 
 // Family-level styling.
 #test({
-  cetz.draw.set-style(cetz-power: (resistor: (width: 0.5, fill: yellow.lighten(60%))))
+  cetz.draw.set-style(cetz-power: (
+    resistor: (width: 0.5, fill: yellow.lighten(60%)),
+  ))
   resistor("r1", (0, 0))
   resistor("r2", (1.2, 0))
 })

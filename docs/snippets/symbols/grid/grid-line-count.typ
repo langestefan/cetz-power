@@ -7,9 +7,6 @@
 // bare square with no hatching.
 #diagram(length: 1.2cm, {
   for (i, n) in (0, 1, 2, 3, 4, 5, 6).enumerate() {
-    external-grid("g" + str(n), (i * 1.4, 0),
-      line-count: n,
-      label: [n = #n],
-    )
+    external-grid("g" + str(n), (i * 1.4, 0), line-count: n, label: [n = #n])
   }
 })

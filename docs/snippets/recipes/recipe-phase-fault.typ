@@ -11,15 +11,15 @@
 // marks the fault current returning through the ground rail.
 #diagram(length: 1.2cm, {
   // Colour palette to match the source figure.
-  let r = rgb("#cc1122")     // red — coils, currents, fault arrow
-  let b = rgb("#2244aa")     // blue — capacitor leads
-  let g = rgb("#33aa33")     // green — ground / earth conductor
+  let r = rgb("#cc1122") // red — coils, currents, fault arrow
+  let b = rgb("#2244aa") // blue — capacitor leads
+  let g = rgb("#33aa33") // green — ground / earth conductor
 
   // Phase y-positions and other reference levels.
   let y-a = 2.4
   let y-b = 1.6
   let y-c = 0.8
-  let cap-top = -0.05        // cap.in (top of plates)
+  let cap-top = -0.05 // cap.in (top of plates)
   let ground-y = -0.6
   let phase-end = 5.4
 
@@ -36,20 +36,41 @@
   // bumps start a short distance right of where the diagonal lands).
   let lead = 0.15
   let bump-r = 0.10
-  let l-len = lead + 4 * 2 * bump-r        // 0.95
+  let l-len = lead + 4 * 2 * bump-r // 0.95
   let la-x = -1.4
   let lb-x = -1.4
   let lc-x = -1.4
 
-  inductor("La", (la-x, y-a), angle: -90deg,
-    lead-in: lead, lead-out: lead,
-    bumps: 4, bump-radius: bump-r, stroke: 1pt + r)
-  inductor("Lb", (lb-x, y-b), angle: -90deg,
-    lead-in: lead, lead-out: lead,
-    bumps: 4, bump-radius: bump-r, stroke: 1pt + r)
-  inductor("Lc", (lc-x, y-c), angle: -90deg,
-    lead-in: lead, lead-out: lead,
-    bumps: 4, bump-radius: bump-r, stroke: 1pt + r)
+  inductor(
+    "La",
+    (la-x, y-a),
+    angle: -90deg,
+    lead-in: lead,
+    lead-out: lead,
+    bumps: 4,
+    bump-radius: bump-r,
+    stroke: 1pt + r,
+  )
+  inductor(
+    "Lb",
+    (lb-x, y-b),
+    angle: -90deg,
+    lead-in: lead,
+    lead-out: lead,
+    bumps: 4,
+    bump-radius: bump-r,
+    stroke: 1pt + r,
+  )
+  inductor(
+    "Lc",
+    (lc-x, y-c),
+    angle: -90deg,
+    lead-in: lead,
+    lead-out: lead,
+    bumps: 4,
+    bump-radius: bump-r,
+    stroke: 1pt + r,
+  )
 
   // Source enclosure — sized to wrap the diagonal layout with a
   // small margin on each side.
@@ -66,7 +87,7 @@
   // wire segments below render as one straight line. The two outer
   // segments extend the diagonal past La.in and Lc.in so it reads
   // as a prominent left-edge feature.
-  let slope-dx-per-dy = (lc-x - la-x) / (y-c - y-a)  // -0.375
+  let slope-dx-per-dy = (lc-x - la-x) / (y-c - y-a) // -0.375
   let extend = 0.30
   let diag-top = (
     la-x + extend * slope-dx-per-dy,
@@ -77,8 +98,20 @@
     y-c - extend,
   )
   // wire(diag-top, "La.in", stroke: 0.8pt + black)
-  wire("La.in",  (rel: (0, -0.2)), (rel: (0.0, 0.2), to: "Lb.out"), "Lb.out", stroke: 0.8pt + black)
-  wire("Lb.in",  (rel: (0, -0.2)), (rel: (0.0, 0.2), to: "Lc.out"), "Lc.out", stroke: 0.8pt + black)
+  wire(
+    "La.in",
+    (rel: (0, -0.2)),
+    (rel: (0.0, 0.2), to: "Lb.out"),
+    "Lb.out",
+    stroke: 0.8pt + black,
+  )
+  wire(
+    "Lb.in",
+    (rel: (0, -0.2)),
+    (rel: (0.0, 0.2), to: "Lc.out"),
+    "Lc.out",
+    stroke: 0.8pt + black,
+  )
   // Polyline: Lc.in → 0.2 left → another 0.2 left.
   // Each `(rel: <vec>)` (no `to:`) is an offset from the previous
   // point in the list, so this is a turtle-style chain.
@@ -107,16 +140,22 @@
   // ── Per-phase current annotations ──
   // Red arrows on phases a and b point back toward the source; on
   // phase c the current points toward the fault on the right.
-  cetz.draw.line((1.5, y-a), (0.5, y-a), stroke: 1pt + r,
-    mark: (end: ">", fill: r))
+  cetz.draw.line((1.5, y-a), (0.5, y-a), stroke: 1pt + r, mark: (
+    end: ">",
+    fill: r,
+  ))
   cetz.draw.content((1.0, y-a + 0.22), text(size: 6pt, fill: r)[$I_(k 1 a)$])
 
-  cetz.draw.line((1.5, y-b), (0.5, y-b), stroke: 1pt + r,
-    mark: (end: ">", fill: r))
+  cetz.draw.line((1.5, y-b), (0.5, y-b), stroke: 1pt + r, mark: (
+    end: ">",
+    fill: r,
+  ))
   cetz.draw.content((1.0, y-b + 0.22), text(size: 6pt, fill: r)[$I_(k 1 b)$])
 
-  cetz.draw.line((0.5, y-c), (1.5, y-c), stroke: 1pt + r,
-    mark: (end: ">", fill: r))
+  cetz.draw.line((0.5, y-c), (1.5, y-c), stroke: 1pt + r, mark: (
+    end: ">",
+    fill: r,
+  ))
   cetz.draw.content((1.0, y-c + 0.22), text(size: 6pt, fill: r)[$I_(k 1 c)$])
 
   // ── Three phase-to-ground capacitances ──
@@ -133,15 +172,33 @@
   wire((cap2-x, y-b), (cap2-x, cap-top), stroke: 1pt + b)
   wire((cap3-x, y-c), (cap3-x, cap-top), stroke: 1pt + b)
 
-  capacitor("c1", (cap1-x, cap-top),
-    angle: 180deg, lead-in: 0.08, lead-out: 0,
-    plate-width: 0.4, plate-gap: 0.10)
-  capacitor("c2", (cap2-x, cap-top),
-    angle: 180deg, lead-in: 0.08, lead-out: 0,
-    plate-width: 0.4, plate-gap: 0.10)
-  capacitor("c3", (cap3-x, cap-top),
-    angle: 180deg, lead-in: 0.08, lead-out: 0,
-    plate-width: 0.4, plate-gap: 0.10)
+  capacitor(
+    "c1",
+    (cap1-x, cap-top),
+    angle: 180deg,
+    lead-in: 0.08,
+    lead-out: 0,
+    plate-width: 0.4,
+    plate-gap: 0.10,
+  )
+  capacitor(
+    "c2",
+    (cap2-x, cap-top),
+    angle: 180deg,
+    lead-in: 0.08,
+    lead-out: 0,
+    plate-width: 0.4,
+    plate-gap: 0.10,
+  )
+  capacitor(
+    "c3",
+    (cap3-x, cap-top),
+    angle: 180deg,
+    lead-in: 0.08,
+    lead-out: 0,
+    plate-width: 0.4,
+    plate-gap: 0.10,
+  )
 
   // Cap-bottom-to-ground-bus stubs.
   wire("c1.north", (cap1-x, ground-y), stroke: 1pt + b)
@@ -150,27 +207,38 @@
 
   // Charging-current arrows on the upper part of each cap lead (red,
   // pointing up toward the phase line) — same as the source figure.
-  cetz.draw.line((cap1-x + 0.12, cap-top + 0.05),
-    (cap1-x + 0.12, y-a - 0.10), stroke: 1pt + r,
-    mark: (end: ">", fill: r))
-  cetz.draw.line((cap2-x + 0.12, cap-top + 0.05),
-    (cap2-x + 0.12, y-b - 0.10), stroke: 1pt + r,
-    mark: (end: ">", fill: r))
+  cetz.draw.line(
+    (cap1-x + 0.12, cap-top + 0.05),
+    (cap1-x + 0.12, y-a - 0.10),
+    stroke: 1pt + r,
+    mark: (end: ">", fill: r),
+  )
+  cetz.draw.line(
+    (cap2-x + 0.12, cap-top + 0.05),
+    (cap2-x + 0.12, y-b - 0.10),
+    stroke: 1pt + r,
+    mark: (end: ">", fill: r),
+  )
 
   // ── Lightning bolt on phase c — the fault current `Ikt` ──
   // Reusable `bolt` symbol; spans from phase c down to the ground
   // rail with a colour-matched arrowhead at the ground end.
   let bolt-x = 4.6
-  bolt("ikt", (bolt-x, y-c), (bolt-x + 0.1, ground-y),
-    stroke: 1.5pt + r, arrow-color: r,
+  bolt(
+    "ikt",
+    (bolt-x, y-c),
+    (bolt-x + 0.1, ground-y),
+    stroke: 1.5pt + r,
+    arrow-color: r,
     label: (
       content: text(size: 7pt, fill: r)[$I_(k t)$],
-      anchor: "south-east", distance: 0.15,
-    ))
+      anchor: "south-east",
+      distance: 0.15,
+    ),
+  )
 
   // ── Ground rail (green) and ground reference symbol ──
-  cetz.draw.line((-1.8, ground-y), (phase-end + 0.4, ground-y),
-    stroke: 2pt + g)
+  cetz.draw.line((-1.8, ground-y), (phase-end + 0.4, ground-y), stroke: 2pt + g)
   // `lead: 0.08` pushes the earth lines just below the rail with a
   // visible stub connecting them.
   ground("earth", (2.5, ground-y), kind: "earth", lead: 0.18)

@@ -5,8 +5,10 @@
 #diagram(length: 1.2cm, {
   // Grid bus feeds the HV winding.
   bus("b", (0, 0), length: 1.4, angle: 90deg)
-  transformer3("t", (2.2, 0),
-    label: (content: [23 / 0,96 / 0,69 kV], anchor: "south"))
+  transformer3("t", (2.2, 0), label: (
+    content: [23 / 0,96 / 0,69 kV],
+    anchor: "south",
+  ))
   wire("b.mid", "t.hv")
 
   // LV winding → stator path → generator.

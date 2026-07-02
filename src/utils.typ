@@ -6,10 +6,14 @@
 /// "center" — they're assumed to be symbol-specific anchors and the caller
 /// should set `align:` explicitly.
 #let opposite(anchor) = (
-  north: "south", south: "north",
-  east: "west",   west: "east",
-  "north-east": "south-west", "south-west": "north-east",
-  "north-west": "south-east", "south-east": "north-west",
+  north: "south",
+  south: "north",
+  east: "west",
+  west: "east",
+  "north-east": "south-west",
+  "south-west": "north-east",
+  "north-west": "south-east",
+  "south-east": "north-west",
 ).at(anchor, default: "center")
 
 /// Anchor to place a label on given the symbol's bounding rotation angle.
@@ -19,10 +23,9 @@
   let a = calc.rem(ang / 1deg, 360)
   if a < 0 { a = a + 360 }
   // Four quadrants → four cardinal anchors
-  if a <= 45 or a > 315 { "north" }
-  else if a <= 135 { "west" }
-  else if a <= 225 { "south" }
-  else { "east" }
+  if a <= 45 or a > 315 { "north" } else if a <= 135 { "west" } else if (
+    a <= 225
+  ) { "south" } else { "east" }
 }
 
 /// Resolve a style dict by merging:

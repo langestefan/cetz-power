@@ -5,10 +5,10 @@
 // A 400/230 V busbar section: a generator on the left, two DALI metering
 // units (I and U captioned above their taps), and a load on the right.
 #diagram(length: 1cm, {
-  let y  = 0
-  let xl = 1.4         // left busbar
-  let xr = 10.0        // right busbar
-  let cr = 0.13        // CT clamp radius (so the U caption lines up with I)
+  let y = 0
+  let xl = 1.4 // left busbar
+  let xr = 10.0 // right busbar
+  let cr = 0.13 // CT clamp radius (so the U caption lines up with I)
 
   // Generator → left bus → line → right bus.
   machine("g", (0, y), "G")
@@ -29,8 +29,17 @@
   caps("m1", 3.3, 1.0, [$I_1$], [$U_1$])
 
   // Unit 2 — blue VT, tinted box, relabelled.
-  dali("m2", (6.8, y), width: 1.0, lead: 0.3, tail: 0.5, clamp-radius: cr,
-    tx-stroke: blue, label: [Meter], fill: blue.lighten(92%))
+  dali(
+    "m2",
+    (6.8, y),
+    width: 1.0,
+    lead: 0.3,
+    tail: 0.5,
+    clamp-radius: cr,
+    tx-stroke: blue,
+    label: [Meter],
+    fill: blue.lighten(92%),
+  )
   caps("m2", 6.8, 1.0, [$I_2$], [$U_2$])
 
   // A load near the right bus.

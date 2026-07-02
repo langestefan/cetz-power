@@ -17,6 +17,13 @@
 #test({
   external-grid("wide", (0, 0), width: 1.6)
   external-grid("tall", (3, 0), height: 1.6)
-  external-grid("dense", (6, 0), width: 1.8, height: 0.7, distance: 0, line-count: 4)
+  external-grid(
+    "dense",
+    (6, 0),
+    width: 1.8,
+    height: 0.7,
+    distance: 0,
+    line-count: 4,
+  )
   wire("dense.east", (8, 0.35))
 })

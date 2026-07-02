@@ -10,9 +10,11 @@
   // External grid on the left. `angle: 90deg` rotates the cross-hatched
   // square so that its `in` anchor sits on the right edge — that way the
   // wire from `g.in` to `b1.mid` exits the square cleanly.
-  external-grid("g", (0.7, 0), angle: 90deg,
-    label: (content: align(center)[50 MVA, \ 10 kV],
-            anchor: "north", distance: 0.25))
+  external-grid("g", (0.7, 0), angle: 90deg, label: (
+    content: align(center)[50 MVA, \ 10 kV],
+    anchor: "north",
+    distance: 0.25,
+  ))
   wire("g.in", "b1.mid")
 
   // Step-down transformer between bus 1 (HV) and bus 2 (LV).
@@ -22,5 +24,5 @@
   wire("b2.mid", "b3.mid")
 
   // Load tapped off bus 3 a sixth of the way up from the bottom.
-  load("ld", bus-frac("b3", 1/6), elbow: 0.4)
+  load("ld", bus-frac("b3", 1 / 6), elbow: 0.4)
 })

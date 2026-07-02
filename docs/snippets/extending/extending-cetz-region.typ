@@ -13,14 +13,15 @@
   wire("g.in", "b1.mid")
   transformer("t", "b1.mid", "b2.mid", label: [10/0.4 kV])
   wire("b2.mid", "b3.mid")
-  load("ld", bus-frac("b3", 1/6), elbow: 0.4)
+  load("ld", bus-frac("b3", 1 / 6), elbow: 0.4)
 
   // ── cetz extras ──────────────────────────────────────────────────
   // Dashed rectangle around the LV side. cetz.draw.rect takes two
   // opposite corners; we leave the inside unfilled so the symbols
   // underneath stay visible.
   cetz.draw.rect(
-    (4.0, -1.4), (8.0, 1.5),
+    (4.0, -1.4),
+    (8.0, 1.5),
     stroke: (paint: gray, thickness: 0.8pt, dash: "dashed"),
     fill: none,
   )

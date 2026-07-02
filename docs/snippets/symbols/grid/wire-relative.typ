@@ -10,13 +10,10 @@
   // think of as offsets than as absolute (x, y) coordinates.
   bus("mv", (0, 0), length: 4, taps: 5, label: [11 kV bus])
   wire(
-    "mv.tap2",            // start at tap 2
-    (rel: (0, -0.6)),     // drop out of the switchroom
-    (rel: (1.5, 0)),      // run horizontal along the cable trench
-    (rel: (0, -0.5)),     // turn down into the load
+    "mv.tap2", // start at tap 2
+    (rel: (0, -0.6)), // drop out of the switchroom
+    (rel: (1.5, 0)), // run horizontal along the cable trench
+    (rel: (0, -0.5)), // turn down into the load
   )
-  load("bldg",
-    (rel: (1.5, -1.1), to: "mv.tap2"),
-    label: [Building load],
-  )
+  load("bldg", (rel: (1.5, -1.1), to: "mv.tap2"), label: [Building load])
 })
