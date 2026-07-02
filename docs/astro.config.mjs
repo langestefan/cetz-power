@@ -148,6 +148,7 @@ export default defineConfig({
           label: 'Composition helpers',
           items: [
             { label: 'Feeder', slug: 'helpers/feeder' },
+            { label: 'Bus run', slug: 'helpers/bus-run' },
             { label: 'DALI metering unit', slug: 'helpers/dali' },
           ],
         },

@@ -1,0 +1,53 @@
+---
+title: Bus run
+description: A feeder run of node buses at length-proportional spacing, driven by a station data table — segments labelled, devices attached, every bus named for anchor-based branching.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+`bus-run(name, start, stations)` draws the recurring shape of benchmark
+network figures: a straight feeder with **node buses along it**. You
+supply a data table — one dict per station with its cable `length`,
+`name` and optional `device` — and the geometry follows: stations sit
+at `length · pitch` from their predecessor, each segment carries its
+length label, and every station is a real [`bus`](/symbols/grid/bus/)
+tick crossing the spine.
+
+<Snippet name="bus-run-example" />
+
+## Branching by anchor
+
+Stations become buses named `<run>-<station>`, so sub-feeders, risers
+and tie switches attach by **anchor** instead of coordinates:
+
+<Snippet name="bus-run-branch" />
+
+## Per-station overrides
+
+A station without a `length` sits at the fixed `lead` distance (the
+short hop off a riser corner) and gets no label. `label`, `caption` and
+`side` override the segment label, the bus caption, and which side the
+label sits on:
+
+<Snippet name="bus-run-overrides" />
+
+## Parameters
+
+| Name                         | Default        | Description                                                             |
+| ---------------------------- | -------------- | ----------------------------------------------------------------------- |
+| `pitch`                      | `0.05`         | Spine distance per unit of `length`.                                    |
+| `lead`                       | `0.45`         | Station distance when `length` is `none`.                               |
+| `bus-length`                 | `1`            | Tick length, centred on the spine.                                      |
+| `angle`                      | `0deg`         | Spine direction; ticks sit perpendicular, text stays upright.           |
+| `tail`                       | `0`            | Bare spine drawn past the last station.                                 |
+| `label-side`, `caption-side` | `auto`         | Sides for segment labels / captions (`auto` = the run's perpendicular). |
+| `label-format`               | `auto`         | `length => content`; `auto` gives `[#length m]`.                        |
+| `label-size`, `caption-size` | `5.5pt`, `8pt` | Text sizes.                                                             |
+| `device`                     | `none`         | Default device drawer, called with `(name, at, angle, station)`.        |
+
+Station dict keys: `name` (required), `length`, `device`, `caption`,
+`label`, `side` — see the parameter list above for their semantics.
+
+The [urban LV grid recipe](/recipes/urban-lv/) draws all seven of its
+feeders with `bus-run` and wires the risers and S1–S5 ties purely by
+anchor.
