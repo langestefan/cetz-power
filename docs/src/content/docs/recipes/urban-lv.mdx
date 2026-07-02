@@ -19,31 +19,32 @@ off their buses as chevron boxes.
 
 ## How it's built
 
-The layout was digitised from the published figure, so every coordinate
-is an image pixel passed through one mapping:
+The drawing is **data-driven**: each feeder is a table of stations
+`(segment length [m], bus nr, device)`, and `place()` turns cable
+lengths into bus positions at a fixed pitch `k` (cm per metre) — no
+hand-placed coordinates per bus:
 
 ```typst
-let s = 0.016                        // image-pixel → cm (compression knob)
-let P(x, y) = (x * s, (H - y) * s)   // flip y (image is y-down)
+let A = place(x2 + 0.4, (
+  (none, 3, "l"), (20, 4, "f"), (30, 5, "pv"),
+  (25, 10, "f"), (30, 11, "l"), (25, 12, "pv"),
+))
+run(ya, x2 + 0.4, A)
 ```
 
-- Every one of the 34 nodes is a real vertical [`bus`](/symbols/grid/bus/)
-  tick (`nbus`), long enough that feeders cross its **interior** and
-  devices tap its lower **body** — never a tip. Double-row junction buses
-  (12, 19, 22, 29) simply let both conductors cross the same tick.
-- Loads leave their tick with an L-bend (`load(..., elbow: ..)`) — across,
-  then arrow down; flexible ones just override `fill`/`stroke` with the
-  figure's cyan. PV panels do the same via `pv-panel(..., elbow: ..)`.
-- Devices are drawn **before** their buses, so the thick bars paint over
-  the lead roots — a blue lead would otherwise show its connection point
-  sitting on top of the bar.
-- Each feeder hop is one `hs(x1, x2, y, [.. m])` call: a
-  [`wire`](/symbols/grid/wire/) plus a `note` at the midpoint (wires can't
-  carry labels); vertical runs get rotated length labels.
-- The five tie [`switch`](/symbols/protection/switch/)es sit on short
-  verticals in a shared right-edge column, each spanning the same 34 px
-  gap, with the S-branch lengths (30/20/10/5/5 m) labelled on the bus
-  side, as in the original figure.
+- `run()` draws a whole feeder: labelled wire hops, then the devices
+  (`"l"` firm load, `"f"` blue flexible load, `"pv"` panel), then the
+  numbered [`bus`](/symbols/grid/bus/) ticks — devices first so the bars
+  paint over the lead roots.
+- Branches reference computed positions via `xof(run, bus)`: the
+  `riser()` helper leaves a tick's body sideways by one shared `dbr`
+  offset and climbs to the sub-feeder's row; the `tie()` helper hangs
+  each normally-open [`switch`](/symbols/protection/switch/) S1–S5 off a
+  run's end and lands it in the destination tick's interior.
+- Feeders cross every tick's **interior**, devices tap the lower body
+  with an L-bend (`elbow:`), and all spacing comes from ~15 named
+  constants (`lead`, `dbr`, `dj`, `tail`, row heights, …), so the whole
+  figure compresses or stretches by editing one number.
 
 :::note[Credit]
 This reproduces _Figure 4.9 — Urban grid_ from A.H. Javed, _Reactive Power
