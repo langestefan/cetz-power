@@ -26,7 +26,8 @@
 /// - open-angle (angle): angle the bar tilts up from horizontal when
 ///   open. Default `30deg`.
 /// - pivot-radius (float): radius of the small filled circles drawn
-///   at each pin.
+///   at each pin. Pass `0` to omit the pin dots and draw just the
+///   bare blade.
 /// - stroke: standard style override.
 /// - label: standard label dict.
 /// -> content
@@ -62,9 +63,12 @@
       cetz.draw.line(pin-right, (half, 0), stroke: wire-stroke)
     }
 
-    // The pins themselves.
-    cetz.draw.circle(pin-left, radius: pr, stroke: none, fill: black)
-    cetz.draw.circle(pin-right, radius: pr, stroke: none, fill: black)
+    // The pins themselves (omitted entirely when pivot-radius is 0 —
+    // e.g. the bare netopening blades of network-overview diagrams).
+    if pr > 0 {
+      cetz.draw.circle(pin-left, radius: pr, stroke: none, fill: black)
+      cetz.draw.circle(pin-right, radius: pr, stroke: none, fill: black)
+    }
 
     // The bar.
     if closed {

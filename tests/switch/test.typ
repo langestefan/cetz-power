@@ -32,3 +32,10 @@
 #test({
   switch("s", (0, 0), (2, 0), label: [Q₁])
 })
+
+// Bare blade: pivot-radius 0 omits the pin dots (netopening style).
+#test({
+  wire((-0.5, 0), (0, 0))
+  switch("s", (0, 0), (0.6, 0), switch-length: 0.3, pivot-radius: 0)
+  wire((0.6, 0), (1.1, 0))
+})
