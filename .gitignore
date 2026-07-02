@@ -6,6 +6,7 @@ tests/*/out/
 *.pdf
 *.svg
 *.png
+!assets/*.svg
 
 # ── Astro / Starlight docs site (docs/) ──────────────────────────────
 docs/node_modules/

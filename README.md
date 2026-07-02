@@ -1,15 +1,23 @@
 # cetz-power
 
+[![Tests](https://github.com/langestefan/cetz-power/actions/workflows/tests.yml/badge.svg)](https://github.com/langestefan/cetz-power/actions/workflows/tests.yml)
+[![Docs](https://github.com/langestefan/cetz-power/actions/workflows/docs.yml/badge.svg)](https://github.com/langestefan/cetz-power/actions/workflows/docs.yml)
+[![Typst](https://img.shields.io/badge/typst-%E2%89%A50.13.1-239dad)](https://typst.app/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+[![Documentation](https://img.shields.io/badge/docs-langestefan.github.io%2Fcetz--power-0b7285?logo=readthedocs&logoColor=white)](https://langestefan.github.io/cetz-power/)
+
 **Power-system single-line diagrams in Typst, on top of [CeTZ](https://github.com/cetz-package/cetz).**
 
-Buses, transformers, machines, loads, switchgear, PV, windings, connection points — plus helpers for whole feeders and metering units.
+Draw single-line diagrams in Typst easily and quickly. Support for all basic components: buses, transformers, machines, loads, switchgear, PV, windings, connection points, and many more. 
 
-**[Documentation & examples →](https://langestefan.github.io/cetz-power/)**
+> [!IMPORTANT]  
+> We are constantly adding new symbols and features. If you have a symbol request, don't hesitate to [open an issue](https://github.com/langestefan/cetz-power/issues).
 
 ## Quick example
 
 <p align="center">
-  <img src="https://langestefan.github.io/cetz-power/diagrams/readme-example.svg" alt="Radial feeder: external grid, transformer, breaker, PV panel and loads" width="700">
+  <img src="assets/readme-example.svg" alt="Radial feeder: external grid, transformer, breaker, PV panel and loads" width="700">
 </p>
 
 ```typst
@@ -43,7 +51,7 @@ Via Typst Universe (recommended once published):
 #import "@preview/cetz-power:0.1.0": *
 ```
 
-Or vendor locally by cloning the repo and importing from path:
+Or locally by cloning the repo and importing from path:
 
 ```typst
 #import "path/to/cetz-power/src/lib.typ": *
