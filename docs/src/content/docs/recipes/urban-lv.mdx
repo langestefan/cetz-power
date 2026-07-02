@@ -1,0 +1,46 @@
+---
+title: Urban LV grid (34 buses)
+description: A 34-bus urban low-voltage benchmark — external grid, OLTC 10/0.4 kV transformer, three radial feeders with sub-branches, five normally-open tie switches, eight PV panels and ten flexible loads.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+The urban low-voltage benchmark grid (TU/e thesis on reactive power
+management and flexibility aggregation, fig. 4.9): a **150 MVA, 10 kV**
+external grid feeds bus 1, an OLTC **10/0.4 kV** transformer steps down
+onto bus 2, and three radial 400 V feeders serve 34 buses — buses 3–12
+with the 6–9 sub-branch, 13–22 with the 17–19 and 28/29 spurs, and 23–34.
+Five normally-open switches **S1–S5** tie the feeder ends together along
+the right edge, so the network can be reconfigured into rings. Firm loads
+are black arrows, **flexible loads are blue**, and eight PV panels hang
+off their buses as chevron boxes.
+
+<Snippet name="recipe-urban-lv" />
+
+## How it's built
+
+The layout was digitised from the published figure, so every coordinate
+is an image pixel passed through one mapping:
+
+```typst
+let s = 0.016                        // image-pixel → cm (compression knob)
+let P(x, y) = (x * s, (H - y) * s)   // flip y (image is y-down)
+```
+
+- Every one of the 34 nodes is a real vertical [`bus`](/symbols/grid/bus/)
+  tick (`nbus`), long enough that feeders cross its **interior** and
+  devices tap its lower **body** — never a tip. Double-row junction buses
+  (12, 19, 22, 29) simply let both conductors cross the same tick.
+- Loads leave their tick with an L-bend (`load(..., elbow: ..)`) — across,
+  then arrow down; flexible ones just override `fill`/`stroke` with the
+  figure's cyan. PV panels do the same via `pv-panel(..., elbow: ..)`.
+- Devices are drawn **before** their buses, so the thick bars paint over
+  the lead roots — a blue lead would otherwise show its connection point
+  sitting on top of the bar.
+- Each feeder hop is one `hs(x1, x2, y, [.. m])` call: a
+  [`wire`](/symbols/grid/wire/) plus a `note` at the midpoint (wires can't
+  carry labels); vertical runs get rotated length labels.
+- The five tie [`switch`](/symbols/protection/switch/)es sit on short
+  verticals in a shared right-edge column, each spanning the same 34 px
+  gap, with the S-branch lengths (30/20/10/5/5 m) labelled on the bus
+  side, as in the original figure.
