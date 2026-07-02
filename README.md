@@ -9,22 +9,23 @@ Buses, transformers, machines, loads, switchgear, PV, windings, connection point
 ## Quick example
 
 <p align="center">
-  <img src="https://langestefan.github.io/cetz-power/diagrams/getting-started-first-diagram.svg" alt="External grid, transformer and a 5-tap bus with two loads" width="360">
+  <img src="https://langestefan.github.io/cetz-power/diagrams/recipe-radial-feeder.svg" alt="Radial feeder: external grid, transformer between two buses, load" width="640">
 </p>
 
 ```typst
 #import "@preview/cetz-power:0.1.0": *
 
 #diagram(length: 1.2cm, {
-  external-grid("g", (0, 1.3),
-    label: (content: [132 kV], anchor: "east", distance: 0.2))
-  wire("g.in", (0, 0.7))
-  transformer("t", (0, 0.7), (0, -0.7),
-    label: (content: [132/11 kV], anchor: "east", distance: 0.2))
-  bus("b", (-1, -1.3), (1, -1.3), taps: 5)
-  wire("t.out", "b.tap3")
-  load("l1", "b.tap2", label: [10 MW])
-  load("l2", "b.tap4", label: [8 MW])
+  bus("b1", (1.7, 0), length: 1.4, angle: 90deg, label: [1])
+  bus("b2", (4.6, 0), length: 1.4, angle: 90deg, label: [2])
+  bus("b3", (7.0, 0), length: 1.4, angle: 90deg, label: [3])
+  external-grid("g", (0.7, 0), angle: 90deg,
+    label: (content: align(center)[50 MVA, \ 10 kV],
+            anchor: "north", distance: 0.25))
+  wire("g.in", "b1.mid")
+  transformer("t", "b1.mid", "b2.mid", label: [10/0.4 kV])
+  wire("b2.mid", "b3.mid")
+  load("ld", bus-frac("b3", 1/6), elbow: 0.4)
 })
 ```
 
