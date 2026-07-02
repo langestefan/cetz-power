@@ -153,6 +153,7 @@ export default defineConfig({
             { label: 'MV radial distribution feeder', slug: 'recipes/mv-radial-feeder' },
             { label: 'Urban LV grid (34 buses)', slug: 'recipes/urban-lv' },
             { label: 'Distribution rings (hoofdring)', slug: 'recipes/distribution-rings' },
+            { label: 'LV service connections', slug: 'recipes/lv-service-connections' },
           ],
         },
       ],

@@ -1,0 +1,53 @@
+---
+title: LV service connections
+description: The three ways an LV service taps a street cable — aftakmof on a hoofdkabel, the hulpaders of a combikabel, and an OV cable with branch drop and rijgsysteem — each with its cable cross-section drawn in raw CeTZ.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+The three canonical ways a low-voltage service connection taps a street
+cable, each fed from the same MS/LS substation chain:
+
+- **A.1a** — a branch joint (*aftakmof*) on an **LS-hoofdkabel**;
+- **A.1b** — the auxiliary cores (*hulpaders*) of an **LS-combikabel**,
+  shown "zoomed" out of the dashed cable outline;
+- **A.1c** — an **OV** public-lighting cable with a branch drop
+  (*aftaksysteem*) and a loop-through (*rijgsysteem*), plus the
+  LS-hoofdkabel continuing as a dashed run.
+
+Every variant carries its cable cross-section on the right, and the
+red-lettered chain (*Knip → Verbinding → Overdrachtspunt*) marks where
+the service is cut in, jointed and handed over.
+
+<Snippet name="recipe-lv-service-connections" />
+
+## How it's built
+
+- One `station(tag, y)` helper draws each MS → transformer → LS chain;
+  the small white squares are **one-node**
+  [`breaker`](/symbols/protection/breaker/)s (`fill: white`, so they
+  mask the run like the book's switchgear boxes), and every joint /
+  service box is a closed [`junction`](/symbols/grid/junction/).
+- The service drops share a `drop(tag, x, ...)` helper — cable, transfer
+  point square, service-box dot — and the *rijgsysteem* is just a
+  U-shaped [`wire`](/symbols/grid/wire/) between two junctions on the OV
+  run with the same drop hanging off its far corner.
+- The **cross-sections are raw CeTZ**: an `xsec(...)` closure draws the
+  sheath circle and four conductor circles (plus the combikabel's four
+  small hulpader cores in between). The neutral's yellow/blue hatching
+  is a Typst [`tiling`](https://typst.app/docs/reference/visualize/tiling/)
+  fill — a 6 pt tile of yellow with a diagonal blue stripe — passed
+  straight to `cetz.draw.circle(fill: ..)`.
+- The dashed combikabel outline is three plain dashed `cetz.draw.line`s
+  — open on the right, its top and bottom edges running straight into
+  the cross-section sheath, whose white fill masks the overshoot (the
+  conductors continue into it the same way).
+
+:::note[Credit]
+This reproduces *Figuur 2.26 — Aansluiting op een LS-hoofdkabel*,
+*Figuur 2.27 — Aansluiting op de hulpaders van een LS-combikabel* and
+*Figuur 2.28 — Aansluiting op een OV-hoofdkabel met aftaksysteem en met
+rijgsysteem* from
+[*Netten voor distributie van elektriciteit* (Phase to Phase),
+hoofdstuk 2](https://www.phasetophase.nl/boek/boek_2_2.html).
+:::
