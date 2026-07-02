@@ -41,18 +41,18 @@ connection points.
 
 ## Parameters
 
-| Name      | Default       | Description                                                                  |
-| --------- | ------------- | ---------------------------------------------------------------------------- |
-| `size`    | `0.3`         | Side length of the square box / span of the ×.                               |
-| `kind`    | `"square"`    | `"square"` = the conventional SLD box; `"cross"` = an × on the wire.         |
-| `stroke`  | `0.8pt + black` | Stroke for the body outline and the lead stubs.                            |
-| `fill`    | `none`        | Box fill (ignored for `"cross"`). Useful for colour-coding by voltage level. |
-| `label`   | `none`        | Standard label dict (default `anchor: "north"`, `distance: 0.15`).           |
+| Name     | Default         | Description                                                                  |
+| -------- | --------------- | ---------------------------------------------------------------------------- |
+| `size`   | `0.3`           | Side length of the square box / span of the ×.                               |
+| `kind`   | `"square"`      | `"square"` = the conventional SLD box; `"cross"` = an × on the wire.         |
+| `stroke` | `0.8pt + black` | Stroke for the body outline and the lead stubs.                              |
+| `fill`   | `none`          | Box fill (ignored for `"cross"`). Useful for colour-coding by voltage level. |
+| `label`  | `none`          | Standard label dict (default `anchor: "north"`, `distance: 0.15`).           |
 
 ## Anchors
 
-| Anchor          | Position                                                  |
-| --------------- | --------------------------------------------------------- |
-| `in`, `out`     | The two endpoints (passed by the caller).                 |
-| `center`        | Centre of the box.                                        |
-| `north`, `south`, `east`, `west` | The four sides of the box.               |
+| Anchor                           | Position                                  |
+| -------------------------------- | ----------------------------------------- |
+| `in`, `out`                      | The two endpoints (passed by the caller). |
+| `center`                         | Centre of the box.                        |
+| `north`, `south`, `east`, `west` | The four sides of the box.                |

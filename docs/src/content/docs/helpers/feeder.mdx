@@ -10,7 +10,7 @@ evenly-spaced tap per station, an optional transformer +
 [`load`](/symbols/loads/load/) "drop" under each, per-segment current
 labels, and a dashed continuation. It's a composition helper — it loops
 `wire`, `transformer`, `load`, and `note` over a data list, so you
-*describe* the feeder instead of placing every element by hand.
+_describe_ the feeder instead of placing every element by hand.
 
 <Snippet name="feeder-example" />
 
@@ -50,31 +50,31 @@ labelled elsewhere, e.g. a step-down).
 
 ## Parameters
 
-| Name | Default | Description |
-| ---- | ------- | ----------- |
-| `start` | — | Where the run begins (any CeTZ coordinate, e.g. a bus anchor). |
-| `stations` | — | Per-tap data list (see above). |
-| `currents` | `()` | Segment labels, up to `N + 1`; `none` skips one. |
-| `lead` | `1.7` | Distance from `start` to the first station. |
-| `spacing` | `2.5` | Distance between consecutive stations. |
-| `tail` | `auto` | Last station → line end (`auto` = `lead`). |
-| `extend` | `0.6` | Dashed continuation past the end (`0` = none). |
-| `angle` | `0deg` | Angle of attack — the direction the run travels. |
-| `drop-angle` | `auto` | Direction the drops travel (`auto` = perpendicular to the run). |
-| `drop-draw` | `auto` | What hangs at each tap (`auto` = transformer + load). See [Custom drops](#custom-drops). |
-| `line-stroke` | `auto` | Stroke of the run (`auto` = the active `cetz-power.wire.stroke`). |
-| `extend-stroke` | `auto` | Stroke of the dashed tail (`auto` = the run's stroke + dash). |
-| `extend-stroke` | `(dash: "dashed")` | Stroke of the dashed continuation. |
-| `drop` | `0.95` | Length of the transformer + load drop. |
-| `up` | `false` | Hang drops above the run instead of below. |
-| `dot` | `0.06` | Tap-dot radius (`0` = no dot). |
-| `label-gap` | `0.5` | Tap → station-caption distance. |
-| `load-gap` | `0.35` | Gap from the load arrow tip to its caption (tracks `drop`). |
-| `tx` | `true` | Draw a transformer in each drop (`false` = load only). |
-| `tx-radius` / `tx-distance` | `0.2` / `0.22` | Drop transformer geometry. |
-| `tx-stroke` / `tx-fill` | `0.8pt + black` / `none` | Default transformer styling (per-station `tx-stroke` / `tx-fill` override). |
-| `load-size` / `load-lead` | `0.26` / `0.12` | Drop load-arrow geometry. |
-| `load-stroke` / `load-fill` | `0.8pt + black` / `black` | Default load-arrow styling (per-station `stroke` / `fill` override). |
+| Name                        | Default                   | Description                                                                              |
+| --------------------------- | ------------------------- | ---------------------------------------------------------------------------------------- |
+| `start`                     | —                         | Where the run begins (any CeTZ coordinate, e.g. a bus anchor).                           |
+| `stations`                  | —                         | Per-tap data list (see above).                                                           |
+| `currents`                  | `()`                      | Segment labels, up to `N + 1`; `none` skips one.                                         |
+| `lead`                      | `1.7`                     | Distance from `start` to the first station.                                              |
+| `spacing`                   | `2.5`                     | Distance between consecutive stations.                                                   |
+| `tail`                      | `auto`                    | Last station → line end (`auto` = `lead`).                                               |
+| `extend`                    | `0.6`                     | Dashed continuation past the end (`0` = none).                                           |
+| `angle`                     | `0deg`                    | Angle of attack — the direction the run travels.                                         |
+| `drop-angle`                | `auto`                    | Direction the drops travel (`auto` = perpendicular to the run).                          |
+| `drop-draw`                 | `auto`                    | What hangs at each tap (`auto` = transformer + load). See [Custom drops](#custom-drops). |
+| `line-stroke`               | `auto`                    | Stroke of the run (`auto` = the active `cetz-power.wire.stroke`).                        |
+| `extend-stroke`             | `auto`                    | Stroke of the dashed tail (`auto` = the run's stroke + dash).                            |
+| `extend-stroke`             | `(dash: "dashed")`        | Stroke of the dashed continuation.                                                       |
+| `drop`                      | `0.95`                    | Length of the transformer + load drop.                                                   |
+| `up`                        | `false`                   | Hang drops above the run instead of below.                                               |
+| `dot`                       | `0.06`                    | Tap-dot radius (`0` = no dot).                                                           |
+| `label-gap`                 | `0.5`                     | Tap → station-caption distance.                                                          |
+| `load-gap`                  | `0.35`                    | Gap from the load arrow tip to its caption (tracks `drop`).                              |
+| `tx`                        | `true`                    | Draw a transformer in each drop (`false` = load only).                                   |
+| `tx-radius` / `tx-distance` | `0.2` / `0.22`            | Drop transformer geometry.                                                               |
+| `tx-stroke` / `tx-fill`     | `0.8pt + black` / `none`  | Default transformer styling (per-station `tx-stroke` / `tx-fill` override).              |
+| `load-size` / `load-lead`   | `0.26` / `0.12`           | Drop load-arrow geometry.                                                                |
+| `load-stroke` / `load-fill` | `0.8pt + black` / `black` | Default load-arrow styling (per-station `stroke` / `fill` override).                     |
 
 The i-th station's transformer and load get `<name>-t<i>` / `<name>-l<i>`
 group names, so you can still anchor to them afterwards.
@@ -183,14 +183,14 @@ motor, a capacitor bank, a breaker, even another feeder.
 
 The closure receives one `info` dictionary:
 
-| Field | Meaning |
-| ----- | ------- |
-| `info.name` | A unique base name for this station's elements. |
-| `info.at` | The tap coordinate (where the drop meets the run). |
-| `info.foot` | The drop's end point (`at` + `drop` along the drop direction). |
-| `info.angle` | The drop direction, as an angle (so you can orient symbols). |
-| `info.drop` | The drop length. |
-| `info.st` | The station dict itself (read your own custom keys). |
+| Field        | Meaning                                                        |
+| ------------ | -------------------------------------------------------------- |
+| `info.name`  | A unique base name for this station's elements.                |
+| `info.at`    | The tap coordinate (where the drop meets the run).             |
+| `info.foot`  | The drop's end point (`at` + `drop` along the drop direction). |
+| `info.angle` | The drop direction, as an angle (so you can orient symbols).   |
+| `info.drop`  | The drop length.                                               |
+| `info.st`    | The station dict itself (read your own custom keys).           |
 
 The feeder still owns the run line, the tap dot, the station `label`, and the
 current labels — the closure only fills the drop.

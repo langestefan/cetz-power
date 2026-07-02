@@ -1,0 +1,47 @@
+name: Lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lint-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Typst formatting — src/, tests/ and every docs snippet
+      - name: Install typstyle
+        uses: cargo-bins/cargo-binstall@main
+      - name: typstyle
+        run: |
+          cargo binstall -y typstyle
+          typstyle --check src tests docs/snippets
+
+      # Python (skill scripts) — rules configured in ruff.toml
+      - name: Ruff
+        uses: astral-sh/ruff-action@v3
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: docs/package-lock.json
+
+      # Docs site (astro / mdx / css / mjs) — config in docs/.prettierrc.json
+      - name: Prettier
+        working-directory: docs
+        run: |
+          npm ci
+          npm run lint

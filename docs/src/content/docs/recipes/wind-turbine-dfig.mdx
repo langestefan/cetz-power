@@ -7,7 +7,7 @@ import Snippet from '../../../components/Snippet.astro';
 
 The variable-speed counterpart to the [fixed-speed wind
 turbine](/recipes/wind-turbine/). A **doubly-fed induction generator
-(DFIG)** feeds the grid from its stator *and* exchanges slip power
+(DFIG)** feeds the grid from its stator _and_ exchanges slip power
 through its rotor via a back-to-back converter. A three-winding
 transformer does the splitting: the HV winding ties to the grid, one
 secondary feeds the stator path, and the other feeds the rotor path.
@@ -20,11 +20,11 @@ A few composition patterns carry most of the diagram:
 
 - **The split** is a single [`transformer3`](/symbols/grid/transformer3/)
   placed on the main axis. Its `hv` terminal takes the feed from the
-  *Trafo MS* bus; `lv` and `tv` fan up and down into the two branches
+  _Trafo MS_ bus; `lv` and `tv` fan up and down into the two branches
   (routed with `elbow(..., corner: "v")` for a clean riser-then-run).
-- **The cable boxes** (*Mastvoet* → *Gondel*) are not a special symbol —
+- **The cable boxes** (_Mastvoet_ → _Gondel_) are not a special symbol —
   each is two short buses closed top and bottom by `multi-wire(...,
-  count: 2)`, which lands one strand at each bus end and so draws the
+count: 2)`, which lands one strand at each bus end and so draws the
   rectangle. A small local `cable-box` closure stamps both.
 - **The P/Q callouts** under the left buses reuse the same `flow-bus`
   closure as the fixed-speed recipe — a bus plus two corner `note`s.
@@ -33,9 +33,9 @@ A few composition patterns carry most of the diagram:
   just two `cetz.draw.line`s.
 
 :::note[Credit]
-This diagram reproduces *Figuur 8.31 — Model van een variabel toerental
-windturbine met een dubbelgevoede inductiegenerator* from
-[*Netten voor distributie van elektriciteit* (Phase to Phase),
+This diagram reproduces _Figuur 8.31 — Model van een variabel toerental
+windturbine met een dubbelgevoede inductiegenerator_ from
+[_Netten voor distributie van elektriciteit_ (Phase to Phase),
 hoofdstuk 8.2](https://www.phasetophase.nl/boek/boek_2_8.html).
 Voltages and power flows are taken directly from the figure.
 :::

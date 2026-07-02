@@ -8,7 +8,7 @@ import Snippet from '../../../../components/Snippet.astro';
 A small circle marking a connection point on a conductor — the node
 notation of distribution-network overview diagrams. A **filled** circle
 is a closed (connected) point; a **hollow** one (`open: true`) is an
-open point — the *netopening* that marks where a normally-open ring is
+open point — the _netopening_ that marks where a normally-open ring is
 split.
 
 <Snippet name="junction-example" />
@@ -32,19 +32,19 @@ explicit `fill:` to override either.
 
 ## Parameters
 
-| Name     | Default         | Description                                                        |
-| -------- | --------------- | ------------------------------------------------------------------ |
-| `radius` | `0.09`          | Circle radius.                                                     |
-| `open`   | `false`         | `false` = filled dot (closed); `true` = hollow circle (open point).|
-| `fill`   | `auto`          | Body paint. `auto` → stroke paint when closed, white when open.    |
-| `stroke` | `0.8pt + black` | Circle outline.                                                    |
-| `label`  | `none`          | Standard label dict (default `anchor: "north"`, `distance: 0.15`). |
+| Name     | Default         | Description                                                         |
+| -------- | --------------- | ------------------------------------------------------------------- |
+| `radius` | `0.09`          | Circle radius.                                                      |
+| `open`   | `false`         | `false` = filled dot (closed); `true` = hollow circle (open point). |
+| `fill`   | `auto`          | Body paint. `auto` → stroke paint when closed, white when open.     |
+| `stroke` | `0.8pt + black` | Circle outline.                                                     |
+| `label`  | `none`          | Standard label dict (default `anchor: "north"`, `distance: 0.15`).  |
 
 ## Anchors
 
-| Anchor                           | Position                       |
-| -------------------------------- | ------------------------------ |
-| `in`, `out`, `center`            | The connection point itself.   |
+| Anchor                           | Position                                                                      |
+| -------------------------------- | ----------------------------------------------------------------------------- |
+| `in`, `out`, `center`            | The connection point itself.                                                  |
 | `north`, `south`, `east`, `west` | On the circle — safe wire endpoints when you want a line to stop at the edge. |
 
 See the [distribution-rings recipe](/recipes/distribution-rings/) for a

@@ -8,15 +8,15 @@ import Snippet from '../../../components/Snippet.astro';
 The three canonical ways a low-voltage service connection taps a street
 cable, each fed from the same MS/LS substation chain:
 
-- **A.1a** — a branch joint (*aftakmof*) on an **LS-hoofdkabel**;
-- **A.1b** — the auxiliary cores (*hulpaders*) of an **LS-combikabel**,
+- **A.1a** — a branch joint (_aftakmof_) on an **LS-hoofdkabel**;
+- **A.1b** — the auxiliary cores (_hulpaders_) of an **LS-combikabel**,
   shown "zoomed" out of the dashed cable outline;
 - **A.1c** — an **OV** public-lighting cable with a branch drop
-  (*aftaksysteem*) and a loop-through (*rijgsysteem*), plus the
+  (_aftaksysteem_) and a loop-through (_rijgsysteem_), plus the
   LS-hoofdkabel continuing as a dashed run.
 
 Every variant carries its cable cross-section on the right, and the
-red-lettered chain (*Knip → Verbinding → Overdrachtspunt*) marks where
+red-lettered chain (_Knip → Verbinding → Overdrachtspunt_) marks where
 the service is cut in, jointed and handed over.
 
 <Snippet name="recipe-lv-service-connections" />
@@ -29,7 +29,7 @@ the service is cut in, jointed and handed over.
   mask the run like the book's switchgear boxes), and every joint /
   service box is a closed [`junction`](/symbols/grid/junction/).
 - The service drops share a `drop(tag, x, ...)` helper — cable, transfer
-  point square, service-box dot — and the *rijgsysteem* is just a
+  point square, service-box dot — and the _rijgsysteem_ is just a
   U-shaped [`wire`](/symbols/grid/wire/) between two junctions on the OV
   run with the same drop hanging off its far corner.
 - The **cross-sections are raw CeTZ**: an `xsec(...)` closure draws the
@@ -44,10 +44,10 @@ the service is cut in, jointed and handed over.
   conductors continue into it the same way).
 
 :::note[Credit]
-This reproduces *Figuur 2.26 — Aansluiting op een LS-hoofdkabel*,
-*Figuur 2.27 — Aansluiting op de hulpaders van een LS-combikabel* and
-*Figuur 2.28 — Aansluiting op een OV-hoofdkabel met aftaksysteem en met
-rijgsysteem* from
-[*Netten voor distributie van elektriciteit* (Phase to Phase),
+This reproduces _Figuur 2.26 — Aansluiting op een LS-hoofdkabel_,
+_Figuur 2.27 — Aansluiting op de hulpaders van een LS-combikabel_ and
+_Figuur 2.28 — Aansluiting op een OV-hoofdkabel met aftaksysteem en met
+rijgsysteem_ from
+[_Netten voor distributie van elektriciteit_ (Phase to Phase),
 hoofdstuk 2](https://www.phasetophase.nl/boek/boek_2_2.html).
 :::

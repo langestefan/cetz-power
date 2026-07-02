@@ -31,27 +31,27 @@ explicit lead between them.
 
 ## Parameters
 
-| Name        | Default        | Description                                                                  |
-| ----------- | -------------- | ---------------------------------------------------------------------------- |
-| `width`     | `0.4`          | Width of the triangle's base.                                                |
-| `height`    | `0.4`          | Height of the triangle from base to tip.                                     |
-| `bar-width` | (= `width`)    | Width of the cathode bar at the tip.                                         |
-| `lead-in`   | `0.15`         | Length of the lead from `in` up to the triangle base.                        |
-| `lead-out`  | `0.15`         | Length of the lead from the cathode bar to `out`. `0` drops it.              |
-| `stroke`    | `0.8pt + black`| Stroke for leads, triangle outline, and cathode bar.                         |
-| `fill`      | `none`         | Triangle fill. Pass `black` for the filled "engineering" form.               |
-| `label`     | `none`         | Standard label dict (default `anchor: "north"`, `distance: 0.15`).           |
-| `angle`     | `0deg`         | Rotation around the connection point — picks the conduction direction.       |
+| Name        | Default         | Description                                                            |
+| ----------- | --------------- | ---------------------------------------------------------------------- |
+| `width`     | `0.4`           | Width of the triangle's base.                                          |
+| `height`    | `0.4`           | Height of the triangle from base to tip.                               |
+| `bar-width` | (= `width`)     | Width of the cathode bar at the tip.                                   |
+| `lead-in`   | `0.15`          | Length of the lead from `in` up to the triangle base.                  |
+| `lead-out`  | `0.15`          | Length of the lead from the cathode bar to `out`. `0` drops it.        |
+| `stroke`    | `0.8pt + black` | Stroke for leads, triangle outline, and cathode bar.                   |
+| `fill`      | `none`          | Triangle fill. Pass `black` for the filled "engineering" form.         |
+| `label`     | `none`          | Standard label dict (default `anchor: "north"`, `distance: 0.15`).     |
+| `angle`     | `0deg`          | Rotation around the connection point — picks the conduction direction. |
 
 ## Anchors
 
-| Anchor                     | Position                                                                  |
-| -------------------------- | ------------------------------------------------------------------------- |
-| `in` / `default` / `south` | Anode side — the connection point.                                        |
-| `out`                      | Top of the upper lead. **Only present when `lead-out > 0`.**              |
-| `north`                    | Top of the upper lead, or the cathode bar if `lead-out: 0`.               |
-| `east`, `west`             | Right / left ends of the triangle base, at the anode side.                |
-| `center`                   | Centre of the triangle.                                                   |
+| Anchor                     | Position                                                     |
+| -------------------------- | ------------------------------------------------------------ |
+| `in` / `default` / `south` | Anode side — the connection point.                           |
+| `out`                      | Top of the upper lead. **Only present when `lead-out > 0`.** |
+| `north`                    | Top of the upper lead, or the cathode bar if `lead-out: 0`.  |
+| `east`, `west`             | Right / left ends of the triangle base, at the anode side.   |
+| `center`                   | Centre of the triangle.                                      |
 
 ## Styling
 

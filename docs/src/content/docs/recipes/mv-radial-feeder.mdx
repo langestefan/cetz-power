@@ -7,7 +7,7 @@ import Snippet from '../../../components/Snippet.astro';
 
 A medium-voltage **radial distribution feeder**. A grid source (the hatched
 block) feeds a horizontal **main feeder** that runs left-to-right, tapping a row
-of node busbars — **v1, v2, v4, v9 … v21**. Six of those nodes tap *up* to an
+of node busbars — **v1, v2, v4, v9 … v21**. Six of those nodes tap _up_ to an
 upper node (**v3, v10, v12, v15, v18, v22**); a **sub-feeder** branches off
 **v4** and runs to **v5 / v6 / v8**, with **v7** hanging below **v6**. Every
 node except the source-side v1 carries a down load. The layout was digitised
@@ -17,22 +17,22 @@ from the source figure, so the relative geometry matches the original.
 
 ## How it's built
 
-- **Every node is a real busbar, not a tick.** Each node is a short *vertical*
+- **Every node is a real busbar, not a tick.** Each node is a short _vertical_
   [`bus`](/symbols/grid/bus/) drawn with a `tick(name, x, y)` helper. Modelling
   the node as a proper bar (rather than a dot) means the feeder can tap its
   **centre** while loads and risers tap its **body** — every connection lands on
-  a bus *interior*, never an outer edge.
+  a bus _interior_, never an outer edge.
 - **Digitised from a pixel map.** `P(x, y) = (x * s, (H - y) * s)` maps
   source-image pixels to canvas coordinates, flipping the image's y-down axis to
   CeTZ's y-up. The scale `s` is the master compression knob.
 - **Loads leave the bar perpendicularly.** Each `dload(...)` is a small
-  [`load`](/symbols/loads/load/) with an `elbow:` — it steps *across* the bus
-  body first, then drops *down* to the arrowhead (an L-bend), so it meets the
+  [`load`](/symbols/loads/load/) with an `elbow:` — it steps _across_ the bus
+  body first, then drops _down_ to the arrowhead (an L-bend), so it meets the
   vertical bar at 90° instead of dangling off its tip.
 - **Branch nodes carry two interior taps, ordered to avoid crossings.** Where a
-  node carries both a load *and* an onward branch (**v4** into the sub-feeder,
+  node carries both a load _and_ an onward branch (**v4** into the sub-feeder,
   **v6** down to v7), each gets its own tap on the lower body. The far-reaching
-  **branch** sits on the *upper* tap and the short **load** on the *lower* one,
+  **branch** sits on the _upper_ tap and the short **load** on the _lower_ one,
   so the load's down-segment stays below the branch's horizontal run and the two
   never cross.
 - **Risers step out then up.** The six upper links leave the main bar from its
@@ -43,7 +43,7 @@ from the source figure, so the relative geometry matches the original.
   edge so nothing floats.
 
 :::note[Credit]
-This reproduces *Figure 5.10* from A.H. Javed, *Reactive Power Management and
-Flexibility Aggregation in Active Distribution Networks* (Eindhoven University of
+This reproduces _Figure 5.10_ from A.H. Javed, _Reactive Power Management and
+Flexibility Aggregation in Active Distribution Networks_ (Eindhoven University of
 Technology, 2026).
 :::

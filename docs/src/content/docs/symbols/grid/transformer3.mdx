@@ -6,7 +6,7 @@ description: Three-winding transformer drawn as the conventional trefoil of thre
 import Snippet from '../../../../components/Snippet.astro';
 
 Three-winding transformer drawn as the conventional **trefoil** — three
-mutually-overlapping circles. The default orientation is *vertex-left*:
+mutually-overlapping circles. The default orientation is _vertex-left_:
 the high-voltage (primary) winding sits on the left, and the two
 secondaries are stacked on the right — upper (`lv`) and lower (`tv`).
 That makes it drop straight into a left→right feed that splits into two
@@ -22,19 +22,19 @@ place it at a point and rotate with `angle:`.
 
 ## Parameters
 
-| Name               | Default | Description                                                  |
-| ------------------ | ------- | ------------------------------------------------------------ |
-| `radius`           | `0.32`  | Radius of each circle.                                       |
-| `distance`         | `0.42`  | Centre-to-centre spacing of the equilateral circle cluster.  |
-| `fill`             | `none`  | Fill applied to all three circles.                           |
-| `stroke`           | `0.8pt` | Stroke applied to all three circles.                         |
-| `primary-stroke`   | `stroke`| Per-winding stroke for the HV (left) circle.                 |
-| `secondary-stroke` | `stroke`| Per-winding stroke for the LV (upper-right) circle.          |
-| `tertiary-stroke`  | `stroke`| Per-winding stroke for the TV (lower-right) circle.          |
-| `primary-fill` / `secondary-fill` / `tertiary-fill` | `fill` | Per-winding fills. |
-| `lead`             | `0`     | Length of the lead stub from each circle edge to its terminal anchor (`0` = flush on the edge). See [Controlling the terminals](#controlling-the-terminals). |
-| `hv-angle` / `lv-angle` / `tv-angle` | `180deg` / `60deg` / `-60deg` | Direction each terminal exits its circle, CCW from +x. |
-| `label`            | `none`  | Typical use: voltage ratings, e.g. `[23 / 0,96 / 0,69 kV]`.  |
+| Name                                                | Default                       | Description                                                                                                                                                  |
+| --------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `radius`                                            | `0.32`                        | Radius of each circle.                                                                                                                                       |
+| `distance`                                          | `0.42`                        | Centre-to-centre spacing of the equilateral circle cluster.                                                                                                  |
+| `fill`                                              | `none`                        | Fill applied to all three circles.                                                                                                                           |
+| `stroke`                                            | `0.8pt`                       | Stroke applied to all three circles.                                                                                                                         |
+| `primary-stroke`                                    | `stroke`                      | Per-winding stroke for the HV (left) circle.                                                                                                                 |
+| `secondary-stroke`                                  | `stroke`                      | Per-winding stroke for the LV (upper-right) circle.                                                                                                          |
+| `tertiary-stroke`                                   | `stroke`                      | Per-winding stroke for the TV (lower-right) circle.                                                                                                          |
+| `primary-fill` / `secondary-fill` / `tertiary-fill` | `fill`                        | Per-winding fills.                                                                                                                                           |
+| `lead`                                              | `0`                           | Length of the lead stub from each circle edge to its terminal anchor (`0` = flush on the edge). See [Controlling the terminals](#controlling-the-terminals). |
+| `hv-angle` / `lv-angle` / `tv-angle`                | `180deg` / `60deg` / `-60deg` | Direction each terminal exits its circle, CCW from +x.                                                                                                       |
+| `label`                                             | `none`                        | Typical use: voltage ratings, e.g. `[23 / 0,96 / 0,69 kV]`.                                                                                                  |
 
 ## Anchors
 
@@ -43,11 +43,11 @@ circle — by default radial from the centroid, but you can re-aim and
 extend them (see [Controlling the terminals](#controlling-the-terminals)).
 Positions are given in the symbol's local frame, before rotation:
 
-| Anchor                          | Winding                       |
-| ------------------------------- | ----------------------------- |
-| `hv` / `primary` / `in`         | HV — left circle              |
-| `lv` / `secondary`              | LV — upper-right circle        |
-| `tv` / `tertiary`               | TV — lower-right circle        |
+| Anchor                  | Winding                 |
+| ----------------------- | ----------------------- |
+| `hv` / `primary` / `in` | HV — left circle        |
+| `lv` / `secondary`      | LV — upper-right circle |
+| `tv` / `tertiary`       | TV — lower-right circle |
 
 plus `center`, `north`, `south`, `east`, `west`. There is no single
 `out` anchor (a three-winding transformer has two outgoing windings) —
@@ -60,11 +60,11 @@ By default each terminal exits its circle **radially from the centroid**
 (down-right) — and sits flush on the circle edge. Two style keys move the
 connection points:
 
-- **`hv-angle` / `lv-angle` / `tv-angle`** set the *direction* each
+- **`hv-angle` / `lv-angle` / `tv-angle`** set the _direction_ each
   winding's wire leaves its circle, measured counter-clockwise from the
   +x axis. Re-aim a secondary straight up (`90deg`) or down (`-90deg`),
   or point a terminal anywhere on its circle.
-- **`lead`** sets the *distance* the terminal sits beyond the circle
+- **`lead`** sets the _distance_ the terminal sits beyond the circle
   edge, drawing a stub in that winding's stroke. `0` (default) keeps the
   anchor flush on the edge.
 

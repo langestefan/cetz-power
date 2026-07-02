@@ -6,10 +6,10 @@ description: A feeding substation supplying a switching station over a six-cable
 import Snippet from '../../../components/Snippet.astro';
 
 A medium-voltage transport connection: a feeding substation
-(*Onderstation*) steps a high-voltage source down through a TS/MS
+(_Onderstation_) steps a high-voltage source down through a TS/MS
 transformer onto its OS-MS busbar, then carries the power to a switching
-station (*Schakelstation*) over a six-cable MV link. Inside the
-Schakelstation a coupling field (*Koppelveld*) ties the incoming RS-MS bar
+station (_Schakelstation_) over a six-cable MV link. Inside the
+Schakelstation a coupling field (_Koppelveld_) ties the incoming RS-MS bar
 to the outgoing RS-MS bar, which fans out to the departing feeders. Each
 node carries its load-flow result.
 
@@ -21,7 +21,7 @@ node carries its load-flow result.
   endpoints, so the length is implicit) joined entirely by
   [`multi-wire`](/helpers/feeder/): the OS-MS → RS-MS link is one
   bus-to-bus call, the **Koppelveld** is a single bus coupler
-  (`count: 1`), and the **departing feeders** are a `multi-wire` *stub fan*
+  (`count: 1`), and the **departing feeders** are a `multi-wire` _stub fan_
   — passing an offset `(out-len, 0)` instead of a target bus draws the
   cables into open space, since there's no facing bar on the right.
   Because the bars overshoot their cables (see below), every call lands on
@@ -31,7 +31,7 @@ node carries its load-flow result.
   [`wire`](/symbols/grid/wire/)s take `stroke: g`; the
   [`transformer`](/symbols/grid/transformer/) keeps its **MS-side** winding
   black via `secondary-stroke: black`. The whole feed sits half a cable-gap
-  low, so its lead meets the OS-MS bar *between* the top two cables — a fork.
+  low, so its lead meets the OS-MS bar _between_ the top two cables — a fork.
 - The four busbars share one **top edge**: each tall bar overshoots its
   cables by `over = ts-h/2 - gap/2` at the top and the same at the bottom, so
   its top lands exactly at the short TS bar's top (see the
@@ -53,8 +53,8 @@ That's what lets the whole figure use one helper for every cable group.
 :::
 
 :::note[Credit]
-This diagram reproduces *Figuur 13.16 — MS-transportverbinding met
-schakelstation* from
-[*Netten voor distributie van elektriciteit* (Phase to Phase),
+This diagram reproduces _Figuur 13.16 — MS-transportverbinding met
+schakelstation_ from
+[_Netten voor distributie van elektriciteit_ (Phase to Phase),
 hoofdstuk 13](https://www.phasetophase.nl/boek/boek_2_13.html).
 :::

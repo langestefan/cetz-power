@@ -25,13 +25,13 @@ draw the corresponding waveform inside the circle.
 
 <Snippet name="voltagesource-waveforms" />
 
-| `kind`           | Inside the circle                       |
-| ---------------- | --------------------------------------- |
-| `"dc"` (default) | `+` and `−` markers                     |
-| `"ac"`, `"sin"`  | Sine wave                               |
-| `"tri"`          | Triangle wave                           |
-| `"saw"`          | Sawtooth wave                           |
-| `"rect"`         | Square (rectangular) wave               |
+| `kind`           | Inside the circle         |
+| ---------------- | ------------------------- |
+| `"dc"` (default) | `+` and `−` markers       |
+| `"ac"`, `"sin"`  | Sine wave                 |
+| `"tri"`          | Triangle wave             |
+| `"saw"`          | Sawtooth wave             |
+| `"rect"`         | Square (rectangular) wave |
 
 ## Connecting between buses
 
@@ -44,19 +44,19 @@ it into a bus pair:
 
 ## Parameters
 
-| Name        | Default       | Description                                                                              |
-| ----------- | ------------- | ---------------------------------------------------------------------------------------- |
-| `radius`    | `0.3`         | Body-circle radius.                                                                      |
-| `kind`      | `"dc"`        | One of `"dc"`, `"ac"` (= `"sin"`), `"sin"`, `"tri"`, `"saw"`, `"rect"`.                  |
-| `stroke`    | `0.8pt + black` | Stroke for the circle, leads, and internal marking.                                    |
-| `fill`      | `none`        | Body fill.                                                                               |
-| `label`     | `none`        | Standard label dict (default `anchor: "north"`, `distance: 0.2`).                        |
-| `angle`     | `0deg`        | Rotation (only valid for one-node placement).                                            |
+| Name     | Default         | Description                                                             |
+| -------- | --------------- | ----------------------------------------------------------------------- |
+| `radius` | `0.3`           | Body-circle radius.                                                     |
+| `kind`   | `"dc"`          | One of `"dc"`, `"ac"` (= `"sin"`), `"sin"`, `"tri"`, `"saw"`, `"rect"`. |
+| `stroke` | `0.8pt + black` | Stroke for the circle, leads, and internal marking.                     |
+| `fill`   | `none`          | Body fill.                                                              |
+| `label`  | `none`          | Standard label dict (default `anchor: "north"`, `distance: 0.2`).       |
+| `angle`  | `0deg`          | Rotation (only valid for one-node placement).                           |
 
 ## Anchors
 
-| Anchor          | Position                                                                  |
-| --------------- | ------------------------------------------------------------------------- |
-| `in`, `out`     | The two endpoints (when two-node placed).                                 |
-| `center`        | Centre of the body circle.                                                |
-| `north`, `south`, `east`, `west` | Cardinal points just outside the circle.                 |
+| Anchor                           | Position                                  |
+| -------------------------------- | ----------------------------------------- |
+| `in`, `out`                      | The two endpoints (when two-node placed). |
+| `center`                         | Centre of the body circle.                |
+| `north`, `south`, `east`, `west` | Cardinal points just outside the circle.  |

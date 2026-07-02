@@ -39,11 +39,11 @@ space rather than off to the side in some local frame.
 
 The eight compass anchors are:
 
-|              |             |              |
-| ------------ | ----------- | ------------ |
-| `north-west` | `north`     | `north-east` |
-| `west`       |             | `east`       |
-| `south-west` | `south`     | `south-east` |
+|              |         |              |
+| ------------ | ------- | ------------ |
+| `north-west` | `north` | `north-east` |
+| `west`       |         | `east`       |
+| `south-west` | `south` | `south-east` |
 
 You can **also** pass a symbol-specific anchor name (`tap1`, `start`,
 `end`, `mid`, `tip`, `primary`, `secondary`, …); the label system
@@ -55,12 +55,12 @@ Each symbol has its own default `label` sub-dict in `src/styles.typ`.
 Per-call values win, family defaults are next, and the base label style
 is the fallback. Here's the cascade for the `bus` family:
 
-| Layer              | What it sets                                                                       |
-| ------------------ | ---------------------------------------------------------------------------------- |
-| Base default       | `anchor: "north"`, `align: auto`, `distance: 0.15`, `size: 8pt`                    |
-| Bus family         | `distance: 0.22` (overrides only the gap)                                          |
-| Per-call           | Whatever you pass in `label: (...)`                                                |
-| Runtime override   | `cetz.draw.set-style(cetz-power: (bus: (label: (...))))`                           |
+| Layer            | What it sets                                                    |
+| ---------------- | --------------------------------------------------------------- |
+| Base default     | `anchor: "north"`, `align: auto`, `distance: 0.15`, `size: 8pt` |
+| Bus family       | `distance: 0.22` (overrides only the gap)                       |
+| Per-call         | Whatever you pass in `label: (...)`                             |
+| Runtime override | `cetz.draw.set-style(cetz-power: (bus: (label: (...))))`        |
 
 ## Three increasingly local ways to set bus label position
 
@@ -98,7 +98,7 @@ passes its own `anchor: "north"`, which wins.
 
 `anchor:` picks the **position**; `align:` picks where on the text-box
 that position lands. `align: auto` (the default) sets it to the
-opposite of `anchor:` so the text reads cleanly *away from* the symbol
+opposite of `anchor:` so the text reads cleanly _away from_ the symbol
 — e.g. `anchor: "north"` + `align: "south"` puts the south edge of the
 text box at the north of the symbol, so the text extends further north.
 

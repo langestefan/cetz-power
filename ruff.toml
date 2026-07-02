@@ -1,0 +1,12 @@
+# Lints the Python scripts bundled with the Claude Code skills.
+line-length = 100
+
+[lint]
+# Defaults (E4/E7/E9 + F) catch real defects; the skill scripts use
+# compact one-line statements deliberately, so skip the pure-style rules.
+ignore = [
+  "E402", # import not at top (lazy imports after argv handling)
+  "E702", # multiple statements on one line
+  "E731", # lambda assignment
+  "E741", # ambiguous single-letter names (l, I)
+]

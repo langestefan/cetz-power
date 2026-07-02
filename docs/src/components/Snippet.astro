@@ -104,14 +104,17 @@ if (import.meta.env.DEV && existsSync(srcFsPath)) {
 
 // Cache-bust the SVG URL with its file's mtime so browsers pick up the
 // rebuilt diagram instead of serving the previously-cached SVG.
-const cacheBust = existsSync(svgFsPath) ? statSync(svgFsPath).mtimeMs : Date.now();
+const cacheBust = existsSync(svgFsPath)
+  ? statSync(svgFsPath).mtimeMs
+  : Date.now();
 const svgUrl = `${base}/diagrams/${name}.svg?v=${cacheBust}`;
 ---
 
 <figure class="snippet">
   <div class="snippet__grid">
     <div class="snippet__diagram">
-      <object type="image/svg+xml" data={svgUrl} aria-label={caption ?? name}></object>
+      <object type="image/svg+xml" data={svgUrl} aria-label={caption ?? name}
+      ></object>
     </div>
     <div class="snippet__code">
       <Code code={trimmed} lang="typ" />

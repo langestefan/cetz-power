@@ -83,15 +83,15 @@ need `symbol()` for non-anchored geometry.
 A short tour of CeTZ functions that come up most often when
 extending a power diagram:
 
-| Function | What it draws |
-| --- | --- |
-| `cetz.draw.line(a, b, mark: ...)` | Straight segment, optionally with arrowheads. |
-| `cetz.draw.rect(corner-a, corner-b)` | Rectangle from two opposite corners. |
-| `cetz.draw.circle(center, radius: r)` | Circle. Useful for highlighting a node. |
-| `cetz.draw.arc(center, start: a, stop: b, radius: r)` | Arc — handy for indicating angle ranges or rotations. |
-| `cetz.draw.bezier(a, b, ctrl1, ctrl2)` | Cubic Bezier. The right call for a curved annotation that needs to wrap around something. |
-| `cetz.draw.content(pos, anchor: ..., padding: ..., body)` | Place arbitrary Typst content (text, math, an image) at a coordinate. |
-| `cetz.draw.line(..., stroke: (paint:, thickness:, dash:))` | Full stroke dict for colour, thickness, and dash pattern. |
+| Function                                                   | What it draws                                                                             |
+| ---------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `cetz.draw.line(a, b, mark: ...)`                          | Straight segment, optionally with arrowheads.                                             |
+| `cetz.draw.rect(corner-a, corner-b)`                       | Rectangle from two opposite corners.                                                      |
+| `cetz.draw.circle(center, radius: r)`                      | Circle. Useful for highlighting a node.                                                   |
+| `cetz.draw.arc(center, start: a, stop: b, radius: r)`      | Arc — handy for indicating angle ranges or rotations.                                     |
+| `cetz.draw.bezier(a, b, ctrl1, ctrl2)`                     | Cubic Bezier. The right call for a curved annotation that needs to wrap around something. |
+| `cetz.draw.content(pos, anchor: ..., padding: ..., body)`  | Place arbitrary Typst content (text, math, an image) at a coordinate.                     |
+| `cetz.draw.line(..., stroke: (paint:, thickness:, dash:))` | Full stroke dict for colour, thickness, and dash pattern.                                 |
 
 For the full list, see the [CeTZ
 documentation](https://github.com/cetz-package/cetz/blob/main/manual.pdf)

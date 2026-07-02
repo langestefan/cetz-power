@@ -21,13 +21,16 @@ A small Typst package that gives you the symbols you actually need for
 drawing one-line diagrams of electrical power systems — buses, wires, the
 external-grid symbol, two-winding transformers, loads, and PV panels.
 
-<Snippet name="recipe-radial-feeder" caption="Radial feeder with a step-down transformer — three vertical bus 'nodes', wires by anchor name, load tapped off via an elbow." />
+<Snippet
+  name="recipe-radial-feeder"
+  caption="Radial feeder with a step-down transformer — three vertical bus 'nodes', wires by anchor name, load tapped off via an elbow."
+/>
 
 <CardGrid>
   <Card title="Anchor-driven layout" icon="open-book">
     Every symbol exposes named anchors (`start`, `mid`, `end`, `tap1..tapN`,
-    `north`, `south`, …). Wire things up by name; if you nudge a bus, the
-    rest follows.
+    `north`, `south`, …). Wire things up by name; if you nudge a bus, the rest
+    follows.
   </Card>
   <Card title="One- or two-node placement" icon="random">
     Two-terminal symbols (transformers, loads with elbows, …) accept either a
@@ -40,8 +43,8 @@ external-grid symbol, two-winding transformers, loads, and PV panels.
     override both.
   </Card>
   <Card title="Labels everywhere" icon="document">
-    Every symbol accepts `label:` as a string, content, or a dict that
-    controls anchor, alignment, distance, and size — interpreted in
-    world-space so it stays sensible under rotation.
+    Every symbol accepts `label:` as a string, content, or a dict that controls
+    anchor, alignment, distance, and size — interpreted in world-space so it
+    stays sensible under rotation.
   </Card>
 </CardGrid>

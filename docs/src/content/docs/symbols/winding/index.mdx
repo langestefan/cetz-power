@@ -17,11 +17,11 @@ secondary by the relevant clock number.
 
 ## What's in this family
 
-| Symbol                                  | Shape                                                         |
-| --------------------------------------- | ------------------------------------------------------------- |
-| [Delta](/symbols/winding/delta/)        | Equilateral triangle. Phase terminals at the three vertices.  |
-| [Wye / star](/symbols/winding/wye/)     | Three arms from a common neutral to the phase terminals.      |
-| [Zigzag](/symbols/winding/zigzag/)      | Three arms with a single perpendicular kink — the "broken Y". |
+| Symbol                              | Shape                                                         |
+| ----------------------------------- | ------------------------------------------------------------- |
+| [Delta](/symbols/winding/delta/)    | Equilateral triangle. Phase terminals at the three vertices.  |
+| [Wye / star](/symbols/winding/wye/) | Three arms from a common neutral to the phase terminals.      |
+| [Zigzag](/symbols/winding/zigzag/)  | Three arms with a single perpendicular kink — the "broken Y". |
 
 ## Shared conventions
 
@@ -61,7 +61,7 @@ rotation on the secondary side.
 Skeleton mode (`body: false`) turns each winding into a placement
 scaffold — the symbol exposes its anchors but draws no geometry, so
 the AC current sources you hang off `y.neutral`/`y.v`/`y.u`/`y.w`
-(and the delta sides between `d.v`/`d.u`/`d.w`) end up *being* the
+(and the delta sides between `d.v`/`d.u`/`d.w`) end up _being_ the
 visible loop. Below, two such buses share the same set of three
 phase rails — Bus-_i_ wye-connected with an earthed neutral on the
 left, Bus-_j_ delta-connected on the right, with the conventional

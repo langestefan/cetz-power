@@ -5,14 +5,14 @@ description: A distribution network with main ring, subring and spur — double 
 
 import Snippet from '../../../components/Snippet.astro';
 
-The classic Dutch distribution-network overview (Phase to Phase, *Netten
-voor distributie van elektriciteit*, fig. 2.8): a **150 kV** rail feeds
+The classic Dutch distribution-network overview (Phase to Phase, _Netten
+voor distributie van elektriciteit_, fig. 2.8): a **150 kV** rail feeds
 two 150/10 kV transformers onto a double **10 kV** rail in the
 substation, from which a **hoofdring** (main ring) leaves one rail
 section, runs across the top and returns along the bottom. A **subring**
 nests inside it and an **uitloper** (spur) hangs off the bottom row.
 
-The ring is operated *open*: the two **netopeningen** near the top-right
+The ring is operated _open_: the two **netopeningen** near the top-right
 node are open [`switch`](/symbols/protection/switch/) blades, and the
 hollow circles on the rails are open
 [`junction`](/symbols/grid/junction/) connection points (filled = closed).
@@ -43,8 +43,8 @@ transformer bays, the rail coupling and every feeder head.
   hoofdring one flips its blade below the line with `open-angle: -30deg`.
 
 :::note[Credit]
-This reproduces *Figuur 2.8 — Distributienet met hoofdring, subring en
-uitloper* from
-[*Netten voor distributie van elektriciteit* (Phase to Phase),
+This reproduces _Figuur 2.8 — Distributienet met hoofdring, subring en
+uitloper_ from
+[_Netten voor distributie van elektriciteit_ (Phase to Phase),
 hoofdstuk 2](https://www.phasetophase.nl/boek/boek_2_2.html).
 :::

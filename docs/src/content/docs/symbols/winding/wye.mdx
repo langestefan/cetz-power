@@ -37,24 +37,24 @@ canonical current-injection convention.
 
 ## Parameters
 
-| Name              | Default          | Description                                                                                  |
-| ----------------- | ---------------- | -------------------------------------------------------------------------------------------- |
-| `size`            | `0.6`            | Arm length (centre to each terminal).                                                        |
-| `terminals`       | `("U", "V", "W")`| Three label values in (U, V, W) order.                                                       |
-| `body`            | `true`           | Set to `false` to suppress the arm lines and terminal labels — useful for skeleton-mode composition. |
-| `stroke`          | `0.8pt + black`  | Stroke for the three arms.                                                                   |
-| `label-size`      | `8pt`            | Terminal-label font size (family dict).                                                      |
-| `label-distance`  | `0.18`           | Radial offset of terminal labels (family dict).                                              |
-| `angle`           | `0deg`           | Rotation around the neutral. Use `-clock * 30deg` for IEC vector groups.                     |
-| `label`           | `none`           | Outer caption.                                                                               |
+| Name             | Default           | Description                                                                                          |
+| ---------------- | ----------------- | ---------------------------------------------------------------------------------------------------- |
+| `size`           | `0.6`             | Arm length (centre to each terminal).                                                                |
+| `terminals`      | `("U", "V", "W")` | Three label values in (U, V, W) order.                                                               |
+| `body`           | `true`            | Set to `false` to suppress the arm lines and terminal labels — useful for skeleton-mode composition. |
+| `stroke`         | `0.8pt + black`   | Stroke for the three arms.                                                                           |
+| `label-size`     | `8pt`             | Terminal-label font size (family dict).                                                              |
+| `label-distance` | `0.18`            | Radial offset of terminal labels (family dict).                                                      |
+| `angle`          | `0deg`            | Rotation around the neutral. Use `-clock * 30deg` for IEC vector groups.                             |
+| `label`          | `none`            | Outer caption.                                                                                       |
 
 ## Anchors
 
-| Anchor                          | Position                                                                |
-| ------------------------------- | ----------------------------------------------------------------------- |
-| `u`, `v`, `w`                   | The three arm endpoints (also under the strings from `terminals:` when they differ). |
-| `mid-u`, `mid-v`, `mid-w`       | Midpoint of each arm — the natural insertion point for an in-line component (current source, switch, …). |
-| `neutral`                       | The common centre point — connect it to a `ground` symbol for an earthed neutral.    |
-| `center` / `default`            | Same point as `neutral`.                                                |
-| `north`, `south`, `east`, `west`| Compass points on the bounding circle of radius `size`.                 |
-| `in`, `out`                     | Aliases for the placement coordinate.                                   |
+| Anchor                           | Position                                                                                                 |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `u`, `v`, `w`                    | The three arm endpoints (also under the strings from `terminals:` when they differ).                     |
+| `mid-u`, `mid-v`, `mid-w`        | Midpoint of each arm — the natural insertion point for an in-line component (current source, switch, …). |
+| `neutral`                        | The common centre point — connect it to a `ground` symbol for an earthed neutral.                        |
+| `center` / `default`             | Same point as `neutral`.                                                                                 |
+| `north`, `south`, `east`, `west` | Compass points on the bounding circle of radius `size`.                                                  |
+| `in`, `out`                      | Aliases for the placement coordinate.                                                                    |

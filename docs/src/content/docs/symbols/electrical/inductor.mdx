@@ -28,26 +28,26 @@ the explicit ground return wire.
 
 ## Parameters
 
-| Name           | Default       | Description                                                                                  |
-| -------------- | ------------- | -------------------------------------------------------------------------------------------- |
-| `bumps`        | `4`           | Number of semicircular bumps along the body. Higher = longer, more granular.                 |
-| `bump-radius`  | `0.1`         | Radius of each bump.                                                                         |
-| `lead-in`      | `0.2`         | Length of the lead from `in` up to the first bump.                                           |
-| `lead-out`     | `0.2`         | Length of the lead after the last bump. Set to `0` for the single-pole form.                 |
-| `stroke`       | `0.8pt + black` | Stroke for leads and bumps.                                                                |
-| `label`        | `none`        | Standard label dict (default `anchor: "north"`, `distance: 0.15`).                           |
-| `angle`        | `0deg`        | Rotation around the connection point.                                                        |
+| Name          | Default         | Description                                                                  |
+| ------------- | --------------- | ---------------------------------------------------------------------------- |
+| `bumps`       | `4`             | Number of semicircular bumps along the body. Higher = longer, more granular. |
+| `bump-radius` | `0.1`           | Radius of each bump.                                                         |
+| `lead-in`     | `0.2`           | Length of the lead from `in` up to the first bump.                           |
+| `lead-out`    | `0.2`           | Length of the lead after the last bump. Set to `0` for the single-pole form. |
+| `stroke`      | `0.8pt + black` | Stroke for leads and bumps.                                                  |
+| `label`       | `none`          | Standard label dict (default `anchor: "north"`, `distance: 0.15`).           |
+| `angle`       | `0deg`          | Rotation around the connection point.                                        |
 
 ## Anchors
 
-| Anchor                     | Position                                                                |
-| -------------------------- | ----------------------------------------------------------------------- |
-| `in` / `default` / `south` | The connection point.                                                   |
-| `out`                      | Top of the upper lead. **Only present when `lead-out > 0`.**            |
-| `north`                    | Top of the upper lead, or the top of the bumps if `lead-out: 0`.        |
-| `east`                     | Outermost bump extent (positive x-side, where the bumps bulge).         |
-| `west`                     | The centerline at the body midpoint.                                    |
-| `center`                   | Midpoint of the bump column on the centerline.                          |
+| Anchor                     | Position                                                         |
+| -------------------------- | ---------------------------------------------------------------- |
+| `in` / `default` / `south` | The connection point.                                            |
+| `out`                      | Top of the upper lead. **Only present when `lead-out > 0`.**     |
+| `north`                    | Top of the upper lead, or the top of the bumps if `lead-out: 0`. |
+| `east`                     | Outermost bump extent (positive x-side, where the bumps bulge).  |
+| `west`                     | The centerline at the body midpoint.                             |
+| `center`                   | Midpoint of the bump column on the centerline.                   |
 
 ## Styling
 

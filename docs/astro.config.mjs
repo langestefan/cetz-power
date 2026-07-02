@@ -26,7 +26,8 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'cetz-power',
-      description: 'Power-system single-line diagrams in Typst, on top of CeTZ.',
+      description:
+        'Power-system single-line diagrams in Typst, on top of CeTZ.',
       // Starlight uses Expressive Code, which keeps its own Shiki
       // language registry. Register the vendored Typst grammar (it
       // overrides Shiki's bundled one) and pin the themes to VS
@@ -40,7 +41,11 @@ export default defineConfig({
         },
       },
       social: [
-        { icon: 'github', label: 'GitHub', href: 'https://github.com/langestefan/cetz-power' },
+        {
+          icon: 'github',
+          label: 'GitHub',
+          href: 'https://github.com/langestefan/cetz-power',
+        },
       ],
       editLink: {
         baseUrl: 'https://github.com/langestefan/cetz-power/edit/main/docs/',
@@ -50,9 +55,15 @@ export default defineConfig({
           label: 'Getting started',
           items: [
             { label: 'Installation', slug: 'getting-started/installation' },
-            { label: 'Your first diagram', slug: 'getting-started/first-diagram' },
+            {
+              label: 'Your first diagram',
+              slug: 'getting-started/first-diagram',
+            },
             { label: 'Anchors', slug: 'getting-started/anchors' },
-            { label: 'One- vs two-node placement', slug: 'getting-started/placement' },
+            {
+              label: 'One- vs two-node placement',
+              slug: 'getting-started/placement',
+            },
             { label: 'Styling', slug: 'getting-started/styling' },
             { label: 'Labels', slug: 'getting-started/labels' },
             { label: 'Wires and elbows', slug: 'getting-started/wires' },
@@ -70,7 +81,10 @@ export default defineConfig({
                 { label: 'Junction', slug: 'symbols/grid/junction' },
                 { label: 'External grid', slug: 'symbols/grid/external-grid' },
                 { label: 'Transformer', slug: 'symbols/grid/transformer' },
-                { label: 'Transformer (3-winding)', slug: 'symbols/grid/transformer3' },
+                {
+                  label: 'Transformer (3-winding)',
+                  slug: 'symbols/grid/transformer3',
+                },
               ],
             },
             {
@@ -105,8 +119,14 @@ export default defineConfig({
                 { label: 'Resistor', slug: 'symbols/electrical/resistor' },
                 { label: 'Inductor', slug: 'symbols/electrical/inductor' },
                 { label: 'Diode', slug: 'symbols/electrical/diode' },
-                { label: 'Voltage source', slug: 'symbols/electrical/voltagesource' },
-                { label: 'Current source', slug: 'symbols/electrical/currentsource' },
+                {
+                  label: 'Voltage source',
+                  slug: 'symbols/electrical/voltagesource',
+                },
+                {
+                  label: 'Current source',
+                  slug: 'symbols/electrical/currentsource',
+                },
                 { label: 'Ground', slug: 'symbols/electrical/ground' },
               ],
             },
@@ -115,7 +135,10 @@ export default defineConfig({
               items: [
                 { label: 'Overview', slug: 'symbols/protection' },
                 { label: 'Switch', slug: 'symbols/protection/switch' },
-                { label: 'Circuit breaker', slug: 'symbols/protection/breaker' },
+                {
+                  label: 'Circuit breaker',
+                  slug: 'symbols/protection/breaker',
+                },
                 { label: 'Fuse', slug: 'symbols/protection/fuse' },
               ],
             },
@@ -131,8 +154,14 @@ export default defineConfig({
         {
           label: 'Extending',
           items: [
-            { label: 'Creating your own symbol', slug: 'extending/custom-symbol' },
-            { label: 'Composing with regular CeTZ', slug: 'extending/composing-with-cetz' },
+            {
+              label: 'Creating your own symbol',
+              slug: 'extending/custom-symbol',
+            },
+            {
+              label: 'Composing with regular CeTZ',
+              slug: 'extending/composing-with-cetz',
+            },
           ],
         },
         {
@@ -141,19 +170,40 @@ export default defineConfig({
             { label: 'Radial feeder', slug: 'recipes/radial-feeder' },
             { label: 'Wind turbine', slug: 'recipes/wind-turbine' },
             { label: 'Wind turbine (DFIG)', slug: 'recipes/wind-turbine-dfig' },
-            { label: 'Parallel transformers', slug: 'recipes/parallel-transformers' },
+            {
+              label: 'Parallel transformers',
+              slug: 'recipes/parallel-transformers',
+            },
             { label: 'Phase-to-earth fault', slug: 'recipes/phase-fault' },
-            { label: 'MV cable equivalent', slug: 'recipes/mv-cable-equivalent' },
-            { label: 'Feeder compensation', slug: 'recipes/feeder-compensation' },
+            {
+              label: 'MV cable equivalent',
+              slug: 'recipes/mv-cable-equivalent',
+            },
+            {
+              label: 'Feeder compensation',
+              slug: 'recipes/feeder-compensation',
+            },
             { label: 'MV transport link', slug: 'recipes/ms-transport' },
             { label: 'Reactive power flow', slug: 'recipes/reactive-flow' },
             { label: 'Modified CIGRE LV network', slug: 'recipes/cigre-lv' },
             { label: 'Modified CIGRE MV network', slug: 'recipes/cigre-mv' },
-            { label: 'Modified IEEE 9-bus with DVPP', slug: 'recipes/ieee9-dvpp' },
-            { label: 'MV radial distribution feeder', slug: 'recipes/mv-radial-feeder' },
+            {
+              label: 'Modified IEEE 9-bus with DVPP',
+              slug: 'recipes/ieee9-dvpp',
+            },
+            {
+              label: 'MV radial distribution feeder',
+              slug: 'recipes/mv-radial-feeder',
+            },
             { label: 'Urban LV grid (34 buses)', slug: 'recipes/urban-lv' },
-            { label: 'Distribution rings (hoofdring)', slug: 'recipes/distribution-rings' },
-            { label: 'LV service connections', slug: 'recipes/lv-service-connections' },
+            {
+              label: 'Distribution rings (hoofdring)',
+              slug: 'recipes/distribution-rings',
+            },
+            {
+              label: 'LV service connections',
+              slug: 'recipes/lv-service-connections',
+            },
           ],
         },
       ],

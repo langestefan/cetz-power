@@ -44,27 +44,27 @@ attach to it.
 
 ## Parameters
 
-| Name              | Default          | Description                                                                                  |
-| ----------------- | ---------------- | -------------------------------------------------------------------------------------------- |
-| `size`            | `0.6`            | Circumradius — distance from centre to each vertex.                                          |
-| `terminals`       | `("U", "V", "W")`| Three label values in (U, V, W) order. Strings render italicised; pass content for math.     |
-| `body`            | `true`           | Set to `false` to suppress the triangle outline and vertex labels — useful for skeleton-mode composition. |
-| `stroke`          | `0.8pt + black`  | Stroke for the triangle outline.                                                             |
-| `fill`            | `none`           | Fill colour for the triangle interior.                                                       |
-| `label-size`      | `8pt`            | Font size for terminal labels (set via family dict).                                         |
-| `label-distance`  | `0.18`           | Radial offset of terminal labels from each vertex (family dict).                             |
-| `angle`           | `0deg`           | Rotation around the centre — use `-clock * 30deg` for IEC vector groups.                     |
-| `label`           | `none`           | Outer caption (standard label dict, default `anchor: "north"`).                              |
+| Name             | Default           | Description                                                                                               |
+| ---------------- | ----------------- | --------------------------------------------------------------------------------------------------------- |
+| `size`           | `0.6`             | Circumradius — distance from centre to each vertex.                                                       |
+| `terminals`      | `("U", "V", "W")` | Three label values in (U, V, W) order. Strings render italicised; pass content for math.                  |
+| `body`           | `true`            | Set to `false` to suppress the triangle outline and vertex labels — useful for skeleton-mode composition. |
+| `stroke`         | `0.8pt + black`   | Stroke for the triangle outline.                                                                          |
+| `fill`           | `none`            | Fill colour for the triangle interior.                                                                    |
+| `label-size`     | `8pt`             | Font size for terminal labels (set via family dict).                                                      |
+| `label-distance` | `0.18`            | Radial offset of terminal labels from each vertex (family dict).                                          |
+| `angle`          | `0deg`            | Rotation around the centre — use `-clock * 30deg` for IEC vector groups.                                  |
+| `label`          | `none`            | Outer caption (standard label dict, default `anchor: "north"`).                                           |
 
 ## Anchors
 
-| Anchor                          | Position                                                       |
-| ------------------------------- | -------------------------------------------------------------- |
-| `u`, `v`, `w`                   | The three triangle vertices (also exposed under the strings supplied in `terminals:` if they differ). |
-| `mid-uv`, `mid-vw`, `mid-wu`    | Midpoint of each triangle side — the natural insertion / labelling point for a per-side component. |
-| `center` / `default`            | Centroid of the triangle.                                      |
-| `north`, `south`, `east`, `west`| Compass points on the bounding circle of radius `size`.        |
-| `in`, `out`                     | Aliases for the placement coordinate (the standard cetz-power one-node anchors). |
+| Anchor                           | Position                                                                                              |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `u`, `v`, `w`                    | The three triangle vertices (also exposed under the strings supplied in `terminals:` if they differ). |
+| `mid-uv`, `mid-vw`, `mid-wu`     | Midpoint of each triangle side — the natural insertion / labelling point for a per-side component.    |
+| `center` / `default`             | Centroid of the triangle.                                                                             |
+| `north`, `south`, `east`, `west` | Compass points on the bounding circle of radius `size`.                                               |
+| `in`, `out`                      | Aliases for the placement coordinate (the standard cetz-power one-node anchors).                      |
 
 ## Styling
 

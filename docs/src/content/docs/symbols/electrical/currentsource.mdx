@@ -16,26 +16,26 @@ swapping the two endpoint coordinates flips the arrow.
 
 <Snippet name="currentsource-direction" />
 
-| `kind`           | What's drawn                                           |
-| ---------------- | ------------------------------------------------------ |
-| `"dc"` (default) | Just the arrow.                                        |
-| `"ac"`           | Arrow plus a small sine wave above it.                 |
+| `kind`           | What's drawn                           |
+| ---------------- | -------------------------------------- |
+| `"dc"` (default) | Just the arrow.                        |
+| `"ac"`           | Arrow plus a small sine wave above it. |
 
 ## Parameters
 
-| Name        | Default       | Description                                                                  |
-| ----------- | ------------- | ---------------------------------------------------------------------------- |
-| `radius`    | `0.3`         | Body-circle radius.                                                          |
-| `kind`      | `"dc"`        | `"dc"` (arrow only) or `"ac"` (arrow + sine wave).                           |
-| `stroke`    | `0.8pt + black` | Stroke for the circle, leads, and arrow.                                   |
-| `fill`      | `none`        | Body fill.                                                                   |
-| `label`     | `none`        | Standard label dict (default `anchor: "north"`, `distance: 0.2`).            |
-| `angle`     | `0deg`        | Rotation (only valid for one-node placement).                                |
+| Name     | Default         | Description                                                       |
+| -------- | --------------- | ----------------------------------------------------------------- |
+| `radius` | `0.3`           | Body-circle radius.                                               |
+| `kind`   | `"dc"`          | `"dc"` (arrow only) or `"ac"` (arrow + sine wave).                |
+| `stroke` | `0.8pt + black` | Stroke for the circle, leads, and arrow.                          |
+| `fill`   | `none`          | Body fill.                                                        |
+| `label`  | `none`          | Standard label dict (default `anchor: "north"`, `distance: 0.2`). |
+| `angle`  | `0deg`          | Rotation (only valid for one-node placement).                     |
 
 ## Anchors
 
-| Anchor          | Position                                                                  |
-| --------------- | ------------------------------------------------------------------------- |
-| `in`, `out`     | The two endpoints (when two-node placed). Arrow points `in → out`.        |
-| `center`        | Centre of the body circle.                                                |
-| `north`, `south`, `east`, `west` | Cardinal points just outside the circle.                 |
+| Anchor                           | Position                                                           |
+| -------------------------------- | ------------------------------------------------------------------ |
+| `in`, `out`                      | The two endpoints (when two-node placed). Arrow points `in → out`. |
+| `center`                         | Centre of the body circle.                                         |
+| `north`, `south`, `east`, `west` | Cardinal points just outside the circle.                           |

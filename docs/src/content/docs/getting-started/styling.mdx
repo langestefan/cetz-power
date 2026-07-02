@@ -38,7 +38,7 @@ transformer("t1", (0, 0), (2, 0), radius: 0.5, stroke: red)
 Per-call overrides win, family defaults next, global defaults last. The
 defaults themselves live in `src/styles.typ`.
 
-`resolve-style` only copies *scalar* top-level keys down into the merged
+`resolve-style` only copies _scalar_ top-level keys down into the merged
 dict — dictionaries like `label:` are not auto-flattened. Family dicts
 can themselves contain a `label:` sub-dict that overrides the base label
 dict; see the [Labels](/getting-started/labels/) page.

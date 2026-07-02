@@ -33,7 +33,7 @@ extend downward:
 
 ## Single-pole shunt form
 
-In single-line / one-line diagrams a *shunt* capacitor is sometimes
+In single-line / one-line diagrams a _shunt_ capacitor is sometimes
 drawn without a return-to-ground wire — just the connection lead from
 the bus and the two plates, no upper lead. Pass `lead-out: 0` to drop
 the upper lead (the `out` anchor goes away with it):
@@ -42,26 +42,26 @@ the upper lead (the `out` anchor goes away with it):
 
 ## Parameters
 
-| Name           | Default       | Description                                                                                  |
-| -------------- | ------------- | -------------------------------------------------------------------------------------------- |
-| `plate-width`  | `0.5`         | Width of each plate.                                                                         |
-| `plate-gap`    | `0.12`        | Distance between the two plates.                                                             |
-| `lead-in`      | `0.3`         | Length of the lead from `in` up to the bottom plate.                                         |
-| `lead-out`     | `0.3`         | Length of the lead above the top plate. Set to `0` to drop the upper lead and the `out` anchor (single-pole shunt form). |
-| `stroke`       | `0.8pt + black` | Stroke for both leads and plates.                                                          |
-| `plate-stroke` | (= `stroke`)  | Separate stroke override for the plates only — handy for thicker plates than the lead.       |
-| `label`        | `none`        | Standard label dict (default `anchor: "north"`, `distance: 0.15`).                           |
-| `angle`        | `0deg`        | Rotation around the connection point.                                                        |
+| Name           | Default         | Description                                                                                                              |
+| -------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `plate-width`  | `0.5`           | Width of each plate.                                                                                                     |
+| `plate-gap`    | `0.12`          | Distance between the two plates.                                                                                         |
+| `lead-in`      | `0.3`           | Length of the lead from `in` up to the bottom plate.                                                                     |
+| `lead-out`     | `0.3`           | Length of the lead above the top plate. Set to `0` to drop the upper lead and the `out` anchor (single-pole shunt form). |
+| `stroke`       | `0.8pt + black` | Stroke for both leads and plates.                                                                                        |
+| `plate-stroke` | (= `stroke`)    | Separate stroke override for the plates only — handy for thicker plates than the lead.                                   |
+| `label`        | `none`          | Standard label dict (default `anchor: "north"`, `distance: 0.15`).                                                       |
+| `angle`        | `0deg`          | Rotation around the connection point.                                                                                    |
 
 ## Anchors
 
-| Anchor                     | Position                                                                  |
-| -------------------------- | ------------------------------------------------------------------------- |
-| `in` / `default` / `south` | The connection point — where you placed the symbol.                       |
-| `out`                      | Top of the upper lead. **Only present when `lead-out > 0`** (the default).|
-| `north`                    | Top of the upper lead, or the top plate if `lead-out: 0`.                 |
-| `east`, `west`             | Right / left ends of the plates, vertically centred between them.         |
-| `center`                   | Midpoint between the two plates.                                          |
+| Anchor                     | Position                                                                   |
+| -------------------------- | -------------------------------------------------------------------------- |
+| `in` / `default` / `south` | The connection point — where you placed the symbol.                        |
+| `out`                      | Top of the upper lead. **Only present when `lead-out > 0`** (the default). |
+| `north`                    | Top of the upper lead, or the top plate if `lead-out: 0`.                  |
+| `east`, `west`             | Right / left ends of the plates, vertically centred between them.          |
+| `center`                   | Midpoint between the two plates.                                           |
 
 All of these are after-rotation in world space when used as
 `"<name>.<anchor>"` from outside the symbol — pass them straight to
