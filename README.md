@@ -2,7 +2,9 @@
 
 **Power-system single-line diagrams in Typst, on top of [CeTZ](https://github.com/cetz-package/cetz).**
 
-A small package that gives you the symbols you actually need for drawing one-line diagrams of electrical power systems — transformers, buses, generators, breakers, renewables, storage, converters, measurement.
+Buses, transformers, machines, loads, switchgear, PV, windings, connection points — plus helpers for whole feeders and metering units.
+
+**[Documentation & examples →](https://langestefan.github.io/cetz-power/)**
 
 ## Quick example
 
@@ -42,22 +44,23 @@ The wildcard form (`: *`) puts every symbol — `diagram`, `bus`, `transformer`,
 
 ## What's in the box
 
-| Family       | Symbols                                                       |
-|--------------|---------------------------------------------------------------|
-| Buses        | `bus` (with taps), `bus-frac` (fractional attach points)      |
-| Wires        | `wire`, `elbow` (L-shaped corner routing)                     |
-| Grid         | `external-grid` (cross-hatched square)                        |
-| Transformers | `transformer` (two-winding, overlapping circles)              |
-| Loads        | `load` (filled downward arrow, optional `elbow:`)             |
+| Category    | Symbols                                                                          |
+|-------------|----------------------------------------------------------------------------------|
+| Grid        | `bus`, `bus-frac`, `wire`, `elbow`, `junction`, `external-grid`, `transformer`, `transformer3` |
+| Generation  | `machine`, `pv-panel`                                                            |
+| Loads       | `load`                                                                           |
+| Electrical  | `capacitor`, `resistor`, `inductor`, `diode`, `voltagesource`, `currentsource`, `ground`, `bolt` |
+| Protection  | `switch`, `breaker` (square or `kind: "cross"`), `fuse`                          |
+| Windings    | `delta`, `wye`, `zigzag`                                                         |
+| Helpers     | `note`, `multi-wire`, `feeder`, `dali`                                           |
 
-The library is intentionally minimal — extra symbols can be added by
-copying the pattern in `src/symbols/<family>.typ`. See `docs/` for
-per-symbol reference pages with examples, anchors, and style options.
+To add a symbol: drop a file under `src/symbols/<category>/`, wrap
+`symbol()` from `src/core.typ`, export it from `src/lib.typ`.
 
 ## Design
 
-- **Symbols have anchors.** Every symbol exposes named anchors (`north`, `south`, `center`, etc.); buses expose `tap1..tapN` plus `start`, `mid`, `end`.
-- **One- or two-node placement.** The `transformer` accepts either a single position + `angle:` or two positions; when given two positions it orients itself along the line and draws its own leads.
+- **Symbols have anchors.** Compass points, plus symbol-specific ones (`tap1..tapN`, `primary`/`secondary`, phase terminals).
+- **One- or two-node placement.** One position + `angle:` drops a symbol in place; two positions orient it in→out with its own leads.
 - **Cascading styles.** A global `set-style(cetz-power: (...))` changes defaults; per-family overrides live under e.g. `cetz-power.transformer`; per-call arguments override both.
 - **Labels everywhere.** Every symbol accepts `label:` as a string, content, or `(content:, anchor:, distance:)` dict.
 
@@ -84,10 +87,10 @@ The deployed docs are built and pushed to GitHub Pages on every push to `main` b
 
 ## Claude Code skills
 
-`.claude/skills/` ships two [Claude Code](https://claude.com/claude-code) skills that were used to build the recipes in this repo. Open the repo in Claude Code and they are picked up automatically (or copy them to `~/.claude/skills/` to use them everywhere):
+`.claude/skills/` ships two [Claude Code](https://claude.com/claude-code) skills, picked up automatically when you open the repo:
 
-- **`cetz-power-diagrams`** — the know-how for authoring clean single-line diagrams with this package: the symbol catalog, composition patterns, hard-won design rules (perpendicular joins, interior taps, balanced spacing, …), and the pixel-map workflow for replicating published figures.
-- **`oneline-diagram-annotator`** — a small Python engine (RANSAC bar/circle fitting + coverage refinement) that digitises a *raster image* of a one-line diagram into exact bus/conductor/switch coordinates — the measured geometry feeds straight into a pixel-mapped cetz-power recipe. It needs a local virtualenv on first use:
+- **`cetz-power-diagrams`** — authoring know-how: symbol catalog, design rules, figure-replication workflow.
+- **`oneline-diagram-annotator`** — digitises a raster one-line diagram into exact coordinates (RANSAC fitting). First use:
 
   ```bash
   cd .claude/skills/oneline-diagram-annotator
