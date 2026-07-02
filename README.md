@@ -82,6 +82,18 @@ npm run build    # static site → docs/dist/
 
 The deployed docs are built and pushed to GitHub Pages on every push to `main` by `.github/workflows/docs.yml`.
 
+## Claude Code skills
+
+`.claude/skills/` ships two [Claude Code](https://claude.com/claude-code) skills that were used to build the recipes in this repo. Open the repo in Claude Code and they are picked up automatically (or copy them to `~/.claude/skills/` to use them everywhere):
+
+- **`cetz-power-diagrams`** — the know-how for authoring clean single-line diagrams with this package: the symbol catalog, composition patterns, hard-won design rules (perpendicular joins, interior taps, balanced spacing, …), and the pixel-map workflow for replicating published figures.
+- **`oneline-diagram-annotator`** — a small Python engine (RANSAC bar/circle fitting + coverage refinement) that digitises a *raster image* of a one-line diagram into exact bus/conductor/switch coordinates — the measured geometry feeds straight into a pixel-mapped cetz-power recipe. It needs a local virtualenv on first use:
+
+  ```bash
+  cd .claude/skills/oneline-diagram-annotator
+  python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+  ```
+
 ## License
 
 MIT. See `LICENSE`.
