@@ -3,7 +3,7 @@
 // (resolved by basename) alongside its compiled SVG from
 // `docs/public/diagrams/<name>.svg`.
 //
-// Code on top, rendered diagram below. Snippet sources are bundled at
+// Rendered diagram on top, code below. Snippet sources are bundled at
 // build time via Vite's `?raw` glob; the SVG is fetched by the browser
 // from the public directory.
 
@@ -110,11 +110,11 @@ const svgUrl = `${base}/diagrams/${name}.svg?v=${cacheBust}`;
 
 <figure class="snippet">
   <div class="snippet__grid">
-    <div class="snippet__code">
-      <Code code={trimmed} lang="typ" />
-    </div>
     <div class="snippet__diagram">
       <object type="image/svg+xml" data={svgUrl} aria-label={caption ?? name}></object>
+    </div>
+    <div class="snippet__code">
+      <Code code={trimmed} lang="typ" />
     </div>
   </div>
   {caption && <figcaption>{caption}</figcaption>}
