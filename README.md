@@ -9,23 +9,29 @@ Buses, transformers, machines, loads, switchgear, PV, windings, connection point
 ## Quick example
 
 <p align="center">
-  <img src="https://langestefan.github.io/cetz-power/diagrams/recipe-radial-feeder.svg" alt="Radial feeder: external grid, transformer between two buses, load" width="640">
+  <img src="https://langestefan.github.io/cetz-power/diagrams/readme-example.svg" alt="Radial feeder: external grid, transformer, breaker, PV panel and loads" width="700">
 </p>
 
 ```typst
 #import "@preview/cetz-power:0.1.0": *
 
 #diagram(length: 1.2cm, {
-  bus("b1", (1.7, 0), length: 1.4, angle: 90deg, label: [1])
-  bus("b2", (4.6, 0), length: 1.4, angle: 90deg, label: [2])
-  bus("b3", (7.0, 0), length: 1.4, angle: 90deg, label: [3])
-  external-grid("g", (0.7, 0), angle: 90deg,
-    label: (content: align(center)[50 MVA, \ 10 kV],
+  let flex = rgb("#29abe2")
+  bus("b1", (1.6, 0), length: 1.4, angle: 90deg, label: [1])
+  bus("b2", (4.4, 0), length: 1.4, angle: 90deg, label: [2])
+  bus("b3", (7.2, 0), length: 1.4, angle: 90deg, label: [3])
+  external-grid("g", (0.6, 0), angle: 90deg,
+    label: (content: align(center)[150 MVA, \ 10 kV],
             anchor: "north", distance: 0.25))
   wire("g.in", "b1.mid")
-  transformer("t", "b1.mid", "b2.mid", label: [10/0.4 kV])
+  transformer("t", "b1.mid", "b2.mid",
+    primary-stroke: 0.8pt + red, label: [10/0.4 kV])
   wire("b2.mid", "b3.mid")
-  load("ld", bus-frac("b3", 1/6), elbow: 0.4)
+  breaker("q", (5.6, 0), kind: "cross")
+  load("l2", bus-frac("b2", 1/6), elbow: 0.4,
+    fill: flex, stroke: flex, label: (content: [flex], anchor: "east"))
+  pv-panel("pv", bus-frac("b3", 0.3), elbow: 0.9)
+  load("l3", bus-frac("b3", 1/6), elbow: 0.4, label: [4 MW])
 })
 ```
 
