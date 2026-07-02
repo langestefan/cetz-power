@@ -1,0 +1,50 @@
+---
+title: Distribution rings (hoofdring)
+description: A distribution network with main ring, subring and spur — double 10 kV rail substation, open/closed connection points, netopeningen and ×-marked switchgear positions.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+The classic Dutch distribution-network overview (Phase to Phase, *Netten
+voor distributie van elektriciteit*, fig. 2.8): a **150 kV** rail feeds
+two 150/10 kV transformers onto a double **10 kV** rail in the
+substation, from which a **hoofdring** (main ring) leaves one rail
+section, runs across the top and returns along the bottom. A **subring**
+nests inside it and an **uitloper** (spur) hangs off the bottom row.
+
+The ring is operated *open*: the two **netopeningen** near the top-right
+node are open [`switch`](/symbols/protection/switch/) blades, and the
+hollow circles on the rails are open
+[`junction`](/symbols/grid/junction/) connection points (filled = closed).
+The **×** marks are the switchgear positions —
+[`breaker(kind: "cross")`](/symbols/protection/breaker/) — at the
+transformer bays, the rail coupling and every feeder head.
+
+<Snippet name="recipe-distribution-rings" />
+
+## How it's built
+
+- The layout is digitised from the figure through one pixel map,
+  `P(x, y) = (x*s, (H - y)*s)` — every coordinate in the source is an
+  image pixel.
+- Rails are [`bus`](/symbols/grid/bus/)es (the 150 kV one just overrides
+  `stroke: 1.8pt + red`); the HV winding of each transformer is coloured
+  with `primary-stroke: 0.8pt + red`.
+- All connection points are `junction`s placed **after** the conductors:
+  a closed one is a filled dot on the line, and an open one paints its
+  interior white, masking the wire so the network visibly splits there —
+  that is exactly how the substation's spare rail connections and the
+  ring's open points read.
+- The × marks are one-node `breaker(kind: "cross")` calls dropped
+  straight onto the runs — no need to split a wire into two segments per
+  mark.
+- The two netopeningen are small open `switch`es spanning exactly their
+  pin gap, with `pivot-radius: 0` for the book's bare-blade look; the
+  hoofdring one flips its blade below the line with `open-angle: -30deg`.
+
+:::note[Credit]
+This reproduces *Figuur 2.8 — Distributienet met hoofdring, subring en
+uitloper* from
+[*Netten voor distributie van elektriciteit* (Phase to Phase),
+hoofdstuk 2](https://www.phasetophase.nl/boek/boek_2_2.html).
+:::

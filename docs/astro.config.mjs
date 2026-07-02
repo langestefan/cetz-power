@@ -152,6 +152,7 @@ export default defineConfig({
             { label: 'Modified IEEE 9-bus with DVPP', slug: 'recipes/ieee9-dvpp' },
             { label: 'MV radial distribution feeder', slug: 'recipes/mv-radial-feeder' },
             { label: 'Urban LV grid (34 buses)', slug: 'recipes/urban-lv' },
+            { label: 'Distribution rings (hoofdring)', slug: 'recipes/distribution-rings' },
           ],
         },
       ],
