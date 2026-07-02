@@ -37,6 +37,7 @@
 // Grid
 #import "symbols/grid/bus.typ": bus, bus-frac
 #import "symbols/grid/wire.typ": wire, elbow
+#import "symbols/grid/junction.typ": junction
 #import "symbols/grid/external-grid.typ": external-grid
 #import "symbols/grid/transformer.typ": transformer
 #import "symbols/grid/transformer3.typ": transformer3

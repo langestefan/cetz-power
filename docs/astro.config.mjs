@@ -67,6 +67,7 @@ export default defineConfig({
                 { label: 'Overview', slug: 'symbols/grid' },
                 { label: 'Bus', slug: 'symbols/grid/bus' },
                 { label: 'Wires', slug: 'symbols/grid/wire' },
+                { label: 'Junction', slug: 'symbols/grid/junction' },
                 { label: 'External grid', slug: 'symbols/grid/external-grid' },
                 { label: 'Transformer', slug: 'symbols/grid/transformer' },
                 { label: 'Transformer (3-winding)', slug: 'symbols/grid/transformer3' },

@@ -38,6 +38,18 @@
     label: (distance: 0.22),
   ),
 
+  // ── Junction (connection point) ─────────────────────────────────
+  // Small circle on a conductor: filled = closed connection, hollow
+  // (`open: true`) = open point / netopening. `fill: auto` resolves
+  // to the stroke paint when closed and white when open.
+  junction: (
+    radius: 0.09,
+    open: false,
+    fill: auto,
+    stroke: 0.8pt + black,
+    label: (anchor: "north", distance: 0.15),
+  ),
+
   // ── Transformer ─────────────────────────────────────────────────
   // "distance" is the centre-to-centre spacing of the two circles.
   // Default ratio d/r ≈ 0.78 gives the tight, clearly-overlapping

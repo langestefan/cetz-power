@@ -22,7 +22,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 `src/symbols/` is organised into six category sub-directories that mirror the docs sidebar:
 
-- `src/symbols/grid/` — network infrastructure (`bus`, `wire`, `external-grid`, `transformer`, `transformer3`). `transformer` is a two-node element that orients along its in→out line; `transformer3` (three-winding trefoil) has three terminals, so it is a one-node symbol placed with `angle:` and exposes `hv`/`lv`/`tv` (= `primary`/`secondary`/`tertiary`) terminal anchors.
+- `src/symbols/grid/` — network infrastructure (`bus`, `wire`, `external-grid`, `transformer`, `transformer3`, `junction`). `junction` is a connection point on a conductor: filled circle = closed, `open: true` = hollow open point (netopening) whose body masks the wire beneath — draw junctions after wires. `transformer` is a two-node element that orients along its in→out line; `transformer3` (three-winding trefoil) has three terminals, so it is a one-node symbol placed with `angle:` and exposes `hv`/`lv`/`tv` (= `primary`/`secondary`/`tertiary`) terminal anchors.
 - `src/symbols/generation/` — sources (`machine`, `pv-panel`)
 - `src/symbols/loads/` — energy consumers (`load`)
 - `src/symbols/electrical/` — passive components, sources, ground, and the lightning `bolt` (`capacitor`, `resistor`, `inductor`, `diode`, `voltagesource`, `currentsource`, `ground`, `bolt`)
