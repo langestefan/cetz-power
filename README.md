@@ -8,21 +8,23 @@ Buses, transformers, machines, loads, switchgear, PV, windings, connection point
 
 ## Quick example
 
+<p align="center">
+  <img src="https://langestefan.github.io/cetz-power/diagrams/getting-started-first-diagram.svg" alt="External grid, transformer and a 5-tap bus with two loads" width="360">
+</p>
+
 ```typst
 #import "@preview/cetz-power:0.1.0": *
 
-#diagram({
-  // A horizontal bus with 5 tap points
-  bus("b1", (0, 0), length: 5, taps: 5)
-
-  // External grid feeding into tap 1
-  external-grid("grid", "b1.tap1", angle: 90deg)
-
-  // A 2-winding transformer in the middle
-  transformer("t1", "b1.tap3", (3, -2))
-
-  // A load at the bottom of the transformer's secondary
-  load("l1", (3, -2))
+#diagram(length: 1.2cm, {
+  external-grid("g", (0, 1.3),
+    label: (content: [132 kV], anchor: "east", distance: 0.2))
+  wire("g.in", (0, 0.7))
+  transformer("t", (0, 0.7), (0, -0.7),
+    label: (content: [132/11 kV], anchor: "east", distance: 0.2))
+  bus("b", (-1, -1.3), (1, -1.3), taps: 5)
+  wire("t.out", "b.tap3")
+  load("l1", "b.tap2", label: [10 MW])
+  load("l2", "b.tap4", label: [8 MW])
 })
 ```
 
@@ -42,7 +44,7 @@ Or vendor locally by cloning the repo and importing from path:
 
 The wildcard form (`: *`) puts every symbol — `diagram`, `bus`, `transformer`, `wire`, … — directly in scope. If you'd rather keep them out of your top-level namespace, use `as pg` and write `pg.diagram(...)`, `pg.bus(...)` instead.
 
-## What's in the box
+## Available symbols
 
 | Category    | Symbols                                                                          |
 |-------------|----------------------------------------------------------------------------------|
@@ -89,8 +91,8 @@ The deployed docs are built and pushed to GitHub Pages on every push to `main` b
 
 `.claude/skills/` ships two [Claude Code](https://claude.com/claude-code) skills, picked up automatically when you open the repo:
 
-- **`cetz-power-diagrams`** — authoring know-how: symbol catalog, design rules, figure-replication workflow.
-- **`oneline-diagram-annotator`** — digitises a raster one-line diagram into exact coordinates (RANSAC fitting). First use:
+- **`cetz-power-diagrams`** — drawing skills: symbol catalog, design rules, figure-replication workflow.
+- **`oneline-diagram-annotator`** — digitises a raster one-line diagram into exact coordinates. First use:
 
   ```bash
   cd .claude/skills/oneline-diagram-annotator
