@@ -1,6 +1,7 @@
 # cetz-power
 
 [![Tests](https://github.com/langestefan/cetz-power/actions/workflows/tests.yml/badge.svg)](https://github.com/langestefan/cetz-power/actions/workflows/tests.yml)
+[![Lint](https://github.com/langestefan/cetz-power/actions/workflows/lint.yml/badge.svg)](https://github.com/langestefan/cetz-power/actions/workflows/lint.yml)
 [![Docs](https://github.com/langestefan/cetz-power/actions/workflows/docs.yml/badge.svg)](https://github.com/langestefan/cetz-power/actions/workflows/docs.yml)
 [![Typst](https://img.shields.io/badge/typst-%E2%89%A50.13.1-239dad)](https://typst.app/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
