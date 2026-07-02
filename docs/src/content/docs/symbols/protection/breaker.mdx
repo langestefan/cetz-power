@@ -24,13 +24,29 @@ draws its own lead stubs to the bus mid-points:
 level — pass `red.lighten(70%)` for HV, `blue.lighten(70%)` for MV,
 etc. Then a glance at the diagram tells you the breaker's role.
 
+## The × variant
+
+`kind: "cross"` draws the compact **×** used in network-overview
+diagrams (the Dutch distribution-planning convention for a switchgear /
+breaker position). The wire runs straight through it — no gap, no box.
+It also supports **one-node** placement: pass a single position (plus
+an optional `angle:`) to drop the mark directly onto an existing run,
+which is handy when peppering a long feeder with breaker positions:
+
+<Snippet name="breaker-cross" />
+
+See the [distribution-rings recipe](/recipes/distribution-rings/) for
+it in context, together with [junction](/symbols/grid/junction/)
+connection points.
+
 ## Parameters
 
 | Name      | Default       | Description                                                                  |
 | --------- | ------------- | ---------------------------------------------------------------------------- |
-| `size`    | `0.3`         | Side length of the (square) box.                                             |
-| `stroke`  | `0.8pt + black` | Stroke for the box outline and the lead stubs.                             |
-| `fill`    | `none`        | Box fill. Useful for colour-coding by voltage level.                         |
+| `size`    | `0.3`         | Side length of the square box / span of the ×.                               |
+| `kind`    | `"square"`    | `"square"` = the conventional SLD box; `"cross"` = an × on the wire.         |
+| `stroke`  | `0.8pt + black` | Stroke for the body outline and the lead stubs.                            |
+| `fill`    | `none`        | Box fill (ignored for `"cross"`). Useful for colour-coding by voltage level. |
 | `label`   | `none`        | Standard label dict (default `anchor: "north"`, `distance: 0.15`).           |
 
 ## Anchors

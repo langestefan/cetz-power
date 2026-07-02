@@ -26,7 +26,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `src/symbols/generation/` — sources (`machine`, `pv-panel`)
 - `src/symbols/loads/` — energy consumers (`load`)
 - `src/symbols/electrical/` — passive components, sources, ground, and the lightning `bolt` (`capacitor`, `resistor`, `inductor`, `diode`, `voltagesource`, `currentsource`, `ground`, `bolt`)
-- `src/symbols/protection/` — switchgear and overcurrent protection (`switch`, `breaker`, `fuse`)
+- `src/symbols/protection/` — switchgear and overcurrent protection (`switch`, `breaker`, `fuse`). `breaker` draws a square box (default) or, with `kind: "cross"`, the compact × network-overview mark; it accepts one position (marker on an existing wire) or two (inline with leads).
 - `src/symbols/winding/` — transformer vector-group windings (`delta`, `wye`, `zigzag`). These expose phase-terminal anchors (`u`/`v`/`w`, side midpoints) and respect a `terminals` style key for labels; pass `body: false` to keep just the anchors as a placement scaffold.
 
 Adding a new symbol means picking the right category, dropping the file there, exporting it from `src/lib.typ` (which has a section per category), and adding a default style sub-dict under the symbol's family name in `src/styles.typ`.

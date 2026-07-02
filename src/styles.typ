@@ -206,12 +206,13 @@
   ),
 
   // ── Circuit breaker ─────────────────────────────────────────────
-  // Square box on a wire. Distinguishes a CB from a plain switch /
-  // disconnector in single-line diagrams.
+  // Square box on a wire (kind: "square"), or the compact "×" marker
+  // used in network-overview diagrams (kind: "cross").
   breaker: (
     stroke: 0.8pt + black,
     fill: none,
     size: 0.3,
+    kind: "square",
     label: (anchor: "north", distance: 0.15),
   ),
 
