@@ -102,6 +102,7 @@ export default defineConfig({
                 { label: 'Overview', slug: 'symbols/generation' },
                 { label: 'Machine', slug: 'symbols/generation/machine' },
                 { label: 'PV panel', slug: 'symbols/generation/pv-panel' },
+                { label: 'Device block', slug: 'symbols/generation/block' },
               ],
             },
             {
@@ -128,6 +129,7 @@ export default defineConfig({
                   slug: 'symbols/electrical/currentsource',
                 },
                 { label: 'Ground', slug: 'symbols/electrical/ground' },
+                { label: 'Battery', slug: 'symbols/electrical/battery' },
                 { label: 'Converter', slug: 'symbols/electrical/converter' },
               ],
             },
@@ -151,6 +153,7 @@ export default defineConfig({
             { label: 'Feeder', slug: 'helpers/feeder' },
             { label: 'Bus run', slug: 'helpers/bus-run' },
             { label: 'DALI metering unit', slug: 'helpers/dali' },
+            { label: 'Flow arrow', slug: 'helpers/flow-arrow' },
           ],
         },
         {

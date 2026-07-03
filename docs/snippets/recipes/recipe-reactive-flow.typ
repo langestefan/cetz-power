@@ -25,19 +25,10 @@
   let dso = rgb("#dce9f2")
 
   // Q-flow arrow pair: solid → above, dashed ⇠ below, clear of the circles.
+  let dashed-black = (paint: black, thickness: 0.8pt, dash: "dashed")
   let qpair(cx, y) = {
-    cetz.draw.line(
-      (cx - 0.5, y + 0.62),
-      (cx + 0.5, y + 0.62),
-      mark: (end: ">", fill: black),
-      stroke: 0.8pt + black,
-    )
-    cetz.draw.line(
-      (cx + 0.5, y - 0.62),
-      (cx - 0.5, y - 0.62),
-      mark: (end: ">", fill: black, stroke: 0.8pt + black),
-      stroke: (paint: black, thickness: 0.8pt, dash: "dashed"),
-    )
+    flow-arrow((cx - 0.5, y + 0.62), (cx + 0.5, y + 0.62))
+    flow-arrow((cx + 0.5, y - 0.62), (cx - 0.5, y - 0.62), stroke: dashed-black)
   }
 
   // ── Area backdrops; the TSO–DSO boundary runs through the HV/MV bank,
@@ -83,12 +74,7 @@
   qpair((x-td + hv-out) / 2, ym)
   // The T-D interface is the (middle) HV/MV transformer — where HV becomes MV.
   cetz.draw.content((2.1, 0.9), [T-D interface])
-  cetz.draw.line(
-    (2.85, 0.85),
-    "hvmv-t",
-    mark: (end: ">", fill: black),
-    stroke: 0.7pt + black,
-  )
+  flow-arrow((2.85, 0.85), "hvmv-t", stroke: 0.7pt + black)
 
   // ── MV/LV transformers (MV bus → LV feeders) ────────────────────
   for (y, k) in ((yt, "t"), (ym, "m"), (yb, "b")) {
@@ -133,18 +119,8 @@
   // ── Legend ──────────────────────────────────────────────────────
   let lx = 9.4
   let ly = -1.85
-  cetz.draw.line(
-    (lx, ly),
-    (lx + 0.8, ly),
-    mark: (end: ">", fill: black),
-    stroke: 0.8pt + black,
-  )
+  flow-arrow((lx, ly), (lx + 0.8, ly))
   cetz.draw.content((lx + 0.95, ly), anchor: "west", [$Q_1$ TSO to DSO])
-  cetz.draw.line(
-    (lx + 0.8, ly - 0.42),
-    (lx, ly - 0.42),
-    mark: (end: ">", fill: black, stroke: 0.8pt + black),
-    stroke: (paint: black, thickness: 0.8pt, dash: "dashed"),
-  )
+  flow-arrow((lx + 0.8, ly - 0.42), (lx, ly - 0.42), stroke: dashed-black)
   cetz.draw.content((lx + 0.95, ly - 0.42), anchor: "west", [$Q_2$ DSO to TSO])
 })

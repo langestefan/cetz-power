@@ -43,6 +43,7 @@
 #import "symbols/grid/transformer3.typ": transformer3
 
 // Generation
+#import "symbols/generation/block.typ": block
 #import "symbols/generation/machine.typ": machine
 #import "symbols/generation/pv-panel.typ": pv-panel
 
@@ -50,6 +51,7 @@
 #import "symbols/loads/load.typ": load
 
 // Electrical components (passive + sources + ground)
+#import "symbols/electrical/battery.typ": battery
 #import "symbols/electrical/capacitor.typ": capacitor
 #import "symbols/electrical/resistor.typ": resistor
 #import "symbols/electrical/inductor.typ": inductor
@@ -72,6 +74,7 @@
 
 // ── Composition helpers ─────────────────────────────────────────────────
 
+#import "helpers/flow-arrow.typ": flow-arrow
 #import "helpers/note.typ": note
 #import "helpers/multi-wire.typ": multi-wire
 #import "helpers/feeder.typ": feeder

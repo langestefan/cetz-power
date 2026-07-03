@@ -94,12 +94,8 @@
   wire((2.56, ym), (3.38, ym))
   wire((3.38, ym), (3.65, ym))
   transformer("t12", (3.65, ym), (4.39, ym), radius: 0.18, distance: 0.2)
-  cetz.draw.line(
-    (3.73, ym - 0.27),
-    (4.3, ym + 0.3), // OLTC arrow through the rings
-    stroke: 0.7pt,
-    mark: (end: ">", fill: black, scale: 0.5),
-  )
+  // OLTC arrow through the rings
+  flow-arrow((3.73, ym - 0.27), (4.3, ym + 0.3), stroke: 0.7pt, scale: 0.5)
   cetz.draw.content((4.02, ym - 0.66), [10/0.4 kV])
   wire((4.39, ym), (x2, ym))
   bus("1", (3.38, ym - 0.5), (3.38, ym + 0.5))

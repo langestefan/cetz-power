@@ -1,0 +1,49 @@
+---
+title: Device block
+description: Labelled rectangular box for "black box" devices — wind plants, batteries, PV parks, controllers — with body content, colour-coded fill and full compass/corner anchors.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+A plain rectangular box for the elements of a diagram whose internals
+are out of scope: plant units, controllers, aggregators. The `body:`
+content is drawn centred inside the box; the regular `label:` dict
+captions it on the outside, and the compass anchors wire it up.
+
+<Snippet name="block-example" />
+
+## Colour-coded device rows
+
+Pass `fill:` to colour-code by device type — the wind / BESS / PV row
+of a plant diagram is three blocks and three transformers:
+
+<Snippet name="block-devices" />
+
+## Inline placement
+
+Two-node placement puts the body at the midpoint of `in` → `out` with
+leads to both endpoints:
+
+<Snippet name="block-inline" />
+
+## Parameters
+
+| Name        | Default         | Description                                                        |
+| ----------- | --------------- | ------------------------------------------------------------------ |
+| `body`      | `none`          | Content drawn centred inside the box (e.g. `[wind]`).              |
+| `body-size` | `8pt`           | Font size for `body`.                                              |
+| `width`     | `1.15`          | Box width.                                                         |
+| `height`    | `0.55`          | Box height.                                                        |
+| `stroke`    | `0.8pt + black` | Box outline.                                                       |
+| `fill`      | `none`          | Box fill — the conventional way to colour-code devices.            |
+| `label`     | `none`          | Standard label dict (default `anchor: "south"`, `distance: 0.15`). |
+| `angle`     | `0deg`          | Rotation (one-node placement only).                                |
+
+## Anchors
+
+| Anchor                                                 | Position                                             |
+| ------------------------------------------------------ | ---------------------------------------------------- |
+| `in`, `out`                                            | The two endpoints (two-node); the origin (one-node). |
+| `center`                                               | Centre of the box.                                   |
+| `north`, `south`, `east`, `west`                       | Edge midpoints of the box.                           |
+| `north-west`, `north-east`, `south-west`, `south-east` | The four corners.                                    |

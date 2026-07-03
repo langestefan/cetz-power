@@ -115,6 +115,36 @@
     label: (anchor: "north", distance: 0.3),
   ),
 
+  // ── Device block ────────────────────────────────────────────────
+  // Labelled rectangular box for "black box" devices (wind, BESS, PV,
+  // controllers). `body` is the content centred inside the box; the
+  // regular `label` dict captions it on the outside.
+  block: (
+    stroke: 0.8pt + black,
+    fill: none,
+    width: 1.15,
+    height: 0.55,
+    body: none,
+    "body-size": 8pt,
+    label: (anchor: "south", distance: 0.15),
+  ),
+
+  // ── Battery ─────────────────────────────────────────────────────
+  // IEC cell(s): long (positive) plate over a short (negative) one,
+  // repeated `cells` times. Two-pole by default; override
+  // `lead-out: 0` for the single-pole form.
+  battery: (
+    stroke: 0.8pt + black,
+    cells: 1,
+    "long-width": 0.5,
+    "short-width": 0.22,
+    gap: 0.12,
+    "cell-gap": 0.18,
+    "lead-in": 0.3,
+    "lead-out": 0.3,
+    label: (anchor: "north", distance: 0.15),
+  ),
+
   // ── Capacitor ────────────────────────────────────────────────────
   // Two parallel plates with a lead at each end (the symmetric, two-
   // pole textbook form). For a single-line shunt with no ground return,

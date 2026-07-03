@@ -1,0 +1,57 @@
+---
+title: Battery
+description: IEC battery cells — a long positive plate over a short negative one, stackable with cells. The single-line shorthand for BESS units and DC auxiliaries.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+The IEC cell symbol: a long thin line (positive plate) over a short
+one (negative plate), with a lead at each end. Default orientation
+puts `in` (negative) at the bottom and `out` (positive) at the top.
+
+<Snippet name="battery-example" />
+
+## Cell count
+
+`cells:` repeats the plate pair for the common multi-cell forms:
+
+<Snippet name="battery-cells" />
+
+## In a BESS unit
+
+Combined with a [`converter`](/symbols/electrical/converter/), the
+battery-behind-inverter unit is two symbols and two wires — rotate the
+battery with `angle: -90deg` so its positive terminal faces the
+converter's DC side:
+
+<Snippet name="battery-bess" />
+
+## Single-pole form
+
+Pass `lead-out: 0` to drop the upper lead, e.g. when the battery
+terminates against a busbar. Like the capacitor, `out`/`north` then
+land on the top plate so chained wiring keeps working.
+
+## Parameters
+
+| Name          | Default         | Description                                                        |
+| ------------- | --------------- | ------------------------------------------------------------------ |
+| `cells`       | `1`             | Number of long/short plate pairs.                                  |
+| `long-width`  | `0.5`           | Width of the long (positive) plate.                                |
+| `short-width` | `0.22`          | Width of the short (negative) plate.                               |
+| `gap`         | `0.12`          | Vertical distance between the plates of one cell.                  |
+| `cell-gap`    | `0.18`          | Vertical distance between consecutive cells.                       |
+| `lead-in`     | `0.3`           | Lead below the stack.                                              |
+| `lead-out`    | `0.3`           | Lead above the stack. `0` drops it (single-pole form).             |
+| `stroke`      | `0.8pt + black` | Stroke for leads and plates.                                       |
+| `label`       | `none`          | Standard label dict (default `anchor: "north"`, `distance: 0.15`). |
+| `angle`       | `0deg`          | Rotation around the connection point.                              |
+
+## Anchors
+
+| Anchor                     | Position                                              |
+| -------------------------- | ----------------------------------------------------- |
+| `in` / `default` / `south` | The negative terminal — the connection point.         |
+| `out` / `north`            | The positive terminal (top plate when `lead-out: 0`). |
+| `east`, `west`             | Long-plate ends at mid-height.                        |
+| `center`                   | Centre of the cell stack.                             |

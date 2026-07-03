@@ -140,23 +140,17 @@
   // ── Per-phase current annotations ──
   // Red arrows on phases a and b point back toward the source; on
   // phase c the current points toward the fault on the right.
-  cetz.draw.line((1.5, y-a), (0.5, y-a), stroke: 1pt + r, mark: (
-    end: ">",
-    fill: r,
-  ))
-  cetz.draw.content((1.0, y-a + 0.22), text(size: 6pt, fill: r)[$I_(k 1 a)$])
-
-  cetz.draw.line((1.5, y-b), (0.5, y-b), stroke: 1pt + r, mark: (
-    end: ">",
-    fill: r,
-  ))
-  cetz.draw.content((1.0, y-b + 0.22), text(size: 6pt, fill: r)[$I_(k 1 b)$])
-
-  cetz.draw.line((0.5, y-c), (1.5, y-c), stroke: 1pt + r, mark: (
-    end: ">",
-    fill: r,
-  ))
-  cetz.draw.content((1.0, y-c + 0.22), text(size: 6pt, fill: r)[$I_(k 1 c)$])
+  let iarrow(a, b, lbl) = flow-arrow(
+    a,
+    b,
+    label: text(fill: r)[#lbl],
+    size: 6pt,
+    distance: 0.12,
+    stroke: 1pt + r,
+  )
+  iarrow((1.5, y-a), (0.5, y-a), [$I_(k 1 a)$])
+  iarrow((1.5, y-b), (0.5, y-b), [$I_(k 1 b)$])
+  iarrow((0.5, y-c), (1.5, y-c), [$I_(k 1 c)$])
 
   // ── Three phase-to-ground capacitances ──
   // Blue lead from each phase down to its cap, then the cap with
@@ -207,17 +201,15 @@
 
   // Charging-current arrows on the upper part of each cap lead (red,
   // pointing up toward the phase line) — same as the source figure.
-  cetz.draw.line(
+  flow-arrow(
     (cap1-x + 0.12, cap-top + 0.05),
     (cap1-x + 0.12, y-a - 0.10),
     stroke: 1pt + r,
-    mark: (end: ">", fill: r),
   )
-  cetz.draw.line(
+  flow-arrow(
     (cap2-x + 0.12, cap-top + 0.05),
     (cap2-x + 0.12, y-b - 0.10),
     stroke: 1pt + r,
-    mark: (end: ">", fill: r),
   )
 
   // ── Lightning bolt on phase c — the fault current `Ikt` ──

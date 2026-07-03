@@ -37,18 +37,6 @@
       cetz.draw.content((cx - off, cy), anchor: "east", txt)
     }
   }
-  // coloured device block centred on `c`.
-  let devbox(c, fill, lbl) = {
-    let w = 1.15
-    let h = 0.5
-    cetz.draw.rect(
-      (c.at(0) - w / 2, c.at(1) - h / 2),
-      (c.at(0) + w / 2, c.at(1) + h / 2),
-      fill: fill,
-      stroke: 0.8pt + black,
-    )
-    cetz.draw.content(c, text(size: 8pt)[#lbl])
-  }
   // load arrow: small, with optional elbow + direction.
   let ld(name, p, ang: 0deg, e: 0) = load(
     name,
@@ -180,9 +168,9 @@
   wire(P(609, 376), P(600, 376)) // PV → Tpv
 
   // ── device blocks ───────────────────────────────────────────────
-  devbox(P(293, 317), blue, [wind])
-  devbox(P(380, 381), pink, [BESS])
-  devbox(P(632, 376), gold, [PV])
+  block("wind", P(293, 317), body: [wind], fill: blue, height: 0.5)
+  block("bess", P(380, 381), body: [BESS], fill: pink, height: 0.5)
+  block("pv", P(632, 376), body: [PV], fill: gold, height: 0.5)
 
   // ── loads (constant-power arrows; small, interior taps) ─────────
   ld("l5", P(319.5, 104)) // bus 5 (down, centre)

@@ -1,0 +1,35 @@
+---
+title: Flow arrow
+description: Annotation arrow for power-flow and current direction — solid or dashed line, always with a clean solid arrowhead, and an optional caption at the midpoint.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+`flow-arrow` draws an _annotation_ arrow — a power-flow direction, a
+current reference, a legend entry, a tap-changer arrow — with an
+optional caption beside its midpoint. It is not a conductor: anything
+that carries the circuit should be a [`wire`](/symbols/grid/wire/).
+
+<Snippet name="flow-arrow-example" />
+
+## Dashed arrows keep solid heads
+
+The CeTZ gotcha this helper hides: a dashed line's arrowhead inherits
+the dash pattern and renders broken unless the mark gets its own solid
+stroke. `flow-arrow` always rebuilds the mark stroke from the line's
+paint and thickness, so "return flow" arrows come out clean:
+
+<Snippet name="flow-arrow-dashed" />
+
+## Parameters
+
+| Name       | Default         | Description                                                                 |
+| ---------- | --------------- | --------------------------------------------------------------------------- |
+| `from`     | —               | Arrow tail — any CeTZ coordinate (anchor, tuple, lerp).                     |
+| `to`       | —               | Arrow tip.                                                                  |
+| `label`    | `none`          | Caption beside the midpoint (drawn via [`note`](/helpers/feeder/)).         |
+| `side`     | `"north"`       | Which side of the midpoint the caption sits on.                             |
+| `distance` | `0.15`          | Gap between the midpoint and the caption.                                   |
+| `size`     | `7pt`           | Caption font size.                                                          |
+| `stroke`   | `0.8pt + black` | Line stroke — paint, thickness and dash all honoured; the head stays solid. |
+| `scale`    | `1`             | Arrowhead scale.                                                            |
