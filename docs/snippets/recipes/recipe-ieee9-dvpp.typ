@@ -49,17 +49,16 @@
   )
 
   // ── DVPP background area (drawn first, behind everything) ────────
-  cetz.draw.rect(
+  area(
+    "dvpp",
     P(232, 400),
     P(680, 226),
+    title: text(fill: gold.darken(8%))[DVPP\ area],
+    side: "south-west",
+    size: 8pt,
     fill: gray.lighten(58%),
     stroke: (dash: "dashed", paint: gray.darken(25%), thickness: 0.6pt),
     radius: 0.12,
-  )
-  cetz.draw.content(
-    P(244, 378),
-    anchor: "west",
-    text(size: 8pt, fill: gold.darken(8%))[DVPP\ area],
   )
 
   // ── transmission buses (vertical, centred on yc) ────────────────

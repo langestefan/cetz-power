@@ -154,6 +154,7 @@ export default defineConfig({
             { label: 'Bus run', slug: 'helpers/bus-run' },
             { label: 'DALI metering unit', slug: 'helpers/dali' },
             { label: 'Flow arrow', slug: 'helpers/flow-arrow' },
+            { label: 'Area box', slug: 'helpers/area' },
           ],
         },
         {

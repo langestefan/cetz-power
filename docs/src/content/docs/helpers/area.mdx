@@ -1,0 +1,49 @@
+---
+title: Area box
+description: Dashed (or filled) boundary rectangle that groups part of a network — station envelopes, feeder boundaries, plant areas — with a title tucked into a corner or edge.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+`area` draws the boundary rectangle that groups part of a network — a
+station envelope, a feeder boundary, a plant or TSO/DSO area — with an
+optional title at any compass side or corner. Draw areas **first**:
+they are backdrops, and everything drawn later sits on top.
+
+Design rule: the border may be crossed by _leads_, but should not
+slice through a symbol body — size the box so its edge falls in the
+gap between the boundary symbols and the first inside element.
+
+<Snippet name="area-example" />
+
+## Backdrop styles
+
+`fill`, `radius` and `stroke: none` cover the filled-plant-area and
+borderless-backdrop looks; `inside: false` puts the title outside the
+border:
+
+<Snippet name="area-styles" />
+
+## Named anchors
+
+The rectangle is a named CeTZ element, so `"<name>.west"`,
+`"<name>.north-east"`, … remain available for routing leads to the
+boundary or hanging annotations off it:
+
+<Snippet name="area-anchors" />
+
+## Parameters
+
+| Name         | Default                              | Description                                                        |
+| ------------ | ------------------------------------ | ------------------------------------------------------------------ |
+| `name`       | —                                    | CeTZ element name (exposes the rectangle's compass anchors).       |
+| `a`, `b`     | —                                    | Two opposite corners.                                              |
+| `title`      | `none`                               | Caption content.                                                   |
+| `side`       | `"north-west"`                       | Compass side/corner the title sits at.                             |
+| `inside`     | `true`                               | Title just inside (`true`) or outside (`false`) the border.        |
+| `distance`   | `0.12`                               | Gap between the border and the title.                              |
+| `size`       | `7pt`                                | Title font size (an explicit `text(...)` in `title` overrides it). |
+| `text-align` | `auto`                               | Multi-line title alignment.                                        |
+| `stroke`     | `(dash: "dashed", thickness: 0.6pt)` | Border stroke; `none` for a borderless backdrop.                   |
+| `fill`       | `none`                               | Area backdrop fill.                                                |
+| `radius`     | `0`                                  | Corner radius.                                                     |

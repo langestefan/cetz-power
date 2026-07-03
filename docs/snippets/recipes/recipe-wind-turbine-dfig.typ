@@ -128,13 +128,15 @@
   // ── Converter (rotor path) ─────────────────────────────────────
   // Box placed `d-conv` right of the Gondel bus; wedge tip 0.5 left of
   // the box, its base on the box's left edge (lines into NW / SW corners).
-  cetz.draw.rect(
+  area(
+    "conv",
     (rel: (d-conv, -ch / 2), to: "b6.mid"),
     (rel: (d-conv + cw, ch / 2), to: "b6.mid"),
-    name: "conv",
+    title: [Converter],
+    side: "north",
+    distance: 0.1,
     stroke: dashed,
   )
-  cetz.draw.content("conv.north", anchor: "north", padding: 0.1, [Converter])
 
   let apex = (rel: (-0.5, 0), to: "conv.west")
   wire("b6.mid", apex)
@@ -166,7 +168,8 @@
   wire("conv.north", "G2.south", stroke: dashed)
 
   // ── Turbine envelope (dashed boundary) ─────────────────────────
-  cetz.draw.rect(
+  area(
+    "turbine",
     (rel: (-0.6, -1.0), to: "b6.mid"),
     (rel: (0.2, 1.2), to: ("conv.east", "|-", "b5.mid")),
     stroke: dashed,

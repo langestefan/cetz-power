@@ -213,8 +213,20 @@
 
   // ── Dashed feeder boundary boxes (small gap between them) ────────
   let dash = (dash: "dashed", paint: black, thickness: 0.5pt)
-  cetz.draw.rect((-3.3, 0.9), (3.3, 7.6), stroke: dash)
-  cetz.draw.content((-3.2, 7.5), anchor: "north-west", [Feeder 1])
-  cetz.draw.rect((3.5, 0.9), (6.6, 7.6), stroke: dash)
-  cetz.draw.content((3.6, 7.5), anchor: "north-west", [Feeder 2])
+  area(
+    "f1",
+    (-3.3, 0.9),
+    (3.3, 7.6),
+    title: [Feeder 1],
+    distance: 0.1,
+    stroke: dash,
+  )
+  area(
+    "f2",
+    (3.5, 0.9),
+    (6.6, 7.6),
+    title: [Feeder 2],
+    distance: 0.1,
+    stroke: dash,
+  )
 })

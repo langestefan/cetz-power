@@ -50,14 +50,26 @@
   let kf = (bus-top - koppy) / (bus-top - bus-bot) // Koppelveld fraction
 
   // ── Station envelopes (drawn first, behind everything) ─────────
-  cetz.draw.rect((on-x0, box-top), (on-x1, box-bot), stroke: dashed)
-  cetz.draw.content(((on-x0 + on-x1) / 2, box-top - 0.25), text(
+  area(
+    "os",
+    (on-x0, box-top),
+    (on-x1, box-bot),
+    title: [Onderstation],
+    side: "north",
     size: 9pt,
-  )[Onderstation])
-  cetz.draw.rect((sc-x0, box-top), (sc-x1, box-bot), stroke: dashed)
-  cetz.draw.content(((sc-x0 + sc-x1) / 2, box-top - 0.25), text(
+    distance: 0.09,
+    stroke: dashed,
+  )
+  area(
+    "ss",
+    (sc-x0, box-top),
+    (sc-x1, box-bot),
+    title: [Schakelstation],
+    side: "north",
     size: 9pt,
-  )[Schakelstation])
+    distance: 0.09,
+    stroke: dashed,
+  )
 
   // ── HV feed (green): V → TS bar → TS/MS transformer → OS-MS ────
   // The whole feed sits at `forky`, so its lead meets the OS-MS bar between
