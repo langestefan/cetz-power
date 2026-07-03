@@ -165,6 +165,7 @@ export default defineConfig({
             { label: 'DALI metering unit', slug: 'helpers/dali' },
             { label: 'Flow arrow', slug: 'helpers/flow-arrow' },
             { label: 'Area box', slug: 'helpers/area' },
+            { label: 'Phase ticks', slug: 'helpers/phase-ticks' },
           ],
         },
         {

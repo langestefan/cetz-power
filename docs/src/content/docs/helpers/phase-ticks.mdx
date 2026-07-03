@@ -1,0 +1,29 @@
+---
+title: Phase ticks
+description: The slanted slash marks across a conductor that state its phase/conductor count — three slashes for the usual three-phase marking.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+`phase-ticks` draws the small slanted slashes across a conductor that
+mark its phase/conductor count — the `-///-` three-phase notation.
+Position it with any CeTZ coordinate (a lerp between two anchors is
+the usual choice) and pass the conductor's direction as `angle:`.
+
+<Snippet name="phase-ticks-example" />
+
+## Direction and count
+
+<Snippet name="phase-ticks-variants" />
+
+## Parameters
+
+| Name      | Default         | Description                                                     |
+| --------- | --------------- | --------------------------------------------------------------- |
+| `pos`     | —               | Where the tick group sits — any CeTZ coord (anchor/tuple/lerp). |
+| `angle`   | `0deg`          | Conductor direction (`-90deg` for a vertical run).              |
+| `count`   | `3`             | Number of ticks.                                                |
+| `spacing` | `0.07`          | Distance between tick centres along the conductor.              |
+| `length`  | `0.21`          | Length of each tick stroke.                                     |
+| `slant`   | `55deg`         | Tick angle relative to the conductor.                           |
+| `stroke`  | `0.7pt + black` | Tick stroke.                                                    |

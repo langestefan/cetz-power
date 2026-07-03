@@ -15,17 +15,7 @@
 
   // ── Helpers ─────────────────────────────────────────────────────
   // three diagonal phase-conductor ticks across a segment.
-  let ticks(p, ang) = cetz.draw.group({
-    cetz.draw.set-origin(p)
-    cetz.draw.rotate(ang)
-    for o in (-0.07, 0.0, 0.07) {
-      cetz.draw.line(
-        (o - 0.06, -0.085),
-        (o + 0.06, 0.085),
-        stroke: 0.7pt + black,
-      )
-    }
-  })
+  let ticks(p, ang) = phase-ticks(p, angle: ang)
   let dl(a, b, c, s) = note(
     (a, 50%, b),
     text(size: 5pt)[#c],

@@ -81,6 +81,7 @@
 #import "helpers/area.typ": area
 #import "helpers/flow-arrow.typ": flow-arrow
 #import "helpers/note.typ": note
+#import "helpers/phase-ticks.typ": phase-ticks
 #import "helpers/multi-wire.typ": multi-wire
 #import "helpers/feeder.typ": feeder
 #import "helpers/bus-run.typ": bus-run
