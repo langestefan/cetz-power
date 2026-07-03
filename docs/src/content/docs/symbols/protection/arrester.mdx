@@ -1,0 +1,46 @@
+---
+title: Surge arrester
+description: IEC surge arrester — a rectangle on the conductor with a filled arrow pointing toward the earthed side. The standard overvoltage shunt in substation one-lines.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+Overvoltage protection: a rectangle on the conductor with a filled
+arrow inside pointing toward the earthed side (the IEC convention).
+In a one-line it almost always hangs as a **shunt** between a phase
+conductor and earth — terminate `out` on a
+[`ground`](/symbols/electrical/ground/):
+
+<Snippet name="arrester-example" />
+
+## Direction
+
+The internal arrow points from `in` toward `out`, so always aim `out`
+at the earthed side, whatever the orientation:
+
+<Snippet name="arrester-direction" />
+
+## Parameters
+
+| Name          | Default         | Description                                                        |
+| ------------- | --------------- | ------------------------------------------------------------------ |
+| `length`      | `0.6`           | Body length along the lead axis.                                   |
+| `width`       | `0.26`          | Body width perpendicular to the leads.                             |
+| `head-length` | `0.2`           | Length of the internal arrowhead.                                  |
+| `head-width`  | `0.15`          | Width of the internal arrowhead.                                   |
+| `head-fill`   | `auto`          | Arrowhead fill; `auto` uses the stroke paint.                      |
+| `stroke`      | `0.8pt + black` | Leads, body and arrow stroke.                                      |
+| `fill`        | `none`          | Body fill.                                                         |
+| `label`       | `none`          | Standard label dict (default `anchor: "north"`, `distance: 0.15`). |
+
+## Anchors
+
+| Anchor                           | Position            |
+| -------------------------------- | ------------------- |
+| `in`, `out`                      | The two endpoints.  |
+| `center`                         | Centre of the body. |
+| `north`, `south`, `east`, `west` | Sides of the body.  |
+
+## Styling
+
+<Snippet name="arrester-styling" />

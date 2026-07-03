@@ -246,6 +246,21 @@
     label: (anchor: "north", distance: 0.15),
   ),
 
+  // ── Surge arrester ──────────────────────────────────────────────
+  // Rectangle on the conductor with a filled arrow inside pointing
+  // toward the earthed side (IEC convention). `head-fill: auto`
+  // resolves to the stroke paint.
+  arrester: (
+    stroke: 0.8pt + black,
+    fill: none,
+    length: 0.6,
+    width: 0.26,
+    "head-length": 0.2,
+    "head-width": 0.15,
+    "head-fill": auto,
+    label: (anchor: "north", distance: 0.15),
+  ),
+
   // ── Fuse ────────────────────────────────────────────────────────
   // Rectangle with a wire through it (IEC convention).
   fuse: (

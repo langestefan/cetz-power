@@ -63,6 +63,7 @@
 #import "symbols/electrical/bolt.typ": bolt
 
 // Protection & switching
+#import "symbols/protection/arrester.typ": arrester
 #import "symbols/protection/switch.typ": switch
 #import "symbols/protection/breaker.typ": breaker
 #import "symbols/protection/fuse.typ": fuse

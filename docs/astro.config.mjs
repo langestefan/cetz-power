@@ -143,6 +143,10 @@ export default defineConfig({
                   slug: 'symbols/protection/breaker',
                 },
                 { label: 'Fuse', slug: 'symbols/protection/fuse' },
+                {
+                  label: 'Surge arrester',
+                  slug: 'symbols/protection/arrester',
+                },
               ],
             },
           ],
