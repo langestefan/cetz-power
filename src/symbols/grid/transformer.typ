@@ -25,6 +25,11 @@
 ///   (in-side) winding. Defaults to `stroke` / `fill`.
 /// - secondary-stroke / secondary-fill: per-side override for the right
 ///   (out-side) winding. Defaults to `stroke` / `fill`.
+/// - oltc (bool): `true` draws the on-load tap-changer arrow — a thin
+///   diagonal arrow through both circles, from below the primary side
+///   to above the secondary side.
+/// - oltc-stroke: stroke for the OLTC arrow (default thinner than the
+///   winding stroke).
 /// - label: optional label
 /// -> content
 #let transformer(name, ..args) = {
@@ -69,6 +74,23 @@
     cetz.draw.circle((d / 2, 0), radius: r, stroke: none, fill: sf)
     cetz.draw.circle((-d / 2, 0), radius: r, stroke: ps, fill: none)
     cetz.draw.circle((d / 2, 0), radius: r, stroke: ss, fill: none)
+
+    // On-load tap changer: a thin diagonal arrow through both circles
+    // (lower-left → upper-right), sized off the body so it scales with
+    // radius/distance overrides.
+    if style.at("oltc", default: false) {
+      let os = style.at("oltc-stroke", default: 0.7pt + black)
+      let paint = std.stroke(os).paint
+      if paint == auto { paint = black }
+      let ax = x-right * 1.02
+      let ay = r * 1.55
+      cetz.draw.line(
+        (-ax, -ay),
+        (ax, ay),
+        stroke: os,
+        mark: (end: ">", fill: paint, scale: 0.5),
+      )
+    }
 
     cetz.draw.anchor("in", (x-left, 0))
     cetz.draw.anchor("out", (x-right, 0))

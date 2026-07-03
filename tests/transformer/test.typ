@@ -33,3 +33,18 @@
   bus("b2", (3, 0), length: 1.4, angle: 90deg)
   transformer("t1", "b1.mid", "b2.mid")
 })
+
+// On-load tap changer: diagonal arrow through the rings, horizontal
+// and vertical placement, scaled with the body.
+#test({
+  transformer("t1", (0, 0), (2, 0), oltc: true)
+  transformer("t2", (3.2, -0.9), (3.2, 0.9), radius: 0.3, oltc: true)
+  transformer(
+    "t3",
+    (4.6, 0),
+    (6.2, 0),
+    radius: 0.18,
+    distance: 0.2,
+    oltc: true,
+  )
+})

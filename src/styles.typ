@@ -59,6 +59,10 @@
     distance: 0.35,
     stroke: 0.8pt + black,
     fill: none,
+    // On-load tap changer: `oltc: true` draws the thin diagonal arrow
+    // through both circles (lower-left → upper-right).
+    oltc: false,
+    "oltc-stroke": 0.7pt + black,
     label: (anchor: "north", distance: 0.2),
   ),
 
