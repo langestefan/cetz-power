@@ -1,0 +1,55 @@
+---
+title: Converter
+description: Power-electronic converter — the IEC box split by a diagonal, with a waveform glyph in each triangle. Covers ac-dc, dc-ac, ac-ac and dc-dc modes.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+The IEC power-electronic converter symbol: a square box split by a
+diagonal, with a port glyph in each triangle — a sine wave for an AC
+port, the solid-over-dashed IEC mark for a DC port. One symbol covers
+rectifiers, inverters, and AC/AC or DC/DC couplers via the `kind:`
+parameter.
+
+<Snippet name="converter-example" />
+
+## Conversion modes
+
+`kind:` is `"<in>-<out>"` with each token `"ac"` or `"dc"`. The first
+token is drawn in the upper-left triangle (the `in` side), the second
+in the lower-right one (the `out` side):
+
+<Snippet name="converter-modes" />
+
+## Placement
+
+Two-node placement puts the body at the midpoint of `in` → `out` with
+leads to both endpoints, like a transformer — handy for an inline
+converter between two buses:
+
+<Snippet name="converter-inline" />
+
+One-node placement centres the box on the position; wire it up through
+the compass anchors. This is the usual form for converter _blocks_
+(GFM / GFL units, PV inverters) hanging off a network:
+
+<Snippet name="converter-styling" />
+
+## Parameters
+
+| Name     | Default         | Description                                                        |
+| -------- | --------------- | ------------------------------------------------------------------ |
+| `kind`   | `"ac-dc"`       | Conversion mode: `"ac-dc"`, `"dc-ac"`, `"ac-ac"` or `"dc-dc"`.     |
+| `size`   | `0.7`           | Side length of the square box.                                     |
+| `stroke` | `0.8pt + black` | Stroke for the box, the diagonal and both port glyphs.             |
+| `fill`   | `none`          | Box fill.                                                          |
+| `label`  | `none`          | Standard label dict (default `anchor: "south"`, `distance: 0.15`). |
+| `angle`  | `0deg`          | Rotation (one-node placement only).                                |
+
+## Anchors
+
+| Anchor                           | Position                                             |
+| -------------------------------- | ---------------------------------------------------- |
+| `in`, `out`                      | The two endpoints (two-node); the origin (one-node). |
+| `center`                         | Centre of the box.                                   |
+| `north`, `south`, `east`, `west` | Edge midpoints of the box.                           |

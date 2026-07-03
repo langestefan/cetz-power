@@ -1,0 +1,41 @@
+---
+title: IEEE 9-bus with GFM converters
+description: The IEEE nine-bus test system in its converter-dominated form — grid-forming converters GFM 1–3 behind the machine buses, grid-following converter loads at buses 5 and 8, and a synchronous generator sharing bus 8.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+The **IEEE nine-bus** test system in its converter-dominated form (as
+used for Monte-Carlo validation of small-signal stability conditions):
+the three machine buses 1–3 carry **grid-forming converters GFM 1–3**
+behind their step-up transformers, two **grid-following converter
+loads** tie in through their own transformers (GFL load 1 at bus 5,
+GFL load 2 at bus 8), a **synchronous generator SG** shares bus 8, and
+bus 6 carries a constant-power load.
+
+<Snippet name="recipe-ieee9-gfm" />
+
+## How it's built
+
+- **Converter blocks are the stock symbol.** Every GFM / GFL unit is a
+  [`converter`](/symbols/electrical/converter/) box — black lines with
+  a light-blue (GFM) or grey (GFL) interior — wired to its bus or
+  transformer through a compass anchor, no floating boxes. Each box
+  faces its **AC (≈) triangle toward the grid connection**: boxes left
+  of their connection use `kind: "dc-ac"`, the rest keep the default
+  `"ac-dc"`.
+- **Mirror symmetry about bus 8 / bus 4.** Buses 7 and 9, buses 5 and
+  6, and the two funnel diagonals into bus 4 are exact reflections:
+  equal elbow stubs off the rail buses, equal perpendicular stubs at
+  both ends of each diagonal.
+- **Interior taps everywhere.** The drops leave the vertical rail
+  buses from their _body_ (a short horizontal stub, then an elbow
+  down), never from a bar tip; bus 5 and bus 6 carry their two
+  connections at equal spacing and equal edge margins.
+- **Two feeders off bus 8.** The GFL-load-2 and SG branches each leave
+  the bottom of bus 8 through their own double-L route (a short stub
+  out of the bar body, down, then across into the transformer lead),
+  with the two transformer bodies equidistant from the bus-8 axis.
+- **The SG is a stock symbol too** — a
+  [`voltagesource`](/symbols/electrical/voltagesource/) with
+  `kind: "sin"`, the circle-with-sine generator.

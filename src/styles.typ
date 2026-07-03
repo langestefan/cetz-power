@@ -248,6 +248,18 @@
     label: (anchor: "north", distance: 0.2),
   ),
 
+  // ── Power-electronic converter ──────────────────────────────────
+  // IEC box-with-diagonal. `kind: "<in>-<out>"` picks the glyph in
+  // each triangle: "ac-dc" (rectifier), "dc-ac" (inverter), "ac-ac",
+  // "dc-dc". The `in` glyph sits in the upper-left triangle.
+  converter: (
+    stroke: 0.8pt + black,
+    fill: none,
+    size: 0.7,
+    kind: "ac-dc",
+    label: (anchor: "south", distance: 0.15),
+  ),
+
   // ── External grid / infinite bus ────────────────────────────────
   grid: (
     size: 0.9,

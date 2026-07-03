@@ -128,6 +128,7 @@ export default defineConfig({
                   slug: 'symbols/electrical/currentsource',
                 },
                 { label: 'Ground', slug: 'symbols/electrical/ground' },
+                { label: 'Converter', slug: 'symbols/electrical/converter' },
               ],
             },
             {
@@ -191,6 +192,10 @@ export default defineConfig({
             {
               label: 'Modified IEEE 9-bus with DVPP',
               slug: 'recipes/ieee9-dvpp',
+            },
+            {
+              label: 'IEEE 9-bus with GFM converters',
+              slug: 'recipes/ieee9-gfm',
             },
             {
               label: 'MV radial distribution feeder',

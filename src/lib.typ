@@ -56,6 +56,7 @@
 #import "symbols/electrical/diode.typ": diode
 #import "symbols/electrical/voltagesource.typ": voltagesource
 #import "symbols/electrical/currentsource.typ": currentsource
+#import "symbols/electrical/converter.typ": converter
 #import "symbols/electrical/ground.typ": ground
 #import "symbols/electrical/bolt.typ": bolt
 
