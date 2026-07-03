@@ -1,0 +1,40 @@
+---
+title: Current transformer
+description: Instrument CT — a circle on the conductor with the primary passing straight through; the secondary taps a compass anchor to the meter or relay.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+The one-line current transformer: a circle sitting **on** the
+conductor, primary passing straight through. Wire the secondary from
+a compass anchor (they sit on the circle), perpendicular to the run:
+
+<Snippet name="ct-example" />
+
+## Placement
+
+One-node drops the circle onto an existing run (as above); two-node
+draws the conductor through the circle in the same call:
+
+<Snippet name="ct-inline" />
+
+For a complete metered bay with both instrument transformers see
+[Voltage transformer](/symbols/grid/vt/).
+
+## Parameters
+
+| Name     | Default         | Description                                                       |
+| -------- | --------------- | ----------------------------------------------------------------- |
+| `radius` | `0.16`          | Circle radius.                                                    |
+| `stroke` | `0.8pt + black` | Circle stroke.                                                    |
+| `fill`   | `none`          | Circle fill.                                                      |
+| `label`  | `none`          | Standard label dict (default `anchor: "north"`, `distance: 0.2`). |
+| `angle`  | `0deg`          | Rotation (one-node placement only).                               |
+
+## Anchors
+
+| Anchor                           | Position                                             |
+| -------------------------------- | ---------------------------------------------------- |
+| `in`, `out`                      | The two endpoints (two-node); the origin (one-node). |
+| `center`                         | Circle centre.                                       |
+| `north`, `south`, `east`, `west` | On the circle — safe secondary-wire endpoints.       |

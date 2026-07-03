@@ -85,6 +85,8 @@ export default defineConfig({
                   label: 'Transformer (3-winding)',
                   slug: 'symbols/grid/transformer3',
                 },
+                { label: 'Current transformer', slug: 'symbols/grid/ct' },
+                { label: 'Voltage transformer', slug: 'symbols/grid/vt' },
               ],
             },
             {

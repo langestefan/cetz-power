@@ -1,0 +1,41 @@
+---
+title: Voltage transformer
+description: Instrument VT / PT — a small two-winding transformer hanging below a tap on the measured conductor, sized for measurement drops.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+The one-line voltage transformer (VT / PT): a small two-winding
+transformer hanging off a **tap** on the measured conductor. It is
+the instrument-sized, one-node cousin of
+[`transformer`](/symbols/grid/transformer/) — place it on the tap
+point and wire the measurement drop from `out`:
+
+<Snippet name="vt-example" />
+
+## A metered bay
+
+CT and VT together instrument a feeder bay:
+
+<Snippet name="ct-vt-bay" />
+
+## Parameters
+
+| Name       | Default         | Description                                                       |
+| ---------- | --------------- | ----------------------------------------------------------------- |
+| `radius`   | `0.14`          | Circle radius.                                                    |
+| `distance` | `0.14`          | Centre-to-centre spacing of the two circles.                      |
+| `lead`     | `0.15`          | Stub from the tap down to the primary circle.                     |
+| `stroke`   | `0.8pt + black` | Lead and circle stroke.                                           |
+| `fill`     | `none`          | Circle fill.                                                      |
+| `label`    | `none`          | Standard label dict (default `anchor: "east"`, `distance: 0.15`). |
+| `angle`    | `0deg`          | Rotation around the tap (`180deg` points it upward).              |
+
+## Anchors
+
+| Anchor          | Position                                               |
+| --------------- | ------------------------------------------------------ |
+| `in` / `north`  | The tap point on the measured conductor.               |
+| `out` / `south` | Bottom of the secondary circle — the measurement drop. |
+| `center`        | Between the two circles.                               |
+| `east`, `west`  | Sides at mid-height.                                   |

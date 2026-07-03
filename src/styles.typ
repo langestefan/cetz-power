@@ -82,6 +82,27 @@
     label: (anchor: "north", distance: 0.2),
   ),
 
+  // ── Current transformer (instrument) ────────────────────────────
+  // Circle on the conductor, primary straight through. Secondary taps
+  // a compass anchor (they sit on the circle).
+  ct: (
+    radius: 0.16,
+    stroke: 0.8pt + black,
+    fill: none,
+    label: (anchor: "north", distance: 0.2),
+  ),
+
+  // ── Voltage transformer (instrument) ────────────────────────────
+  // Small two-winding transformer hanging below a tap point.
+  vt: (
+    radius: 0.14,
+    distance: 0.14,
+    lead: 0.15,
+    stroke: 0.8pt + black,
+    fill: none,
+    label: (anchor: "east", distance: 0.15),
+  ),
+
   // ── Load (arrow) ────────────────────────────────────────────────
   load: (
     size: 0.28,

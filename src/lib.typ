@@ -41,6 +41,8 @@
 #import "symbols/grid/external-grid.typ": external-grid
 #import "symbols/grid/transformer.typ": transformer
 #import "symbols/grid/transformer3.typ": transformer3
+#import "symbols/grid/ct.typ": ct
+#import "symbols/grid/vt.typ": vt
 
 // Generation
 #import "symbols/generation/block.typ": block
