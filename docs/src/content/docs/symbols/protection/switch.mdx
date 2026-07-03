@@ -20,6 +20,13 @@ The `in` and `out` anchors don't move when the state flips, so any
 wires you've routed to the switch keep their attachment points whether
 you flip `closed:` to `true` or back.
 
+## Earthing switch
+
+`earthing: true` draws the IEC earth-electrode mark at the `out` end —
+aim `out` at the earthed side; nothing further connects there:
+
+<Snippet name="switch-earthing" />
+
 ## Parameters
 
 | Name            | Default         | Description                                                                          |
@@ -28,6 +35,9 @@ you flip `closed:` to `true` or back.
 | `switch-length` | `0.45`          | Length of the bar (and the gap between the two pins on the wire).                    |
 | `pivot-radius`  | `0.045`         | Radius of the small filled circles drawn at each pin. `0` omits them — a bare blade. |
 | `open-angle`    | `30deg`         | Angle the bar tilts up from horizontal when open.                                    |
+| `earthing`      | `false`         | `true` draws the IEC earth-electrode mark at the `out` end (earthing switch).        |
+| `earth-width`   | `0.3`           | Length of the longest earth-mark line.                                               |
+| `earth-gap`     | `0.07`          | Spacing between the three earth-mark lines.                                          |
 | `stroke`        | `0.8pt + black` | Stroke for the bar and the lead stubs.                                               |
 | `label`         | `none`          | Standard label dict (default `anchor: "north"`, `distance: 0.18`).                   |
 

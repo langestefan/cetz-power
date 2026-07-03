@@ -28,6 +28,11 @@
 /// - pivot-radius (float): radius of the small filled circles drawn
 ///   at each pin. Pass `0` to omit the pin dots and draw just the
 ///   bare blade.
+/// - earthing (bool): `true` draws the IEC earth-electrode mark at
+///   the `out` end — the earthing-switch symbol. Aim `out` at the
+///   earthed side; nothing further connects there.
+/// - earth-width (float): length of the longest earth-mark line.
+/// - earth-gap (float): spacing between the three earth-mark lines.
 /// - stroke: standard style override.
 /// - label: standard label dict.
 /// -> content
@@ -41,6 +46,9 @@
     let pr = style.at("pivot-radius", default: 0.045)
     let oa = style.at("open-angle", default: 30deg)
     let closed = style.at("closed", default: false)
+    let earthing = style.at("earthing", default: false)
+    let ew = style.at("earth-width", default: 0.3)
+    let eg = style.at("earth-gap", default: 0.07)
 
     if positions.len() != 2 {
       assert(false, message: "switch() requires two positions (in, out)")
@@ -80,6 +88,18 @@
         sl * calc.sin(oa),
       )
       cetz.draw.line(pin-left, bar-end, stroke: s)
+    }
+
+    // Earthing switch: the IEC earth-electrode mark (three lines of
+    // decreasing length, perpendicular to the axis) at the out end.
+    if earthing {
+      for (i, w) in ((0, ew), (1, ew * 0.62), (2, ew * 0.28)) {
+        cetz.draw.line(
+          (half + i * eg, -w / 2),
+          (half + i * eg, w / 2),
+          stroke: s,
+        )
+      }
     }
 
     cetz.draw.anchor("center", (0, 0))

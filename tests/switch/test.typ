@@ -39,3 +39,14 @@
   switch("s", (0, 0), (0.6, 0), switch-length: 0.3, pivot-radius: 0)
   wire((0.6, 0), (1.1, 0))
 })
+
+// Earthing switch: earth mark at the out end, hanging off a bus.
+#test({
+  bus("b", (0, 0), length: 1.5)
+  switch("es", "b.mid", (0, -1.2), earthing: true)
+})
+
+// Earthing switch, closed (earthed) pose.
+#test({
+  switch("es", (0, 0), (1.4, 0), earthing: true, closed: true)
+})

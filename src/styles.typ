@@ -253,6 +253,11 @@
     "pivot-radius": 0.045,
     "open-angle": 30deg,
     closed: false,
+    // Earthing switch: draw the IEC earth-electrode mark at the `out`
+    // end (three lines of decreasing length, perpendicular to the axis).
+    earthing: false,
+    "earth-width": 0.3,
+    "earth-gap": 0.07,
     label: (anchor: "north", distance: 0.18),
   ),
 
