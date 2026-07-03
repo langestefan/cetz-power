@@ -1,0 +1,43 @@
+---
+title: Autotransformer
+description: Single-line IEC autotransformer — one circle (the common winding) with the through-conductor looping around it (the series winding). Optional OLTC arrow.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+The single-line autotransformer: **one** circle — the common winding —
+with the through-conductor detouring around it in an open loop — the
+series winding. The single circle is what distinguishes it from the
+two-circle [`transformer`](/symbols/grid/transformer/).
+
+<Snippet name="autotransformer-example" />
+
+## With an OLTC
+
+Autotransformers coupling transmission levels usually carry an on-load
+tap changer — `oltc: true` draws the arrow, exactly as on
+`transformer`:
+
+<Snippet name="autotransformer-oltc" />
+
+## Parameters
+
+| Name          | Default         | Description                                      |
+| ------------- | --------------- | ------------------------------------------------ |
+| `radius`      | `0.32`          | Circle radius; the loop scales with it.          |
+| `oltc`        | `false`         | `true` draws the on-load tap-changer arrow.      |
+| `oltc-stroke` | `0.7pt + black` | Stroke for the OLTC arrow.                       |
+| `stroke`      | `0.8pt + black` | Circle, loop and lead stroke.                    |
+| `fill`        | `none`          | Circle fill.                                     |
+| `label`       | `none`          | Standard label dict (default `anchor: "south"`). |
+| `angle`       | `0deg`          | Rotation (one-node placement only).              |
+
+## Anchors
+
+| Anchor         | Position                                          |
+| -------------- | ------------------------------------------------- |
+| `in`, `out`    | The two endpoints (loop start / circle far edge). |
+| `center`       | Circle centre.                                    |
+| `north`        | Above the loop (label-safe).                      |
+| `south`        | Below the circle.                                 |
+| `east`, `west` | Circle edges on the axis.                         |

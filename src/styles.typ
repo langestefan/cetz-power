@@ -66,6 +66,18 @@
     label: (anchor: "north", distance: 0.2),
   ),
 
+  // ── Autotransformer ─────────────────────────────────────────────
+  // Single-line IEC form: one circle (common winding) with the
+  // through-conductor looping around it (series winding).
+  autotransformer: (
+    radius: 0.32,
+    stroke: 0.8pt + black,
+    fill: none,
+    oltc: false,
+    "oltc-stroke": 0.7pt + black,
+    label: (anchor: "south", distance: 0.15),
+  ),
+
   // ── Three-winding transformer ───────────────────────────────────
   // Trefoil of three overlapping circles (HV left, LV upper-right,
   // TV lower-right). "distance" is the centre-to-centre spacing of the

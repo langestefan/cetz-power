@@ -39,6 +39,7 @@
 #import "symbols/grid/wire.typ": elbow, wire
 #import "symbols/grid/junction.typ": junction
 #import "symbols/grid/external-grid.typ": external-grid
+#import "symbols/grid/autotransformer.typ": autotransformer
 #import "symbols/grid/transformer.typ": transformer
 #import "symbols/grid/transformer3.typ": transformer3
 #import "symbols/grid/ct.typ": ct
