@@ -48,3 +48,20 @@
     oltc: true,
   )
 })
+
+// In-circle vector-group marks: Dy, Yd, Yz — horizontal and vertical
+// (the marks stay upright under rotation), plus size/stroke overrides.
+#test({
+  transformer("t1", (0, 0), (2, 0), vector: ("delta", "wye"))
+  transformer("t2", (3.2, -0.9), (3.2, 0.9), vector: ("wye", "delta"))
+  transformer("t3", (4.4, 0), (6.4, 0), vector: ("wye", "zigzag"), oltc: true)
+  transformer(
+    "t4",
+    (7.4, 0),
+    (9.0, 0),
+    radius: 0.3,
+    vector: ("delta", none),
+    vector-size: 0.6,
+    vector-stroke: 0.5pt + gray,
+  )
+})

@@ -14,15 +14,30 @@ from each endpoint to the corresponding circle.
 
 ## Parameters
 
-| Name          | Default         | Description                                             |
-| ------------- | --------------- | ------------------------------------------------------- |
-| `radius`      | `0.45`          | Radius of each circle.                                  |
-| `distance`    | `0.35`          | Centre-to-centre distance between the two circles.      |
-| `fill`        | `none`          | Fill colour for the circles.                            |
-| `stroke`      | `0.8pt`         | Stroke override.                                        |
-| `oltc`        | `false`         | `true` draws the on-load tap-changer arrow (see below). |
-| `oltc-stroke` | `0.7pt + black` | Stroke for the OLTC arrow.                              |
-| `label`       | `none`          | Typical use: voltage rating, e.g. `[132/11 kV]`.        |
+| Name            | Default         | Description                                                   |
+| --------------- | --------------- | ------------------------------------------------------------- |
+| `radius`        | `0.45`          | Radius of each circle.                                        |
+| `distance`      | `0.35`          | Centre-to-centre distance between the two circles.            |
+| `fill`          | `none`          | Fill colour for the circles.                                  |
+| `stroke`        | `0.8pt`         | Stroke override.                                              |
+| `oltc`          | `false`         | `true` draws the on-load tap-changer arrow (see below).       |
+| `oltc-stroke`   | `0.7pt + black` | Stroke for the OLTC arrow.                                    |
+| `vector`        | `none`          | In-circle winding marks, e.g. `("delta", "wye")` (see below). |
+| `vector-size`   | `0.45`          | Mark reach as a fraction of the circle radius.                |
+| `vector-stroke` | `auto`          | Mark stroke — `auto` follows each winding's stroke.           |
+| `label`         | `none`          | Typical use: voltage rating, e.g. `[132/11 kV]`.              |
+
+## Vector-group marks
+
+`vector:` draws the winding-connection glyphs _inside_ the circles —
+the conventional in-circle notation for the vector group. Two entries,
+(in-side, out-side), each `"delta"`, `"wye"`, `"zigzag"` or `none`.
+The circle spacing automatically widens (when needed) so the marks
+stay clear of both outlines — the lightly-overlapping look this
+notation is conventionally drawn with — and the marks stay upright
+however the transformer is oriented:
+
+<Snippet name="transformer-vector" />
 
 ## On-load tap changer
 

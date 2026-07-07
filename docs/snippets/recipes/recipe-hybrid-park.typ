@@ -41,6 +41,7 @@
     radius: 0.26,
     distance: 0.24,
     oltc: true,
+    vector: ("delta", "wye"),
   )
   wire((3.5, 4.75), (3.5, 4.1))
   ct("ct1", (3.5, 4.45), angle: 90deg)

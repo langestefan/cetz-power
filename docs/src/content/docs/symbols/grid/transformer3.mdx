@@ -34,7 +34,19 @@ place it at a point and rotate with `angle:`.
 | `primary-fill` / `secondary-fill` / `tertiary-fill` | `fill`                        | Per-winding fills.                                                                                                                                           |
 | `lead`                                              | `0`                           | Length of the lead stub from each circle edge to its terminal anchor (`0` = flush on the edge). See [Controlling the terminals](#controlling-the-terminals). |
 | `hv-angle` / `lv-angle` / `tv-angle`                | `180deg` / `60deg` / `-60deg` | Direction each terminal exits its circle, CCW from +x.                                                                                                       |
+| `vector`                                            | `none`                        | In-circle winding marks, three entries (hv, lv, tv) — see below.                                                                                             |
+| `vector-size` / `vector-stroke`                     | `0.45` / `auto`               | Mark reach (fraction of the radius) and stroke (`auto` follows each winding's stroke).                                                                       |
 | `label`                                             | `none`                        | Typical use: voltage ratings, e.g. `[23 / 0,96 / 0,69 kV]`.                                                                                                  |
+
+## Vector-group marks
+
+`vector:` draws the winding-connection glyphs _inside_ the circles —
+three entries (hv, lv, tv), each `"delta"`, `"wye"`, `"zigzag"` or
+`none`. The trefoil spacing automatically widens (when needed) so the
+marks stay clear of the neighbouring outlines, and the marks stay
+upright under `angle:`:
+
+<Snippet name="transformer3-vector" />
 
 ## Anchors
 

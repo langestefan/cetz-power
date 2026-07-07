@@ -53,3 +53,9 @@
   wire("t.tv", (rel: (0, -1), to: "t.tv"))
   wire("t.hv", (rel: (-1, 0), to: "t.hv"))
 })
+
+// In-circle vector-group marks (hv, lv, tv), also rotated.
+#test({
+  transformer3("t1", (0, 0), vector: ("delta", "wye", "wye"))
+  transformer3("t2", (2, 0), angle: 90deg, vector: ("wye", "delta", "zigzag"))
+})

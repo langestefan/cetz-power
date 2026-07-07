@@ -5,6 +5,7 @@
 
 #import "/src/deps.typ": cetz
 #import "/src/core.typ": symbol
+#import "/src/symbols/grid/winding-mark.typ": winding-mark
 
 /// Two-winding transformer. Place with two positions (in and out) or one
 /// position plus `angle:`.
@@ -25,6 +26,14 @@
 ///   (in-side) winding. Defaults to `stroke` / `fill`.
 /// - secondary-stroke / secondary-fill: per-side override for the right
 ///   (out-side) winding. Defaults to `stroke` / `fill`.
+/// - vector (array | none): winding marks drawn inside the circles —
+///   the conventional in-circle vector-group notation. Two entries,
+///   (in-side, out-side), each `"delta"`, `"wye"`, `"zigzag"` or
+///   `none`, e.g. `vector: ("delta", "wye")` for a Dy transformer.
+///   Marks stay upright regardless of the symbol's rotation.
+/// - vector-size (float): glyph reach as a fraction of the circle
+///   radius. vector-stroke: glyph stroke (`auto` follows each
+///   winding's stroke).
 /// - oltc (bool): `true` draws the on-load tap-changer arrow — a thin
 ///   diagonal arrow through both circles, from below the primary side
 ///   to above the secondary side.
@@ -39,6 +48,14 @@
   let draw(ctx, positions, style) = {
     let r = style.at("radius", default: 0.32)
     let d = style.at("distance", default: 0.42)
+    // In-circle marks need room: with the tight default overlap the
+    // neighbouring circle's arc would cut through any visible glyph,
+    // so when `vector:` is set the centre spacing is widened until the
+    // marks clear both outlines (the lightly-overlapping look real
+    // SLDs use for this notation). A larger explicit `distance` wins.
+    let vector = style.at("vector", default: none)
+    let g = r * style.at("vector-size", default: 0.45)
+    if vector != none { d = calc.max(d, r + 1.15 * g) }
     let s = style.at("stroke", default: 0.8pt + black)
     let f = style.at("fill", default: none)
     let ps = style.at("primary-stroke", default: s)
@@ -74,6 +91,35 @@
     cetz.draw.circle((d / 2, 0), radius: r, stroke: none, fill: sf)
     cetz.draw.circle((-d / 2, 0), radius: r, stroke: ps, fill: none)
     cetz.draw.circle((d / 2, 0), radius: r, stroke: ss, fill: none)
+
+    // In-circle vector-group marks, counter-rotated so they stay
+    // upright however the transformer is oriented.
+    if vector != none {
+      assert(
+        type(vector) == array and vector.len() == 2,
+        message: "transformer vector: expects two entries (in-side, out-side)",
+      )
+      let vs = style.at("vector-stroke", default: auto)
+      let rot = -ctx.at("rotation", default: 0deg)
+      if vector.at(0) != none {
+        winding-mark(
+          (-d / 2, 0),
+          vector.at(0),
+          g,
+          if vs == auto { ps } else { vs },
+          rot,
+        )
+      }
+      if vector.at(1) != none {
+        winding-mark(
+          (d / 2, 0),
+          vector.at(1),
+          g,
+          if vs == auto { ss } else { vs },
+          rot,
+        )
+      }
+    }
 
     // On-load tap changer: a thin diagonal arrow through both circles
     // (lower-left → upper-right), sized off the body so it scales with

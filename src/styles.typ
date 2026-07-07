@@ -59,6 +59,12 @@
     distance: 0.35,
     stroke: 0.8pt + black,
     fill: none,
+    // In-circle vector-group marks: `vector: ("delta", "wye")` draws
+    // the winding glyphs inside the circles (in-side, out-side); they
+    // stay upright under rotation.
+    vector: none,
+    "vector-size": 0.5, // glyph reach as a fraction of the radius
+    "vector-stroke": auto, // auto => follow each winding's stroke
     // On-load tap changer: `oltc: true` draws the thin diagonal arrow
     // through both circles (lower-left → upper-right).
     oltc: false,
@@ -88,6 +94,10 @@
     distance: 0.42,
     stroke: 0.8pt + black,
     fill: none,
+    // In-circle vector-group marks: three entries (hv, lv, tv).
+    vector: none,
+    "vector-size": 0.5,
+    "vector-stroke": auto,
     // Connection points: each terminal exits its circle at the given
     // angle (CCW from +x); `lead` draws a stub of that length out to the
     // anchor (0 = flush on the circle edge).

@@ -12,6 +12,7 @@
 
 #import "/src/deps.typ": cetz
 #import "/src/core.typ": symbol
+#import "/src/symbols/grid/winding-mark.typ": winding-mark
 
 /// Three-winding transformer (trefoil of three overlapping circles).
 ///
@@ -45,6 +46,11 @@
 /// - distance (float): centre-to-centre spacing of the circles.
 /// - lead (float): length of the lead stub drawn from each circle edge
 ///   to its terminal anchor. `0` (default) keeps the anchor on the edge.
+/// - vector (array | none): winding marks drawn inside the circles —
+///   three entries (hv, lv, tv), each `"delta"`, `"wye"`, `"zigzag"`
+///   or `none`, e.g. `vector: ("delta", "wye", "wye")`. Marks stay
+///   upright regardless of `angle:`. vector-size / vector-stroke as
+///   on `transformer`.
 /// - hv-angle / lv-angle / tv-angle (angle): direction in which each
 ///   terminal exits its circle, measured CCW from +x. Defaults
 ///   `180deg` / `60deg` / `-60deg`.
@@ -63,6 +69,12 @@
   let draw(ctx, positions, style) = {
     let r = style.at("radius", default: 0.32)
     let d = style.at("distance", default: 0.42)
+    // In-circle marks need room: widen the trefoil spacing until the
+    // marks clear the neighbouring circles' outlines (see the same
+    // clamp in `transformer`). A larger explicit `distance` wins.
+    let vector = style.at("vector", default: none)
+    let g = r * style.at("vector-size", default: 0.45)
+    if vector != none { d = calc.max(d, r + 1.15 * g) }
     let s = style.at("stroke", default: 0.8pt + black)
     let f = style.at("fill", default: none)
     let ps = style.at("primary-stroke", default: s)
@@ -106,6 +118,26 @@
     cetz.draw.circle(c-hv, radius: r, stroke: ps, fill: none)
     cetz.draw.circle(c-lv, radius: r, stroke: ss, fill: none)
     cetz.draw.circle(c-tv, radius: r, stroke: ts, fill: none)
+
+    // In-circle vector-group marks, counter-rotated so they stay
+    // upright however the symbol is rotated.
+    if vector != none {
+      assert(
+        type(vector) == array and vector.len() == 3,
+        message: "transformer3 vector: expects three entries (hv, lv, tv)",
+      )
+      let vs = style.at("vector-stroke", default: auto)
+      let rot = -ctx.at("rotation", default: 0deg)
+      for (c, kind, ws) in (
+        (c-hv, vector.at(0), ps),
+        (c-lv, vector.at(1), ss),
+        (c-tv, vector.at(2), ts),
+      ) {
+        if kind != none {
+          winding-mark(c, kind, g, if vs == auto { ws } else { vs }, rot)
+        }
+      }
+    }
 
     // Lead stubs (each in its winding's stroke), only when lead > 0.
     if lead > 0 {
