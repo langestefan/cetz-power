@@ -48,6 +48,7 @@
 // Generation
 #import "symbols/generation/block.typ": block
 #import "symbols/generation/machine.typ": machine
+#import "symbols/generation/plant.typ": plant
 #import "symbols/generation/pv-panel.typ": pv-panel
 
 // Loads

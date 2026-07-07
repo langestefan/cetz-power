@@ -166,6 +166,27 @@
     label: (anchor: "south", distance: 0.15),
   ),
 
+  // ── Generation plant (wind / PV / BESS combinations) ────────────
+  // Pictogram box for renewable plants. `kind` names the technology
+  // mix ("wind", "pv-bess", "wind-pv-bess", …); a token may carry an
+  // icon-style number (wind2/wind3 = park with two/three turbines,
+  // pv2 = filled panel, pv3 = panel park, bess2 = charged-battery
+  // outline). `variant` numbers the rendering: 1 = compartment box,
+  // 2 = plain box, 3 = bare icons, 4/5 = single-square composites
+  // (all technologies overlapping in one square).
+  plant: (
+    stroke: 0.8pt + black,
+    fill: none,
+    kind: "wind",
+    variant: 1,
+    cell: 0.7, // width of one technology cell
+    height: 0.7, // enclosure height
+    "icon-scale": 0.85, // icon size as a fraction of the cell
+    "icon-stroke": auto, // auto => follow `stroke`
+    "icon-fill": auto, // hub dot paint; auto => stroke paint
+    label: (anchor: "south", distance: 0.15),
+  ),
+
   // ── Battery ─────────────────────────────────────────────────────
   // IEC cell(s): long (positive) plate over a short (negative) one,
   // repeated `cells` times. Two-pole by default; override

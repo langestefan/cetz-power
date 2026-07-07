@@ -109,6 +109,7 @@ export default defineConfig({
                 { label: 'Machine', slug: 'symbols/generation/machine' },
                 { label: 'PV panel', slug: 'symbols/generation/pv-panel' },
                 { label: 'Device block', slug: 'symbols/generation/block' },
+                { label: 'Generation plant', slug: 'symbols/generation/plant' },
               ],
             },
             {
@@ -211,6 +212,10 @@ export default defineConfig({
             {
               label: 'IEEE 9-bus with GFM converters',
               slug: 'recipes/ieee9-gfm',
+            },
+            {
+              label: 'IEEE 13-bus feeder with DER',
+              slug: 'recipes/ieee13-der',
             },
             {
               label: 'MV radial distribution feeder',

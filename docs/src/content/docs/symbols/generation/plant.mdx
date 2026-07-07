@@ -1,0 +1,81 @@
+---
+title: Generation plant
+description: Wind / PV / BESS pictograms in any combination — numbered enclosure variants and per-technology icon styles for hybrid power plants, parks and storage units.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+A pictogram box for renewable generation: wind, PV and battery storage,
+alone or side by side in one enclosure. `kind:` names the technology
+mix and `variant:` numbers the enclosure, so a catalog entry like
+`windpvbess-1` maps directly onto a call:
+
+```typst
+plant("hpp", (0, 0), kind: "wind-pv-bess", variant: 1)
+```
+
+<Snippet name="plant-example" />
+
+## Numbered variants
+
+`variant:` picks the rendering: **1** draws one compartment per
+technology, **2** a plain box with the icons in a row, **3** bare icons
+with no enclosure. Variants **4** and **5** are single-square
+*composites*: all technologies overlap inside one square — 4 puts a
+full-height turbine on the left with the panel at its foot and an
+upright battery behind it, 5 mirrors the arrangement (turbine right,
+panel top-left, battery bottom-left). Any `kind` (hyphenated or
+concatenated — `"windpvbess"` parses too) combines with any variant:
+
+<Snippet name="plant-variants" />
+
+## Icon styles
+
+Each technology token can carry its own icon-style number for
+alternative pictograms — `wind2` and `wind3` are wind parks (two
+turbines, and small / large / medium with the large one spanning the
+box), `pv2` a filled panel (dark cells, white grid), `pv3` a PV park
+(two overlapping panels), `bess2` a charged-battery outline instead of
+the IEC plates:
+
+<Snippet name="plant-icons" />
+
+Styles compose freely with the mix and the enclosure variant, e.g.
+`kind: "wind2-pv3", variant: 2` for a wind-plus-solar park in a plain
+box. The composite variants (4 / 5) use fixed arrangements and ignore
+icon-style numbers.
+
+## Inline placement
+
+Two-node placement puts the body at the midpoint of `in` → `out` with
+leads to both endpoints. Every technology also exposes a south-edge
+anchor named after its token (without the style number) for notes or
+extra leads:
+
+<Snippet name="plant-inline" />
+
+## Parameters
+
+| Name          | Default         | Description                                                                                       |
+| ------------- | --------------- | ------------------------------------------------------------------------------------------------- |
+| `kind`        | `"wind"`        | Technology mix: 1–3 of `wind`, `pv`, `bess`, hyphenated or concatenated, optionally numbered (`pv2`). |
+| `variant`     | `1`             | 1 = compartment box, 2 = plain box, 3 = bare icons, 4 / 5 = single-square composites.              |
+| `cell`        | `0.7`           | Width of one technology cell.                                                                      |
+| `height`      | `0.7`           | Enclosure height.                                                                                  |
+| `icon-scale`  | `0.85`          | Icon size as a fraction of the cell.                                                               |
+| `stroke`      | `0.8pt + black` | Enclosure outline.                                                                                 |
+| `icon-stroke` | `auto`          | Icon stroke — `auto` follows `stroke`.                                                             |
+| `icon-fill`   | `auto`          | Paint for filled icon parts (hub dot, PV cells, battery bars) — `auto` follows the stroke paint.   |
+| `fill`        | `none`          | Enclosure fill.                                                                                    |
+| `label`       | `none`          | Standard label dict (default `anchor: "south"`, `distance: 0.15`).                                 |
+| `angle`       | `0deg`          | Rotation (one-node placement only).                                                                |
+
+## Anchors
+
+| Anchor                                                 | Position                                                             |
+| ------------------------------------------------------ | -------------------------------------------------------------------- |
+| `in`, `out`                                            | The two endpoints (two-node); the origin (one-node).                 |
+| `center`                                               | Centre of the body.                                                  |
+| `north`, `south`, `east`, `west`                       | Edge midpoints of the enclosure (icon-row bounding box if bare).     |
+| `north-west`, `north-east`, `south-west`, `south-east` | The four corners.                                                    |
+| `wind`, `pv`, `bess`                                   | South edge of the matching technology cell (only for present techs). |

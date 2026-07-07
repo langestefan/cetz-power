@@ -1,0 +1,23 @@
+---
+title: IEEE 13-bus feeder with DER
+description: The IEEE 13-node distribution test feeder with wind, PV and battery units tied in at several buses using the plant symbol.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+The IEEE 13-node test feeder, extended with distributed generation. The
+substation node 650 feeds the trunk through a voltage regulator
+(`transformer` with `oltc: true`), XFM-1 steps node 634 down to 480 V,
+and the 671–692 tie is a closed `switch`. Four DER units connect
+through their own step-up transformers, all drawn with
+[`plant`](/symbols/generation/plant/): a wind park (`wind3`) at 646,
+PV + battery (`pv-bess`) behind XFM-1 at 634, a PV park (`pv3`) at 680
+and a battery (`bess2`) at 675.
+
+Buses along the horizontal runs are drawn as *vertical* bars so each
+run taps their interiors perpendicularly — no conductor ever lands on a
+bus end. The junction buses (632, 671) stay horizontal and the laterals
+reach them with a single `elbow` onto an interior tap (`bus-frac`);
+loads leave the vertical bars with elbowed leads.
+
+<Snippet name="recipe-ieee13-der" />
