@@ -37,7 +37,10 @@
 #let _split-token(tok, kind) = {
   let tech = none
   for t in _plant-kinds {
-    if tok.starts-with(t) { tech = t; break }
+    if tok.starts-with(t) {
+      tech = t
+      break
+    }
   }
   assert(
     tech != none,
@@ -50,7 +53,10 @@
   let rest = tok.slice(tech.len())
   assert(
     rest.clusters().all(c => c in _digits),
-    message: "plant(): cannot parse token " + repr(tok) + " in kind " + repr(kind),
+    message: "plant(): cannot parse token "
+      + repr(tok)
+      + " in kind "
+      + repr(kind),
   )
   let style = if rest == "" { 1 } else { int(rest) }
   assert(
@@ -78,7 +84,10 @@
     while rest.len() > 0 {
       let hit = none
       for t in _plant-kinds {
-        if rest.starts-with(t) { hit = t; break }
+        if rest.starts-with(t) {
+          hit = t
+          break
+        }
       }
       assert(
         hit != none,
@@ -154,7 +163,11 @@
   let inset = 0.09 * w
   let a0 = cx - 0.5 * w // axis start (left / bottom)
   if not vertical {
-    cetz.draw.rect((a0, cy - 0.5 * h), (a0 + w - nub, cy + 0.5 * h), stroke: stroke)
+    cetz.draw.rect(
+      (a0, cy - 0.5 * h),
+      (a0 + w - nub, cy + 0.5 * h),
+      stroke: stroke,
+    )
     cetz.draw.rect(
       (a0 + w - nub, cy - 0.2 * h),
       (a0 + w, cy + 0.2 * h),
@@ -172,7 +185,11 @@
     }
   } else {
     let b0 = cy - 0.5 * w
-    cetz.draw.rect((cx - 0.5 * h, b0), (cx + 0.5 * h, b0 + w - nub), stroke: stroke)
+    cetz.draw.rect(
+      (cx - 0.5 * h, b0),
+      (cx + 0.5 * h, b0 + w - nub),
+      stroke: stroke,
+    )
     cetz.draw.rect(
       (cx - 0.2 * h, b0 + w - nub),
       (cx + 0.2 * h, b0 + w),
@@ -230,8 +247,16 @@
 #let _icon-bess(cx, s, style, stroke, fill) = {
   if style == 1 {
     // IEC cell: long (positive) plate, short (negative) plate, leads.
-    cetz.draw.line((cx - 0.09 * s, -0.30 * s), (cx - 0.09 * s, 0.30 * s), stroke: stroke)
-    cetz.draw.line((cx + 0.09 * s, -0.14 * s), (cx + 0.09 * s, 0.14 * s), stroke: stroke)
+    cetz.draw.line(
+      (cx - 0.09 * s, -0.30 * s),
+      (cx - 0.09 * s, 0.30 * s),
+      stroke: stroke,
+    )
+    cetz.draw.line(
+      (cx + 0.09 * s, -0.14 * s),
+      (cx + 0.09 * s, 0.14 * s),
+      stroke: stroke,
+    )
     cetz.draw.line((cx - 0.45 * s, 0), (cx - 0.09 * s, 0), stroke: stroke)
     cetz.draw.line((cx + 0.09 * s, 0), (cx + 0.45 * s, 0), stroke: stroke)
   } else {
@@ -257,8 +282,12 @@
   } else if variant == 4 {
     // Turbine left (full height), upright battery right (behind),
     // panel at the turbine's foot (in front).
-    if w and b { _battery(0.3 * c, 0.0 * c, 0.58 * c, 0.26 * c, st, fill, vertical: true) }
-    if b and not w { _battery(0.28 * c, 0.04 * c, 0.62 * c, 0.3 * c, st, fill, vertical: true) }
+    if w and b {
+      _battery(0.3 * c, 0.0 * c, 0.58 * c, 0.26 * c, st, fill, vertical: true)
+    }
+    if b and not w {
+      _battery(0.28 * c, 0.04 * c, 0.62 * c, 0.3 * c, st, fill, vertical: true)
+    }
     if w { _turbine(-0.2 * c, -0.47 * c, 0.94 * c, st, fill) }
     if p and w and b { _panel(0.02 * c, -0.27 * c, 0.55 * c, st, mask, st) }
     if p and w and not b { _panel(0.16 * c, -0.26 * c, 0.62 * c, st, mask, st) }
@@ -268,7 +297,9 @@
     // bottom-left (lying flat).
     if w { _turbine(0.2 * c, -0.47 * c, 0.94 * c, st, fill) }
     if b and w { _battery(-0.19 * c, -0.33 * c, 0.5 * c, 0.26 * c, st, fill) }
-    if b and not w { _battery(0.16 * c, -0.3 * c, 0.55 * c, 0.28 * c, st, fill) }
+    if b and not w {
+      _battery(0.16 * c, -0.3 * c, 0.55 * c, 0.28 * c, st, fill)
+    }
     if p and w { _panel(-0.22 * c, 0.16 * c, 0.5 * c, st, mask, st) }
     if p and not w { _panel(-0.14 * c, 0.14 * c, 0.6 * c, st, mask, st) }
   }
@@ -379,7 +410,14 @@
       for (i, tok) in toks.enumerate() {
         let cx = -hw + (i + 0.5) * cell
         if tok.tech == "wind" {
-          _icon-wind(cx, isize, calc.min(cell, h), tok.style, icon-stroke, icon-fill)
+          _icon-wind(
+            cx,
+            isize,
+            calc.min(cell, h),
+            tok.style,
+            icon-stroke,
+            icon-fill,
+          )
         }
         if tok.tech == "pv" {
           _icon-pv(cx, isize, tok.style, icon-stroke, icon-fill, mask-fill)

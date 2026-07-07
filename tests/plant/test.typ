@@ -63,5 +63,11 @@
 // Geometry + style overrides.
 #test({
   plant("big", (0, 0), kind: "wind-pv", cell: 1.0, height: 0.9, icon-scale: 0.7)
-  plant("thin", (0, -1.6), kind: "bess", stroke: 0.5pt + gray, icon-stroke: 0.8pt + black)
+  plant(
+    "thin",
+    (0, -1.6),
+    kind: "bess",
+    stroke: 0.5pt + gray,
+    icon-stroke: 0.8pt + black,
+  )
 })

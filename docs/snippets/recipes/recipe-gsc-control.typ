@@ -20,7 +20,12 @@
     if pts.len() > 2 {
       cetz.draw.line(..pts.slice(0, -1), stroke: dashed)
     }
-    flow-arrow(pts.at(pts.len() - 2), pts.at(pts.len() - 1), stroke: dashed, scale: 0.9)
+    flow-arrow(
+      pts.at(pts.len() - 2),
+      pts.at(pts.len() - 1),
+      stroke: dashed,
+      scale: 0.9,
+    )
   }
 
   // ── Power sources on the DC bus ─────────────────────────────────
@@ -58,19 +63,49 @@
   // The passives are one-node symbols growing +y from `in`; angle: 90deg
   // lays them leftward with the bumps up.
   block("lcf", (6.15, 3.7), width: 1.1, height: 0.85)
-  inductor("lf", (6.15, 3.7), angle: 90deg, bumps: 3, bump-radius: 0.07, lead-in: 0.065, lead-out: 0.065)
+  inductor(
+    "lf",
+    (6.15, 3.7),
+    angle: 90deg,
+    bumps: 3,
+    bump-radius: 0.07,
+    lead-in: 0.065,
+    lead-out: 0.065,
+  )
   wire((6.15, 3.7), (6.7, 3.7))
-  capacitor("cf", (6.15, 3.7), angle: 180deg, plate-width: 0.26, plate-gap: 0.09, lead-in: 0.12, lead-out: 0.11)
+  capacitor(
+    "cf",
+    (6.15, 3.7),
+    angle: 180deg,
+    plate-width: 0.26,
+    plate-gap: 0.09,
+    lead-in: 0.12,
+    lead-out: 0.11,
+  )
   // Thin busbar under the filter capacitor — spans the box, but stops
   // short of its edges.
   cetz.draw.line((5.71, 3.38), (6.59, 3.38), stroke: 0.8pt + black)
   block("lbox", (7.5, 3.7), width: 0.85, height: 0.7)
-  inductor("lg", (7.925, 3.7), angle: 90deg, bumps: 4, bump-radius: 0.08, lead-in: 0.105, lead-out: 0.105)
+  inductor(
+    "lg",
+    (7.925, 3.7),
+    angle: 90deg,
+    bumps: 4,
+    bump-radius: 0.08,
+    lead-in: 0.105,
+    lead-out: 0.105,
+  )
   wire("conv.east", "lcf.west")
   wire("lcf.east", "lbox.west")
   wire("lbox.east", (8.55, 3.7))
   bus("pcc", (8.55, 2.4), (8.55, 5.8))
-  note((8.67, 5.35), rotate(90deg, reflow: true)[_PCC_], side: "east", distance: 0.05, size: 9pt)
+  note(
+    (8.67, 5.35),
+    rotate(90deg, reflow: true)[_PCC_],
+    side: "east",
+    distance: 0.05,
+    size: 9pt,
+  )
 
   // ── Control chain ───────────────────────────────────────────────
   block(
@@ -82,9 +117,24 @@
     body: text(style: "italic", size: 9pt)[Reference \ Generator],
   )
   mixer("mix", (3.1, 3.7), radius: 0.17)
-  block("pi", (3.85, 3.7), width: 0.65, height: 0.55, fill: none, body: text(style: "italic", size: 9pt)[PI])
-  note((3.85, 4.05), emph[Inner Loop \ Controller], side: "north", distance: 0.05, size: 6pt)
-  note((1.35, 4.5), emph[Outer Loop \ Controller], side: "east", distance: 0.05, size: 6pt)
+  block("pi", (3.85, 3.7), width: 0.65, height: 0.55, fill: none, body: text(
+    style: "italic",
+    size: 9pt,
+  )[PI])
+  note(
+    (3.85, 4.05),
+    emph[Inner Loop \ Controller],
+    side: "north",
+    distance: 0.05,
+    size: 6pt,
+  )
+  note(
+    (1.35, 4.5),
+    emph[Outer Loop \ Controller],
+    side: "east",
+    distance: 0.05,
+    size: 6pt,
+  )
 
   // Setpoints in, reference out, PI to converter.
   sig((0.0, 3.95), (0.55, 3.95))
@@ -104,7 +154,10 @@
   cetz.draw.line("dq0.south-west", "dq0.north-east", stroke: 0.8pt + black)
   cetz.draw.content((5.34, 2.09), text(size: 8pt, style: "italic")[dq0])
   cetz.draw.content((5.78, 1.61), text(size: 8pt, style: "italic")[abc])
-  block("pll", (6.9, 1.85), width: 0.9, height: 0.6, fill: boxfill, body: text(style: "italic", size: 9pt)[PLL])
+  block("pll", (6.9, 1.85), width: 0.9, height: 0.6, fill: boxfill, body: text(
+    style: "italic",
+    size: 9pt,
+  )[PLL])
 
   sig((6.9, 3.7), (6.9, 2.15))
   note((7.0, 3.05), $V_C$, side: "east", distance: 0.05)
