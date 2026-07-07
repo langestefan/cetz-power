@@ -229,6 +229,10 @@ export default defineConfig({
                   label: 'Grid-side converter control',
                   slug: 'recipes/gsc-control',
                 },
+                {
+                  label: 'Hybrid renewable park',
+                  slug: 'recipes/hybrid-park',
+                },
               ],
             },
             {

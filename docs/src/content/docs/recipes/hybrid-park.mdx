@@ -1,0 +1,24 @@
+---
+title: Hybrid renewable park
+description: A compact hybrid park one-line — grid infeed through an OLTC transformer onto an MV collector bus with wind, PV and battery bays drawn with the plant symbol.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+A hybrid renewable park at its point of connection: the external grid
+feeds the 10 kV collector bus through an OLTC `transformer` with a
+metering `ct`, and three plant bays connect the wind park (`wind3`),
+the PV park (`pv3`) and a converter-coupled battery (`bess2`), each
+drawn with [`plant`](/symbols/generation/plant/). The bus also carries
+a fused capacitor bank, the park auxiliaries and a normally-open ring
+tie (`junction(open: true)`), and a park controller closes a dashed
+signal loop — CT measurement in, battery dispatch out.
+
+The layout choices that keep it compact: the plant bays sit on
+_equidistant interior taps_ and share one reusable `bay()` closure
+(only the middle element — transformer or converter — differs), the
+figure stays mirror-symmetric around the grid infeed, the bus is drawn
+_last_ so the bar covers the lead roots, and the signal path hugs the
+right edge so it crosses no conductors.
+
+<Snippet name="recipe-hybrid-park" />
