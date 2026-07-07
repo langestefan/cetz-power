@@ -50,3 +50,9 @@
   wire((0, 0), (0, 2))
   breaker("b", (0, 1), angle: 90deg)
 })
+
+// Recloser / sectionalizer bodies (upright under rotation).
+#test({
+  breaker("r", (0, 0), (1.2, 0), size: 0.36, body: [R])
+  breaker("s", (2, -0.6), (2, 0.6), size: 0.36, body: [S])
+})

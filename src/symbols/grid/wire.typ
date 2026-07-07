@@ -8,13 +8,28 @@
 #import "/src/deps.typ": cetz
 
 // Look up the wire stroke from the active cetz-power style, or fall back.
-#let _wire-stroke(ctx, override) = {
-  if override != auto { return override }
-  ctx
+// `kind: "cable"` re-dashes the resolved stroke (pattern from the
+// `cetz-power.wire.cable-dash` style key) so underground cables read
+// differently from overhead lines / plain connections.
+#let _wire-stroke(ctx, override, kind: "line") = {
+  assert(
+    kind in ("line", "cable"),
+    message: "wire kind must be \"line\" or \"cable\", got " + repr(kind),
+  )
+  let wire-style = ctx
     .style
     .at("cetz-power", default: (:))
     .at("wire", default: (:))
-    .at("stroke", default: 0.8pt + black)
+  let base = if override != auto { override } else {
+    wire-style.at("stroke", default: 0.8pt + black)
+  }
+  if kind == "line" { return base }
+  let st = std.stroke(base)
+  (
+    paint: if st.paint == auto { black } else { st.paint },
+    thickness: if st.thickness == auto { 0.8pt } else { st.thickness },
+    dash: wire-style.at("cable-dash", default: "dashed"),
+  )
 }
 
 // Map "the side of the anchor I want my label to sit on" to "the
@@ -103,6 +118,10 @@
 ///
 /// - ..points (coordinates): two or more positional coordinates in
 ///   any of the forms listed above.
+/// - kind (str): `"line"` (default) — solid conductor; `"cable"` —
+///   the stroke is re-dashed (pattern from the
+///   `cetz-power.wire.cable-dash` style key) to distinguish
+///   underground cables from overhead lines.
 /// - stroke: stroke override; defaults to `cetz-power.wire.stroke`.
 /// - label: optional caption content placed at the wire midpoint.
 /// - label-side: compass side of the midpoint the label sits on.
@@ -121,6 +140,7 @@
   let pts = args.pos()
   let named = args.named()
   let stroke = named.at("stroke", default: auto)
+  let kind = named.at("kind", default: "line")
   let label = named.at("label", default: none)
   let label-side = named.at("label-side", default: "north")
   let label-distance = named.at("label-distance", default: 0.15)
@@ -136,7 +156,7 @@
     message: "wire() needs at least two positions, got " + str(pts.len()),
   )
   cetz.draw.get-ctx(ctx => {
-    cetz.draw.line(..pts, stroke: _wire-stroke(ctx, stroke))
+    cetz.draw.line(..pts, stroke: _wire-stroke(ctx, stroke, kind: kind))
 
     if label != none {
       assert(
@@ -177,12 +197,13 @@
 /// - a (coordinate): start
 /// - b (coordinate): end
 /// - corner ("h" | "v"): routing order of the two legs
+/// - kind (str): `"line"` (default) or `"cable"` — as on `wire()`.
 /// - stroke: stroke override
 /// -> content
-#let elbow(a, b, corner: "h", stroke: auto) = {
+#let elbow(a, b, corner: "h", kind: "line", stroke: auto) = {
   assert(corner in ("h", "v"), message: "corner must be \"h\" or \"v\"")
   cetz.draw.get-ctx(ctx => {
-    let s = _wire-stroke(ctx, stroke)
+    let s = _wire-stroke(ctx, stroke, kind: kind)
     // CeTZ perpendicular coordinates: (a, "-|", b) resolves to (b's x,
     // a's y) — the horizontal-first knee — and (a, "|-", b) to (a's x,
     // b's y) — the vertical-first knee.

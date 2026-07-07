@@ -124,6 +124,15 @@ L-shaped routing. `corner: "h"` goes horizontally first then vertically;
 
 <Snippet name="wire-elbow" />
 
+## Cables — `kind: "cable"`
+
+Distribution diagrams distinguish underground cables from overhead
+lines. `kind: "cable"` (on `wire` and `elbow`) re-dashes the resolved
+stroke — same paint and thickness, dash pattern from the
+`cetz-power.wire.cable-dash` style key (default `"dashed"`):
+
+<Snippet name="wire-cable" />
+
 ## Stroke override
 
 Both accept an optional `stroke:` argument to override the family

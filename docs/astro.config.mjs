@@ -158,6 +158,7 @@ export default defineConfig({
                   slug: 'symbols/protection/breaker',
                 },
                 { label: 'Fuse', slug: 'symbols/protection/fuse' },
+                { label: 'Relay', slug: 'symbols/protection/relay' },
                 {
                   label: 'Surge arrester',
                   slug: 'symbols/protection/arrester',

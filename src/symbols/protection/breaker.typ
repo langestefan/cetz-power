@@ -21,6 +21,10 @@
 /// - size (float): side length of the square box / span of the cross.
 /// - kind (str): `"square"` (default) — the conventional SLD box;
 ///   `"cross"` — an × on the wire (the line runs through it).
+/// - body (content | none): content centred inside the square — the
+///   conventional way to mark a recloser (`[R]`) or sectionalizer
+///   (`[S]`). Stays upright under rotation; ignored for `"cross"`.
+/// - body-size (length): font size for `body`. Default `7pt`.
 /// - stroke: standard style override.
 /// - fill: box fill (default `none`; ignored for `"cross"`).
 /// - label: standard label dict.
@@ -70,6 +74,15 @@
         stroke: s,
         fill: f,
       )
+      // cetz `content` text does not inherit the group rotation, so
+      // the body is upright under any orientation without help.
+      let body = style.at("body", default: none)
+      if body != none {
+        cetz.draw.content(
+          (0, 0),
+          text(size: style.at("body-size", default: 7pt), body),
+        )
+      }
     }
 
     cetz.draw.anchor("center", (0, 0))

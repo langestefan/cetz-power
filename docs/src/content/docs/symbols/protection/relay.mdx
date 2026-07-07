@@ -1,0 +1,50 @@
+---
+title: Relay
+description: Protection-relay function box — ANSI device number or IEC function code in a rectangle or circle, wired from a CT/VT and tripping a breaker over a dashed signal path.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+The function box of a protection scheme: a rectangle (IEC style,
+default) or circle (ANSI style) carrying the device number or function
+code — `"50/51"`, `[87T]`, `[U <]`, `"21"`, …. The code is passed
+positionally (like the `machine` letter) or as `code:`:
+
+<Snippet name="relay-example" />
+
+## Trip wiring
+
+The canonical protection chain: a [`ct`](/symbols/grid/ct/) (or `vt`)
+secondary feeds the relay's measurement input, and the relay trips a
+[`breaker`](/symbols/protection/breaker/) over a dashed signal path —
+a plain dashed line plus a [`flow-arrow`](/helpers/flow-arrow/) for
+the final segment, so the arrowhead stays solid:
+
+<Snippet name="relay-trip" />
+
+Mind that compass anchors rotate with a symbol: a rotated CT's or a
+vertical breaker's `east` is no longer world-east, so address trip and
+measurement endpoints on rotated symbols with explicit coordinates.
+
+## Parameters
+
+| Name        | Default         | Description                                                        |
+| ----------- | --------------- | ------------------------------------------------------------------ |
+| `code`      | `none`          | Function code drawn inside (str or content).                       |
+| `kind`      | `"box"`         | `"box"` (IEC rectangle) or `"circle"` (ANSI device circle).        |
+| `width`     | `0.52`          | Box width (box kind).                                              |
+| `height`    | `0.36`          | Box height (box kind).                                             |
+| `radius`    | `0.24`          | Circle radius (circle kind).                                       |
+| `code-size` | `7pt`           | Font size for string codes.                                        |
+| `stroke`    | `0.8pt + black` | Outline stroke.                                                    |
+| `fill`      | `none`          | Body fill.                                                         |
+| `label`     | `none`          | Standard label dict (default `anchor: "north"`, `distance: 0.15`). |
+| `angle`     | `0deg`          | Rotation (the code stays upright).                                 |
+
+## Anchors
+
+| Anchor                                                 | Position                                               |
+| ------------------------------------------------------ | ------------------------------------------------------ |
+| `in`, `out`, `center`                                  | The centre.                                            |
+| `north`, `south`, `east`, `west`                       | Edge midpoints (box) or cardinal points on the circle. |
+| `north-west`, `north-east`, `south-west`, `south-east` | The corners (box) or the 45° points on the circle.     |

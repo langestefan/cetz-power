@@ -71,6 +71,7 @@
 #import "symbols/protection/switch.typ": switch
 #import "symbols/protection/breaker.typ": breaker
 #import "symbols/protection/fuse.typ": fuse
+#import "symbols/protection/relay.typ": relay
 
 // Control-scheme junctions (block-diagram notation)
 #import "symbols/control/adder.typ": adder

@@ -39,15 +39,26 @@ See the [distribution-rings recipe](/recipes/distribution-rings/) for
 it in context, together with [junction](/symbols/grid/junction/)
 connection points.
 
+## Reclosers and sectionalizers
+
+`body:` centres content inside the square — the conventional way to
+mark the automatic distribution devices: `[R]` for a recloser, `[S]`
+for a sectionalizer. The letter stays upright however the breaker is
+oriented:
+
+<Snippet name="breaker-recloser" />
+
 ## Parameters
 
-| Name     | Default         | Description                                                                  |
-| -------- | --------------- | ---------------------------------------------------------------------------- |
-| `size`   | `0.3`           | Side length of the square box / span of the ×.                               |
-| `kind`   | `"square"`      | `"square"` = the conventional SLD box; `"cross"` = an × on the wire.         |
-| `stroke` | `0.8pt + black` | Stroke for the body outline and the lead stubs.                              |
-| `fill`   | `none`          | Box fill (ignored for `"cross"`). Useful for colour-coding by voltage level. |
-| `label`  | `none`          | Standard label dict (default `anchor: "north"`, `distance: 0.15`).           |
+| Name        | Default         | Description                                                                  |
+| ----------- | --------------- | ---------------------------------------------------------------------------- |
+| `size`      | `0.3`           | Side length of the square box / span of the ×.                               |
+| `kind`      | `"square"`      | `"square"` = the conventional SLD box; `"cross"` = an × on the wire.         |
+| `body`      | `none`          | Content centred in the square (`[R]` recloser, `[S]` sectionalizer).         |
+| `body-size` | `7pt`           | Font size for `body`.                                                        |
+| `stroke`    | `0.8pt + black` | Stroke for the body outline and the lead stubs.                              |
+| `fill`      | `none`          | Box fill (ignored for `"cross"`). Useful for colour-coding by voltage level. |
+| `label`     | `none`          | Standard label dict (default `anchor: "north"`, `distance: 0.15`).           |
 
 ## Anchors
 

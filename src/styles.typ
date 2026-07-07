@@ -27,6 +27,9 @@
   // ── Wire style (plain connections between symbols) ───────────────
   wire: (
     stroke: 0.8pt + black,
+    // Dash pattern applied when a wire is drawn with `kind: "cable"`
+    // (any Typst dash spec: "dashed", "dotted", an array pattern, …).
+    "cable-dash": "dashed",
   ),
 
   // ── Bus (busbar) ────────────────────────────────────────────────
@@ -316,6 +319,10 @@
     fill: none,
     size: 0.3,
     kind: "square",
+    // Content centred in the square — `[R]` marks a recloser, `[S]` a
+    // sectionalizer. Stays upright under rotation.
+    body: none,
+    "body-size": 7pt,
     label: (anchor: "north", distance: 0.15),
   ),
 
@@ -331,6 +338,22 @@
     "head-length": 0.2,
     "head-width": 0.15,
     "head-fill": auto,
+    label: (anchor: "north", distance: 0.15),
+  ),
+
+  // ── Protection relay ────────────────────────────────────────────
+  // Function box carrying the ANSI device number / IEC function code
+  // ("50/51", "87T", "U<"). `kind: "box"` (IEC rectangle, default) or
+  // `"circle"` (ANSI device circle). Wire the trip command to a
+  // breaker with a dashed flow-arrow.
+  relay: (
+    stroke: 0.8pt + black,
+    fill: none,
+    kind: "box",
+    width: 0.52,
+    height: 0.36,
+    radius: 0.24,
+    "code-size": 7pt,
     label: (anchor: "north", distance: 0.15),
   ),
 

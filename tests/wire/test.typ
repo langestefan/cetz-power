@@ -115,3 +115,12 @@
   note(("b.tap2", 50%, "b.tap3"), [between t2 and t3], side: "south")
   note((1.0, 0.5), [floating], side: "east")
 })
+
+// Cable kind: dashed conductor, on wires and elbows, with overrides.
+#test({
+  bus("a", (0, 0), length: 1, angle: 90deg)
+  bus("b", (3, 0), length: 1, angle: 90deg)
+  wire("a.mid", "b.mid", kind: "cable")
+  elbow((0, -1.2), (3, -2), corner: "h", kind: "cable")
+  wire((0, -2.6), (3, -2.6), kind: "cable", stroke: 1.2pt + blue)
+})
