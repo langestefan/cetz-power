@@ -1,0 +1,27 @@
+---
+title: Grid-side converter control
+description: Control scheme of a grid-side converter — solid power path from DC bus to PCC, dashed signal paths through reference generator, PI loop, dq0/abc transform and PLL.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+The control scheme of a grid-side converter, reproducing Figure 8 of
+[this IEEE paper](https://ieeexplore.ieee.org/document/10054041):
+solid lines are power connections, dashed lines are signal
+connections. Power flows from the
+sources on the DC bus through the DC link (a boxed `capacitor`, the
+V<sub>DC</sub> measurement point), the `converter` (`kind: "dc-ac"`),
+an LC filter and a grid inductor to the PCC bar. The outer-loop
+reference generator tracks the P/Q setpoints and the DC-link voltage;
+the inner PI loop drives the converter; a PLL synchronises the
+abc → dq0 measurement frame at the filter capacitor.
+
+Techniques worth stealing: every dashed signal is a `flow-arrow` (its
+arrowhead is rebuilt solid, dodging the dashed-mark gotcha) at the end
+of a plain dashed polyline; the filter passives are the one-node
+`inductor` / `capacitor` symbols laid sideways with `angle:` inside
+plain `block` boxes; the multiplication point is a `mixer` (the
+control-notation circled ×); and the inactive power sources are just
+grey-stroked blocks with grey body text.
+
+<Snippet name="recipe-gsc-control" />

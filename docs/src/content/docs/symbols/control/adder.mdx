@@ -1,0 +1,38 @@
+---
+title: Adder
+description: Summing point — the control-block-diagram circle with an inscribed plus, with compass anchors on the circle for wiring and sign notes.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+The standard control-notation summing point: a circle with an
+inscribed `+` whose cross spans the full circle. Inputs arrive on any
+compass anchor and the sign of each input is a small `note()` beside
+its arrow:
+
+<Snippet name="adder-example" />
+
+## On a conductor
+
+`fill: white` masks whatever passes beneath, so the junction can be
+dropped onto an already-drawn wire:
+
+<Snippet name="control-masking" />
+
+## Parameters
+
+| Name     | Default         | Description                                                        |
+| -------- | --------------- | ------------------------------------------------------------------ |
+| `radius` | `0.16`          | Circle radius.                                                     |
+| `stroke` | `0.8pt + black` | Circle and cross stroke.                                           |
+| `fill`   | `none`          | Circle fill — `white` masks a conductor beneath.                   |
+| `label`  | `none`          | Standard label dict (default `anchor: "north"`, `distance: 0.15`). |
+| `angle`  | `0deg`          | Rotation.                                                          |
+
+## Anchors
+
+| Anchor                                                 | Position                          |
+| ------------------------------------------------------ | --------------------------------- |
+| `in`, `out`, `center`                                  | The centre.                       |
+| `north`, `south`, `east`, `west`                       | Cardinal points on the circle.    |
+| `north-west`, `north-east`, `south-west`, `south-east` | The 45° points on the circle.     |

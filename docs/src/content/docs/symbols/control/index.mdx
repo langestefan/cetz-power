@@ -1,0 +1,23 @@
+---
+title: Control
+description: Block-diagram junction symbols — summing points and mixers — for the control-scheme parts of converter and plant diagrams.
+---
+
+Converter and plant diagrams often carry a control scheme next to the
+power circuit: reference generators, PI loops, transforms. The control
+family provides the standard block-diagram junction notation for those
+signal paths; the boxes themselves are plain
+[device blocks](/symbols/generation/block/) and the dashed signal
+arrows are [flow arrows](/helpers/flow-arrow/).
+
+## What's in this family
+
+| Symbol                              | Role in a control scheme                                             |
+| ----------------------------------- | -------------------------------------------------------------------- |
+| [Adder](/symbols/control/adder/)    | Summing point — circle with an inscribed +; mark input signs with notes. |
+| [Mixer](/symbols/control/mixer/)    | Multiplication / mixing point — circle with an inscribed ×.          |
+
+## Source layout
+
+The symbol sources live under `src/symbols/control/`. Future additions
+(saturation, transfer-function blocks, …) belong here.

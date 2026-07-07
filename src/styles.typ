@@ -368,6 +368,22 @@
     label: (anchor: "south", distance: 0.15),
   ),
 
+  // ── Control junctions (block-diagram notation) ──────────────────
+  // Summing point: circle with an inscribed "+" spanning the circle.
+  adder: (
+    radius: 0.16,
+    stroke: 0.8pt + black,
+    fill: none,
+    label: (anchor: "north", distance: 0.15),
+  ),
+  // Mixer / multiplier: circle with an inscribed "×".
+  mixer: (
+    radius: 0.16,
+    stroke: 0.8pt + black,
+    fill: none,
+    label: (anchor: "north", distance: 0.15),
+  ),
+
   // ── External grid / infinite bus ────────────────────────────────
   grid: (
     size: 0.9,

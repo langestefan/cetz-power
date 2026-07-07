@@ -72,6 +72,10 @@
 #import "symbols/protection/breaker.typ": breaker
 #import "symbols/protection/fuse.typ": fuse
 
+// Control-scheme junctions (block-diagram notation)
+#import "symbols/control/adder.typ": adder
+#import "symbols/control/mixer.typ": mixer
+
 // Winding configurations (transformer vector groups)
 #import "symbols/winding/delta.typ": delta
 #import "symbols/winding/wye.typ": wye

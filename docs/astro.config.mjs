@@ -141,6 +141,14 @@ export default defineConfig({
               ],
             },
             {
+              label: 'Control',
+              items: [
+                { label: 'Overview', slug: 'symbols/control' },
+                { label: 'Adder', slug: 'symbols/control/adder' },
+                { label: 'Mixer', slug: 'symbols/control/mixer' },
+              ],
+            },
+            {
               label: 'Protection & switching',
               items: [
                 { label: 'Overview', slug: 'symbols/protection' },
@@ -185,50 +193,89 @@ export default defineConfig({
         {
           label: 'Recipes',
           items: [
-            { label: 'Radial feeder', slug: 'recipes/radial-feeder' },
-            { label: 'Wind turbine', slug: 'recipes/wind-turbine' },
-            { label: 'Wind turbine (DFIG)', slug: 'recipes/wind-turbine-dfig' },
             {
-              label: 'Parallel transformers',
-              slug: 'recipes/parallel-transformers',
-            },
-            { label: 'Phase-to-earth fault', slug: 'recipes/phase-fault' },
-            {
-              label: 'MV cable equivalent',
-              slug: 'recipes/mv-cable-equivalent',
-            },
-            {
-              label: 'Feeder compensation',
-              slug: 'recipes/feeder-compensation',
-            },
-            { label: 'MV transport link', slug: 'recipes/ms-transport' },
-            { label: 'Reactive power flow', slug: 'recipes/reactive-flow' },
-            { label: 'Modified CIGRE LV network', slug: 'recipes/cigre-lv' },
-            { label: 'Modified CIGRE MV network', slug: 'recipes/cigre-mv' },
-            {
-              label: 'Modified IEEE 9-bus with DVPP',
-              slug: 'recipes/ieee9-dvpp',
-            },
-            {
-              label: 'IEEE 9-bus with GFM converters',
-              slug: 'recipes/ieee9-gfm',
+              label: 'Fundamentals',
+              items: [
+                { label: 'Radial feeder', slug: 'recipes/radial-feeder' },
+                {
+                  label: 'Parallel transformers',
+                  slug: 'recipes/parallel-transformers',
+                },
+                { label: 'Phase-to-earth fault', slug: 'recipes/phase-fault' },
+                {
+                  label: 'MV cable equivalent',
+                  slug: 'recipes/mv-cable-equivalent',
+                },
+                {
+                  label: 'Feeder compensation',
+                  slug: 'recipes/feeder-compensation',
+                },
+                { label: 'MV transport link', slug: 'recipes/ms-transport' },
+                {
+                  label: 'Reactive power flow',
+                  slug: 'recipes/reactive-flow',
+                },
+              ],
             },
             {
-              label: 'IEEE 13-bus feeder with DER',
-              slug: 'recipes/ieee13-der',
+              label: 'Generation & control',
+              items: [
+                { label: 'Wind turbine', slug: 'recipes/wind-turbine' },
+                {
+                  label: 'Wind turbine (DFIG)',
+                  slug: 'recipes/wind-turbine-dfig',
+                },
+                {
+                  label: 'Grid-side converter control',
+                  slug: 'recipes/gsc-control',
+                },
+              ],
             },
             {
-              label: 'MV radial distribution feeder',
-              slug: 'recipes/mv-radial-feeder',
+              label: 'Distribution networks',
+              items: [
+                {
+                  label: 'MV radial distribution feeder',
+                  slug: 'recipes/mv-radial-feeder',
+                },
+                {
+                  label: 'Urban LV grid (34 buses)',
+                  slug: 'recipes/urban-lv',
+                },
+                {
+                  label: 'Distribution rings (hoofdring)',
+                  slug: 'recipes/distribution-rings',
+                },
+                {
+                  label: 'LV service connections',
+                  slug: 'recipes/lv-service-connections',
+                },
+              ],
             },
-            { label: 'Urban LV grid (34 buses)', slug: 'recipes/urban-lv' },
             {
-              label: 'Distribution rings (hoofdring)',
-              slug: 'recipes/distribution-rings',
-            },
-            {
-              label: 'LV service connections',
-              slug: 'recipes/lv-service-connections',
+              label: 'Benchmark networks',
+              items: [
+                {
+                  label: 'Modified CIGRE LV network',
+                  slug: 'recipes/cigre-lv',
+                },
+                {
+                  label: 'Modified CIGRE MV network',
+                  slug: 'recipes/cigre-mv',
+                },
+                {
+                  label: 'Modified IEEE 9-bus with DVPP',
+                  slug: 'recipes/ieee9-dvpp',
+                },
+                {
+                  label: 'IEEE 9-bus with GFM converters',
+                  slug: 'recipes/ieee9-gfm',
+                },
+                {
+                  label: 'IEEE 13-bus feeder with DER',
+                  slug: 'recipes/ieee13-der',
+                },
+              ],
             },
           ],
         },
