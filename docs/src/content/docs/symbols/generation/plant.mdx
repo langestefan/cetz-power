@@ -21,7 +21,7 @@ plant("hpp", (0, 0), kind: "wind-pv-bess", variant: 1)
 `variant:` picks the rendering: **1** draws one compartment per
 technology, **2** a plain box with the icons in a row, **3** bare icons
 with no enclosure. Variants **4** and **5** are single-square
-*composites*: all technologies overlap inside one square — 4 puts a
+_composites_: all technologies overlap inside one square — 4 puts a
 full-height turbine on the left with the panel at its foot and an
 upright battery behind it, 5 mirrors the arrangement (turbine right,
 panel top-left, battery bottom-left). Any `kind` (hyphenated or
@@ -56,19 +56,19 @@ extra leads:
 
 ## Parameters
 
-| Name          | Default         | Description                                                                                       |
-| ------------- | --------------- | ------------------------------------------------------------------------------------------------- |
+| Name          | Default         | Description                                                                                           |
+| ------------- | --------------- | ----------------------------------------------------------------------------------------------------- |
 | `kind`        | `"wind"`        | Technology mix: 1–3 of `wind`, `pv`, `bess`, hyphenated or concatenated, optionally numbered (`pv2`). |
-| `variant`     | `1`             | 1 = compartment box, 2 = plain box, 3 = bare icons, 4 / 5 = single-square composites.              |
-| `cell`        | `0.7`           | Width of one technology cell.                                                                      |
-| `height`      | `0.7`           | Enclosure height.                                                                                  |
-| `icon-scale`  | `0.85`          | Icon size as a fraction of the cell.                                                               |
-| `stroke`      | `0.8pt + black` | Enclosure outline.                                                                                 |
-| `icon-stroke` | `auto`          | Icon stroke — `auto` follows `stroke`.                                                             |
-| `icon-fill`   | `auto`          | Paint for filled icon parts (hub dot, PV cells, battery bars) — `auto` follows the stroke paint.   |
-| `fill`        | `none`          | Enclosure fill.                                                                                    |
-| `label`       | `none`          | Standard label dict (default `anchor: "south"`, `distance: 0.15`).                                 |
-| `angle`       | `0deg`          | Rotation (one-node placement only).                                                                |
+| `variant`     | `1`             | 1 = compartment box, 2 = plain box, 3 = bare icons, 4 / 5 = single-square composites.                 |
+| `cell`        | `0.7`           | Width of one technology cell.                                                                         |
+| `height`      | `0.7`           | Enclosure height.                                                                                     |
+| `icon-scale`  | `0.85`          | Icon size as a fraction of the cell.                                                                  |
+| `stroke`      | `0.8pt + black` | Enclosure outline.                                                                                    |
+| `icon-stroke` | `auto`          | Icon stroke — `auto` follows `stroke`.                                                                |
+| `icon-fill`   | `auto`          | Paint for filled icon parts (hub dot, PV cells, battery bars) — `auto` follows the stroke paint.      |
+| `fill`        | `none`          | Enclosure fill.                                                                                       |
+| `label`       | `none`          | Standard label dict (default `anchor: "south"`, `distance: 0.15`).                                    |
+| `angle`       | `0deg`          | Rotation (one-node placement only).                                                                   |
 
 ## Anchors
 
