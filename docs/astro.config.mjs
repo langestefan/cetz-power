@@ -118,6 +118,7 @@ export default defineConfig({
                 { label: 'Overview', slug: 'symbols/loads' },
                 { label: 'Load', slug: 'symbols/loads/load' },
                 { label: 'Factory', slug: 'symbols/loads/factory' },
+                { label: 'EV charger', slug: 'symbols/loads/ev-charger' },
               ],
             },
             {

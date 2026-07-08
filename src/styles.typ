@@ -163,6 +163,23 @@
     label: (anchor: "south", distance: 0.1),
   ),
 
+  // ── EV charger (electric-vehicle charging station) ──────────────
+  // Pictogram in a SQUARE device box (same enclosure look as
+  // `factory`/`plant`/`block`): a charging pedestal with lightning
+  // bolt, a side-view car, or both — the charging cable hooks into a
+  // plug on the car's rear panel. The lead lands on the box top; with
+  // `box: false` it lands on the pedestal top (or car roof) instead.
+  "ev-charger": (
+    kind: "ev-charger", // "ev-charger" (both), "charger", "ev"
+    height: 0.7, // pedestal height; the rest scales with it
+    box: true, // enclose the pictogram in a square box
+    "box-fill": none, // box interior paint
+    stroke: 0.8pt + black,
+    fill: none, // car body / pedestal fill
+    lead: 0.25,
+    label: (anchor: "south", distance: 0.1),
+  ),
+
   // ── Photovoltaic panel ──────────────────────────────────────────
   "pv-panel": (
     size: 0.35, // panel width

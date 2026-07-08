@@ -1,0 +1,51 @@
+---
+title: EV charger
+description: Electric-vehicle charging pictogram — pedestal, car, or both with the cable.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+An electric-vehicle charging station: a charging pedestal (column with
+a lightning bolt, connector holster and base plinth), a side-view car,
+or both — joined by the charging cable into a plug on the car's rear
+panel — inside a **square** device box (the same enclosure look as
+[factory](/symbols/loads/factory/) /
+[plant](/symbols/generation/plant/)). `kind:` picks the composition:
+`"ev-charger"` (car + pedestal + cable, the default), `"charger"`
+(pedestal only) or `"ev"` (car only). The lead drops from the
+connection point onto the box top; pass `elbow: <units>` to route it
+as an L-shape.
+
+<Snippet name="ev-charger-example" />
+
+## Styling
+
+`fill:` tints the car body and pedestal, `box-fill:` the box interior;
+`box: false` drops the enclosure and hangs the bare pictogram from the
+pedestal top (or, car only, the roof centre). `height:` sizes the
+pedestal and everything else scales with it.
+
+<Snippet name="ev-charger-styling" />
+
+## Parameters
+
+| Name       | Default        | Description                                                                              |
+| ---------- | -------------- | ---------------------------------------------------------------------------------------- |
+| `kind`     | `"ev-charger"` | Composition: `"ev-charger"` (both + cable), `"charger"`, `"ev"`.                         |
+| `height`   | `0.7`          | Pedestal height; the car and box scale with it.                                          |
+| `lead`     | `0.25`         | Length of the stub wire from the connection point to the box (or symbol) top.            |
+| `elbow`    | `0`            | If non-zero, route the lead as an L: across by this many units, then down to the symbol. |
+| `box`      | `true`         | Enclose the pictogram in a square device box.                                            |
+| `box-fill` | `none`         | Box interior paint.                                                                      |
+| `stroke`   | `0.8pt`        | Stroke override.                                                                         |
+| `fill`     | `none`         | Car body and pedestal fill.                                                              |
+
+## Anchors
+
+`in` (= connection point), `north`, `south` (= bottom centre),
+`east` / `west` (mid-height of the sides), `center`, `default`, plus
+`charger` (pedestal top centre) and `ev` (car body centre) when the
+respective part is drawn. The compass anchors sit on the box when it
+is drawn, on the pictogram extents with `box: false`. With `lead: 0`
+the box top sits on the position itself, so `west`/`east` are handy
+for wiring the station inline at the end of a horizontal run.
