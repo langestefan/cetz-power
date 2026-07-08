@@ -1,0 +1,53 @@
+---
+title: Factory
+description: Industrial-load pictogram — a sawtooth-roof building in a device box.
+---
+
+import Snippet from '../../../../components/Snippet.astro';
+
+A factory building — a sawtooth roof, a steam pipe standing on the roof
+base, and a row of window dashes — inside a rectangular device box (the
+same enclosure look as the [plant](/symbols/generation/plant/) and
+[block](/symbols/generation/block/) symbols), for marking industrial
+consumers. The lead drops from the connection point onto the box top;
+pass `elbow: <units>` to route it as an L-shape, or `smoke: true` for
+two wisps drifting off the pipe (they stay inside the box).
+
+<Snippet name="factory-example" />
+
+## Styling
+
+`fill:` tints the building body and `box-fill:` the box interior;
+`box: false` drops the enclosure and hangs the bare building from its
+pipe top instead. `teeth:` and `windows:` change the roof and window
+counts, and `width:`/`height:` resize the building (the box follows).
+`window-fill` defaults to the stroke paint.
+
+<Snippet name="factory-styling" />
+
+## Parameters
+
+| Name          | Default | Description                                                                              |
+| ------------- | ------- | ---------------------------------------------------------------------------------------- |
+| `width`       | `0.8`   | Building width — the box adds padding around it.                                         |
+| `height`      | `0.7`   | Building height, pipe top to ground.                                                     |
+| `lead`        | `0.25`  | Length of the stub wire from the connection point to the box (or pipe) top.              |
+| `elbow`       | `0`     | If non-zero, route the lead as an L: across by this many units, then down to the symbol. |
+| `box`         | `true`  | Enclose the building in a rectangular device box.                                        |
+| `box-fill`    | `none`  | Box interior paint.                                                                      |
+| `teeth`       | `3`     | Number of sawtooth roof teeth.                                                           |
+| `windows`     | `3`     | Number of window dashes along the bottom.                                                |
+| `pipe-width`  | `0.15`  | Steam-pipe width as a fraction of `width`.                                               |
+| `smoke`       | `false` | Draw two smoke wisps drifting off the pipe.                                              |
+| `stroke`      | `0.8pt` | Stroke override.                                                                         |
+| `fill`        | `none`  | Building body fill.                                                                      |
+| `window-fill` | `auto`  | Window dash paint — `auto` follows the stroke paint.                                     |
+
+## Anchors
+
+`in` (= connection point), `north`, `pipe` (= top of the steam pipe),
+`south` (= bottom centre), `east` / `west` (mid-height of the sides),
+`center`, `default`. The compass anchors sit on the box when it is
+drawn, on the building walls with `box: false`. With `lead: 0` the box
+top sits on the position itself, so `west`/`east` are handy for wiring
+the factory inline at the end of a horizontal run.

@@ -117,6 +117,7 @@ export default defineConfig({
               items: [
                 { label: 'Overview', slug: 'symbols/loads' },
                 { label: 'Load', slug: 'symbols/loads/load' },
+                { label: 'Factory', slug: 'symbols/loads/factory' },
               ],
             },
             {

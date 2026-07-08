@@ -31,7 +31,7 @@
 //
 //   * grid        — network infrastructure (buses, wires, grids, transformers)
 //   * generation  — sources (machines like V/G/M/A, PV panels)
-//   * loads       — energy consumers (the generic load arrow)
+//   * loads       — energy consumers (the generic load arrow, factory)
 //   * electrical  — passive components (capacitors, …)
 
 // Grid
@@ -53,6 +53,7 @@
 
 // Loads
 #import "symbols/loads/load.typ": load
+#import "symbols/loads/factory.typ": factory
 
 // Electrical components (passive + sources + ground)
 #import "symbols/electrical/battery.typ": battery

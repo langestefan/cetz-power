@@ -142,6 +142,27 @@
     label: (anchor: "south", distance: 0.1),
   ),
 
+  // ── Factory (industrial load) ───────────────────────────────────
+  // Building pictogram in a device box (same look as `plant`/`block`):
+  // sawtooth roof, a steam pipe standing on the roof base, window
+  // dashes along the bottom. The lead lands on the box top; with
+  // `box: false` the bare building hangs from its pipe top instead.
+  factory: (
+    width: 0.8, // building width (the box adds padding)
+    height: 0.7, // building height, pipe top to ground
+    "pipe-width": 0.15, // steam-pipe width as a fraction of `width`
+    teeth: 3, // sawtooth roof teeth
+    box: true, // enclose the building in a rectangular box
+    "box-fill": none, // box interior paint
+    stroke: 0.8pt + black,
+    fill: none, // building body fill
+    windows: 3, // number of window dashes
+    "window-fill": auto, // auto => stroke paint
+    smoke: false, // two wisps drifting off the pipe
+    lead: 0.25,
+    label: (anchor: "south", distance: 0.1),
+  ),
+
   // ── Photovoltaic panel ──────────────────────────────────────────
   "pv-panel": (
     size: 0.35, // panel width
