@@ -1,0 +1,64 @@
+---
+title: TSO-DSO 110 kV distribution grid
+description: The realistic 110 kV distribution grid used for TSO-DSO reactive-power redispatch studies — 34 stations meshed between two PCC substations (M-Stadt and K-Dorf), with double-busbar hubs, distributed generation plants and neighbouring-subsystem departures.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+The realistic **110 kV distribution grid** used to study reactive-power
+redispatch at the TSO-DSO interface: 34 stations (**S_1–S_34**) meshed
+between two **PCC substations** where the grid couples to the transmission
+system — **M-Stadt** (a double-busbar station) and **K-Dorf** (a single bar
+whose two tie circuits to S_22 are drawn in amber). **S_24** and **S_14**
+are the other double-busbar hubs; generation plants are the circle-with-sine
+sources, and connections to neighbouring subsystems leave the figure as
+arrows.
+
+<Snippet name="recipe-tso-dso-110kv" />
+
+## How it's built
+
+- **Digitised from a pixel map.** One helper `P(x, y) = (x * s, (H - y) * s)`
+  maps source-figure pixels to canvas coordinates, so every
+  [`bus`](/symbols/grid/bus/) and conductor reads straight off the measured
+  pixel numbers, and the scale `s` compresses the whole layout in one place.
+  The routing itself is a cleaned-up redraw: every run is orthogonal and every
+  join lands perpendicularly on a bar interior.
+- **Double busbars are two `bus` bars plus junction pairs.** A bay crosses
+  both bars as one wire; a `jpair(x, ya, yb, sel)` helper then drops a
+  **filled** [`junction`](/symbols/grid/junction/) on the bar the bay selects
+  and an **open** one (the hollow netopening dot) on the other — the
+  DIgSILENT-style busbar-selection look. Bus couplers are stepped links — the
+  left leg on the top bar, the right leg on the bottom bar — with a
+  [`breaker`](/symbols/protection/breaker/) in the bridge.
+- **Twin drops onto paired lines.** Where a station ties into a pair of
+  parallel runs (S_1 onto the S_2/S_9 lines, S_26 onto the two S_25 ties,
+  S_14 down to the two S_18 lines), two collinear verticals leave it: the
+  left one terminates on the top line, the right one runs through to the
+  bottom line — the crossing stays junction-free.
+- **Junctions come last.** Wires are drawn first, then the bars (so the thick
+  bars cover the bay roots), then the junction dots — an open junction's white
+  fill masks whatever runs beneath it, which is exactly what a netopening
+  should do (the dashed S*29 link is the one \_open* line section).
+- **Plants reuse stock symbols.** Every generation plant is a
+  [`voltagesource`](/symbols/electrical/voltagesource/) circle with
+  `kind: "sin"`; the one synchronous generator at S_22 is a
+  [`machine`](/symbols/generation/machine/) with a **G** body. Station loads
+  are hollow [`load`](/symbols/loads/load/) arrows (`fill: white`).
+- **Subsystem departures are annotations.** The arrows leaving the figure at
+  S*10, S_19, S_22–S_26 and below S_24 are
+  [`flow-arrow`](/helpers/flow-arrow/)s with an italic \_Subsystem*
+  `note` caption where the original labels one — they are not
+  conductors.
+- **The PCC areas are borderless backdrops.** Two peach
+  [`area`](/helpers/area/)s (`stroke: none`) sit behind the M-Stadt and
+  K-Dorf bars, drawn first; the bold **PCC** captions hang outside them. The
+  K-Dorf↔S_22 double circuit keeps the source figure's amber colour via plain
+  `cetz.draw.line` strokes.
+
+:::note[Credit]
+This reproduces _Fig. 2 — Grid image of the realistic 110 kV distribution
+grid_ from N. I. Belz, S. Schlegel, J. Grünberg and D. Westermann,
+_Reactive power redispatch at the TSO-DSO interface_, e+i Elektrotechnik und
+Informationstechnik 141 (2024), [doi:10.1007/s00502-024-01294-x](https://doi.org/10.1007/s00502-024-01294-x).
+:::

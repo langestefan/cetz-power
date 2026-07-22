@@ -282,6 +282,10 @@ export default defineConfig({
                   label: 'IEEE 13-bus feeder with DER',
                   slug: 'recipes/ieee13-der',
                 },
+                {
+                  label: 'TSO-DSO 110 kV grid',
+                  slug: 'recipes/tso-dso-110kv',
+                },
               ],
             },
           ],
