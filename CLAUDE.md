@@ -15,6 +15,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Build the docs locally: `cd docs && npm ci && npm run dev`. Live preview at `http://localhost:4321/cetz-power/`. `npm run build` produces a static site under `docs/dist/`.
 - The docs are an [Astro Starlight](https://starlight.astro.build) site. Prose lives in MDX under `docs/src/content/docs/`; Typst diagrams live as standalone snippets under `docs/snippets/<category>/<name>.typ` (category sub-folders mirroring `src/symbols/`, plus `recipes/`, `helpers/`, `getting-started/`, `extending/`) and are compiled to SVG by `docs/scripts/build-diagrams.mjs` (which walks the tree) into a **flat** `docs/public/diagrams/<name>.svg`. Snippet basenames are unique across folders, so the `<Snippet name="..." />` component (in `docs/src/components/Snippet.astro`) resolves a snippet by basename regardless of which folder it lives in — `name` never includes the sub-path.
 - The deployed docs are built and pushed to GitHub Pages by `.github/workflows/docs.yml` on every push to `main`. CI runs Node 22 (Astro 6 requires Node ≥22.12); local dev needs the same.
+- **Lint before pushing** — `.github/workflows/lint.yml` fails the build on formatting drift. Run locally: `typstyle -i src tests docs/snippets` (Typst; CI checks with `typstyle --check`), `cd docs && npm run format` (Prettier over the docs site; `npm run lint` to check), and `ruff check` (Python scripts under `.claude/skills/`, rules in `ruff.toml`).
+- `.github/workflows/tests.yml` runs `./tests/run.sh` and a full docs build (`npm run build`) on every push/PR.
 
 ## Architecture
 
@@ -52,7 +54,7 @@ When adding a new symbol, follow the existing pattern: drop the file under the a
 
 ### Wires are not symbols
 
-`wire()` and `elbow()` in `src/symbols/wire.typ` skip the `symbol()` machinery entirely (no label, no family-style cascade). They only read `cetz-power.wire.stroke` from the active style and draw a `cetz.draw.line`. Both take `kind: "cable"` to re-dash the resolved stroke (pattern from `cetz-power.wire.cable-dash`) so underground cables read differently from overhead lines. Don't try to give them labels — wrap a labelled box around them instead, or attach the label to the symbol on either end.
+`wire()` and `elbow()` in `src/symbols/grid/wire.typ` skip the `symbol()` machinery entirely (no label, no family-style cascade). They only read `cetz-power.wire.stroke` from the active style and draw a `cetz.draw.line`. Both take `kind: "cable"` to re-dash the resolved stroke (pattern from `cetz-power.wire.cable-dash`) so underground cables read differently from overhead lines. Don't try to give them labels — wrap a labelled box around them instead, or attach the label to the symbol on either end.
 
 ### Composition helpers
 
