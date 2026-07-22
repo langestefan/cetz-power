@@ -3,30 +3,31 @@
 
 // Default factory on a bus
 #test({
-  bus("b", (0, 0), length: 3, taps: 3)
-  factory("f", "b.tap2")
+  bus("b", (0, 0), length: 3)
+  factory("f", bus-frac("b", 0.5))
 })
 
-// Label, smoke (stays inside the box), and window count
+// Label, smoke (stays inside the box), and window count — interior
+// taps, never the bus ends
 #test({
-  bus("b", (0, 0), length: 4, taps: 3)
-  factory("f1", "b.tap1", label: [Plant A])
-  factory("f2", "b.tap2", smoke: true)
-  factory("f3", "b.tap3", windows: 4)
+  bus("b", (0, 0), length: 5)
+  factory("f1", bus-frac("b", 0.15), label: [Plant A])
+  factory("f2", bus-frac("b", 0.5), smoke: true)
+  factory("f3", bus-frac("b", 0.85), windows: 4)
 })
 
 // Elbow routing, bare building, fills, and sizing
 #test({
-  bus("b", (0, 0), length: 5, taps: 4)
-  factory("f1", "b.tap1", elbow: 0.5)
-  factory("f2", "b.tap2", box: false)
+  bus("b", (0, 0), length: 7)
+  factory("f1", bus-frac("b", 0.15), elbow: 0.5)
+  factory("f2", bus-frac("b", 0.38), box: false)
   factory(
     "f3",
-    "b.tap3",
+    bus-frac("b", 0.62),
     fill: gray.lighten(70%),
     box-fill: yellow.lighten(85%),
   )
-  factory("f4", "b.tap4", width: 1.1, height: 0.9)
+  factory("f4", bus-frac("b", 0.85), width: 1.1, height: 0.9)
 })
 
 // Wiring via compass anchors (no lead — the box west wall is the terminal)

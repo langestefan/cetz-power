@@ -3,29 +3,29 @@
 
 // Default (car + pedestal + cable) on a bus
 #test({
-  bus("b", (0, 0), length: 4, taps: 1)
-  ev-charger("evc", "b.tap1")
+  bus("b", (0, 0), length: 4)
+  ev-charger("evc", bus-frac("b", 0.5))
 })
 
-// The three kinds
+// The three kinds — interior taps, never the bus ends
 #test({
-  bus("b", (0, 0), length: 6, taps: 3)
-  ev-charger("e1", "b.tap1", kind: "charger", label: [DC fast])
-  ev-charger("e2", "b.tap2", kind: "ev")
-  ev-charger("e3", "b.tap3", kind: "ev-charger")
+  bus("b", (0, 0), length: 7)
+  ev-charger("e1", bus-frac("b", 0.15), kind: "charger", label: [DC fast])
+  ev-charger("e2", bus-frac("b", 0.5), kind: "ev")
+  ev-charger("e3", bus-frac("b", 0.85), kind: "ev-charger")
 })
 
 // Bare, filled, and elbow-routed
 #test({
-  bus("b", (0, 0), length: 6, taps: 3)
-  ev-charger("e1", "b.tap1", box: false)
+  bus("b", (0, 0), length: 7)
+  ev-charger("e1", bus-frac("b", 0.15), box: false)
   ev-charger(
     "e2",
-    "b.tap2",
+    bus-frac("b", 0.5),
     fill: gray.lighten(70%),
     box-fill: yellow.lighten(88%),
   )
-  ev-charger("e3", "b.tap3", kind: "charger", elbow: 0.5)
+  ev-charger("e3", bus-frac("b", 0.85), kind: "charger", elbow: 0.5)
 })
 
 // Wiring via compass anchors (no lead — the box west wall is the terminal)

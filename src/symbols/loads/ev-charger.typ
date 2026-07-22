@@ -74,9 +74,9 @@
     // are digitised from the reference pictogram (sleek sedan, nose
     // left, charge plug on the rear panel).
     let plinth-w = 0.52 * h
-    let car-l = 1.25 * h
-    let car-h = 0.51 * h
-    let gap = 0.28 * h // car rear ↔ pedestal (plug + cable live here)
+    let car-l = 1.6 * h
+    let car-h = 0.61 * h
+    let gap = 0.30 * h // car rear ↔ pedestal (plug + cable live here)
     let content-w = if has-ev and has-charger {
       car-l + gap + plinth-w
     } else if has-charger {
@@ -121,8 +121,8 @@
     // rocker line (which sits one wheel radius above ground).
     let (port-x, port-y) = (0, 0) // cable attachment: the plug's face
     if has-ev {
-      let rw = 0.11 * h // wheel radius
-      let hb = 0.40 * h // rocker line → roof
+      let rw = 0.13 * h // wheel radius
+      let hb = 0.48 * h // rocker line → roof
       let rocker = ground + rw
       let X(fx) = cl + fx * car-l
       let Y(fy) = rocker + fy * hb
@@ -184,8 +184,8 @@
         cetz.draw.line((w1 - arch, Y(0.0)), (X(0.03), Y(0.0)))
       }
       cetz.draw.merge-path(body(), close: true, stroke: s, fill: f)
-      cetz.draw.circle((w1, rocker), radius: rw, stroke: s)
-      cetz.draw.circle((w2, rocker), radius: rw, stroke: s)
+      cetz.draw.circle((w1, rocker), radius: rw, stroke: s, fill: f)
+      cetz.draw.circle((w2, rocker), radius: rw, stroke: s, fill: f)
       // Windows: windshield-side and fastback-side panes around a
       // B-pillar, both rooted on the beltline.
       cetz.draw.line(
@@ -211,21 +211,21 @@
           let p = std.stroke(s).paint
           if p == auto { black } else { p }
         }
-        for dy in (-0.028 * h, 0.028 * h) {
+        for dy in (-0.038 * h, 0.038 * h) {
           cetz.draw.line(
-            (X(0.965), Y(0.60) + dy),
-            (X(1.0) + 0.05 * h, Y(0.60) + dy),
+            (X(0.975), Y(0.60) + dy),
+            (X(1.0) + 0.07 * h, Y(0.60) + dy),
             stroke: s,
           )
         }
         cetz.draw.rect(
-          (X(1.0) + 0.05 * h, Y(0.60) - 0.055 * h),
-          (X(1.0) + 0.14 * h, Y(0.60) + 0.055 * h),
-          radius: 0.02 * h,
+          (X(1.0) + 0.07 * h, Y(0.60) - 0.08 * h),
+          (X(1.0) + 0.185 * h, Y(0.60) + 0.08 * h),
+          radius: 0.025 * h,
           stroke: none,
           fill: paint,
         )
-        (port-x, port-y) = (X(1.0) + 0.14 * h, Y(0.60))
+        (port-x, port-y) = (X(1.0) + 0.185 * h, Y(0.60))
       }
       cetz.draw.anchor("ev", ((X(0.0) + X(1.0)) / 2, Y(0.45)))
     }
