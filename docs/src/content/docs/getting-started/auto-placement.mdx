@@ -7,8 +7,15 @@ import Snippet from '../../../components/Snippet.astro';
 
 cetz-power makes several layout decisions automatically, so a plain
 call with no placement arguments already lands where a drafter would
-put it. This page lists what is automated, how to steer it, and how to
-switch each part off.
+put it. In the substation below, no call carries an `angle:`, a label
+side, or a hand-routed bend — the labels find their free sides, the
+loads orient off their bars, and the reserve tie routes its own
+interior-tapped perpendicular legs:
+
+<Snippet name="auto-showcase" />
+
+This page lists what is automated, how to steer it, and how to switch
+each part off.
 
 ## What is automated
 
@@ -21,6 +28,9 @@ switch each part off.
 - **Sizes and leads** — the default load size (`0.18`) and the
   drop-symbol leads (`0.15`) are the empirically good values for
   dense single-line diagrams, so plain calls need no tuning.
+- **Bus-to-bus connections** — `link("a", "b")` taps both bars'
+  interiors and routes perpendicular legs automatically, so a
+  conductor can never land on a bar's tip.
 - **Wire captions and notes** — `wire(label: …)` and the segment form
   of `note()` pick the conductor's free side and turn text upright
   beside vertical runs.
@@ -62,6 +72,21 @@ the other):
   rotation.
 
 <Snippet name="auto-load-on" />
+
+## Bus-to-bus connections — `link()`
+
+A conductor must meet a busbar perpendicularly, on the bar's
+_interior_ — never at a tip. `link("a", "b")` encodes that rule:
+each end taps the bar at an interior fraction (`from:`/`to:`, default
+the centre) and leaves it perpendicular, and the route between follows
+from the bars' geometry — a straight conductor between facing bars, an
+L between perpendicular ones, a Z between offset parallel bars, and a
+U around collinear ones (`side:` and `clearance:` steer it).
+`label:` captions the longest leg, with the usual automatic side and
+upright rotation. `kind: "cable"` and `stroke:` pass through to the
+wire:
+
+<Snippet name="auto-link" />
 
 ## Wire captions and segment notes
 

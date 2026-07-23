@@ -6,12 +6,15 @@
   bus("b2", (5, 0), length: 2, label: [B])
   bus("b3", (5, -2.5), length: 2, label: (content: [C], anchor: "south"))
 
-  // Wire labels default to the free side — and turn upright
-  // automatically beside a vertical conductor.
-  wire("b1.end", "b2.start", label: [NA2XS2Y 3×240])
+  // link() taps each bar's interior and routes perpendicular legs —
+  // here a U below the collinear bars — and captions the longest leg.
+  link("b1", "b2", label: [NA2XS2Y 3×240])
+
+  // A plain wire between interior taps still labels itself: the
+  // caption turns upright beside the vertical conductor.
   wire("b2.mid", "b3.mid", label: [500 m])
 
   // Segment-form note: caption between two anchors, at any fraction,
   // on either side.
-  note("b1.end", "b2.start", [joint], at: 0.25, side: "south")
+  note("b2.mid", "b3.mid", [joint], at: 0.7, side: "west")
 })

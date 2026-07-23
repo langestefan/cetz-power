@@ -15,10 +15,12 @@ the cm-per-unit scale and is the main compression knob (see rule 13).
 Every conductor, elbow, load and branch must meet a busbar **along its body**, comfortably
 inside `[a,b]` — **never at an extreme tip/outer edge**: not the left/right end of a
 horizontal bar, and not the top/bottom of a *vertical* tick-bus. A drop hanging off the
-very end reads as broken/dangling. Tap a little in — `bus-frac("b", 0.15..0.85)` or an
-explicit interior coordinate — and let the bar **extend a little past** its outermost taps
-(a small overshoot beyond the connections is the clean busbar look). Labels *at* the ends
-are fine; connections are not.
+very end reads as broken/dangling. **For bus-to-bus connections use `link("a", "b")`** —
+it taps both interiors and routes perpendicular legs automatically, making the
+endpoint mistake unwritable. For everything else tap a little in — `bus-frac("b",
+0.15..0.85)` or an explicit interior coordinate — and let the bar **extend a little
+past** its outermost taps (a small overshoot beyond the connections is the clean busbar
+look). Labels *at* the ends are fine; connections are not.
 
 **Make node/tick buses big enough that "interior" is visibly distinct from the tip.** If a
 bus is so short that a body-tap and an edge-tap look the same, the bus is too small —
@@ -35,8 +37,9 @@ bus carries several taps (rule 6) — then distribute them, don't stack them all
 ## 4. Lines join a bus **perpendicularly** — never at an angle
 
 A conductor must meet a busbar at 90° (vertical into a horizontal bar, horizontal into
-a vertical bar). For a run that must move sideways (a "funnel" of two buses converging
-on a third), do **not** draw a single diagonal into the bus. Instead:
+a vertical bar). Bar-to-bar, `link("a", "b")` guarantees this (straight/L/Z/U routes,
+both joins perpendicular). For a run that must move sideways (a "funnel" of two buses
+converging on a third), do **not** draw a single diagonal into the bus. Instead:
 
 ```
 small perpendicular stub  →  diagonal  →  small perpendicular stub (equal length)

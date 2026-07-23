@@ -20,6 +20,19 @@
   for (k, v) in fam-defaults {
     merged.insert(k, v)
   }
+  // The top-level `label` dict is the one nested dict that cascades:
+  // a family's label keys overlay it (per key) rather than replacing
+  // it wholesale, so e.g. a global
+  // `set-style(cetz-power: (label: (anchor: "north")))` reaches every
+  // family that doesn't pin its own anchor.
+  let base-label = base.at("label", default: (:))
+  if base-label.len() > 0 or "label" in fam-defaults {
+    let lab = base-label
+    for (k, v) in fam-defaults.at("label", default: (:)) {
+      lab.insert(k, v)
+    }
+    merged.insert("label", lab)
+  }
   for (k, v) in overrides {
     merged.insert(k, v)
   }
