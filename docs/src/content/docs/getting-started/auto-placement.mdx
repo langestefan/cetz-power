@@ -73,6 +73,11 @@ the other):
 
 <Snippet name="auto-load-on" />
 
+The labels ride along: whatever direction `towards:` (or `angle:`)
+picks, each caption stays beside the tip:
+
+<Snippet name="auto-towards" />
+
 ## Bus-to-bus connections — `link()`
 
 A conductor must meet a busbar perpendicularly, on the bar's
@@ -110,10 +115,29 @@ with `angle:`). `over: (ref: h, gap: g)` computes the overshoot
 
 <Snippet name="auto-bus-fit" />
 
-Related: `elbow(a, b, corner: "v", stub: d)` draws the
-perpendicular-stub → diagonal → equal-stub join for a run that must
-move sideways, so both ends meet their bars at 90° — see
-[Wires](/symbols/grid/wire/).
+The alignment form in action — the fitted bar's ends line up with the
+reference bar across the cables, no arithmetic in sight:
+
+<Snippet name="auto-fit-align" />
+
+## Perpendicular joins — `elbow(stub:)`
+
+For a run that must move sideways between two bars, a square corner
+would arrive along one of them. `stub: d` draws the design-rule join
+instead — perpendicular stub, diagonal, equal stub — so both ends meet
+their bars at 90°, on the interior (see also
+[Wires](/symbols/grid/wire/)):
+
+<Snippet name="auto-elbow-stub" />
+
+## Replicating figures — `pixel-map()`
+
+When digitising a published figure, measure image pixels (origin
+top-left, y growing downward) and let `pixel-map(scale, height: H)`
+flip and scale them; `scale` doubles as the compression knob for the
+whole layout:
+
+<Snippet name="auto-pixel-map" />
 
 ## Tweaking it
 
@@ -135,7 +159,9 @@ move sideways, so both ends meet their bars at 90° — see
 - **Two-lead passives** — `capacitor`, `resistor`, `inductor`,
   `diode`, and `battery` take the `lead: x` shorthand, setting both
   `lead-in` and `lead-out` at once (an individually passed value still
-  wins).
+  wins):
+
+  <Snippet name="auto-lead-shorthand" />
 
 ## Disabling it
 
@@ -151,6 +177,10 @@ Every automatic choice yields to an explicit one:
   // Everything back to the old fixed default:
   cetz.draw.set-style(cetz-power: (label: (anchor: "north")))
   ```
+
+  A `set-style` takes effect for everything drawn after it:
+
+  <Snippet name="auto-opt-out" />
 
 - **A fixed wire-caption side** — pass `label-side:` explicitly; that
   also switches the upright turn off (bring it back with
