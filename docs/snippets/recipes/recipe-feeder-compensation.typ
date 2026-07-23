@@ -44,7 +44,7 @@
   // Onderstation MS — the MV busbar (vertical). It taps the transformer +
   // top feeder at `topy` and the compensation + step-down at `comp-y`, and
   // overshoots each by `ext` so its top lines up with the HS busbar.
-  bus("ms", (x-ms, topy + ext), (x-ms, comp-y - ext))
+  bus("ms", fit: ((x-ms, topy), (x-ms, comp-y)), over: ext)
   // The MS busbar continues downward (dashed) — more feeders not shown.
   wire((x-ms, comp-y - ext), (x-ms, comp-y - ext - dash-len), stroke: (
     paint: black,

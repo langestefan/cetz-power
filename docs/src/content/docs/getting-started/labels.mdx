@@ -9,18 +9,28 @@ Every symbol accepts a `label:` argument. The simplest form is just
 content; the dict form lets you control where it sits.
 
 ```typst
-// Plain content uses the family default position (north / above).
+// Plain content uses the automatic position — the symbol's free side
+// (north beside this horizontal run).
 transformer("t1", (0, 0), (2, 0), label: [132/11 kV])
 
-// Dict form overrides any of: content, anchor, align, distance, size.
+// Dict form overrides any of: content, anchor, align, distance, size, upright.
 transformer("t2", (0, -1), (2, -1), label: (
   content: [T₁],
   anchor: "south",    // world-space position relative to the symbol
   align: auto,        // text-box anchor; `auto` = opposite of `anchor`
   distance: 0.2,      // gap between symbol edge and text
   size: 9pt,          // font size
+  upright: false,     // `true` turns an east/west label to read along a vertical run
 ))
 ```
+
+`anchor:` defaults to `auto`, which picks the symbol's **free side**:
+the perpendicular of the in→out axis on a two-node symbol (north
+beside a horizontal run, east beside a vertical one), the symbol's own
+hint on a one-node symbol (e.g. beside a load's arrow tip, rotated
+along with `angle:`), else `"north"`. See
+[Automatic placement](/getting-started/auto-placement/) for the full
+rules and how to disable them.
 
 The four transformers below show how `anchor:`, `distance:`, and a
 non-compass anchor name change where the text lands:
@@ -55,12 +65,12 @@ Each symbol has its own default `label` sub-dict in `src/styles.typ`.
 Per-call values win, family defaults are next, and the base label style
 is the fallback. Here's the cascade for the `bus` family:
 
-| Layer            | What it sets                                                    |
-| ---------------- | --------------------------------------------------------------- |
-| Base default     | `anchor: "north"`, `align: auto`, `distance: 0.15`, `size: 8pt` |
-| Bus family       | `distance: 0.22` (overrides only the gap)                       |
-| Per-call         | Whatever you pass in `label: (...)`                             |
-| Runtime override | `cetz.draw.set-style(cetz-power: (bus: (label: (...))))`        |
+| Layer            | What it sets                                                 |
+| ---------------- | ------------------------------------------------------------ |
+| Base default     | `anchor: auto`, `align: auto`, `distance: 0.15`, `size: 8pt` |
+| Bus family       | `distance: 0.22` (overrides only the gap)                    |
+| Per-call         | Whatever you pass in `label: (...)`                          |
+| Runtime override | `cetz.draw.set-style(cetz-power: (bus: (label: (...))))`     |
 
 ## Three increasingly local ways to set bus label position
 

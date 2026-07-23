@@ -73,11 +73,19 @@
   )
 })
 
-// Inline `label:` — caption at wire midpoint, default `north` side.
+// Inline `label:` — caption at wire midpoint; the default side is the
+// wire's perpendicular ("north" for this horizontal wire).
 #test({
   bus("b1", (0, 0), length: 1.2, angle: 90deg)
   bus("b2", (3, 0), length: 1.2, angle: 90deg)
   wire("b1.mid", "b2.mid", label: [Tie cable])
+})
+
+// Auto label side on a vertical wire: the caption sits east and is
+// turned upright to read along the conductor.
+#test({
+  wire((0, 0), (0, -2.5), label: [230 m])
+  wire((2, 0), (2, -2.5), label: [flat], label-side: "east") // explicit: not turned
 })
 
 // All four cardinal `label-side` values + a custom distance.
@@ -114,6 +122,28 @@
   note("b.tap2", [middle], side: "north")
   note(("b.tap2", 50%, "b.tap3"), [between t2 and t3], side: "south")
   note((1.0, 0.5), [floating], side: "east")
+})
+
+// Segment form of `note()` — captions a run between two coordinates:
+// auto side is the perpendicular, vertical segments turn the text
+// upright, `at:` moves the label along the segment.
+#test({
+  bus("b1", (0, 0), length: 1.2, angle: 90deg)
+  bus("b2", (3, 0), length: 1.2, angle: 90deg)
+  wire("b1.mid", "b2.mid")
+  note("b1.mid", "b2.mid", [500 m])
+  wire((0, -1.5), (0, -3.5))
+  note((0, -1.5), (0, -3.5), [120 m])
+  wire((3, -1.5), (3, -3.5))
+  note((3, -1.5), (3, -3.5), [30 %], at: 0.3, side: "west")
+})
+
+// Elbow with rule-4 stubs: perpendicular stub, diagonal, equal stub —
+// both ends meet their bars at 90°.
+#test({
+  bus("top", (0, 0), length: 1.5)
+  bus("bot", (2.5, -2), length: 1.5)
+  elbow("top.mid", "bot.mid", corner: "v", stub: 0.35)
 })
 
 // Cable kind: dashed conductor, on wires and elbows, with overrides.

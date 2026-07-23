@@ -67,6 +67,10 @@ export default defineConfig({
             { label: 'Styling', slug: 'getting-started/styling' },
             { label: 'Labels', slug: 'getting-started/labels' },
             { label: 'Wires and elbows', slug: 'getting-started/wires' },
+            {
+              label: 'Automatic placement',
+              slug: 'getting-started/auto-placement',
+            },
           ],
         },
         {

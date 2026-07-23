@@ -29,17 +29,86 @@
 
 /// Draw a busbar.
 ///
+/// A third placement form sizes the bar from the connections it must
+/// carry: `bus("b", fit: (c1, c2, ...), over: 0.2)` spans the given
+/// coordinates plus a symmetric overshoot at both ends — the
+/// clean-busbar look of design rules 2 and 14 without hand-deriving
+/// the endpoints. The axis is inferred from the points' spread
+/// (vertical when they spread more in y) or forced with `angle:`; the
+/// bar passes through the points' mean perpendicular offset.
+/// `over: (ref: h, gap: g)` computes the overshoot `h/2 − g/2` that
+/// lines the bar's ends up with a reference bar of length `h` a gap
+/// `g` away (rule 14). The fit coordinates must already be drawn if
+/// they are anchors.
+///
 /// - name (str): CeTZ group name; used to address anchors (e.g. `"b1.mid"`).
 /// - length (float): bar length in CeTZ units, used only when one position is given.
 /// - taps (int): number of evenly-spaced tap anchors to create; default `1`.
 ///   With `taps: 1` a single `tap1` anchor coincides with `mid`.
+/// - fit (array | none): coordinates the bar must span (alternative to
+///   positions).
+/// - over (float | dictionary): overshoot past the outermost fit
+///   coordinates, or `(ref:, gap:)` for the rule-14 alignment form.
+///   Default `0.2`.
 /// - stroke: stroke override.
 /// - label: content (or dict) placed at the `north` of the bar by default.
-/// - angle: rotation of the bar (only when a single position is given).
+/// - angle: rotation of the bar (only when a single position is given;
+///   with `fit:` it forces the bar's axis).
 /// -> content
 #let bus(name, ..args) = {
   let positions = args.pos()
   let overrides = args.named()
+
+  let fit = overrides.at("fit", default: none)
+  if fit != none { let _ = overrides.remove("fit") }
+  let over = overrides.at("over", default: 0.2)
+  if "over" in overrides { let _ = overrides.remove("over") }
+  if fit != none {
+    assert(
+      positions.len() == 0,
+      message: "bus(): `fit:` replaces the positional coordinates",
+    )
+    assert(
+      type(fit) == array and fit.len() >= 1,
+      message: "bus() fit must be an array of coordinates",
+    )
+    let ang = overrides.at("angle", default: auto)
+    if "angle" in overrides { let _ = overrides.remove("angle") }
+    return cetz.draw.get-ctx(ctx => {
+      let (_ctx, ..pts) = cetz.coordinate.resolve(ctx, ..fit)
+      let xs = pts.map(p => p.at(0))
+      let ys = pts.map(p => p.at(1))
+      let a = if ang == auto {
+        // Axis of the larger spread; a single point defaults vertical
+        // (the common "bar carrying stacked cables" case).
+        if calc.max(..ys) - calc.min(..ys) >= calc.max(..xs) - calc.min(..xs) {
+          90deg
+        } else { 0deg }
+      } else { ang }
+      let u = (calc.cos(a), calc.sin(a))
+      let pv = (-u.at(1), u.at(0))
+      let ts = pts.map(p => p.at(0) * u.at(0) + p.at(1) * u.at(1))
+      let os = pts.map(p => p.at(0) * pv.at(0) + p.at(1) * pv.at(1))
+      let o = os.sum() / os.len()
+      let ov = if type(over) == dictionary {
+        over.at("ref") / 2 - over.at("gap", default: 0) / 2
+      } else { over }
+      // The bar's start→end direction follows the ORDER of the fit
+      // points (first toward last), so `bus-frac` fractions and
+      // `start`/`end` anchors keep the orientation the caller wrote
+      // down — a fit list given top-to-bottom yields a top-down bar.
+      let t0 = calc.min(..ts) - ov
+      let t1 = calc.max(..ts) + ov
+      if ts.last() < ts.first() { (t0, t1) = (t1, t0) }
+      bus(
+        name,
+        (t0 * u.at(0) + o * pv.at(0), t0 * u.at(1) + o * pv.at(1)),
+        (t1 * u.at(0) + o * pv.at(0), t1 * u.at(1) + o * pv.at(1)),
+        ..overrides,
+      )
+    })
+  }
+
   assert(
     positions.len() in (1, 2),
     message: "bus() takes 1 or 2 positions, got " + str(positions.len()),

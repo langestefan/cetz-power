@@ -15,18 +15,21 @@ evenly-spaced tap points for branch connections.
 ```
 bus(name, position, [angle:], [length:], [taps:], [label:], [stroke:])
 bus(name, position-a, position-b, [taps:], [label:], [stroke:])
+bus(name, fit: (c1, c2, ...), [over:], [angle:], [taps:], [label:], [stroke:])
 ```
 
 ## Parameters
 
-| Name     | Default  | Description                                                                   |
-| -------- | -------- | ----------------------------------------------------------------------------- |
-| `name`   | required | Unique CeTZ group name; anchors are addressed as `name.anchor`.               |
-| `length` | `3`      | Bar length (CeTZ units). Ignored when two positions are given.                |
-| `taps`   | `1`      | Number of evenly-spaced tap anchors (`tap1..tapN`).                           |
-| `angle`  | `0deg`   | Rotation. Use `90deg` for a vertical bus. Only for single-position placement. |
-| `stroke` | `1.8pt`  | Stroke override.                                                              |
-| `label`  | `none`   | Label content or dict.                                                        |
+| Name     | Default  | Description                                                                                                          |
+| -------- | -------- | -------------------------------------------------------------------------------------------------------------------- |
+| `name`   | required | Unique CeTZ group name; anchors are addressed as `name.anchor`.                                                      |
+| `length` | `3`      | Bar length (CeTZ units). Ignored when two positions are given.                                                       |
+| `taps`   | `1`      | Number of evenly-spaced tap anchors (`tap1..tapN`).                                                                  |
+| `angle`  | `0deg`   | Rotation. Use `90deg` for a vertical bus. Only for single-position placement (with `fit:` it forces the bar's axis). |
+| `fit`    | `none`   | Array of coordinates the bar must span — replaces the positional coordinates.                                        |
+| `over`   | `0.2`    | With `fit:` — symmetric overshoot past the outermost fit coordinates, or `(ref:, gap:)` (see below).                 |
+| `stroke` | `1.8pt`  | Stroke override.                                                                                                     |
+| `label`  | `none`   | Label content or dict.                                                                                               |
 
 ## Anchors
 
@@ -43,6 +46,25 @@ bus(name, position-a, position-b, [taps:], [label:], [stroke:])
 **Two-node bus** for diagonal / arbitrary-orientation buses:
 
 <Snippet name="bus-two-node" />
+
+## Sizing a bar from its connections — `fit:`
+
+`bus("b", fit: (c1, c2, ...), over: 0.2)` sizes the bar to span the
+given coordinates plus a symmetric overshoot at both ends, so a bar
+carrying several known connection points needs no hand-derived
+endpoints. The axis is inferred from the points' spread (vertical when
+they spread more in y) or forced with `angle:`; the bar passes through
+the points' mean perpendicular offset. Fit coordinates that are
+anchors must already be drawn.
+
+`over: (ref: h, gap: g)` computes the overshoot `h/2 − g/2` that
+lines the bar's ends up with a reference bar of length `h` whose
+connections sit `g` apart:
+
+<Snippet name="auto-bus-fit" />
+
+See [Automatic placement](/getting-started/auto-placement/) for the
+other automatic-layout features.
 
 ## Fractional attachment with `bus-frac`
 

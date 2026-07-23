@@ -128,5 +128,12 @@
     cetz.draw.anchor("west", (-r, 0))
   }
 
-  symbol("voltagesource", name, ..positions, ..overrides, draw: draw)
+  symbol(
+    "voltagesource",
+    name,
+    ..positions,
+    ..overrides,
+    label-dir: 90deg,
+    draw: draw,
+  )
 }

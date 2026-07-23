@@ -11,9 +11,8 @@
 
 #import "deps.typ": cetz
 #import "styles.typ": default as default-styles
-#import "utils.typ": (
-  label-anchor-for-angle, normalise-scale, opposite, resolve-style,
-)
+#import "layout.typ": compass-of-angle, opposite, perp-of, upright
+#import "utils.typ": normalise-scale, resolve-style
 
 #let _angle-type = angle
 
@@ -35,6 +34,11 @@
 /// - name (str): unique CeTZ group name
 /// - draw (function): closure that draws the symbol in local space
 /// - label (content | str | dict | none): label to render next to the symbol
+/// - label-dir (angle | none): the symbol's free side as a LOCAL-frame
+///   direction — where a label fits without sitting on a conductor or
+///   connection (e.g. `-90deg` for a load whose tip points down local -y).
+///   Consumed by the `anchor: auto` label placement; one-node symbols
+///   without a hint fall back to "north".
 /// - angle (angle): rotation (only allowed for one-node symbols)
 /// -> content
 #let symbol(
@@ -42,6 +46,7 @@
   name,
   draw: none,
   label: none,
+  label-dir: none,
   angle: 0deg,
   ..positions-and-overrides,
 ) = {
@@ -141,8 +146,25 @@
         effective-angle-outer = cetz.vector.angle2(a, b)
       }
 
-      // World-space anchor direction. Default: "north" (above the symbol).
-      let world-anchor = ls.at("anchor", default: "north")
+      // World-space anchor direction. Default `auto`: pick the symbol's
+      // free side — for a two-node symbol the connections run along the
+      // in→out axis, so the label goes on the perpendicular (preferring
+      // the upper half-plane: north beside a horizontal run, east beside
+      // a vertical one); a one-node symbol uses its `label-dir` hint
+      // rotated into world space, or plain "north" without one. Auto
+      // snaps to the four cardinals so the resolved name is an anchor
+      // every symbol registers.
+      let world-anchor = ls.at("anchor", default: auto)
+      if world-anchor == auto {
+        world-anchor = if positions.len() == 2 {
+          compass-of-angle(perp-of(effective-angle-outer), cardinal-only: true)
+        } else if label-dir != none {
+          compass-of-angle(
+            label-dir + effective-angle-outer,
+            cardinal-only: true,
+          )
+        } else { "north" }
+      }
 
       // Known compass names — only these get rotated into the symbol's local
       // frame. Any other string is taken to name a specific anchor the symbol
@@ -167,18 +189,7 @@
         world-anchor
       } else {
         let world-deg = compass.at(world-anchor)
-        let local-deg = calc.rem(world-deg - effective-angle-outer / 1deg, 360)
-        if local-deg < 0 { local-deg = local-deg + 360 }
-        // Snap: each cardinal owns a 45° sector centred on its angle.
-        if local-deg < 22.5 or local-deg >= 337.5 { "east" } else if (
-          local-deg < 67.5
-        ) { "north-east" } else if local-deg < 112.5 { "north" } else if (
-          local-deg < 157.5
-        ) { "north-west" } else if local-deg < 202.5 { "west" } else if (
-          local-deg < 247.5
-        ) { "south-west" } else if local-deg < 292.5 { "south" } else {
-          "south-east"
-        }
+        compass-of-angle(world-deg * 1deg - effective-angle-outer)
       }
 
       let attach = if type(local-anchor) == str {
@@ -196,11 +207,17 @@
         } else { "center" }
       }
 
+      // `upright: true` turns the label -90° when it sits beside the
+      // symbol (east/west), so it reads along a vertical run.
+      let body = if ls.at("upright", default: false) {
+        upright(ls.content, world-anchor)
+      } else { ls.content }
+
       cetz.draw.content(
         attach,
         anchor: text-align,
         padding: ls.at("distance", default: 0.15),
-        text(size: ls.at("size", default: 8pt), ls.content),
+        text(size: ls.at("size", default: 8pt), body),
       )
     })
   }

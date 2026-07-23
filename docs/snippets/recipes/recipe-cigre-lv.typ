@@ -18,13 +18,8 @@
   // ── Helpers ─────────────────────────────────────────────────────
   let dot(p) = cetz.draw.circle(p, radius: 0.05, fill: black)
   let nl(p, c, s) = note(p, text(size: 6pt)[#c], side: s, distance: 0.16)
-  let dl(a, b, c, s) = note(
-    (a, 50%, b), // length label; vertical → rotated
-    if s in ("east", "west") { rotate(-90deg, reflow: true, c) } else { c },
-    side: s,
-    distance: 0.04,
-    size: 5pt,
-  )
+  // length label — the segment form turns east/west labels upright itself
+  let dl(a, b, c, s) = note(a, b, c, side: s, distance: 0.04, size: 5pt)
   let seg = wire
   let ld(name, p, ang, lead: al) = load(
     name,

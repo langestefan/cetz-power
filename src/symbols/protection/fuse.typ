@@ -65,5 +65,5 @@
     cetz.draw.anchor("west", (-half-len, 0))
   }
 
-  symbol("fuse", name, ..positions, ..overrides, draw: draw)
+  symbol("fuse", name, ..positions, ..overrides, label-dir: 90deg, draw: draw)
 }

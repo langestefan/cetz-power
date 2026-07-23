@@ -12,10 +12,12 @@ opposite).
 
 <Snippet name="getting-started-wires-elbows" />
 
-Wires aren't full "symbols" — they have no label and no style family of
-their own; their stroke follows the global `cetz-power.wire.stroke`. If
-you want a label on a wire, attach it to the symbol on either end
-instead.
+Wires aren't full "symbols" — they have no style family of their own;
+their stroke follows the global `cetz-power.wire.stroke`. They do take
+an inline `label:`, which lands on the wire's free side by default
+(north above a horizontal wire, turned upright beside a vertical one) —
+see the [Wires reference](/symbols/grid/wire/) for the label arguments
+and the `elbow(stub:)` join.
 
 ## Restyling every wire at once
 

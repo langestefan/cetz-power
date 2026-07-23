@@ -7,6 +7,7 @@
 
 #import "/src/deps.typ": cetz
 #import "/src/core.typ": symbol
+#import "/src/utils.typ": drop-orientation, resolve-style
 
 /// Solar / photovoltaic panel.
 ///
@@ -24,6 +25,52 @@
   if lead != none { let _ = overrides.remove("lead") }
   let elbow = overrides.at("elbow", default: none)
   if elbow != none { let _ = overrides.remove("elbow") }
+
+  // Context-aware placement: `on: "<bus-name>"` orients the drop off
+  // that bus (straight below a horizontal bar, the rule-8 L-bend off a
+  // vertical one; `side:` picks the side), `towards: <coord>` aims the
+  // tip at a coordinate. Both resolve to a plain `angle:`/`elbow:` call.
+  let on = overrides.at("on", default: none)
+  if on != none { let _ = overrides.remove("on") }
+  let towards = overrides.at("towards", default: none)
+  if towards != none { let _ = overrides.remove("towards") }
+  let side = overrides.at("side", default: auto)
+  if side != auto { let _ = overrides.remove("side") }
+  if on != none or towards != none {
+    assert(
+      on == none or towards == none,
+      message: "pv-panel(): pass `on:` or `towards:`, not both",
+    )
+    assert(
+      positions.len() == 1,
+      message: "pv-panel(): `on:`/`towards:` need exactly one position",
+    )
+    assert(
+      "angle" not in overrides,
+      message: "pv-panel(): `angle:` conflicts with `on:`/`towards:`",
+    )
+    return cetz.draw.get-ctx(ctx => {
+      let st = resolve-style(ctx, "pv-panel", overrides)
+      let e-mag = if elbow != none { calc.abs(elbow) } else {
+        st.at("elbow", default: 0.25)
+      }
+      let o = drop-orientation(
+        ctx,
+        positions.first(),
+        on: on,
+        towards: towards,
+        side: side,
+        elbow: e-mag,
+      )
+      let fwd = (angle: o.angle)
+      if o.elbow != auto {
+        fwd.insert("elbow", o.elbow)
+      } else if elbow != none { fwd.insert("elbow", elbow) }
+      if lead != none { fwd.insert("lead", lead) }
+      pv-panel(name, positions.first(), ..overrides, ..fwd)
+    })
+  }
+  assert(side == auto, message: "pv-panel(): `side:` requires `on:`")
 
   let draw(ctx, positions, style) = {
     let w = style.at("size", default: 0.5)
@@ -87,5 +134,12 @@
     cetz.draw.anchor("center", (panel-x, (top + bottom) / 2))
   }
 
-  symbol("pv-panel", name, ..positions, ..overrides, draw: draw)
+  symbol(
+    "pv-panel",
+    name,
+    ..positions,
+    ..overrides,
+    label-dir: -90deg,
+    draw: draw,
+  )
 }

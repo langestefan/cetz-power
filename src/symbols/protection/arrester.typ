@@ -89,5 +89,12 @@
     cetz.draw.anchor("west", (-half-len, 0))
   }
 
-  symbol("arrester", name, ..positions, ..overrides, draw: draw)
+  symbol(
+    "arrester",
+    name,
+    ..positions,
+    ..overrides,
+    label-dir: 90deg,
+    draw: draw,
+  )
 }

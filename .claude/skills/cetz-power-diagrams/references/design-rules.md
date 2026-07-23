@@ -76,17 +76,22 @@ its connection mirrors its partner, rather than eyeballing.
 
 ## 8. Loads: small, correctly aimed, rooted at the bus
 
-- Keep them **small** — `size ≈ 0.16–0.2`, `lead ≈ 0.13–0.16`. Oversized arrows dominate.
-- Aim with `angle:` (one-node rotation): default = down; `180deg` = up; `90deg` = right;
-  `270deg` = left. Verify direction in the render — don't assume the sign.
-- For an "up-then-right" (or any elbow) load, combine `angle:` with `elbow:` — e.g.
-  `load(p, angle: 90deg, elbow: 0.18)` leaves the bus, goes up `elbow`, then right `lead`,
-  arrowhead right.
+- The defaults are already the right size (`size 0.18`, `lead 0.15`) — don't override
+  unless the diagram is unusually dense or sparse. Oversized arrows dominate.
+- **Prefer `on: "<bus-name>"`** — it aims the drop from the bus's own axis: straight
+  down below a horizontal bar (`side: "north"` flips it above), and the correct
+  perpendicular L-bend off a vertical bar (`side: "east"`/`"west"`, elbow length from
+  the `elbow` style key). `towards: <coord>` aims the tip at a coordinate. The bus must
+  be drawn first; both conflict with `angle:`.
+- Manual aiming still works: `angle:` (default = down; `180deg` = up; `90deg` = right;
+  `270deg` = left — verify direction in the render, don't assume the sign), and
+  `elbow:` for an explicit L-bend (`load(p, angle: 90deg, elbow: 0.18)` leaves the bus,
+  goes up `elbow`, then right `lead`, arrowhead right).
 - **On a vertical bus, a down-load must leave the body *perpendicular* — an L-bend across
-  (right) then down — never straight off the bottom tip.** Use `load(p, elbow: e)`: it goes
-  across `e`, then down `lead`, arrowhead down. Tap the point `p` on the bus *interior*
-  (rule 2), not its end. This is the same perpendicular-join principle as rule 4: a line
-  meeting a vertical bar leaves it horizontally first.
+  (right) then down — never straight off the bottom tip** (`on:` does this for you). Tap
+  the point `p` on the bus *interior* (rule 2), not its end. This is the same
+  perpendicular-join principle as rule 4: a line meeting a vertical bar leaves it
+  horizontally first.
 - A node bus carrying **several drops** (a load *and* a branch) gives **each its own
   interior tap** — e.g. the feeder taps the centre and two more taps sit on the lower body,
   spread apart (rule 6), each leaving with its own L-bend. Don't stack them on one point or
@@ -121,16 +126,19 @@ shrunk layout and can newly intersect the box.
 
 ## 12. Nothing overlaps: text, boxes, annotations
 
-- Place a label on the side **away** from the bus's connections (`note(..., side: ...)`,
-  or the label `anchor:` — remember it is a **world-space** compass direction).
+- Symbol labels default to `anchor: auto` — the symbol's free side (perpendicular of a
+  two-node symbol's axis; beside a load's tip) — so most labels land right with no
+  argument. Override with an explicit world-space compass `anchor:` in the label dict
+  (or `note(..., side: ...)`) only when the auto side is occupied by something the
+  symbol can't know about.
 - Put a machine/source caption **outside** its circle (offset by `radius + gap`), not on it.
 - Don't duplicate a label the figure/diagram already carries.
 - After every change, zoom the dense clusters and confirm no glyph touches another.
 
 ## 13. Compress by scaling the layout, not the symbols
 
-"Lines too long" ⇒ shorten the gaps. With a pixel-mapped layout (`P(x,y) = (x*s, …)`),
-**reduce `s`**: every conductor run and inter-bus gap shrinks, while absolute-sized
+"Lines too long" ⇒ shorten the gaps. With a pixel-mapped layout (`let P = pixel-map(s,
+height: H)`), **reduce `s`**: every conductor run and inter-bus gap shrinks, while absolute-sized
 symbols (transformer radius, machine radius, load size, box size, text pt) stay put — so
 lines get shorter *relative to* the symbols (less whitespace). Then:
 
@@ -142,14 +150,19 @@ lines get shorter *relative to* the symbols (less whitespace). Then:
 
 ## 14. Symmetric overshoot when aligning bus tops/ends
 
-To line a tall bus's top up with a shorter reference bar, compute the overshoot once and
-apply it to **both** ends: `over = ref_h/2 − gap/2`, place from `(x, top + over)` to
-`(x, bottom − over)`. Extending only one end leaves the bar visually lopsided.
+Use `bus("b", fit: (c1, c2, ...), over: ...)`: the bar spans its connections plus the
+same overshoot at **both** ends, and `over: (ref: h, gap: g)` computes the alignment
+overshoot `h/2 − g/2` against a reference bar for you. (The manual form — `over =
+ref_h/2 − gap/2` applied to both endpoints — is what `fit:` encodes.) Extending only
+one end leaves the bar visually lopsided. The bar runs first→last fit point, so
+`bus-frac` fractions keep their orientation.
 
-## 15. Wires can't be labelled
+## 15. Labelling conductors
 
-`wire`/`elbow` skip the symbol/label machinery. To caption a conductor, attach a `note`
-to one of its endpoints, or label the symbol on either end. Don't try `wire(..., label:)`.
+`wire(..., label: ...)` captions a conductor at its midpoint; `note(a, b, body)` (the
+segment form) captions any span, `at:` moving the label along it. Both default the side
+to the conductor's perpendicular and turn east/west labels upright beside vertical runs
+— pass an explicit `label-side:`/`side:` only to dodge something on the free side.
 
 ## 16. Equal spacing between repeated elements
 

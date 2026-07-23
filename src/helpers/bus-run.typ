@@ -8,14 +8,10 @@
 // table and the geometry follows from it.
 
 #import "/src/deps.typ": cetz
+#import "/src/layout.typ": compass-of-angle, upright as _upright
 #import "/src/symbols/grid/bus.typ": bus
 #import "/src/symbols/grid/wire.typ": wire
 #import "note.typ": note
-
-// Rotate content for labels that sit beside a vertical segment.
-#let _upright(c, side) = {
-  if side in ("east", "west") { rotate(-90deg, reflow: true, c) } else { c }
-}
 
 /// Draw a run of node buses: spine, labelled segments, devices, ticks.
 ///
@@ -88,17 +84,7 @@
   let fmt = if label-format == auto { l => [#l m] } else { label-format }
   let lside = if label-side == auto {
     // compass of the perpendicular: "north" on a horizontal run
-    let k = int(calc.rem(calc.round(angle / 45deg) + 2 + 8, 8))
-    (
-      "east",
-      "north-east",
-      "north",
-      "north-west",
-      "west",
-      "south-west",
-      "south",
-      "south-east",
-    ).at(k)
+    compass-of-angle(angle + 90deg)
   } else { label-side }
   let cside = if caption-side == auto { lside } else { caption-side }
 

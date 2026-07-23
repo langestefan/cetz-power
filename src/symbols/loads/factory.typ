@@ -10,6 +10,7 @@
 
 #import "/src/deps.typ": cetz
 #import "/src/core.typ": symbol
+#import "/src/utils.typ": drop-orientation, resolve-style
 
 /// Factory / industrial load.
 ///
@@ -31,6 +32,52 @@
   if lead != none { let _ = overrides.remove("lead") }
   let elbow = overrides.at("elbow", default: none)
   if elbow != none { let _ = overrides.remove("elbow") }
+
+  // Context-aware placement: `on: "<bus-name>"` orients the drop off
+  // that bus (straight below a horizontal bar, the rule-8 L-bend off a
+  // vertical one; `side:` picks the side), `towards: <coord>` aims the
+  // tip at a coordinate. Both resolve to a plain `angle:`/`elbow:` call.
+  let on = overrides.at("on", default: none)
+  if on != none { let _ = overrides.remove("on") }
+  let towards = overrides.at("towards", default: none)
+  if towards != none { let _ = overrides.remove("towards") }
+  let side = overrides.at("side", default: auto)
+  if side != auto { let _ = overrides.remove("side") }
+  if on != none or towards != none {
+    assert(
+      on == none or towards == none,
+      message: "factory(): pass `on:` or `towards:`, not both",
+    )
+    assert(
+      positions.len() == 1,
+      message: "factory(): `on:`/`towards:` need exactly one position",
+    )
+    assert(
+      "angle" not in overrides,
+      message: "factory(): `angle:` conflicts with `on:`/`towards:`",
+    )
+    return cetz.draw.get-ctx(ctx => {
+      let st = resolve-style(ctx, "factory", overrides)
+      let e-mag = if elbow != none { calc.abs(elbow) } else {
+        st.at("elbow", default: 0.25)
+      }
+      let o = drop-orientation(
+        ctx,
+        positions.first(),
+        on: on,
+        towards: towards,
+        side: side,
+        elbow: e-mag,
+      )
+      let fwd = (angle: o.angle)
+      if o.elbow != auto {
+        fwd.insert("elbow", o.elbow)
+      } else if elbow != none { fwd.insert("elbow", elbow) }
+      if lead != none { fwd.insert("lead", lead) }
+      factory(name, positions.first(), ..overrides, ..fwd)
+    })
+  }
+  assert(side == auto, message: "factory(): `side:` requires `on:`")
 
   let draw(ctx, positions, style) = {
     let w = style.at("width", default: 0.8)
@@ -191,5 +238,12 @@
     }
   }
 
-  symbol("factory", name, ..positions, ..overrides, draw: draw)
+  symbol(
+    "factory",
+    name,
+    ..positions,
+    ..overrides,
+    label-dir: -90deg,
+    draw: draw,
+  )
 }

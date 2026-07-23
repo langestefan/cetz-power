@@ -43,8 +43,16 @@
 #let external-grid(name, ..args) = {
   let positions = args.pos()
   let overrides = args.named()
-  let lead = overrides.at("lead", default: none)
-  if lead != none { let _ = overrides.remove("lead") }
+  // `lead` is the canonical name; `distance` is accepted per-call as a
+  // legacy alias (the key was renamed) — pop both so neither leaks into
+  // the merged style, where the family `lead` default would shadow a
+  // per-call `distance`.
+  let lead = overrides.at(
+    "lead",
+    default: overrides.at("distance", default: none),
+  )
+  if "lead" in overrides { let _ = overrides.remove("lead") }
+  if "distance" in overrides { let _ = overrides.remove("distance") }
 
   let draw(ctx, positions, style) = {
     let sz = style.at("size", default: 0.5)
@@ -58,7 +66,11 @@
     if sh == none { sh = sz }
     let s = style.at("stroke", default: 0.8pt + black)
     let f = style.at("fill", default: none)
-    let l = if lead != none { lead } else { style.at("distance", default: 0.2) }
+    let l = if lead != none { lead } else {
+      // `lead` is the canonical style key; `distance` kept as a fallback
+      // for style dicts written before the rename.
+      style.at("lead", default: style.at("distance", default: 0.2))
+    }
     let bg = style.at("background", default: none)
 
     let bot = l

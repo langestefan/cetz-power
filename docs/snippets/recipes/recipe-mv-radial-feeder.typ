@@ -15,7 +15,7 @@
 #diagram(length: 1cm, {
   let s = 0.01
   let H = 767
-  let P(x, y) = (x * s, (H - y) * s) // image px → cm, y flipped
+  let P = pixel-map(s, height: H)
   let ym = 304
   let yu = 108
   let ys = 497 // main / upper / sub-feeder rows

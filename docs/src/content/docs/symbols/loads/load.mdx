@@ -11,15 +11,31 @@ to route the lead as an L-shape (across, then down to the arrow).
 
 <Snippet name="load-example" />
 
+## Context-aware placement — `on:` and `towards:`
+
+Instead of a manual `angle:` (they conflict — pass one or the other),
+`on: "<bus-name>"` orients the drop off the named bus: a horizontal
+bar gets a straight drop below it (`side: "north"` flips it above), a
+vertical bar gets an automatic L-bend — across by the `elbow` style
+(default `0.25`), then down — on the `side: "east"` (default) or
+`"west"` side. The referenced bus must be drawn first.
+`towards: <coord>` aims the arrow tip at a coordinate instead. See
+[Automatic placement](/getting-started/auto-placement/).
+
+<Snippet name="auto-load-on" />
+
 ## Parameters
 
-| Name     | Default | Description                                                                             |
-| -------- | ------- | --------------------------------------------------------------------------------------- |
-| `size`   | `0.28`  | Triangle side length.                                                                   |
-| `lead`   | `0.25`  | Length of the stub wire from the connection point to the arrow's base.                  |
-| `elbow`  | `0`     | If non-zero, route the lead as an L: across by this many units, then down to the arrow. |
-| `stroke` | `0.8pt` | Stroke override.                                                                        |
-| `fill`   | `black` | Triangle fill — set to `none` for a hollow textbook arrow.                              |
+| Name      | Default | Description                                                                                                                     |
+| --------- | ------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `size`    | `0.18`  | Triangle side length.                                                                                                           |
+| `lead`    | `0.15`  | Length of the stub wire from the connection point to the arrow's base.                                                          |
+| `elbow`   | `0.25`  | L-bend length: how far the lead steps across before dropping down. Only used with `on:` (vertical bus) or when passed per call. |
+| `on`      | `none`  | Bus name to orient the drop off — replaces `angle:`.                                                                            |
+| `towards` | `none`  | Coordinate the tip aims at — replaces `angle:`.                                                                                 |
+| `side`    | `auto`  | With `on:` — `"north"`/`"south"` off a horizontal bus, `"east"`/`"west"` off a vertical one.                                    |
+| `stroke`  | `0.8pt` | Stroke override.                                                                                                                |
+| `fill`    | `black` | Triangle fill — set to `none` for a hollow textbook arrow.                                                                      |
 
 ## Anchors
 

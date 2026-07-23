@@ -6,6 +6,9 @@
 // midpoint of the polyline (see the `wire` doc-comment below).
 
 #import "/src/deps.typ": cetz
+#import "/src/layout.typ": (
+  compass-of-angle, compass-opposites as _opposite-side, perp-of, upright,
+)
 
 // Look up the wire stroke from the active cetz-power style, or fall back.
 // `kind: "cable"` re-dashes the resolved stroke (pattern from the
@@ -31,22 +34,6 @@
     dash: wire-style.at("cable-dash", default: "dashed"),
   )
 }
-
-// Map "the side of the anchor I want my label to sit on" to "the
-// anchor on the label that should land at the supplied position" —
-// they're opposite compass directions. Used by `wire(..., label: …)`
-// and by `helpers/note.typ`. Duplicated here (kept in sync) to avoid an
-// import cycle between this file and the helpers.
-#let _opposite-side = (
-  "north": "south",
-  "south": "north",
-  "east": "west",
-  "west": "east",
-  "north-east": "south-west",
-  "south-west": "north-east",
-  "north-west": "south-east",
-  "south-east": "north-west",
-)
 
 /// Wire — a straight segment or a multi-point polyline.
 ///
@@ -104,10 +91,13 @@
 /// ## Inline labels
 ///
 /// Pass `label: <content>` to drop a text caption at the midpoint of
-/// the polyline (the lerp-50 % between the FIRST and LAST positional
+/// the polyline (halfway between the FIRST and LAST positional
 /// points). `label-side:` picks which side of the midpoint the text
 /// sits on — `"north"` / `"south"` / `"east"` / `"west"` plus the
-/// four 45° diagonals; defaults to `"north"` (above the wire).
+/// four 45° diagonals. The default `auto` resolves to the wire's
+/// perpendicular: north above a horizontal wire, east beside a
+/// vertical one — where `label-upright: auto` also turns the text to
+/// read along the conductor.
 ///
 ///     wire("a.in", "b.in", label: [Kabel])
 ///     wire("a.in", "b.in", label: [Cable], label-side: "south")
@@ -125,7 +115,11 @@
 /// - stroke: stroke override; defaults to `cetz-power.wire.stroke`.
 /// - label: optional caption content placed at the wire midpoint.
 /// - label-side: compass side of the midpoint the label sits on.
-///   Default `"north"`.
+///   Default `auto` — the wire's perpendicular.
+/// - label-upright: rotate the caption -90° when it sits east/west
+///   (beside a vertical wire) so it reads along the conductor.
+///   Default `auto` — on for auto-resolved sides, off for an
+///   explicitly passed `label-side`.
 /// - label-distance: gap between the wire and the label edge in canvas
 ///   units. Default `0.15`.
 /// - label-align: horizontal alignment of the label box relative to
@@ -142,7 +136,8 @@
   let stroke = named.at("stroke", default: auto)
   let kind = named.at("kind", default: "line")
   let label = named.at("label", default: none)
-  let label-side = named.at("label-side", default: "north")
+  let label-side = named.at("label-side", default: auto)
+  let label-upright = named.at("label-upright", default: auto)
   let label-distance = named.at("label-distance", default: 0.15)
   let label-align = named.at("label-align", default: "center")
   let label-size = named.at("label-size", default: 7pt)
@@ -159,20 +154,35 @@
     cetz.draw.line(..pts, stroke: _wire-stroke(ctx, stroke, kind: kind))
 
     if label != none {
+      // Resolve every point (handles rel/turtle forms) so the midpoint
+      // and the auto side come from real geometry.
+      let (_ctx, ..rpts) = cetz.coordinate.resolve(ctx, ..pts)
+      let (a, b) = (rpts.first(), rpts.last())
+      let side = if label-side == auto {
+        // The wire's perpendicular: north above a horizontal wire,
+        // east beside a vertical one.
+        compass-of-angle(perp-of(cetz.vector.angle2(a, b)))
+      } else { label-side }
       assert(
-        label-side in _opposite-side,
+        side in _opposite-side,
         message: "wire label-side must be a compass direction, got "
-          + repr(label-side),
+          + repr(side),
       )
-      // Midpoint of the first and last positional coordinates.
-      let mid = (pts.first(), 50%, pts.last())
-      // For label-side north/south the base anchor is south/north (centred
+      let up = if label-upright == auto { label-side == auto } else {
+        label-upright
+      }
+      let body = if up { upright(label, side) } else { label }
+      let mid = (
+        (a.at(0) + b.at(0)) / 2,
+        (a.at(1) + b.at(1)) / 2,
+      )
+      // For side north/south the base anchor is south/north (centred
       // on the midpoint). label-align shifts the anchor horizontally so the
       // label box's left/right edge — instead of its centre — sits on the
       // midpoint, which lets multiple labels be made flush at the same x.
-      let base-anchor = _opposite-side.at(label-side)
+      let base-anchor = _opposite-side.at(side)
       let h-suffix = (left: "-west", center: "", right: "-east").at(label-align)
-      let anchor = if label-side in ("north", "south") {
+      let anchor = if side in ("north", "south") {
         base-anchor + h-suffix
       } else {
         base-anchor
@@ -181,7 +191,7 @@
         mid,
         anchor: anchor,
         padding: label-distance,
-        text(size: label-size, label),
+        text(size: label-size, body),
       )
     }
   })
@@ -194,20 +204,49 @@
 /// via CeTZ's perpendicular-coordinate syntax, so `a` and `b` can be
 /// anchor names or mixed coordinates.
 ///
+/// With `stub: d` the elbow instead draws the design-rule-4 join for a
+/// run that must move sideways: a perpendicular stub of length `d` out
+/// of `a`, a diagonal, and an equal perpendicular stub into `b` — so
+/// both ends meet their bars at 90° with no corner point. `corner`
+/// picks the stub axis: `"v"` leaves/enters vertically (between
+/// horizontal bars), `"h"` horizontally (between vertical bars).
+///
 /// - a (coordinate): start
 /// - b (coordinate): end
-/// - corner ("h" | "v"): routing order of the two legs
+/// - corner ("h" | "v"): routing order of the two legs (with `stub:`,
+///   the axis of the two end stubs)
+/// - stub (float): perpendicular stub length at both ends; `0`
+///   (default) draws the plain right-angle corner.
 /// - kind (str): `"line"` (default) or `"cable"` — as on `wire()`.
 /// - stroke: stroke override
 /// -> content
-#let elbow(a, b, corner: "h", kind: "line", stroke: auto) = {
+#let elbow(a, b, corner: "h", stub: 0, kind: "line", stroke: auto) = {
   assert(corner in ("h", "v"), message: "corner must be \"h\" or \"v\"")
   cetz.draw.get-ctx(ctx => {
     let s = _wire-stroke(ctx, stroke, kind: kind)
-    // CeTZ perpendicular coordinates: (a, "-|", b) resolves to (b's x,
-    // a's y) — the horizontal-first knee — and (a, "|-", b) to (a's x,
-    // b's y) — the vertical-first knee.
-    let knee = if corner == "h" { (a, "-|", b) } else { (a, "|-", b) }
-    cetz.draw.line(a, knee, b, stroke: s)
+    if stub == 0 {
+      // CeTZ perpendicular coordinates: (a, "-|", b) resolves to (b's x,
+      // a's y) — the horizontal-first knee — and (a, "|-", b) to (a's x,
+      // b's y) — the vertical-first knee.
+      let knee = if corner == "h" { (a, "-|", b) } else { (a, "|-", b) }
+      cetz.draw.line(a, knee, b, stroke: s)
+    } else {
+      // Stub → diagonal → equal stub (both joins perpendicular).
+      let (_ctx, ra, rb) = cetz.coordinate.resolve(ctx, a, b)
+      let axis = if corner == "v" { 1 } else { 0 }
+      let sg = if rb.at(axis) >= ra.at(axis) { 1 } else { -1 }
+      let step(p, d) = if axis == 1 {
+        (p.at(0), p.at(1) + d)
+      } else {
+        (p.at(0) + d, p.at(1))
+      }
+      cetz.draw.line(
+        a,
+        step(ra, sg * stub),
+        step(rb, -sg * stub),
+        b,
+        stroke: s,
+      )
+    }
   })
 }

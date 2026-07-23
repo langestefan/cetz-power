@@ -16,6 +16,13 @@ panel — inside a **square** device box (the same enclosure look as
 connection point onto the box top; pass `elbow: <units>` to route it
 as an L-shape.
 
+Like [load](/symbols/loads/load/), the station accepts the
+context-aware placement arguments `on: "<bus-name>"` (straight drop
+below a horizontal bar, `side: "north"` to flip above; automatic
+L-bend off a vertical bar, `side: "east"`/`"west"`) and
+`towards: <coord>` — both replace `angle:`. See
+[Automatic placement](/getting-started/auto-placement/).
+
 <Snippet name="ev-charger-example" />
 
 ## Styling
@@ -33,8 +40,10 @@ pedestal and everything else scales with it.
 | ---------- | -------------- | ---------------------------------------------------------------------------------------- |
 | `kind`     | `"ev-charger"` | Composition: `"ev-charger"` (both + cable), `"charger"`, `"ev"`.                         |
 | `height`   | `0.7`          | Pedestal height; the car and box scale with it.                                          |
-| `lead`     | `0.25`         | Length of the stub wire from the connection point to the box (or symbol) top.            |
+| `lead`     | `0.15`         | Length of the stub wire from the connection point to the box (or symbol) top.            |
 | `elbow`    | `0`            | If non-zero, route the lead as an L: across by this many units, then down to the symbol. |
+| `on`       | `none`         | Bus name to orient the drop off — replaces `angle:` (`side:` picks the side).            |
+| `towards`  | `none`         | Coordinate the symbol aims at — replaces `angle:`.                                       |
 | `box`      | `true`         | Enclose the pictogram in a square device box.                                            |
 | `box-fill` | `none`         | Box interior paint.                                                                      |
 | `stroke`   | `0.8pt`        | Stroke override.                                                                         |

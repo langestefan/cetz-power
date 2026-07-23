@@ -94,3 +94,4 @@
 #import "helpers/feeder.typ": feeder
 #import "helpers/bus-run.typ": bus-run
 #import "helpers/dali.typ": dali
+#import "helpers/pixel-map.typ": pixel-map

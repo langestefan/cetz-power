@@ -13,7 +13,7 @@
 #diagram(length: 1cm, {
   let s = 0.017 // image-pixel → cm (compressed)
   let H = 489
-  let P(x, y) = (x * s, (H - y) * s) // flip y (image is y-down)
+  let P = pixel-map(s, height: H)
 
   let blue = rgb("#9cdcf0")
   let pink = rgb("#f3c9ea")

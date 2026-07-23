@@ -82,5 +82,12 @@
     cetz.draw.anchor("west", (-r, 0))
   }
 
-  symbol("currentsource", name, ..positions, ..overrides, draw: draw)
+  symbol(
+    "currentsource",
+    name,
+    ..positions,
+    ..overrides,
+    label-dir: 90deg,
+    draw: draw,
+  )
 }

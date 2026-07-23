@@ -39,6 +39,15 @@
   let positions = args.pos()
   let overrides = args.named()
 
+  // `lead:` shorthand — one value for both leads; an individually
+  // passed lead-in / lead-out still wins over it.
+  let lead = overrides.at("lead", default: none)
+  if lead != none {
+    let _ = overrides.remove("lead")
+    if "lead-in" not in overrides { overrides.insert("lead-in", lead) }
+    if "lead-out" not in overrides { overrides.insert("lead-out", lead) }
+  }
+
   let draw(ctx, positions, style) = {
     let s = style.at("stroke", default: 0.8pt + black)
     let f = style.at("fill", default: none)
@@ -71,5 +80,12 @@
     cetz.draw.anchor("north", (0, north-y))
   }
 
-  symbol("resistor", name, ..positions, ..overrides, draw: draw)
+  symbol(
+    "resistor",
+    name,
+    ..positions,
+    ..overrides,
+    label-dir: 0deg,
+    draw: draw,
+  )
 }

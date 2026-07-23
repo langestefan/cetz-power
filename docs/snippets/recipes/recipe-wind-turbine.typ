@@ -81,6 +81,8 @@
     lead-out: 0,
     label: (
       content: align(center)[Q-compensatie \ 0,000 MW \ 1,402 MVAr],
+      // pinned: the auto side (below) is taken by the Qnom note
+      anchor: "north",
     ),
   )
   wire(cap-tap, "c1.in")

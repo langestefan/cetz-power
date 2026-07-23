@@ -18,10 +18,17 @@
   // Default label style. Each symbol can override its label sub-dict.
   label: (
     content: none,
-    anchor: "north", // where to attach the label on the symbol
+    // Where to attach the label on the symbol (world-space compass).
+    // `auto` picks the symbol's free side: the perpendicular of the
+    // in→out axis on a two-node symbol, the symbol's own hint (e.g.
+    // beside a load's arrow) on a one-node symbol, else "north".
+    anchor: auto,
     align: auto, // text alignment; auto => opposite of anchor
     distance: 0.15,
     size: 8pt,
+    // Rotate the label -90° when it lands east/west (beside a vertical
+    // run) so it reads along the conductor.
+    upright: false,
   ),
 
   // ── Wire style (plain connections between symbols) ───────────────
@@ -38,7 +45,12 @@
     stroke: 1.8pt + black, // thicker than wires
     length: 3, // default length in cetz units
     taps: 1, // default tap count
-    label: (distance: 0.22),
+    // Buses pin their label anchor: unlike other two-node symbols, a
+    // bus's conductors leave PERPENDICULAR to its axis, so the
+    // "perpendicular is free" auto rule would drop the label right
+    // onto them. North (above the bar / above a vertical bar's top)
+    // is the conventional, safe spot.
+    label: (anchor: "north", distance: 0.22),
   ),
 
   // ── Junction (connection point) ─────────────────────────────────
@@ -72,7 +84,7 @@
     // through both circles (lower-left → upper-right).
     oltc: false,
     "oltc-stroke": 0.7pt + black,
-    label: (anchor: "north", distance: 0.2),
+    label: (distance: 0.2),
   ),
 
   // ── Autotransformer ─────────────────────────────────────────────
@@ -118,7 +130,7 @@
     radius: 0.16,
     stroke: 0.8pt + black,
     fill: none,
-    label: (anchor: "north", distance: 0.2),
+    label: (distance: 0.2),
   ),
 
   // ── Voltage transformer (instrument) ────────────────────────────
@@ -133,13 +145,16 @@
   ),
 
   // ── Load (arrow) ────────────────────────────────────────────────
+  // Size and lead follow the empirically-good cluster (design rule 8:
+  // small arrows, short visible leads) so plain calls need no tuning.
   load: (
-    size: 0.28,
+    size: 0.18,
     stroke: 0.8pt + black,
     fill: black, // solid filled triangle — the conventional form
-    lead: 0.25, // gap between bus / connection point and arrow base
-    // Labels sit directly below the arrow tip by default.
-    label: (anchor: "south", distance: 0.1),
+    lead: 0.15, // gap between bus / connection point and arrow base
+    elbow: 0.25, // L-bend length used when `on:` taps a vertical bus
+    // Labels follow the arrow tip (the symbol's free side) by default.
+    label: (distance: 0.1),
   ),
 
   // ── Factory (industrial load) ───────────────────────────────────
@@ -159,8 +174,8 @@
     windows: 3, // number of window dashes
     "window-fill": auto, // auto => stroke paint
     smoke: false, // two wisps drifting off the pipe
-    lead: 0.25,
-    label: (anchor: "south", distance: 0.1),
+    lead: 0.15,
+    label: (distance: 0.1),
   ),
 
   // ── EV charger (electric-vehicle charging station) ──────────────
@@ -176,8 +191,8 @@
     "box-fill": none, // box interior paint
     stroke: 0.8pt + black,
     fill: none, // car body / pedestal fill
-    lead: 0.25,
-    label: (anchor: "south", distance: 0.1),
+    lead: 0.15,
+    label: (distance: 0.1),
   ),
 
   // ── Photovoltaic panel ──────────────────────────────────────────
@@ -188,8 +203,8 @@
     fill: none, // panel body fill
     "triangle-fill": none, // inner triangle fill (set to `black` for filled arrow)
     "triangle-height": 0.45, // triangle height as fraction of panel height
-    lead: 0.25,
-    label: (anchor: "south", distance: 0.1),
+    lead: 0.15,
+    label: (distance: 0.1),
   ),
 
   // ── Machine (rotating machine / source / meter) ────────────────
@@ -251,7 +266,7 @@
     "cell-gap": 0.18,
     "lead-in": 0.3,
     "lead-out": 0.3,
-    label: (anchor: "north", distance: 0.15),
+    label: (distance: 0.15),
   ),
 
   // ── Capacitor ────────────────────────────────────────────────────
@@ -264,7 +279,7 @@
     "plate-gap": 0.12,
     "lead-in": 0.3,
     "lead-out": 0.3,
-    label: (anchor: "north", distance: 0.15),
+    label: (distance: 0.15),
   ),
 
   // ── Resistor ─────────────────────────────────────────────────────
@@ -277,7 +292,7 @@
     length: 0.7,
     "lead-in": 0.2,
     "lead-out": 0.2,
-    label: (anchor: "north", distance: 0.15),
+    label: (distance: 0.15),
   ),
 
   // ── Inductor ─────────────────────────────────────────────────────
@@ -289,7 +304,7 @@
     "bump-radius": 0.1,
     "lead-in": 0.2,
     "lead-out": 0.2,
-    label: (anchor: "north", distance: 0.15),
+    label: (distance: 0.15),
   ),
 
   // ── Diode ────────────────────────────────────────────────────────
@@ -304,7 +319,7 @@
     height: 0.4,
     "lead-in": 0.15,
     "lead-out": 0.15,
-    label: (anchor: "north", distance: 0.15),
+    label: (distance: 0.15),
   ),
 
   // ── Lightning bolt ──────────────────────────────────────────────
@@ -329,7 +344,7 @@
     lead: 0.18,
     width: 0.4,
     kind: "earth",
-    label: (anchor: "south", distance: 0.1),
+    label: (distance: 0.1),
   ),
 
   // ── Switch / disconnector ───────────────────────────────────────
@@ -346,7 +361,7 @@
     earthing: false,
     "earth-width": 0.3,
     "earth-gap": 0.07,
-    label: (anchor: "north", distance: 0.18),
+    label: (distance: 0.18),
   ),
 
   // ── Circuit breaker ─────────────────────────────────────────────
@@ -361,7 +376,7 @@
     // sectionalizer. Stays upright under rotation.
     body: none,
     "body-size": 7pt,
-    label: (anchor: "north", distance: 0.15),
+    label: (distance: 0.15),
   ),
 
   // ── Surge arrester ──────────────────────────────────────────────
@@ -376,7 +391,7 @@
     "head-length": 0.2,
     "head-width": 0.15,
     "head-fill": auto,
-    label: (anchor: "north", distance: 0.15),
+    label: (distance: 0.15),
   ),
 
   // ── Protection relay ────────────────────────────────────────────
@@ -402,7 +417,7 @@
     fill: none,
     length: 0.6,
     width: 0.22,
-    label: (anchor: "north", distance: 0.15),
+    label: (distance: 0.15),
   ),
 
   // ── Voltage source ──────────────────────────────────────────────
@@ -413,7 +428,7 @@
     fill: none,
     radius: 0.3,
     kind: "dc",
-    label: (anchor: "north", distance: 0.2),
+    label: (distance: 0.2),
   ),
 
   // ── Current source ──────────────────────────────────────────────
@@ -424,7 +439,7 @@
     fill: none,
     radius: 0.3,
     kind: "dc",
-    label: (anchor: "north", distance: 0.2),
+    label: (distance: 0.2),
   ),
 
   // ── Power-electronic converter ──────────────────────────────────
@@ -464,7 +479,7 @@
     height: none,
     stroke: 0.8pt + black,
     fill: none,
-    distance: 0.2, // lead from connection point to symbol
+    lead: 0.2, // lead from connection point to symbol
     "line-count": 2, // hatching density
     // Optional fill colour for the inside of the cross-hatched square
     // (drawn beneath the diagonals so the chord lines remain visible

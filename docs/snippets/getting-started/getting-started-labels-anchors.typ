@@ -2,7 +2,7 @@
 #set page(margin: 4pt, width: auto, height: auto)
 
 #diagram(length: 1.2cm, {
-  // Default — uses the family default position (north).
+  // Default — the automatic free side (north beside a horizontal run).
   transformer("t1", (0, 0), (2, 0), label: [default])
 
   // anchor: "south" puts the text below the symbol.

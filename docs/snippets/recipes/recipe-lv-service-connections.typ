@@ -16,7 +16,7 @@
 #diagram(length: 1cm, {
   let s = 0.016 // image-pixel → cm (compression knob)
   let H = 773
-  let P(x, y) = (x * s, (H - y) * s) // flip y (image is y-down)
+  let P = pixel-map(s, height: H)
 
   let cred = rgb("#e2001a") // the book's conductor palette
   let cyel = rgb("#ffde00")

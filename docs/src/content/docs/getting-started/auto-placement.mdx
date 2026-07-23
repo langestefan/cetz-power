@@ -1,0 +1,136 @@
+---
+title: Automatic placement
+description: What cetz-power places for you — label sides, load orientation, bar sizing — and how to tweak or disable it.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+cetz-power makes several layout decisions automatically, so a plain
+call with no placement arguments already lands where a drafter would
+put it. This page lists what is automated, how to steer it, and how to
+switch each part off.
+
+## What is automated
+
+- **Label sides** — every symbol label's `anchor:` defaults to `auto`,
+  which resolves to the symbol's _free side_: the side not occupied by
+  its conductors.
+- **Load orientation** — `load`, `factory`, `ev-charger`, and
+  `pv-panel` can orient themselves off the bus they tap (`on:`) or aim
+  at a coordinate (`towards:`) instead of taking a manual `angle:`.
+- **Sizes and leads** — the default load size (`0.18`) and the
+  drop-symbol leads (`0.15`) are the empirically good values for
+  dense single-line diagrams, so plain calls need no tuning.
+- **Wire captions and notes** — `wire(label: …)` and the segment form
+  of `note()` pick the conductor's free side and turn text upright
+  beside vertical runs.
+- **Bar sizing** — `bus(fit: …)` sizes a busbar from the connections
+  it must carry, with a symmetric overshoot at both ends.
+
+## Label sides
+
+With `anchor: auto` (the default), a **two-node** symbol puts its label
+on the perpendicular of its in→out axis: north beside a horizontal
+run, east beside a vertical one. **One-node** symbols with a built-in
+free-side hint place the label there and rotate the hint along with
+`angle:` — loads, factories, EV chargers, PV panels, and grounds label
+beside the tip; capacitors, resistors, inductors, diodes, and
+batteries beside the body; switches, breakers, fuses, arresters, CTs,
+and voltage/current sources above the conductor. One-node symbols
+without a hint keep `"north"`. Auto always snaps to one of the four
+cardinals.
+
+Labels never rotate with the symbol. The label-dict key
+`upright: true` additionally turns a label −90° when it lands east or
+west, so it reads along a vertical run:
+
+<Snippet name="auto-label-sides" />
+
+## Context-aware loads — `on:` and `towards:`
+
+`load`, `factory`, `ev-charger`, and `pv-panel` accept two placement
+arguments that replace `angle:` (they conflict with it — pass one or
+the other):
+
+- `on: "<bus-name>"` orients the drop off that bus. A horizontal bar
+  gets a straight drop below it (`side: "north"` flips it above); a
+  vertical bar gets the automatic L-bend — across by the family
+  `elbow` style (default `0.25`), then down — with `side: "east"`
+  (default) or `"west"` picking the side of the bar. The referenced
+  bus must be drawn first.
+- `towards: <coord>` aims the symbol's tip at a coordinate — pure
+  rotation.
+
+<Snippet name="auto-load-on" />
+
+## Wire captions and segment notes
+
+`wire(label: …)` defaults `label-side:` to `auto` — the wire's
+perpendicular — and `label-upright: auto` turns east/west captions to
+read along the conductor. `note(a, b, body)` captions any segment the
+same way: the label sits at `at:` (default `50%`) along it,
+`side: auto` resolves to the perpendicular, and `upright: auto` turns
+it beside vertical segments.
+
+<Snippet name="auto-note-segment" />
+
+## Sizing a bar from its connections — `bus(fit: …)`
+
+`bus("b", fit: (c1, c2, ...), over: 0.2)` spans the given coordinates
+plus a symmetric overshoot at both ends, instead of hand-deriving the
+endpoints. The axis is inferred from the points' spread (or forced
+with `angle:`). `over: (ref: h, gap: g)` computes the overshoot
+`h/2 − g/2` that aligns the bar's ends with a reference bar of length
+`h` whose connections are `g` apart:
+
+<Snippet name="auto-bus-fit" />
+
+Related: `elbow(a, b, corner: "v", stub: d)` draws the
+perpendicular-stub → diagonal → equal-stub join for a run that must
+move sideways, so both ends meet their bars at 90° — see
+[Wires](/symbols/grid/wire/).
+
+## Tweaking it
+
+- **Per call** — pass any label-dict key:
+  `label: (content: [T₁], anchor: "south", distance: 0.3, upright: true)`.
+- **Per family** — set a family default once for the canvas:
+
+  ```typst
+  cetz.draw.set-style(cetz-power: (transformer: (
+    label: (upright: true, distance: 0.25),
+  )))
+  ```
+
+- **Drop geometry** — the `lead` and `elbow` style keys of
+  `load`/`factory`/`ev-charger`/`pv-panel` control the stub length and
+  the L-bend reach of `on:`; override per call
+  (`load("l", p, on: "b", elbow: 0.4)`) or per family via
+  `set-style`.
+- **Two-lead passives** — `capacitor`, `resistor`, `inductor`,
+  `diode`, and `battery` take the `lead: x` shorthand, setting both
+  `lead-in` and `lead-out` at once (an individually passed value still
+  wins).
+
+## Disabling it
+
+Every automatic choice yields to an explicit one:
+
+- **A fixed label side** — pass `anchor:` in the label dict:
+  `label: (content: [T₁], anchor: "north")`. Per family or globally,
+  set it once:
+
+  ```typst
+  // Every transformer label north again:
+  cetz.draw.set-style(cetz-power: (transformer: (label: (anchor: "north"))))
+  // Everything back to the old fixed default:
+  cetz.draw.set-style(cetz-power: (label: (anchor: "north")))
+  ```
+
+- **A fixed wire-caption side** — pass `label-side:` explicitly; that
+  also switches the upright turn off (bring it back with
+  `label-upright: true`). Same for `note(..., side: "west")`.
+- **Manual load orientation** — keep using `angle:`; `on:`/`towards:`
+  are opt-in and never engage without being passed.
+- **Manual bar endpoints** — the one- and two-position `bus()` forms
+  are unchanged; `fit:` is opt-in.

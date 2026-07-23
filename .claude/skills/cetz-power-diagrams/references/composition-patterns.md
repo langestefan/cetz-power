@@ -36,8 +36,9 @@ recipes (define the ones you need; names are conventional):
 ```typst
 // node label beside a point, on a chosen side
 let nl(p, c, s) = note(p, text(size: 6pt)[#c], side: s, distance: 0.16)
-// distance/length label at a segment midpoint
-let dl(a, b, c, s) = note((a, 50%, b), text(size: 5pt)[#c], side: s, distance: 0.15)
+// distance/length label on a segment — note's segment form picks the
+// perpendicular side itself and turns east/west labels upright
+let dl(a, b, c, s) = note(a, b, c, side: s, distance: 0.15, size: 5pt)
 // three diagonal phase-conductor ticks across a segment
 let ticks(p, ang) = cetz.draw.group({
   cetz.draw.set-origin(p); cetz.draw.rotate(ang)

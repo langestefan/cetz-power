@@ -6,8 +6,9 @@ description: Straight lines and L-shaped elbows between anchors.
 import Snippet from '../../../../components/Snippet.astro';
 
 Lines that connect symbols. Wires are not full "symbols" — they have no
-label and no style family of their own; their stroke follows the global
-`cetz-power.wire.stroke`.
+style family of their own; their stroke follows the global
+`cetz-power.wire.stroke`. They do take an inline `label:` (see
+[below](#inline-labels--the-label-argument)).
 
 ## `wire(a, b)`
 
@@ -72,9 +73,14 @@ is a two-point straight line or a multi-point polyline.
 <Snippet name="wire-label" />
 
 `label-side:` picks which compass direction off the midpoint the
-caption sits on — `"north"` (the default), `"south"`, `"east"`,
-`"west"`, or one of the four 45° diagonals. `label-distance:` is
-the gap between the wire and the nearest edge of the text:
+caption sits on — `"north"`, `"south"`, `"east"`, `"west"`, or one of
+the four 45° diagonals. The default `auto` resolves to the wire's
+perpendicular — north above a horizontal wire, east beside a vertical
+one — where `label-upright: auto` also turns the text to read along
+the conductor. Passing an explicit `label-side:` switches the upright
+turn off (bring it back with `label-upright: true`).
+`label-distance:` is the gap between the wire and the nearest edge of
+the text:
 
 <Snippet name="wire-label-sides" />
 
@@ -83,7 +89,8 @@ The full set of label-related arguments:
 | Argument         | Default    | What it controls                                                                                                                                                                                                                                                                        |
 | ---------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `label`          | `none`     | The caption content. `none` = no label drawn.                                                                                                                                                                                                                                           |
-| `label-side`     | `"north"`  | Which side of the wire midpoint the label sits on.                                                                                                                                                                                                                                      |
+| `label-side`     | `auto`     | Which side of the wire midpoint the label sits on. `auto` = the wire's perpendicular.                                                                                                                                                                                                   |
+| `label-upright`  | `auto`     | Rotate the caption −90° when it sits east/west so it reads along the conductor. `auto` = on for auto-resolved sides, off for an explicit `label-side`.                                                                                                                                  |
 | `label-distance` | `0.15`     | Gap between the wire and the closest edge of the label.                                                                                                                                                                                                                                 |
 | `label-align`    | `"center"` | Horizontal position of the label box relative to the wire midpoint. `"left"` pins the box's left edge at the midpoint (text extends right), `"center"` centres the box, `"right"` pins the right edge (text extends left). Only meaningful when `label-side` is `"north"` or `"south"`. |
 | `label-size`     | `7pt`      | Font size for the label.                                                                                                                                                                                                                                                                |
@@ -94,8 +101,8 @@ instead.
 
 ## Standalone labels with `note()`
 
-`note(pos, body, side: "north")` drops a free-floating caption next
-to any coordinate or anchor. It's the building block underneath the
+`note(pos, body)` drops a free-floating caption next to any
+coordinate or anchor. It's the building block underneath the
 `wire(label: …)` shortcut, exposed for cases where the label doesn't
 belong to a wire — labelling a tap point on a bus, annotating an
 empty area of the diagram, or pinning a caption to the midpoint
@@ -104,17 +111,27 @@ between two anchors via a CeTZ lerp coord:
 <Snippet name="wire-note" />
 
 `note` accepts the same compass-side vocabulary as
-`wire(label-side: ...)`. The full signature:
+`wire(label-side: ...)`. It also has a **segment form** —
+`note(a, b, body)` — that captions the segment from `a` to `b`: the
+label sits at the fraction `at:` along it (midpoint by default),
+`side: auto` resolves to the segment's perpendicular, and
+`upright: auto` turns the text to read along a vertical segment.
 
 ```typst
 note(
-  pos,                         // anchor name, tuple, lerp, …
-  body,                        // the caption content
-  side: "north",               // compass side of pos
-  distance: 0.15,              // gap from pos
+  ..args,                      // pos, body — or a, b, body (segment form)
+  side: auto,                  // compass side; auto = "north" (point form)
+                               // or the segment's perpendicular (segment form)
+  distance: 0.15,              // gap from the anchor point
   text-align: auto,            // left / center / right; auto keeps cetz's default
   size: 7pt,                   // font size
+  upright: auto,               // turn -90° beside a vertical segment;
+                               // auto = segment form only
+  at: 50%,                     // segment form: fraction along a → b
 )
+
+note("b1.mid", "b2.mid", [500 m])          // caption on the free side
+note("a.in", "b.in", [Kabel], at: 0.3)     // 30 % of the way along
 ```
 
 ## `elbow(a, b, corner: "h")`
@@ -123,6 +140,17 @@ L-shaped routing. `corner: "h"` goes horizontally first then vertically;
 `corner: "v"` does the opposite.
 
 <Snippet name="wire-elbow" />
+
+With `stub: d` the elbow instead draws the perpendicular-joins form
+for a run that must move sideways: a stub of length `d` out of `a`, a
+diagonal, and an equal stub into `b` — so both ends meet their bars at
+90° with no corner point. `corner` picks the stub axis: `"v"`
+leaves/enters vertically (between horizontal bars), `"h"` horizontally
+(between vertical bars).
+
+```typst
+elbow("b1.tap2", "b2.tap1", corner: "v", stub: 0.3)
+```
 
 ## Cables — `kind: "cable"`
 

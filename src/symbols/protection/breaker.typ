@@ -92,5 +92,12 @@
     cetz.draw.anchor("west", (-half-sz, 0))
   }
 
-  symbol("breaker", name, ..positions, ..overrides, draw: draw)
+  symbol(
+    "breaker",
+    name,
+    ..positions,
+    ..overrides,
+    label-dir: 90deg,
+    draw: draw,
+  )
 }

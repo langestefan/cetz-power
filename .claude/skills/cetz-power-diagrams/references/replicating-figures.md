@@ -29,7 +29,7 @@ everywhere so the whole figure stays consistent and is trivially re-scalable:
 ```typst
 let s = 0.017            // pixels → cm  (this is your compression knob, see rule 13)
 let H = 489              // source image height in px
-let P(x, y) = (x * s, (H - y) * s)   // flip y
+let P = pixel-map(s, height: H)      // the library's px → cm closure (flips y)
 ```
 
 Then every element reads directly from the measured pixel numbers:

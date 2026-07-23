@@ -2,26 +2,11 @@
 // per-segment current labels, and a dashed continuation.
 
 #import "/src/deps.typ": cetz
+#import "/src/layout.typ": compass-of
 #import "/src/symbols/grid/wire.typ": wire
 #import "/src/symbols/grid/transformer.typ": transformer
 #import "/src/symbols/loads/load.typ": load
 #import "note.typ": note
-
-// Snap a direction vector to the nearest of the eight compass anchors.
-#let _compass-of(v) = {
-  let deg = calc.atan2(v.at(0), v.at(1)) / 1deg
-  let k = int(calc.rem(calc.round(deg / 45) + 8, 8))
-  (
-    "east",
-    "north-east",
-    "north",
-    "north-west",
-    "west",
-    "south-west",
-    "south",
-    "south-east",
-  ).at(k)
-}
 
 /// Draw a feeder: a straight run with an evenly-spaced tap per station,
 /// each optionally carrying a transformer + load "drop", plus per-segment
@@ -260,7 +245,7 @@
 
   // Per-segment current labels, on the run's perpendicular (opposite the
   // default drop side), independent of `drop-angle`.
-  let side = _compass-of((-rp.at(0), -rp.at(1)))
+  let side = compass-of((-rp.at(0), -rp.at(1)))
   for (i, c) in currents.enumerate() {
     if c != none {
       let mx = if i == 0 {

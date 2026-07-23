@@ -97,5 +97,12 @@
     cetz.draw.anchor("center", (0, (0 + south-y) / 2))
   }
 
-  symbol("ground", name, ..positions, ..overrides, draw: draw)
+  symbol(
+    "ground",
+    name,
+    ..positions,
+    ..overrides,
+    label-dir: -90deg,
+    draw: draw,
+  )
 }

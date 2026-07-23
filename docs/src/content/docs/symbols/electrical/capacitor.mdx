@@ -48,6 +48,7 @@ the upper lead (the `out` anchor goes away with it):
 | `plate-gap`    | `0.12`          | Distance between the two plates.                                                                                         |
 | `lead-in`      | `0.3`           | Length of the lead from `in` up to the bottom plate.                                                                     |
 | `lead-out`     | `0.3`           | Length of the lead above the top plate. Set to `0` to drop the upper lead and the `out` anchor (single-pole shunt form). |
+| `lead`         | –               | Shorthand: sets both `lead-in` and `lead-out` (an explicit one still wins).                                              |
 | `stroke`       | `0.8pt + black` | Stroke for both leads and plates.                                                                                        |
 | `plate-stroke` | (= `stroke`)    | Separate stroke override for the plates only — handy for thicker plates than the lead.                                   |
 | `label`        | `none`          | Standard label dict (default `anchor: "north"`, `distance: 0.15`).                                                       |

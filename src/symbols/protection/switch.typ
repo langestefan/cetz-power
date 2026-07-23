@@ -107,5 +107,5 @@
     cetz.draw.anchor("south", (0, -0.1))
   }
 
-  symbol("switch", name, ..positions, ..overrides, draw: draw)
+  symbol("switch", name, ..positions, ..overrides, label-dir: 90deg, draw: draw)
 }

@@ -122,7 +122,7 @@
   wire("ts.mid", "trafo.in", stroke: feed + g)
 
   // OS-MS bar; the transformer lead forks into it between cables 0 and 1.
-  bus("osms", (x-osms, bus-top), (x-osms, bus-bot))
+  bus("osms", fit: ((x-osms, ytop), (x-osms, ybot)), over: over)
   note(
     (x-osms, bus-top + 0.05),
     [OS-MS \ 10.512 kV],
@@ -139,7 +139,7 @@
   wire("trafo.out", (x-osms, forky), stroke: feed + black)
 
   // ── MV transport link: OS-MS → RS-MS (six cables) ──────────────
-  bus("rsms", (x-rsms, bus-top), (x-rsms, bus-bot))
+  bus("rsms", fit: ((x-rsms, ytop), (x-rsms, ybot)), over: over)
   note(
     (x-rsms, bus-top + 0.05),
     [RS-MS \ 9.962 kV],
@@ -150,7 +150,7 @@
 
   // ── Coupling field (Koppelveld): a single bus coupler (count: 1) tying
   // the two RS-MS bars between two cables ────────────────────────
-  bus("uit", (x-uit, bus-top), (x-uit, bus-bot))
+  bus("uit", fit: ((x-uit, ytop), (x-uit, ybot)), over: over)
   note(
     (x-uit - 0.3, bus-top + 0.05),
     [RS-MS uitgaand \ 9.962 kV],

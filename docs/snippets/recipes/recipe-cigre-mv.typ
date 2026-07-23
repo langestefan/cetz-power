@@ -16,12 +16,7 @@
   // ── Helpers ─────────────────────────────────────────────────────
   // three diagonal phase-conductor ticks across a segment.
   let ticks(p, ang) = phase-ticks(p, angle: ang)
-  let dl(a, b, c, s) = note(
-    (a, 50%, b),
-    text(size: 5pt)[#c],
-    side: s,
-    distance: 0.15,
-  )
+  let dl(a, b, c, s) = note(a, b, c, side: s, distance: 0.15, size: 5pt)
   let nl(p, c, s) = note(p, text(size: 6pt)[#c], side: s, distance: 0.05)
   // a phase-marked straight line with a length label.
   let link(a, b, lbl, lside, ang) = {

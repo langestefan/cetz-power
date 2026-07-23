@@ -103,5 +103,5 @@
   conv("gfl1", (-3.9, -2.95), [GFL load 1], gfl-fill, red)
 
   // ── loads ───────────────────────────────────────────────────────
-  load("l6", (3.9, y5), size: 0.2, lead: 0.16, fill: black)
+  load("l6", (3.9, y5), fill: black)
 })

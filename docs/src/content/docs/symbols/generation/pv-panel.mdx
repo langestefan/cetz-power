@@ -11,14 +11,23 @@ point. Single-terminal: the `in` anchor is at the top of the panel.
 
 <Snippet name="pv-example" />
 
+Like [load](/symbols/loads/load/), the panel accepts the context-aware
+placement arguments `on: "<bus-name>"` (straight drop below a
+horizontal bar, `side: "north"` to flip above; automatic L-bend off a
+vertical bar, `side: "east"`/`"west"`) and `towards: <coord>` — both
+replace `angle:`. See
+[Automatic placement](/getting-started/auto-placement/).
+
 ## Parameters
 
 | Name              | Default | Description                                                                             |
 | ----------------- | ------- | --------------------------------------------------------------------------------------- |
 | `size`            | `0.35`  | Panel width.                                                                            |
 | `aspect`          | `1.6`   | Height-to-width ratio of the rectangle.                                                 |
-| `lead`            | `0.25`  | Stub from the connection point to the top of the panel.                                 |
+| `lead`            | `0.15`  | Stub from the connection point to the top of the panel.                                 |
 | `elbow`           | `0`     | If non-zero, route the lead as an L: across by this many units, then down to the panel. |
+| `on`              | `none`  | Bus name to orient the drop off — replaces `angle:` (`side:` picks the side).           |
+| `towards`         | `none`  | Coordinate the panel aims at — replaces `angle:`.                                       |
 | `fill`            | `none`  | Panel body fill.                                                                        |
 | `triangle-fill`   | `none`  | Inner triangle fill — set to `black` for a filled-arrow source style.                   |
 | `triangle-height` | `0.45`  | Triangle height as a fraction of the panel height.                                      |

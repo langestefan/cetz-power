@@ -32,13 +32,8 @@
 
   // ── helpers ─────────────────────────────────────────────────────
   let nl(p, c, sd, d: 0.08) = note(p, c, side: sd, distance: d, size: 8pt)
-  let dl(a, b, c, sd) = note(
-    (a, 50%, b),
-    if sd in ("east", "west") { rotate(-90deg, reflow: true, c) } else { c },
-    side: sd,
-    distance: 0.05,
-    size: 5.5pt,
-  )
+  // length label — the segment form turns east/west labels upright itself
+  let dl(a, b, c, sd) = note(a, b, c, side: sd, distance: 0.05, size: 5.5pt)
   // a point on a bus, and that bus' position carried to another row
   let X(b, dx: 0) = (rel: (dx, 0), to: b + ".mid")
   let atY(b, y, dx: 0) = (X(b, dx: dx), "|-", (0, y))
@@ -58,7 +53,7 @@
         stroke: flex,
       )
     } else {
-      load(info.name, p, elbow: 0.26, size: 0.18, lead: 0.16)
+      load(info.name, p, elbow: 0.26)
     }
   }
   let (L, F, PV) = (dev("l"), dev("f"), dev("pv"))

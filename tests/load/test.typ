@@ -21,3 +21,25 @@
   load("l3", "b.tap3", angle: 180deg)
   load("l4", "b.tap4", fill: none)
 })
+
+// Context-aware placement off a horizontal bus: straight drop below by
+// default, `side: "north"` above; labels follow the tip automatically.
+#test({
+  bus("b", (0, 0), (3, 0))
+  load("l1", bus-frac("b", 0.3), on: "b", label: [below])
+  load("l2", bus-frac("b", 0.7), on: "b", side: "north", label: [above])
+})
+
+// Context-aware placement off a vertical bus: automatic rule-8 L-bend
+// (east by default, west on request).
+#test({
+  bus("v", (0, -1), (0, 1))
+  load("l1", bus-frac("v", 0.3), on: "v", label: [east])
+  load("l2", bus-frac("v", 0.7), on: "v", side: "west", label: [west])
+})
+
+// `towards:` aims the tip at a coordinate.
+#test({
+  junction("j", (0, 0))
+  load("l", (0, 0), towards: (1, -1), label: [aimed])
+})

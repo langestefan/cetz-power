@@ -20,7 +20,7 @@
   // Pixel map of the source figure (1999 x 1624 px, y down).
   let s = 0.008
   let H = 1624
-  let P(x, y) = (x * s, (H - y) * s)
+  let P = pixel-map(s, height: H)
 
   cetz.draw.set-style(cetz-power: (
     stroke: wstroke,
@@ -326,7 +326,7 @@
   load("l14a", P(1240, 1178))
   load("l14b", P(1370, 1178))
   load("l14c", P(1810, 1178))
-  load("l4", P(1515, 45), lead: 0.18)
+  load("l4", P(1515, 45))
 
   // ── Subsystem departures ────────────────────────────────────────
   farrow(P(1680, 520), P(1755, 520)) // S_10

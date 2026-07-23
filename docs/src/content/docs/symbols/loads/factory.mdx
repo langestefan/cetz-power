@@ -13,6 +13,13 @@ consumers. The lead drops from the connection point onto the box top;
 pass `elbow: <units>` to route it as an L-shape, or `smoke: true` for
 two wisps drifting off the pipe (they stay inside the box).
 
+Like [load](/symbols/loads/load/), the factory accepts the
+context-aware placement arguments `on: "<bus-name>"` (straight drop
+below a horizontal bar, `side: "north"` to flip above; automatic
+L-bend off a vertical bar, `side: "east"`/`"west"`) and
+`towards: <coord>` — both replace `angle:`. See
+[Automatic placement](/getting-started/auto-placement/).
+
 <Snippet name="factory-example" />
 
 ## Styling
@@ -31,8 +38,10 @@ counts, and `width:`/`height:` resize the building (the box follows).
 | ------------- | ------- | ---------------------------------------------------------------------------------------- |
 | `width`       | `0.8`   | Building width — the box adds padding around it.                                         |
 | `height`      | `0.7`   | Building height, pipe top to ground.                                                     |
-| `lead`        | `0.25`  | Length of the stub wire from the connection point to the box (or pipe) top.              |
+| `lead`        | `0.15`  | Length of the stub wire from the connection point to the box (or pipe) top.              |
 | `elbow`       | `0`     | If non-zero, route the lead as an L: across by this many units, then down to the symbol. |
+| `on`          | `none`  | Bus name to orient the drop off — replaces `angle:` (`side:` picks the side).            |
+| `towards`     | `none`  | Coordinate the symbol aims at — replaces `angle:`.                                       |
 | `box`         | `true`  | Enclose the building in a rectangular device box.                                        |
 | `box-fill`    | `none`  | Box interior paint.                                                                      |
 | `teeth`       | `3`     | Number of sawtooth roof teeth.                                                           |
