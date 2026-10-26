@@ -1,0 +1,61 @@
+---
+title: Voltage levels
+description: The Dutch grid as a ladder of voltage levels, from 380 kV down to 0,4 kV, drawn as level boxes and as a single-line diagram.
+---
+
+import Snippet from '../../../components/Snippet.astro';
+
+An overview of the voltage levels in the Dutch power system. The extra
+high-voltage grid (380 kV and 220 kV) feeds high-voltage grids (150 kV and
+110 kV), which supply medium-voltage stations either directly or through an
+intermediate level (50 kV, 25 kV). Every medium-voltage station feeds a 0,4 kV
+low-voltage network. On the right, the levels are grouped into transmission
+and distribution.
+
+<Snippet name="recipe-voltage-levels" />
+
+## How it's built
+
+- The figure is digitised with [`pixel-map`](/getting-started/auto-placement/#replicating-figures--pixel-map): every box
+  centre, corner and transformer end is a pixel coordinate from the source
+  image.
+- Each voltage level is a square [`block`](/symbols/generation/block/) with
+  the voltage as its `body:` and a thick stroke.
+- Every [`transformer`](/symbols/grid/transformer/) is placed with two
+  positions, so it centres itself on its run and draws its own leads.
+  Everything is black except the 0,4 kV level: `secondary-stroke` greys the
+  low-voltage winding (and its lead) of each MV/LV transformer.
+- The transmission/distribution arrows are thick
+  [`flow-arrow`](/helpers/flow-arrow/)s leaving plain `block` frames.
+
+## As a single-line diagram
+
+The same network as a conventional single-line diagram. Each voltage gets its
+own row of busbars, so a station's height on the page gives its voltage. The
+voltage scale is on the left and the level classes (EHV, HV, IV, MV, LV) on
+the right.
+Transmission (extra high to intermediate) and distribution (medium and low)
+are shown as two arrows on one shared axis.
+
+<Snippet name="recipe-voltage-levels-sld" />
+
+- The rows come from one `Y` dictionary keyed by voltage, built from a
+  `classes` table, so every [`bus`](/symbols/grid/bus/), transformer, label
+  and bracket reads its height from the same place. The gap between two
+  classes is wider than within one, which leaves room for a dashed boundary
+  line between the top of the transformers and the bar above.
+- Stations sit on a column grid (`X(c)`); half columns place a feed midway
+  between the stations it serves, and shared bars use `bus(fit:)` for a
+  symmetric overshoot.
+- A `tx(c, a, b)` closure draws each vertical link. A plain conductor drops to
+  the row gap just above voltage `b`, and the transformer fills that gap, so
+  every transformer sits directly above the level it supplies. As in the
+  first version, only the 0,4 kV level is grey.
+- Conductors and transformers are drawn before the busbars, so the bars cover
+  the lead roots. Each 0,4 kV bar feeds a [`load`](/symbols/loads/load/).
+
+:::note[Credit]
+This diagram reproduces _Figure 2.2 — Voltage levels_ from
+[_Electrical Power System Essentials_ (Phase to Phase), chapter
+2](https://www.phasetophase.nl/book/book_1_2.html).
+:::

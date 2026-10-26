@@ -203,6 +203,7 @@ export default defineConfig({
             {
               label: 'Fundamentals',
               items: [
+                { label: 'Voltage levels', slug: 'recipes/voltage-levels' },
                 { label: 'Radial feeder', slug: 'recipes/radial-feeder' },
                 {
                   label: 'Parallel transformers',
