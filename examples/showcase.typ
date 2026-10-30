@@ -14,36 +14,55 @@
 #import "/src/lib.typ": *
 
 #set page(margin: 14pt, width: auto, height: auto)
+#set text(size: 7pt)
 
 #diagram({
+  let hv-y = 0
+  let lv-y = -2.4
+
   // ── HV side ─────────────────────────────────────────────────────
-  external-grid("grid", (0, 0), label: [132 kV, 500 MVA])
-  wire("grid.default", (0, -1.2))
+  external-grid("grid", (0, 1.0), label: [132 kV, 500 MVA])
+  wire("grid.in", (0, hv-y))
 
-  // HV bus
-  bus("hv", (-4, -1.2), (4, -1.2), taps: 7)
-  cetz.draw.content((-4.3, -1.2), "1", anchor: "east")
-
-  // Two parallel 132/11 kV transformers on taps 2 and 6
-  transformer("t1", "hv.tap2", (-2.5, -3), label: [132/11 kV \ 50 MVA])
-  transformer("t2", "hv.tap6", ( 2.5, -3), label: [132/11 kV \ 50 MVA])
-
-  // LV bus at 11 kV
-  bus("lv", (-5, -3), (5, -3), taps: 9)
-  cetz.draw.content((-5.3, -3), "2", anchor: "east")
-
-  // ── Three outgoing feeders ─────────────────────────────────────
-  for (i, xs) in ((0, -3.5), (1, 0), (2, 3.5)).enumerate() {
-    let (idx, x) = xs
-    // Disconnector + CB + CT stack
-    let tap = "tap" + str(2 + idx * 3)
-    disconnector("d" + str(idx), "lv." + tap, (x, -4.2))
-    circuit-breaker("cb" + str(idx), (x, -4.2), (x, -5.2))
-    current-transformer("ct" + str(idx), (x, -5.2), (x, -5.8))
-    load("l" + str(idx), (x, -5.8), label: [#((idx + 1) * 8) MW])
+  // Two parallel 132/11 kV transformers, each behind its own breaker.
+  // Drawn before the buses so the bars cover the lead roots.
+  for (i, x) in (-1.5, 1.5).enumerate() {
+    let n = str(i + 1)
+    wire((x, hv-y), (x, hv-y - 0.15))
+    breaker("hcb" + n, (x, hv-y - 0.15), (x, hv-y - 0.65))
+    wire((x, hv-y - 0.65), (x, hv-y - 0.8))
+    transformer(
+      "t" + n,
+      (x, hv-y - 0.8),
+      (x, lv-y + 0.4),
+      radius: 0.3,
+      vector: ("delta", "wye"),
+      label: [T#n \ 132/11 kV \ 50 MVA],
+    )
+    wire((x, lv-y + 0.4), (x, lv-y))
   }
 
-  // ── Solar PV backfeed on an LV bus tap ────────────────────────
-  solar-plant("pv", (4.5, -4.3), cells: 4, label: [PV 5 MW])
-  wire("lv.tap9", (4.5, -4.3))
+  // ── Three outgoing feeders: disconnector + breaker + CT + load ──
+  for (i, x) in (-3, -1, 1).enumerate() {
+    let n = str(i + 1)
+    wire((x, lv-y), (x, lv-y - 0.15))
+    switch("d" + n, (x, lv-y - 0.15), (x, lv-y - 0.65), closed: true)
+    breaker("cb" + n, (x, lv-y - 0.65), (x, lv-y - 1.25))
+    wire((x, lv-y - 1.25), (x, lv-y - 1.9))
+    ct("ct" + n, (x, lv-y - 1.55))
+    load("l" + n, (x, lv-y - 1.9), label: [#((i + 1) * 8) MW])
+  }
+
+  // ── Solar PV backfeed on the LV bus ─────────────────────────────
+  pv-panel("pv", (3, lv-y), label: [PV 5 MW])
+
+  // ── Buses ───────────────────────────────────────────────────────
+  bus("hv", (-2.4, hv-y), (2.4, hv-y), label: (
+    content: [132 kV],
+    anchor: "west",
+  ))
+  bus("lv", (-4.4, lv-y), (4.4, lv-y), label: (
+    content: [11 kV],
+    anchor: "west",
+  ))
 })

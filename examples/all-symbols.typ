@@ -4,66 +4,91 @@
 #import "/src/lib.typ": *
 
 #set page(margin: 10pt, width: auto, height: auto)
+#set text(size: 7pt)
 
-= Generators
+= Grid
 
 #diagram({
-  ac-generator("g1", (0, 0))
-  dc-generator("g2", (1.5, 0))
-  sync-generator("g3", (3, 0))
-  async-generator("g4", (4.5, 0))
-  motor("m1", (6, 0))
+  external-grid("grid", (0, 0.9))
+  wire("grid.in", (0, 0))
+  bus("b1", (-0.6, 0), (0.6, 0))
+  wire("b1.mid", (0, -0.3))
+  transformer("t1", (0, -0.3), (0, -1.3), vector: ("delta", "wye"))
+  transformer3("t2", (2, -0.6))
+  autotransformer("t3", (3.5, 0), (3.5, -1.3), oltc: true)
+  wire((4.8, 0), (6.8, 0))
+  ct("ct1", (5.3, 0))
+  vt("vt1", (6.0, 0))
+  junction("j1", (6.8, 0))
+  junction("j2", (4.8, 0), open: true)
 })
 
-= Transformers
+= Generation
 
 #diagram({
-  transformer("t1", (0, 0), (1.5, 0))
-  three-winding-transformer("t2", (3.2, 0))
-  autotransformer("t3", (5, 0), (6.5, 0))
+  machine("m1", (0, 0), "G")
+  block("blk", (1.5, 0), body: [BESS])
+  plant("p1", (3.6, 0), kind: "wind-pv-bess")
+  plant("p2", (5.6, 0), kind: "wind2", variant: 3)
+  pv-panel("pv", (6.8, 0.4))
 })
 
-= Breakers, disconnectors, switches
+= Loads
 
 #diagram({
-  circuit-breaker("cb1", (0, 0), (1.5, 0))
-  circuit-breaker("cb2", (2, 0), (3.5, 0), closed: true)
-  disconnector("d1", (4, 0), (5.5, 0))
-  load-break-switch("lbs1", (6, 0), (7.5, 0))
-  fuse("f1", (8, 0), (9.5, 0))
-  earth-switch("es1", (10.5, 0))
+  load("l1", (0.3, 0))
+  factory("f1", (1.3, 0), smoke: true)
+  ev-charger("e1", (3.3, 0))
+  ev-charger("e2", (5.5, 0), kind: "charger")
+  bus("b", (0, 0), (6.2, 0))
 })
 
-= Loads, grid, renewables
+= Electrical
 
 #diagram({
-  load("l1", (0, 0))
-  resistive-load("l2", (1.5, 0))
-  external-grid("grid1", (3, 0))
-  wind-turbine("w1", (4.5, 0))
-  wind-generator("wg1", (6, 0))
-  solar-plant("s1", (8, 0))
-  solar-cell("sc1", (9.5, 0))
+  capacitor("c", (0, 0))
+  resistor("r", (1.2, 0))
+  inductor("l", (2.4, 0))
+  diode("d", (3.6, 0))
+  voltagesource("v", (5, 0))
+  currentsource("i", (6.2, 0))
+  battery("bat", (7.4, 0), cells: 2)
+  converter("cv", (8.8, 0), kind: "ac-dc")
+  ground("g", (10, 0))
+  bolt("bo", (11, 0.5), (11, -0.5))
 })
 
-= Storage, converters, measurement
+= Protection
 
 #diagram({
-  battery("b1", (0, 0))
-  bess("bess1", (1.5, 0))
-  rectifier("r1", (3.5, 0), (5, 0))
-  inverter("inv1", (5.5, 0), (7, 0))
-  dc-dc-converter("dc1", (7.5, 0), (9, 0))
-  current-transformer("ct1", (9.5, 0), (11, 0))
-  potential-transformer("pt1", (11.5, 0))
-  relay("r2", (12.5, 0), code: "50")
+  switch("s1", (0, 0), (1.5, 0))
+  switch("s2", (2, 0), (3.5, 0), closed: true)
+  switch("s3", (4, 0), (5.5, 0), earthing: true)
+  breaker("cb1", (6, 0), (7.5, 0))
+  breaker("cb2", (8, 0), (9.5, 0), kind: "cross")
+  fuse("f1", (10, 0), (11.5, 0))
+  arrester("a1", (12.5, 0), (12.5, -1.2))
+  ground("ag", "a1.out")
+  relay("r1", (14, 0), "50/51")
 })
 
-= Phase ticks on a wire
+= Control and windings
 
 #diagram({
-  bus("b1", (0, 0), taps: 2)
-  bus("b2", (5, 0), taps: 2)
-  wire("b1.tap2", "b2.tap1")
-  phase-ticks("b1.tap2", "b2.tap1")
+  adder("sum", (0, 0))
+  mixer("mul", (1.2, 0))
+  delta("d0", (2.8, 0), terminals: ("u", "v", "w"))
+  wye("y0", (4.6, 0), terminals: ("u", "v", "w"))
+  zigzag("z0", (6.4, 0), terminals: ("u", "v", "w"))
+})
+
+= Helpers
+
+#diagram({
+  bus("b1", (0, 0), (2, 0), label: [B1])
+  bus("b2", (4, -1.5), (6, -1.5), label: (content: [B2], anchor: "south"))
+  link("b1", "b2", label: [10 km])
+  phase-ticks((1, -0.5), angle: -90deg)
+  flow-arrow((4.4, -0.5), (5.6, -0.5), label: [P])
+  note((6.5, -1.5), [end], side: "east")
 })

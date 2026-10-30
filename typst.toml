@@ -3,9 +3,9 @@ name = "cetz-power"
 version = "0.1.0"
 compiler = "0.13.1"
 entrypoint = "src/lib.typ"
-authors = ["langestefan"]
+authors = ["Stefan de Lange <@langestefan>"]
 license = "MIT"
-description = "Draw power-system single-line diagrams (SLDs) in Typst, on top of CeTZ."
+description = "Draw power-system single-line diagrams with CeTZ."
 repository = "https://github.com/langestefan/cetz-power"
 categories = ["visualization", "components"]
 disciplines = ["engineering"]
@@ -26,4 +26,8 @@ exclude = [
   "tests",
   ".github",
   ".gitignore",
+  ".claude",
+  "CLAUDE.md",
+  "ruff.toml",
+  "assets",
 ]
