@@ -30,7 +30,7 @@ instead, use the `oneline-diagram-annotator` skill.)
 ## Orientation: the absolute minimum
 
 ```typst
-#import "@preview/cetz-power:0.1.0": *      // or "/src/lib.typ" inside the repo
+#import "@preview/cetz-power:0.1.1": *      // or "/src/lib.typ" inside the repo
 #set page(margin: 10pt, width: auto, height: auto)
 #set text(size: 8pt)
 

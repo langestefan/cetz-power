@@ -1,4 +1,4 @@
-#import "@preview/cetz-power:0.1.0": *   // inside the package repo use: "/src/lib.typ"
+#import "@preview/cetz-power:0.1.1": *   // inside the package repo use: "/src/lib.typ"
 #set page(margin: 10pt, width: auto, height: auto)
 #set text(size: 9pt)
 

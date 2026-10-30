@@ -87,7 +87,7 @@ New helpers belong here when they compose existing primitives; anything that dra
 The canonical user-facing import is the wildcard form:
 
 ```typst
-#import "@preview/cetz-power:0.1.0": *
+#import "@preview/cetz-power:0.1.1": *
 
 #diagram({
   bus("b1", (0, 0))

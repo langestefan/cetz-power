@@ -7,7 +7,7 @@
 /// style dictionary first, so every symbol can resolve its defaults.
 ///
 /// ```typst
-/// #import "@preview/cetz-power:0.1.0": *
+/// #import "@preview/cetz-power:0.1.1": *
 /// #diagram({
 ///   bus("b1", (0, 0))
 ///   load("ld", "b1.mid")

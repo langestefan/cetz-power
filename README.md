@@ -22,7 +22,7 @@ Draw single-line diagrams in Typst easily and quickly. Support for all basic com
 </p>
 
 ```typst
-#import "@preview/cetz-power:0.1.0": *
+#import "@preview/cetz-power:0.1.1": *
 
 #diagram(length: 1.2cm, {
   let flex = rgb("#29abe2")
@@ -49,7 +49,7 @@ Draw single-line diagrams in Typst easily and quickly. Support for all basic com
 Via Typst Universe (recommended once published):
 
 ```typst
-#import "@preview/cetz-power:0.1.0": *
+#import "@preview/cetz-power:0.1.1": *
 ```
 
 Or locally by cloning the repo and importing from path:

@@ -10,7 +10,7 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
     Once published, import everything from the package by its versioned spec:
 
     ```typst
-    #import "@preview/cetz-power:0.1.0": *
+    #import "@preview/cetz-power:0.1.1": *
     ```
 
   </TabItem>
@@ -32,7 +32,7 @@ The wildcard form (`: *`) puts every symbol — `diagram`, `bus`,
 without a prefix:
 
 ```typst
-#import "@preview/cetz-power:0.1.0": *
+#import "@preview/cetz-power:0.1.1": *
 
 #diagram({
   bus("b1", (0, 0))
@@ -42,7 +42,7 @@ without a prefix:
 
 If you'd rather keep cetz-power's symbols out of the top-level namespace
 (for example, to avoid collisions with your own `load` or `bus`), use
-the namespaced form `#import "@preview/cetz-power:0.1.0" as pg` and then
+the namespaced form `#import "@preview/cetz-power:0.1.1" as pg` and then
 write `pg.diagram(...)`, `pg.bus(...)`, etc. throughout. You'll need
 `import pg: *` once at the top of every `pg.diagram({ ... })` body if
 you want to drop the `pg.` prefix inside the canvas — see
