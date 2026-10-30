@@ -18,6 +18,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - The deployed docs are built and pushed to GitHub Pages by `.github/workflows/docs.yml` on every push to `main`. CI runs Node 22 (Astro 6 requires Node ≥22.12); local dev needs the same.
 - **Lint before pushing** — `.github/workflows/lint.yml` fails the build on formatting drift. Run locally: `typstyle -i src tests docs/snippets` (Typst; CI checks with `typstyle --check`), `cd docs && npm run format` (Prettier over the docs site; `npm run lint` to check), and `ruff check` (Python scripts under `.claude/skills/`, rules in `ruff.toml`).
 - `.github/workflows/tests.yml` runs `./tests/run.sh` and a full docs build (`npm run build`) on every push/PR.
+- `.github/workflows/release-drafter.yml` keeps a draft GitHub release up to date from merged PRs on every push to `main`; categories and the version bump come from PR labels (config in `.github/release-drafter.yml`, label set in `.github/labels.yaml`). It does not touch `typst.toml` — bump `version` there to match before publishing.
 
 ## Architecture
 
